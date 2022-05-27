@@ -13,6 +13,16 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 
+//Firebase Module Inserts (6.0 Compatiblity mode)
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from '../environments/environment';
+
+//AngularFire Model Insterts (New 7.0 Mode - Not ready for prod yet)
+//import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+//import { provideAuth,getAuth } from '@angular/fire/auth';
+//import { provideDatabase,getDatabase } from '@angular/fire/database';
+//import { provideStorage,getStorage } from '@angular/fire/storage';
+
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
     scrollPositionRestoration: 'enabled'
@@ -39,7 +49,17 @@ const routerConfig: ExtraOptions = {
         LayoutModule,
 
         // 3rd party modules that require global configuration via forRoot
-        MarkdownModule.forRoot({})
+        MarkdownModule.forRoot({}),
+        
+        //AngularFire Initalize across the entire app. 
+        AngularFireModule.initializeApp(environment.firebase),
+
+        //AngularFire 7.0 Initalizers - Not prod ready yet.. 
+        // provideFirebaseApp(() => initializeApp(environment.firebase)),
+        //provideAuth(() => getAuth()),
+        //provideDatabase(() => getDatabase()),
+        //provideStorage(() => getStorage()),
+        //AngularFireModule.initializeApp(environment.firebase),
     ],
     bootstrap   : [
         AppComponent

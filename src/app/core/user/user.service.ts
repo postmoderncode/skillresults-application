@@ -28,6 +28,8 @@ export class UserService
      */
     set user(value: User)
     {
+        console.log('7. set user() on app/core/user/userService.user fired... updated the user.');
+        console.log(value);
         // Store the value
         this._user.next(value);
     }

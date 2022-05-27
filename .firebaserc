@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "skillresults-application": {
+      "hosting": {
+        "fuse": [
+          "skillresults-application"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "skillresults-application"
+  }
+}
