@@ -99,8 +99,7 @@ export class AuthService
                         id: result.user.uid,
                         name: result.user.displayName,
                         email: result.user.email,
-                        //avatar: result.user.photoURL,
-                        avatar: 'photo.jpg',
+                        avatar: result.user.photoURL,
                     };
 
                     //Talk to the User Service
@@ -119,52 +118,6 @@ export class AuthService
 
         return studentsObservable;
     }
-    
-    //Microsoft Sign In
-//    signInMS(): Observable<any> {
-//        // Throw error, if the user is already logged in
-//        if (this._authenticated) {
-//            return throwError('User is already logged in.');
-//        }
-//
-//        //Create the Oath Provider Object. 
-//        //const provider = new firebase.auth.OAuthProvider('microsoft.com');
-//
-//        //Sign in using a redirect to Microsoft. 
-//        this.auth.signInWithPopup(new firebase.auth.OAuthProvider('microsoft.com'))
-//            .then(async (result) => {
-//
-//                console.log('Print Object-------');
-//                console.log(result);
-//
-//                // // Store the access token in the local storage
-//                console.log('Store Token-------');
-//                this.accessToken = ((await result.user.getIdToken()));
-//
-//                // Set the authenticated flag to true
-//                console.log('Set _Authenticated to True-------');
-//                this._authenticated = true;
-//
-//                // Store the user on the user service
-//                const msuser = {
-//                    id: result.user.uid,
-//                    name: result.user.displayName,
-//                    email: result.user.email,
-//                };
-//
-//                this._userService.user = msuser;
-//
-//                console.log(this._userService.user);
-//
-//                // Return a new observable with the response
-//                return of(true);
-//
-//            })
-//            .catch((error) => {
-//                console.log(error);
-//                // Handle error.
-//            });
-//    }
     
 /**
 * Check if Firebase is Logged In

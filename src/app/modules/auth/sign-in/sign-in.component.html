@@ -20,9 +20,10 @@
             </fuse-alert>
 
             <!-- Sign in form -->
+           <!--
             <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
 
-                <!-- Email field -->
+             
                 <mat-form-field class="w-full">
                     <mat-label>Email address</mat-label>
                     <input id="email" matInput [formControlName]="'email'">
@@ -34,7 +35,7 @@
                     </mat-error>
                 </mat-form-field>
 
-                <!-- Password field -->
+          
                 <mat-form-field class="w-full">
                     <mat-label>Password</mat-label>
                     <input id="password" matInput type="password" [formControlName]="'password'" #passwordField>
@@ -47,7 +48,7 @@
                     </mat-error>
                 </mat-form-field>
 
-                <!-- Actions -->
+              
                 <div class="inline-flex items-end justify-between w-full mt-1.5">
                     <mat-checkbox [color]="'primary'" [formControlName]="'rememberMe'">
                         Remember me
@@ -56,13 +57,15 @@
                     </a>
                 </div>
 
-                <!-- Submit button -->
+            
                 <button class="fuse-mat-button-large w-full mt-6" mat-flat-button [color]="'primary'" [disabled]="signInForm.disabled" (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
                         Sign in
                     </span>
                     <mat-progress-spinner *ngIf="signInForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
+            
+                -->
 
                 <!-- Separator -->
                 <div class="flex items-center mt-8">
@@ -78,8 +81,10 @@
                     <!-- Microsoft SSO Button -->
                     <button class="flex-auto" mat-stroked-button (click)="signInSSOmicrosoft()">
                         <mat-icon class="icon-size-5" [svgIcon]="'feather:grid'"></mat-icon>
+                        <span style="margin-left: 10px;">Microsoft Single Sign On</span>
                     </button>
-
+                    
+<!--
 
                     <button class="flex-auto" type="button" mat-stroked-button>
                         <mat-icon class="icon-size-5" [svgIcon]="'feather:facebook'"></mat-icon>
@@ -90,8 +95,12 @@
                     <button class="flex-auto" type="button" mat-stroked-button>
                         <mat-icon class="icon-size-5" [svgIcon]="'feather:github'"></mat-icon>
                     </button>
+-->
+                    
+                    
+                    
                 </div>
-            </form>
+<!--            </form>-->
         </div>
     </div>
     <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l">
