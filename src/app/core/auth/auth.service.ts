@@ -209,7 +209,9 @@ export class AuthService {
 
                             this.getBase64(response).then(
                                 data => {
-        
+                        
+                                    //store the Profile image in local storage
+                                    localStorage.setItem("profileImage",data.toString());
                                     //const base64image = data;
 
                                     //Store the user on the user service
@@ -273,13 +275,13 @@ export class AuthService {
 
                 //Set the authenticated flag to true
                 this._authenticated = true;
-
+        
                 //Store the user on the user service
                 const msuser: User = {
                     id: user.uid,
                     name: user.displayName,
                     email: user.email,
-                    avatar: user.photoURL,
+                    avatar: localStorage.getItem("profileImage"),
                 };
 
                 //Talk to the User Service
