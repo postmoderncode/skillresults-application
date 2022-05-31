@@ -30,6 +30,7 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean
     {
+        console.log("--------noAuthguard canActivate Check")
         return this._check();
     }
 
@@ -41,6 +42,7 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad
      */
     canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
     {
+        console.log("--------noAuthguard canActivateChild Check")
         return this._check();
     }
 
@@ -52,6 +54,7 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad
      */
     canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean
     {
+        console.log("----------noAuthguard canLoad Check")
         return this._check();
     }
 
@@ -66,6 +69,7 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad
      */
     private _check(): Observable<boolean>
     {
+        console.log("noAuth.Gaurd _check fired.")
         // Check the authentication status
         return this._authService.check()
                    .pipe(
@@ -74,13 +78,15 @@ export class NoAuthGuard implements CanActivate, CanActivateChild, CanLoad
                            // If the user is authenticated...
                            if ( authenticated )
                            {
+                                console.log("noAuth.Gaurd detected AuthService._check is authenticated and forwarding to root.");
+                                console.log(authenticated);
                                // Redirect to the root
                                this._router.navigate(['']);
 
                                // Prevent the access
                                return of(false);
                            }
-
+                            console.log("noAuth.Gaurd is allowing access to unprotected area.");
                            // Allow the access
                            return of(true);
                        })

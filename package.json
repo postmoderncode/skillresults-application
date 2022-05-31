@@ -26,6 +26,7 @@
     "@angular/platform-browser": "13.3.10",
     "@angular/platform-browser-dynamic": "13.3.10",
     "@angular/router": "13.3.10",
+    "@microsoft/mgt": "^2.5.2",
     "@ngneat/transloco": "4.0.0",
     "apexcharts": "3.35.3",
     "crypto-js": "4.1.1",

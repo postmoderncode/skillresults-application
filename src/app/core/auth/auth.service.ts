@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 
+//Firebase Imports
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { User } from '../user/user.types';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 @Injectable()
-export class AuthService
-{
+export class AuthService {
+    private MStoken
+    private MSuserimage
     private _authenticated: boolean = false;
 
     /**
@@ -20,10 +22,8 @@ export class AuthService
     constructor(
         private auth: AngularFireAuth,
         private _httpClient: HttpClient,
-        private _userService: UserService
-    )
-    {
-    }
+        public _userService: UserService
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -32,13 +32,11 @@ export class AuthService
     /**
      * Setter & getter for access token
      */
-    set accessToken(token: string)
-    {
+    set accessToken(token: string) {
         localStorage.setItem('accessToken', token);
     }
 
-    get accessToken(): string
-    {
+    get accessToken(): string {
         return localStorage.getItem('accessToken') ?? '';
     }
 
@@ -51,8 +49,7 @@ export class AuthService
      *
      * @param email
      */
-    forgotPassword(email: string): Observable<any>
-    {
+    forgotPassword(email: string): Observable < any > {
         return this._httpClient.post('api/auth/forgot-password', email);
     }
 
@@ -61,52 +58,190 @@ export class AuthService
      *
      * @param password
      */
-    resetPassword(password: string): Observable<any>
-    {
+    resetPassword(password: string): Observable < any > {
         return this._httpClient.post('api/auth/reset-password', password);
     }
-    
-    
 
-//AUTH SERVICE MS SSO SIGN IN. 
+   /**
+     * Sign in
+     *
+     * @param credentials
+     */
+    signIn(credentials: {
+        email: string;password: string
+    }): Observable < any > {
+        // Throw error, if the user is already logged in
+        if (this._authenticated) {
+            return throwError('User is already logged in.');
+        }
 
-    OAuthMicrosoft(): Observable<any> {
+        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+            switchMap((response: any) => {
 
-        console.log('2. OAuthMicrosoft() on app/core/auth/auth.service.ts Fired...Calling OAuth Login to AzureAD...');
+                // Store the access token in the local storage
+                this.accessToken = response.accessToken;
 
-        const studentsObservable = new Observable(observer => {
+                // Set the authenticated flag to true
+                this._authenticated = true;
+
+                // Store the user on the user service
+                this._userService.user = response.user;
+
+                // Return a new observable with the response
+                return of(response);
+            })
+        );
+    }
+
+    /**
+     * Sign in using the access token
+     */
+    signInUsingToken(): Observable < any > {
+        // Renew token
+        return this._httpClient.post('api/auth/refresh-access-token', {
+            accessToken: this.accessToken
+        }).pipe(
+            catchError(() =>
+
+                // Return false
+                of (false)
+            ),
+            switchMap((response: any) => {
+
+                // Store the access token in the local storage
+                this.accessToken = response.accessToken;
+
+                // Set the authenticated flag to true
+                this._authenticated = true;
+
+                // Store the user on the user service
+                this._userService.user = response.user;
+
+                // Return true
+                return of(true);
+            })
+        );
+    }
+
+    /**
+     * Sign out
+     */
+    signOut(): Observable < any > {
+        // Remove the access token from the local storage
+        localStorage.removeItem('accessToken');
+
+        // Set the authenticated flag to false
+        this._authenticated = false;
+
+        // Return the observable
+        return of(true);
+    }
+
+    /**
+     * Sign up
+     *
+     * @param user
+     */
+    signUp(user: {
+        name: string;email: string;password: string;company: string
+    }): Observable < any > {
+        return this._httpClient.post('api/auth/sign-up', user);
+    }
+
+    /**
+     * Unlock session
+     *
+     * @param credentials
+     */
+    unlockSession(credentials: {
+        email: string;password: string
+    }): Observable < any > {
+        return this._httpClient.post('api/auth/unlock-session', credentials);
+    }
+
+//---------------------------------------------
+//CUSTOM FUNCTIONS
+//---------------------------------------------
+
+    //Observable Function to Call MS Graph API and get User Picture.
+    msuserinfo(token): Observable < any > {
+        //Create a custom http header with the MS Authentication Token to add to the Graph API Call
+        let reqHeader = new HttpHeaders({
+            'Authorization': 'Bearer ' + token
+        })
+
+        //Make the Graph API Call
+        return this._httpClient.get('https://graph.microsoft.com/v1.0/me/photos/240x240/$value', {
+            responseType: 'blob',
+            headers: reqHeader
+        });
+    }
+
+    //Promise based Function to convert Blob objects to Base64 Strings. 
+    getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    //Microsoft SSO Login with OAuth
+    OAuthMicrosoft(): Observable < any > {
+
+        console.log('2. OAuthMicrosoft() on app/core/auth/auth.service.ts has Fired...Calling OAuth Login to AzureAD...');
+
+        const loginObservable = new Observable(observer => {
 
             //Sign in using a redirect to Microsoft. 
             this.auth.signInWithPopup(new firebase.auth.OAuthProvider('microsoft.com'))
                 .then(async (result) => {
 
-                    console.log('3. OAuthMicrosoft() completed the Oauth Login to AzureAD...');
+                    //Create Path to MS token in the Auth Object
+                    const credential = result.credential as firebase.auth.OAuthCredential;
+                    //Store MS Token in a Varible on the Auth Service. 
+                    this.MStoken = credential.accessToken;
 
-                    console.log('4. OAuthMicrosoft() is Storing the AAD Oauth Access Token..');
+                    //Function to Call the Function that Calls MSGraph. 
+                    this.msuserinfo(this.MStoken).subscribe(
+                        (response) => {
 
-                    //Store the access token in the local storage
-                    var token = (await result.user.getIdToken()).toString();
-                    console.log(token);
-                    this.accessToken = token;
+                            this.getBase64(response).then(
+                                data => {
+        
+                                    //const base64image = data;
 
-                    console.log('5. OAuthMicrosoft() is setting _Authenticated = true');
+                                    //Store the user on the user service
+                                    const msuser: User = {
+                                        id: result.user.uid,
+                                        name: result.user.displayName,
+                                        email: result.user.email,
+                                        avatar: data.toString() ,
+                                    };
+                               
+                                //Send the User Object to the User Service (for the UI)
+                                this._userService.user = msuser;
+                                    
+                                observer.next();
+
+                                }
+                            );
+
+                        },
+
+                        (error) => {
+                            console.log(error);
+                        });
+
+                    //Store the access token in the local storage (THIS MUST BE AFTER THE GRAPH CALL!!!)
+                    var FirebaseToken = (await result.user.getIdToken()).toString();
+                    //Also store the Firebase Token in a Varible on the Auth Service. 
+                    this.accessToken = FirebaseToken;
+                    console.log(FirebaseToken);
 
                     //Set the authenticated flag to true
                     this._authenticated = true;
-
-                    //Store the user on the user service
-                    const msuser: User = {
-                        id: result.user.uid,
-                        name: result.user.displayName,
-                        email: result.user.email,
-                        avatar: result.user.photoURL,
-                    };
-
-                    //Talk to the User Service
-                    console.log("6. OAuthMicrosoft() is Calling the _userService.user ");
-                    this._userService.user = msuser;
-
-                    observer.next();
 
                 })
                 .catch((error) => {
@@ -116,15 +251,19 @@ export class AuthService
 
         });
 
-        return studentsObservable;
-    }
-    
-/**
-* Check if Firebase is Logged In
-*/
-    firebaseCheck(): Observable<any> {
-        // Renew token
+        return loginObservable;
 
+    }
+
+    /**
+     * Check if Firebase is Logged In
+     */
+    firebaseCheck(): Observable < any > {
+        
+        //Firebase Check Fired. 
+        console.log("FIREBASE CHECK!")
+        
+        // Renew token
         const firebaseCheckObservable = new Observable(observer => {
 
             const authcheck = getAuth();
@@ -157,133 +296,36 @@ export class AuthService
 
     }
 
-
-    /**
-     * Sign in
-     *
-     * @param credentials
-     */
-    signIn(credentials: { email: string; password: string }): Observable<any>
-    {
-        // Throw error, if the user is already logged in
-        if ( this._authenticated )
-        {
-            return throwError('User is already logged in.');
-        }
-
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
-            switchMap((response: any) => {
-
-                // Store the access token in the local storage
-                this.accessToken = response.accessToken;
-
-                // Set the authenticated flag to true
-                this._authenticated = true;
-
-                // Store the user on the user service
-                this._userService.user = response.user;
-
-                // Return a new observable with the response
-                return of(response);
-            })
-        );
-    }
-
-    /**
-     * Sign in using the access token
-     */
-    signInUsingToken(): Observable<any>
-    {
-        // Renew token
-        return this._httpClient.post('api/auth/refresh-access-token', {
-            accessToken: this.accessToken
-        }).pipe(
-            catchError(() =>
-
-                // Return false
-                of(false)
-            ),
-            switchMap((response: any) => {
-
-                // Store the access token in the local storage
-                this.accessToken = response.accessToken;
-
-                // Set the authenticated flag to true
-                this._authenticated = true;
-
-                // Store the user on the user service
-                this._userService.user = response.user;
-
-                // Return true
-                return of(true);
-            })
-        );
-    }
-
-    /**
-     * Sign out
-     */
-    signOut(): Observable<any>
-    {
-        // Remove the access token from the local storage
-        localStorage.removeItem('accessToken');
-
-        // Set the authenticated flag to false
-        this._authenticated = false;
-
-        // Return the observable
-        return of(true);
-    }
-
-    /**
-     * Sign up
-     *
-     * @param user
-     */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/sign-up', user);
-    }
-
-    /**
-     * Unlock session
-     *
-     * @param credentials
-     */
-    unlockSession(credentials: { email: string; password: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/unlock-session', credentials);
-    }
-
     /**
      * Check the authentication status
      */
-    check(): Observable<boolean>
-    {
-        // Check if the user is logged in
-        console.log("Step A - Check Authentication...")
+    check(): Observable < boolean > {
+        // Check to See if the Auth Service is already Authenticated. If not, RouteGaurd will dispaly the login page. 
+        // If the Auth Service is already Authenticated, then everything we need (Access Tokens, User profiles, etc.. should be already loaded.)
+        console.log("1) Check if the Auth Service is Authenticated")
         console.log(this._authenticated);
         if (this._authenticated) {
+            //Return "TRUE" (I am authenticated) so that Route Gaurd can forward to the protected areas
             return of(true);
         }
 
-        // Check the access token availability
-        console.log("Step B - Check for Access Token...")
-        console.log(this.accessToken);
+        //Check the access token availability
+        console.log("2) Check for Access Token...")
         if (!this.accessToken) {
+            console.log("no access token found");
             return of(false);
         }
 
         // Check the access token expire date
-        console.log("Step C - Check if the Access Token is Expired...")
+        console.log("3) Check if the Access Token is Expired...")
         console.log(AuthUtils.isTokenExpired(this.accessToken));
 
         if (AuthUtils.isTokenExpired(this.accessToken)) {
             return of(false);
         }
 
-        //Check to see if there is firebase auth logged in
-        console.log("Step D. - Is Firebase Logged in...")
+        //Check to see if there is a Firebase Access Token in Local Storage, and if so, use it to auto-login. 
+        console.log("4) Check to see if Firebase Access Token already exists...")
         return this.firebaseCheck();
 
         // If the access token exists and it didn't expire, sign in using it
