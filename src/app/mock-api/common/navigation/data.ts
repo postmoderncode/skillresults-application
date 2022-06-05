@@ -14,21 +14,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'dashboard',
                 title: 'Dashboard',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:grid',
                 link: 'home/dashboard'
             },
             {
                 id: 'public-profile',
                 title: 'Public Profile',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:user',
                 link: 'home/public-profile'
             },
             {
                 id: 'my-settings',
                 title: 'My Settings',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:settings',
                 link: 'home/my-settings'
             }
         ]
@@ -43,21 +43,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'my-skills',
                 title: 'My Skills',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:send',
                 link: 'skills/my-skills'
             },
             {
                 id: 'skill-wishlist',
                 title: 'Skill Wishlist',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:sparkles',
                 link: 'skills/skill-wishlist'
             },
             {
                 id: 'talents-hobbies',
                 title: 'Talents & Hobbies',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:heart',
                 link: 'skills/talent-hobbies'
             }
         ]
@@ -72,28 +72,28 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'degrees',
                 title: 'Academic Degrees',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:academic-cap',
                 link: 'education/academic-degrees'
             },
             {
                 id: 'certifications-licenses',
                 title: 'Certifications & Licenses',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:document-text',
                 link: 'education/certifications-licenses'
             },
             {
                 id: 'professional-training',
                 title: 'Professional Training',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:book-open',
                 link: 'education/professional-training'
             },
             {
                 id: 'awards-accolades',
                 title: 'Awards & Accolades',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:award',
                 link: 'education/awards-accolades'
             }
         ]
@@ -115,7 +115,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'report-catalog',
                 title: 'Report Catalog',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:bar-chart-2',
                 link: 'reports/report-catalog'
             },
 
@@ -132,7 +132,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'skill-catalog',
                 title: 'Skill Catalog',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:pencil',
                 link: 'administration/skill-catalog'
             },
             {
@@ -146,7 +146,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'global-settings',
                 title: 'Global Settings',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:settings',
                 link: 'administration/global-settings'
             },
 
@@ -307,7 +307,7 @@ export const compactNavigation: FuseNavigationItem[] = [
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
-   {
+    {
         id: 'home',
         title: 'Home',
         subtitle: 'Home Area',
@@ -324,7 +324,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 id: 'public-profile',
                 title: 'Public Profile',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:user-circle',
                 link: 'home/public-profile'
             },
             {
@@ -376,7 +376,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 title: 'Academic Degrees',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'education/degrees'
+                link: 'education/academic-degrees'
             },
             {
                 id: 'certifications-licenses',
@@ -390,7 +390,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 title: 'Professional Training',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'education/talents-hobbies'
+                link: 'education/professional-training'
             },
             {
                 id: 'awards-accolades',
@@ -443,13 +443,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 title: 'Administration Reports',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'administration/administration-reports'
+                link: 'administration/admin-reports'
             },
                         {
                 id: 'global-settings',
                 title: 'Global Settings',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:settings',
                 link: 'administration/global-settings'
             },
 

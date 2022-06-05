@@ -3,35 +3,49 @@
 
 <!-- Navigation -->
 <fuse-vertical-navigation
-    class="dark bg-indigo-800 text-white print:hidden"
+    class="dark bg-gray-800 text-white print:hidden"
     [mode]="isScreenSmall ? 'over' : 'side'"
     [name]="'mainNavigation'"
     [navigation]="navigation.futuristic"
     [opened]="!isScreenSmall">
+    
     <!-- Navigation header hook -->
     <ng-container fuseVerticalNavigationHeader>
-        <!-- Logo -->
-        <div class="flex items-center h-20 p-6 pb-0">
-            <img
-                class="w-30"
-                src="assets/images/logo/logo-text-on-dark.svg">
-        </div>
-    </ng-container>
-    <!-- Navigation footer hook -->
-    <ng-container fuseVerticalNavigationFooter>
         <!-- User -->
-        <div class="flex items-center w-full px-6 py-8 border-t">
-            <user></user>
-            <div class="flex flex-col w-full ml-4 overflow-hidden">
-                <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden leading-normal text-current opacity-80">
+        <div class="flex flex-col items-center w-full p-4 border-b">
+            <div class="relative w-24 h-24">
+                <img
+                    class="w-full h-full rounded-full"
+                    *ngIf="user.avatar"
+                    [src]="user.avatar"
+                    alt="User avatar">
+                <mat-icon
+                    class="icon-size-24"
+                    *ngIf="!user.avatar"
+                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+            </div>
+            <div class="flex flex-col items-center justify-center w-full mt-0">
+                <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal font-medium">
                     {{user.name}}
                 </div>
-                <div class="w-full mt-0.5 whitespace-nowrap text-sm text-ellipsis overflow-hidden leading-normal text-current opacity-50">
-                    brian.hughes@company.com
+                <div class="w-full mt-0.5 whitespace-nowrap text-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">
+                    {{user.email}}
                 </div>
             </div>
-        </div>
+        </div>     
     </ng-container>
+    
+    <!-- Navigation footer hook -->
+    <ng-container fuseVerticalNavigationFooter>
+        <!-- Logo -->
+        <div class="flex items-center h-20 p-0 pl-5 border-t">
+            <img
+                class="w-50"
+                src="assets/images/logo/logo-text-on-dark.svg">
+        </div>
+       
+    </ng-container>
+    
 </fuse-vertical-navigation>
 
 <!-- Wrapper -->
@@ -39,6 +53,7 @@
 
     <!-- Header -->
     <div class="relative flex flex-0 items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden">
+        
         <!-- Navigation toggle button -->
         <button
             class="mr-2"
@@ -46,20 +61,31 @@
             (click)="toggleNavigation('mainNavigation')">
             <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
         </button>
+        
+        <!-- Logo -->
+        <div class="flex items-center m-auto h-0 p-0 pb-0">
+            <img
+                class="w-50"
+                src="assets/images/logo/logo-text.svg">
+        </div>
+    
         <!-- Components -->
-        <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
-            <languages></languages>
+        <div class="flex items-center pl-2 space-x-0.5 sm:space-x-2">
             <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
             <search [appearance]="'bar'"></search>
-            <shortcuts></shortcuts>
-            <messages></messages>
             <notifications></notifications>
+            <user [showAvatar]="false"></user>
+            <!--<languages></languages>-->
+            <!--<shortcuts></shortcuts>-->
+            <!--<messages></messages>-->
+            <!--
             <button
                 class="lg:hidden"
                 mat-icon-button
                 (click)="quickChat.toggle()">
                 <mat-icon [svgIcon]="'heroicons_outline:chat-alt-2'"></mat-icon>
             </button>
+            -->
         </div>
     </div>
 
@@ -71,11 +97,10 @@
     </div>
 
     <!-- Footer -->
-    <div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
-        <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
+    <div class="relative bg-gray-200 flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
+        <span class="font-medium m-auto text-secondary">Postmodern Code LLC &copy; {{currentYear}}</span>
     </div>
-
 </div>
 
 <!-- Quick chat -->
-<quick-chat #quickChat="quickChat"></quick-chat>
+<!-- <quick-chat #quickChat="quickChat"></quick-chat> -->
