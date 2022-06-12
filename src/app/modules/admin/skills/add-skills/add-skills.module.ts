@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MySkillsComponent } from './my-skills.component';
+import { AddSkillsComponent } from './add-skills.component';
 import { Route, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 
-const myskillsRoutes: Route[] = [
+const addskillsRoutes: Route[] = [
     {
         path     : '',
-        component: MySkillsComponent
+        component: AddSkillsComponent
     }
 ];
 
 @NgModule({
   declarations: [
-    MySkillsComponent
+    AddSkillsComponent
   ],
   imports: [
     CommonModule,
     MatIconModule,
-    MatButtonModule,
-    RouterModule.forChild(myskillsRoutes)
+    MatTabsModule,
+    RouterModule.forChild(addskillsRoutes)
   ]
 })
-export class MySkillsModule { }
+export class AddSkillsModule { }
