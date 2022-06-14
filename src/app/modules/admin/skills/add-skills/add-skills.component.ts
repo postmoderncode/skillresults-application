@@ -16,17 +16,6 @@ export class AddSkillsComponent implements OnInit {
         public db: AngularFireDatabase
     ) {}
     
-    //
-    dbRef = this.db.database.ref("/skillcatalog/categories/");
-    
-    myObserver = {
-        next: (x: number) => console.log('Observer got a next value: ' + x),
-        error: (err: Error) => console.error('Observer got an error: ' + err),
-        complete: () => console.log('Observer got a complete notification'),
-    };
-    
-
-    
     //Initialize Varables
     //-------------------
 
@@ -35,10 +24,9 @@ export class AddSkillsComponent implements OnInit {
 
     //Object to Hold Current Category List. 
     categories: object ;
-    categories2: object ;
 
     //Object to Hold Current Skill List. 
-    skills: Observable < any > ;
+    skills: object;
 
     //General Component Variables
     selectedIndex = 0;
@@ -61,15 +49,15 @@ export class AddSkillsComponent implements OnInit {
     }
 
     //Function to call when an area is selected
-    loadCategories(categoryId) {
+    onAreaSelect(areaId) {
 
-        //Populate Categories
-        this.db.list('/skillcatalog/categories/', ref => ref.orderByChild("area").equalTo(parseInt(categoryId))).snapshotChanges().subscribe(
-            (results: object) => {
-                console.log(results);                
-                this.categories = results;
-            }
-        );
+        //Populate Categories - Firebase List w/ Sort&Filter Query
+        this.db.list('/skillcatalog/categories/', ref => ref
+            .orderByChild("area")
+            .equalTo(areaId))
+            .snapshotChanges().subscribe(
+                (results: object) => {this.categories = results;}
+            );
         
         //Set the title
         this.tabTitle = "Now, select a category...";
@@ -79,9 +67,18 @@ export class AddSkillsComponent implements OnInit {
     }
 
     //Function to call when a category is selected
-    loadSkills(categoryId) {
+    onCategorySelect(categoryId) {
 
         console.log(categoryId);
+
+        //Populate Categories - Firebase List w/ Sort&Filter Query
+        this.db.list('/skillcatalog/skills/', ref => ref
+            .orderByChild("category")
+            .equalTo(categoryId))
+            .snapshotChanges().subscribe(
+                (results: object) => {this.skills = results;}
+            );
+
         this.tabTitle = "Then select a Skill to Add!";
         this.selectedIndex = 2;
     }
@@ -89,16 +86,8 @@ export class AddSkillsComponent implements OnInit {
     //Funtion that runs on startup
     ngOnInit(): void {
 
-        //Populate the Areas Object
+        //Populate Areas - Firebase List Object
         this.areas = this.db.list('/skillcatalog/areas/').snapshotChanges();
-        
-        //Populate Categories
-        this.db.list('/skillcatalog/categories/', ref => ref.orderByChild("area").equalTo(4)).snapshotChanges().subscribe(
-            (results: object) => {
-                console.log(results);                
-                this.categories2 = results;
-            }
-        );
 
     }
 

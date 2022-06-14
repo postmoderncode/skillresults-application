@@ -1,6 +1,6 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
+    <div class=" sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
         <!-- Header Text -->
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
@@ -36,7 +36,7 @@
     <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
 
         <!-- CONTENT GOES HERE -->
-        <div class="h-full">
+        <div class="">
             
             <!-- SELECTOR WRAPPER -->
             <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px] ">
@@ -50,7 +50,7 @@
                     </div>
                     </a>
 
-                    <div class="flex-1 text-1xl p-2 mr-20 sm:text-2xl md:text-2xl lg:text-3xl font-extrabold text-center tracking-tight">
+                    <div class="flex-1 text-2xl p-2 mr-20 sm:text-2xl md:text-2xl lg:text-3xl font-extrabold text-center tracking-tight">
                         {{tabTitle}}
                     </div>
 
@@ -58,17 +58,17 @@
 
                 <!-- TAB GROUP WRAPPER -->
                 
-                <div class="overflow-scroll h-full">
+                <div class="">
 
-                    <mat-tab-group [(selectedIndex)]=selectedIndex>
+                    <mat-tab-group preserveContent class="h-[calc(100vh-360px)] min-h-50 overflow-scroll" [(selectedIndex)]=selectedIndex>
 
                         <!--Areas Tab-->
                         <mat-tab label="Areas">
                             
                             <!--Repeat for Each Area-->
                             <span *ngFor="let area of (areas | async)" >
-                            <a (click)="loadCategories(area.key)">
-                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                            <a (click)="onAreaSelect(area.key)">
+                                <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
                                     <div class="flex-1"> {{ area.payload.val().name }}</div>
                                     <div class="flex-none pt-1">
                                         <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
@@ -88,9 +88,9 @@
                         <!--Categories Tab-->
                         <mat-tab label="Catagories">
 
-                            <!--Repeat for Each Area-->
+                            <!--Repeat for Each Category-->
                             <span *ngFor="let category of categories" >
-                                <a (click)="loadSkills(category.key)">
+                                <a (click)="onCategorySelect(category.key)">
                                     <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
                                         <div class="flex-1"> {{ category.payload.val().name }}</div>
                                         <div class="flex-none pt-1">
@@ -105,111 +105,27 @@
                                 <div class="flex-1"></div>
                             </div>
 
-                            <!-- <a (click)="loadSkills()">
-                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                    <div class="flex-1">Category One</div>
-                                    <div class="flex-none pt-1">
-                                        <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a (click)="loadSkills()">
-                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                    <div class="flex-1">Category Two</div>
-                                    <div class="flex-none pt-1">
-                                        <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a (click)="loadSkills()">
-                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                    <div class="flex-1">Category Three</div>
-                                    <div class="flex-none pt-1">
-                                        <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                    </div>
-                                </div>
-                            </a>
-
-                            <a (click)="loadSkills()">
-                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                    <div class="flex-1">Category Four</div>
-                                    <div class="flex-none pt-1">
-                                        <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                    </div>
-                                </div>
-                            </a>
-
-
-                            <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
-                                <div class="flex-1"></div>
-
-                            </div> -->
-
                         </mat-tab>
 
                         <!--Skills Tab-->
                         <mat-tab label="Skills">
 
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-                            <a>
-                                <div class="listitem">Skill One</div>
-                            </a>
-
+                            <!--Repeat for Each Skill-->
+                            <span *ngFor="let skill of skills" >
+                                <a (click)="loadSkills(skill.key)">
+                                    <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                        <div class="flex-1"> {{ skill.payload.val().name }}</div>
+                                        <div class="flex-none pt-1">
+                                            <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                        </div>
+                                    </div>
+                                </a>
+                            </span>
+                                
+                            <!--Bottom Division Line-->
+                            <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                                <div class="flex-1"></div>
+                            </div>
 
                         </mat-tab>
 
