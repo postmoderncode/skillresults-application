@@ -32,7 +32,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: 'home/my-settings'
             }
         ]
-        },
+    },
     {
         id: 'skills',
         title: 'skills',
@@ -58,7 +58,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Talents & Hobbies',
                 type: 'basic',
                 icon: 'feather:heart',
-                link: 'skills/talent-hobbies'
+                link: 'skills/talents-hobbies'
             }
         ]
     },
@@ -142,7 +142,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:chart-pie',
                 link: 'administration/admin-reports'
             },
-                        {
+            {
+                id: 'positions',
+                title: 'Positions',
+                type: 'basic',
+                icon: 'heroicons_outline:users',
+                link: 'administration/positions'
+            },
+            {
                 id: 'global-settings',
                 title: 'Global Settings',
                 type: 'basic',
@@ -156,7 +163,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
 ];
 export const compactNavigation: FuseNavigationItem[] = [
-   {
+    {
         id: 'home',
         title: 'Home',
         subtitle: 'Home Area',
@@ -184,7 +191,7 @@ export const compactNavigation: FuseNavigationItem[] = [
                 link: 'home/my-settings'
             }
         ]
-        },
+    },
     {
         id: 'skills',
         title: 'skills',
@@ -210,7 +217,7 @@ export const compactNavigation: FuseNavigationItem[] = [
                 title: 'Talents & Hobbies',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'skills/talent-hobbies'
+                link: 'skills/talents-hobbies'
             }
         ]
     },
@@ -294,7 +301,14 @@ export const compactNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:chart-pie',
                 link: 'administration/administration-reports'
             },
-                        {
+            {
+                id: 'positions',
+                title: 'Positions',
+                type: 'basic',
+                icon: 'heroicons_outline:users',
+                link: 'administration/positions'
+            },
+            {
                 id: 'global-settings',
                 title: 'Global Settings',
                 type: 'basic',
@@ -335,7 +349,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 link: 'home/my-settings'
             }
         ]
-        },
+    },
     {
         id: 'skills',
         title: 'skills',
@@ -361,7 +375,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 title: 'Talents & Hobbies',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'skills/talent-hobbies'
+                link: 'skills/talents-hobbies'
             }
         ]
     },
@@ -445,7 +459,14 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:chart-pie',
                 link: 'administration/admin-reports'
             },
-                        {
+            {
+                id: 'positions',
+                title: 'Positions',
+                type: 'basic',
+                icon: 'heroicons_outline:users',
+                link: 'administration/positions'
+            },
+            {
                 id: 'global-settings',
                 title: 'Global Settings',
                 type: 'basic',
@@ -458,7 +479,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
     },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
-   {
+    {
         id: 'home',
         title: 'Home',
         subtitle: 'Home Area',
@@ -486,7 +507,7 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 link: 'home/my-settings'
             }
         ]
-        },
+    },
     {
         id: 'skills',
         title: 'skills',
@@ -512,7 +533,7 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 title: 'Talents & Hobbies',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'skills/talent-hobbies'
+                link: 'skills/talents-hobbies'
             }
         ]
     },
@@ -594,7 +615,14 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:chart-pie',
                 link: 'administration/administration-reports'
             },
-                        {
+            {
+                id: 'positions',
+                title: 'Positions',
+                type: 'basic',
+                icon: 'heroicons_outline:users',
+                link: 'administration/positions'
+            },
+            {
                 id: 'global-settings',
                 title: 'Global Settings',
                 type: 'basic',

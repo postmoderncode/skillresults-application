@@ -10,6 +10,8 @@ import firebase from 'firebase/compat/app';
 import { User } from '../user/user.types';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+
 @Injectable()
 export class AuthService {
     private MStoken
@@ -22,8 +24,9 @@ export class AuthService {
     constructor(
         private auth: AngularFireAuth,
         private _httpClient: HttpClient,
-        public _userService: UserService
-    ) {}
+        public _userService: UserService,
+        private db: AngularFireDatabase
+    ) { }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -49,7 +52,7 @@ export class AuthService {
      *
      * @param email
      */
-    forgotPassword(email: string): Observable < any > {
+    forgotPassword(email: string): Observable<any> {
         return this._httpClient.post('api/auth/forgot-password', email);
     }
 
@@ -58,18 +61,18 @@ export class AuthService {
      *
      * @param password
      */
-    resetPassword(password: string): Observable < any > {
+    resetPassword(password: string): Observable<any> {
         return this._httpClient.post('api/auth/reset-password', password);
     }
 
-   /**
-     * Sign in
-     *
-     * @param credentials
-     */
+    /**
+      * Sign in
+      *
+      * @param credentials
+      */
     signIn(credentials: {
-        email: string;password: string
-    }): Observable < any > {
+        email: string; password: string
+    }): Observable<any> {
         // Throw error, if the user is already logged in
         if (this._authenticated) {
             return throwError('User is already logged in.');
@@ -96,7 +99,7 @@ export class AuthService {
     /**
      * Sign in using the access token
      */
-    signInUsingToken(): Observable < any > {
+    signInUsingToken(): Observable<any> {
         // Renew token
         return this._httpClient.post('api/auth/refresh-access-token', {
             accessToken: this.accessToken
@@ -104,7 +107,7 @@ export class AuthService {
             catchError(() =>
 
                 // Return false
-                of (false)
+                of(false)
             ),
             switchMap((response: any) => {
 
@@ -126,9 +129,10 @@ export class AuthService {
     /**
      * Sign out
      */
-    signOut(): Observable < any > {
+    signOut(): Observable<any> {
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('fbuser');
 
         // Set the authenticated flag to false
         this._authenticated = false;
@@ -143,8 +147,8 @@ export class AuthService {
      * @param user
      */
     signUp(user: {
-        name: string;email: string;password: string;company: string
-    }): Observable < any > {
+        name: string; email: string; password: string; company: string
+    }): Observable<any> {
         return this._httpClient.post('api/auth/sign-up', user);
     }
 
@@ -154,17 +158,17 @@ export class AuthService {
      * @param credentials
      */
     unlockSession(credentials: {
-        email: string;password: string
-    }): Observable < any > {
+        email: string; password: string
+    }): Observable<any> {
         return this._httpClient.post('api/auth/unlock-session', credentials);
     }
 
-//---------------------------------------------
-//CUSTOM FUNCTIONS
-//---------------------------------------------
+    //---------------------------------------------
+    //CUSTOM FUNCTIONS
+    //---------------------------------------------
 
     //Observable Function to Call MS Graph API and get User Picture.
-    msuserinfo(token): Observable < any > {
+    msuserinfo(token): Observable<any> {
         //Create a custom http header with the MS Authentication Token to add to the Graph API Call
         let reqHeader = new HttpHeaders({
             'Authorization': 'Bearer ' + token
@@ -188,7 +192,7 @@ export class AuthService {
     }
 
     //Microsoft SSO Login with OAuth
-    OAuthMicrosoft(): Observable < any > {
+    OAuthMicrosoft(): Observable<any> {
 
         console.log('2. OAuthMicrosoft() on app/core/auth/auth.service.ts has Fired...Calling OAuth Login to AzureAD...');
 
@@ -197,6 +201,25 @@ export class AuthService {
             //Sign in using a redirect to Microsoft. 
             this.auth.signInWithPopup(new firebase.auth.OAuthProvider('microsoft.com'))
                 .then(async (result) => {
+
+                    const fbuser = new FirebaseUser();
+                    fbuser.id = result.user.uid;
+                    fbuser.name = result.user.displayName;
+                    fbuser.email = result.user.email;
+                    fbuser.isadmin = false;
+
+                    //AngularFire add user to list
+                    const listRef = this.db.list('users');
+
+                    // Write user to Firebase with Promise
+                    const promise_writeuser = listRef.update(result.user.uid, { id: result.user.uid, name: result.user.displayName, email: result.user.email, isadmin: false });
+                    promise_writeuser
+                        .then(_ =>
+                            localStorage.setItem('fbuser', JSON.stringify(fbuser))
+                        )
+                        .catch(err =>
+                            console.log(err, 'ANGULAR FIRE USER WRITE: Error!')
+                        );
 
                     //Create Path to MS token in the Auth Object
                     const credential = result.credential as firebase.auth.OAuthCredential;
@@ -209,9 +232,9 @@ export class AuthService {
 
                             this.getBase64(response).then(
                                 data => {
-                        
+
                                     //store the Profile image in local storage
-                                    localStorage.setItem("profileImage",data.toString());
+                                    localStorage.setItem("profileImage", data.toString());
                                     //const base64image = data;
 
                                     //Store the user on the user service
@@ -219,13 +242,13 @@ export class AuthService {
                                         id: result.user.uid,
                                         name: result.user.displayName,
                                         email: result.user.email,
-                                        avatar: data.toString() ,
+                                        avatar: data.toString(),
                                     };
-                               
-                                //Send the User Object to the User Service (for the UI)
-                                this._userService.user = msuser;
-                                    
-                                observer.next();
+
+                                    //Send the User Object to the User Service (for the UI)
+                                    this._userService.user = msuser;
+
+                                    observer.next();
 
                                 }
                             );
@@ -260,11 +283,11 @@ export class AuthService {
     /**
      * Check if Firebase is Logged In
      */
-    firebaseCheck(): Observable < any > {
-        
+    firebaseCheck(): Observable<any> {
+
         //Firebase Check Fired. 
         console.log("FIREBASE CHECK!")
-        
+
         // Renew token
         const firebaseCheckObservable = new Observable(observer => {
 
@@ -275,7 +298,7 @@ export class AuthService {
 
                 //Set the authenticated flag to true
                 this._authenticated = true;
-        
+
                 //Store the user on the user service
                 const msuser: User = {
                     id: user.uid,
@@ -301,7 +324,7 @@ export class AuthService {
     /**
      * Check the authentication status
      */
-    check(): Observable < boolean > {
+    check(): Observable<boolean> {
         // Check to See if the Auth Service is already Authenticated. If not, RouteGaurd will dispaly the login page. 
         // If the Auth Service is already Authenticated, then everything we need (Access Tokens, User profiles, etc.. should be already loaded.)
         console.log("1) Check if the Auth Service is Authenticated")
@@ -333,4 +356,17 @@ export class AuthService {
         // If the access token exists and it didn't expire, sign in using it
         //return this.signInUsingToken();
     }
+}
+
+// Empty User class
+export class FirebaseUser {
+
+    constructor(
+        public id: string = '',
+        public name: string = '',
+        public email: string = '',
+        public isadmin: boolean = false,
+
+    ) { }
+
 }
