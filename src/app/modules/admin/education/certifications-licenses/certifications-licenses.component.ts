@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';

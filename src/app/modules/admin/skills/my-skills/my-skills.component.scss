@@ -1,0 +1,18 @@
+//Turn off the Tab Componet Header
+::ng-deep .mat-tab-header {
+    display: none!important;
+    }
+    
+    ::ng-deep .mat-tab-body-content {
+    padding:0!important;
+    }
+    
+    .listitem{
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 30px;
+        border-bottom-width: 1px;
+        border-bottom-color: color-slate-400;
+    }
+    
+    .material-icons.md-48 { font-size: 20px; }
