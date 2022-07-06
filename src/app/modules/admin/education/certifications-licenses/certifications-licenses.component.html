@@ -193,7 +193,7 @@
                             <!-- Form Start -->
                             <form #addItemForm="ngForm">
 
-                                <!-- Form Feild - Name -->
+                                <!-- Form Field - Name -->
                                 <div class="form-group mb-5">
                                     <mat-form-field class="fuse-mat-no-subscript w-full">
                                         <mat-label>Certification/License Name</mat-label>
@@ -210,7 +210,7 @@
                                         </mat-autocomplete>
                                     </mat-form-field>
 
-                                    <!-- Form Feild - Name Error -->
+                                    <!-- Form Field - Name Error -->
                                     <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
                                         <span style="color:red;">Name is required</span>
                                     </div>
@@ -242,10 +242,10 @@
 
                                 <!-- Form Field - Awarded On -->
                                 <div class="form-group">
-                                    <mat-form-field appearance="fill">
+                                    <mat-form-field appearance="fill" class="min-w-50">
                                         <mat-label>
                                             <span  *ngIf="model.awardedon?.length > 0">
-                                                {{model.awardedon| date: 'MM/dd/yyyy'}}
+                                               Earned: {{model.awardedon| date: 'MM/dd/yyyy'}}
                                             </span>
                                             <span  *ngIf="model.awardedon?.length === 0">
                                                 Date Earned
@@ -260,10 +260,10 @@
                                     </mat-form-field>
 
                                     <!-- Form Field - Expires On -->
-                                    <mat-form-field appearance="fill" class="ml-15">
+                                    <mat-form-field appearance="fill" class="ml-15 min-w-50">
                                         <mat-label>
                                             <span  *ngIf="model.expireson?.length > 0">
-                                                {{model.awardedon| date: 'MM/dd/yyyy'}}
+                                                Expires: {{model.awardedon| date: 'MM/dd/yyyy'}}
                                             </span>
                                             <span  *ngIf="model.expireson?.length === 0">
                                                 Expires (Optional)
