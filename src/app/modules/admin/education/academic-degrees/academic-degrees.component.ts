@@ -45,7 +45,7 @@ export class AcademicDegreesComponent implements OnInit {
   model = new Education();
 
   //Graduation Label Text
-  gradDate = 'Date of Completion';
+  gradDate = 'Date Completed';
 
   //Autocomplete Data
   schoolfilteredData;
@@ -253,7 +253,7 @@ export class AcademicDegreesComponent implements OnInit {
 
   //Degree Completed Checkbox
   onCompletedChecked($event): void {
-    if ($event.checked === true) { this.gradDate = 'Date of Completion'; this.model.completed = true; }
+    if ($event.checked === true) { this.gradDate = 'Date Completed'; this.model.completed = true; }
     else { this.gradDate = 'Expected Graduation Date'; this.model.completed = false; }
   }
 

@@ -348,7 +348,19 @@
                                 <div class="form-group mt-10">
         
                                     <mat-form-field appearance="fill"  class="min-w-50">
-                                        <mat-label>{{gradDate}}</mat-label>
+                                        <mat-label>
+
+                                            <span  *ngIf="model.awardedon?.length > 0">
+                                                {{gradDate}}: {{model.awardedon| date: 'MM/dd/yyyy'}} 
+                                            </span>
+                                            <span  *ngIf="model.awardedon?.length === 0">
+                                                {{gradDate}}
+                                            </span>
+                                            
+                                        
+                                            
+                                        
+                                        </mat-label>
                                         <input matInput [matDatepicker]="addpicker" 
                                         (dateChange)="onDateChange($event, addpicker)"
                                         name="awardedon"  
