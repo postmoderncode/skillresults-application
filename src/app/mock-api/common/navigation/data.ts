@@ -7,7 +7,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'home',
         title: 'Home',
-        subtitle: 'Home Area',
         type: 'group',
         children: [
             {
@@ -24,13 +23,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'feather:user',
                 link: 'home/public-profile'
             },
-            {
-                id: 'my-settings',
-                title: 'My Settings',
-                type: 'basic',
-                icon: 'feather:settings',
-                link: 'home/my-settings'
-            }
         ]
     },
     {
@@ -324,7 +316,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
     {
         id: 'home',
         title: 'Home',
-        subtitle: 'Home Area',
         type: 'group',
         children: [
             {
@@ -340,20 +331,12 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:user-circle',
                 link: 'home/public-profile'
-            },
-            {
-                id: 'my-settings',
-                title: 'My Settings',
-                type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
-                link: 'home/my-settings'
             }
         ]
     },
     {
         id: 'skills',
         title: 'skills',
-        subtitle: 'Skill Management Area',
         type: 'group',
         children: [
             {
@@ -382,7 +365,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
     {
         id: 'education',
         title: 'Education',
-        subtitle: 'Education Tracking Area',
         type: 'group',
         children: [
             {
@@ -418,7 +400,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
     {
         id: 'reports',
         title: 'Reports',
-        subtitle: 'SkillResults Built-in Reports',
         type: 'group',
         children: [
             {
@@ -442,7 +423,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
     {
         id: 'administration',
         title: 'Administration',
-        subtitle: 'SkillResults Administration Area',
         type: 'group',
         children: [
             {

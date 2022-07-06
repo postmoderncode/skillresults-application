@@ -1,434 +1,335 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
     <!-- Header -->
-<div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-sky-100 dark:bg-transparent">
-<div class="flex-1 min-w-0">
-    <!-- Title -->
-    <div class="mt-2">
-        <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-            Certification & Licences
-        </h2>
-    </div>
-</div>
-<!-- Actions -->
-<div class="flex shrink-0 items-center mt-3">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-slate-300">
+        <div class="flex-1 min-w-0">
 
-    <div [hidden]="!showadditem">
-        <button  
-            (click)="onHideAddForm(); addItemForm.resetForm(); editItemForm.resetForm();"
-            class="ml-4"
-            mat-stroked-button
-            type="button"
-            [color]="'primary'">
-            Cancel
-        </button>
-    </div>
-    <button  
-        (click)="onShowAddForm(); addItemForm.resetForm(); editItemForm.resetForm();"
-        [disabled]="showadditem"
-        class="ml-4"
-        mat-flat-button
-        type="button"
-        [color]="'primary'">
-        Add Certification
-    </button>
-</div>
-</div>
-
-
-<!-- Main -->
-<div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card bg-slate-50">
-
-<!-- CONTENT GOES HERE -->
-<div class="h-400 min-h-400 max-h-400">
-
-    <!-- Add Form -->
-    <div [hidden]="!showadditem">
-        <fuse-card class="flex flex-col w-full p-8 filter-info mb-3 drop-shadow-lg bg-orange-50">
-            <h2 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-5">
-                Add a Certification or License
-            </h2>
-
-            <form #addItemForm="ngForm">
-                <div class="form-group">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Certification/License Name</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'feather:file-text'"
-                        matPrefix></mat-icon>
-                        <input type="text"
-                        id="name" 
-                        class="form-control"
-                        placeholder="Start Typing for Suggestions" 
-                        #name="ngModel"
-                        (ngModelChange)="applyFilter($event)"
-                        [(ngModel)]="model.name" 
-                        name="name"
-                        [matAutocomplete]="autocomadd"
-                        required
-                        matInput>
-                        <mat-autocomplete #autocomadd="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredData" [value]="option">
-                                {{option}}
-                            </mat-option>
-                        </mat-autocomplete>
-                </mat-form-field>
-
-                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-                    <span style="color:red;">Name is required</span>
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">Home</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <a class="ml-1 text-primary-500">Certification & Licences</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'">
+                        </mat-icon>
+                        <span class="ml-1 text-secondary">Overview</span>
+                    </div>
                 </div>
-                </div>
-
-                <!-- Spacer -->
-                <div class="mt-5"></div>
-
-                <div class="form-group">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Description</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_outline:annotation'"
-                        matPrefix></mat-icon>
-                        <textarea type="text"
-                        id="description" 
-                        class="form-control" 
-                        #name="ngModel"
-                        placeholder="optional"
-                        [(ngModel)]="model.description" 
-                        name="description"
-                        matInput>
-                        </textarea>
-                </mat-form-field>
-                </div>
-
-                <!-- Spacer -->
-                <div class="mt-5"></div>
-
-                <div class="form-group">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>Awarded By</mat-label>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:users'"
-                            matPrefix></mat-icon>
-                            <input type="text"
-                            id="awardedby" 
-                            class="form-control" 
-                            #name="ngModel"
-                            placeholder="optional"
-                            [(ngModel)]="model.awardedby" 
-                            name="awardedby"
-                            matInput>
-                    </mat-form-field>
-                </div>
-
-                <!-- Spacer -->
-                <div class="mt-5"></div>
-
-                <div class="form-group">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Date Earned</mat-label>
-                        <input matInput [matDatepicker]="addpicker" 
-                        (dateChange)="onDateChange($event, addpicker, 'award')"
-                        name="awardedon"  
-                        id="awardedon"
-                        class="form-control">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="addpicker"></mat-datepicker-toggle>
-                        <mat-datepicker #addpicker startView="year"></mat-datepicker>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="ml-15">
-                        <mat-label>Expires</mat-label>
-                        <input matInput [matDatepicker]="addpickerexp" 
-                        (dateChange)="onDateChange($event, addpickerexp, 'expire')"
-                        name="expireson"  
-                        id="expireson"
-                        class="form-control">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="addpickerexp"></mat-datepicker-toggle>
-                        <mat-datepicker #addpickerexp startView="year"></mat-datepicker>
-                    </mat-form-field>
-                </div>
-
-                <!-- Spacer -->
-                <div class="mt-5"></div>
-
-                <!-- Actions -->
-                <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-
-                    <button  
-                        (click)="onHideAddForm(); addItemForm.resetForm(); editItemForm.resetForm();"
-                        class="ml-4"
-                        mat-stroked-button
-                        type="button"
-                        [color]="'primary'">
-                        Cancel
-                    </button>
-
-                    <button  
-                        (click)="onAdd(); addItemForm.resetForm(); editItemForm.resetForm();"
-                        [disabled]="!addItemForm.form.valid" 
-                        class="ml-4"
-                        mat-flat-button
-                        type="button"
-                        [color]="'primary'">
-                        Submit Certification/License
-                    </button>
-    
-                </div>
-
-            </form>
-
-        </fuse-card>
-    </div>
-
-    <!-- Edit Form -->
-    <div [hidden]="!showedititem">
-        <fuse-card class="flex flex-col w-full p-8 filter-info mb-3 drop-shadow-lg bg-orange-50">
-            <h2 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-5">
-                Edit Certification or License
-            </h2>
-
-            <form #editItemForm="ngForm">
-                <div class="form-group">
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Certification/License Name</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'feather:file-text'"
-                        matPrefix></mat-icon>
-                        <input type="text"
-                        id="name" 
-                        class="form-control" 
-                        placeholder="Start Typing for Suggestions" 
-                        #name="ngModel"
-                        [(ngModel)]="model.name" 
-                        name="name"
-                        [matAutocomplete]="autocomedit"
-                        (ngModelChange)="applyFilter($event)"
-                        required
-                        matInput>
-                        <mat-autocomplete #autocomedit="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredData" [value]="option">
-                                {{option}}
-                            </mat-option>
-                        </mat-autocomplete>
-                </mat-form-field>
-
-                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-                    <span style="color:red;">Name is required</span>
-                </div>
-                </div>
-
-                <!-- Spacer -->
-                <div class="mt-5"></div>
-
-                <div class="form-group">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Description</mat-label>
-                    <mat-icon
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_outline:annotation'"
-                        matPrefix></mat-icon>
-                        <textarea type="text"
-                        id="description" 
-                        class="form-control" 
-                        #name="ngModel"
-                        placeholder="optional"
-                        [(ngModel)]="model.description" 
-                        name="description"
-                        matInput>
-                        </textarea>
-                </mat-form-field>
-                </div>
-
-                <!-- Spacer -->
-                <div class="mt-5"></div>
-
-                <div class="form-group">
-                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                        <mat-label>Awarded By</mat-label>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:users'"
-                            matPrefix></mat-icon>
-                            <input type="text"
-                            id="awardedby" 
-                            class="form-control" 
-                            #name="ngModel"
-                            placeholder="optional"
-                            [(ngModel)]="model.awardedby" 
-                            name="awardedby"
-                            matInput>
-                    </mat-form-field>
-
-                </div>
-
-                <!-- Spacer -->
-                <div class="mt-5"></div>
-                
-                <div class="form-group">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Earned {{model.awardedon| date: 'MM/dd/yyyy'}}</mat-label>
-                        <input matInput [matDatepicker]="editpicker" 
-                        (dateChange)="onDateChange($event, editpicker, 'award')"
-                        name="awardedon"  
-                        id="awardedon"
-                        class="form-control">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="editpicker"></mat-datepicker-toggle>
-                        <mat-datepicker #editpicker startView="year"></mat-datepicker>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="ml-15">
-                        <mat-label>Expires {{model.expireson| date: 'MM/dd/yyyy'}}</mat-label>
-                        <input matInput [matDatepicker]="editpickerexp" 
-                        (dateChange)="onDateChange($event, editpickerexp, 'expire')"
-                        name="expireson"  
-                        id="expireson"
-                        class="form-control">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matSuffix [for]="editpickerexp"></mat-datepicker-toggle>
-                        <mat-datepicker #editpickerexp startView="year"></mat-datepicker>
-                    </mat-form-field>
-                </div>
-                
-                <div class="float-right text-right mt-3">
-                created:{{model.created | date: 'MM/dd/yy h:mm a'}}
-                <br />
-                modified:{{model.modified | date: 'MM/dd/yy h:mm a'}}
-                </div>
-
-                <!-- Spacer -->
-                <div class="mt-5"></div>
-
-                <!-- Actions -->
-                <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-
-                    <button  
-                        (click)="onHideEditForm(); editItemForm.resetForm(); addItemForm.resetForm()"
-                        class="ml-4"
-                        mat-stroked-button
-                        type="button"
-                        [color]="'primary'">
-                        Cancel
-                    </button>
-
-                    <button  
-                        (click)="onEdit(model.key); editItemForm.resetForm(); addItemForm.resetForm()"
-                        [disabled]="!editItemForm.form.valid" 
-                        class="ml-4"
-                        mat-flat-button
-                        type="button"
-                        [color]="'primary'">
-                        Accept Edits
-                    </button>
-    
-                </div>
-
-            </form>
-        </fuse-card>
-    </div>
-
-    <!-- Table View -->
-    <table mat-table [dataSource]="items | async" class="mat-elevation-z8 w-full" [hidden]="showadditem||showedititem">
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let item"> {{item.payload.val().name}} </td>
-        </ng-container>
-
-        <!-- Description Column -->
-        <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef> Desription </th>
-            <td mat-cell *matCellDef="let item"> {{item.payload.val().description}} </td>
-        </ng-container>
-
-        <!-- Created Column -->
-        <ng-container matColumnDef="created">
-            <th mat-header-cell *matHeaderCellDef> Created </th>
-            <td mat-cell *matCellDef="let item"> {{item.payload.val().created | date: 'MM/dd/yy h:mm a'}} </td>
-        </ng-container>
-
-        <!-- Delete Column -->
-        <ng-container matColumnDef="delete">
-            <th mat-header-cell  *matHeaderCellDef > </th>
-            <td mat-cell *matCellDef="let item" >
-                <button mat-mini-fab color="warn" matTooltip="delete" class="mr-2" (click)="openConfirmationDialog(item.key)">
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </td>
-          </ng-container>
-
-        <!-- Edit Column -->
-        <ng-container matColumnDef="edit">
-            <th mat-header-cell  *matHeaderCellDef > </th>
-            <td mat-cell *matCellDef="let item" >
-                <button mat-mini-fab color="basic" matTooltip="edit" (click)="onShowEditForm(item.key)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-            </td>
-          </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <!-- Spacer -->
-    <div class="mt-10"></div>
-
-    <!-- Card View -->
-    <div class="flex flex-wrap items-center">
-        <div [hidden]="showadditem||showedititem">
-            <div class="w-2/4 sm:w-100 mb-5">
-                Add past and present certifications and licenses that you have acquired from granting bodies.
             </div>
-            <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                Card View
-                </h2>  
-                <hr class="w-full border-t my-6">
-            <div class="flex flex-wrap items-center mt-6 sm:mt-0 sm:ml-4">
-        
-                <div *ngFor="let item of items | async">
-                    <!-- Card #38 -->
-                    <fuse-card class="flex flex-col max-w-80 w-full p-8 filter-info mb-3">
-                        <div class="text-2xl font-semibold leading-tight">{{item.payload.val().name}}</div>
-                        <div class="mt-4">
-                            {{item.payload.val().description}}
-                        </div>
-                        <div class="flex items-center mt-4">
-                            <mat-icon
-                                matTooltip="earned"
-                                class="icon-size-5 mr-3"
-                                [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
-                            <span class="leading-none">{{item.payload.val().awardedon | date: 'MM/dd/yy'}}</span>
-                            
-                        </div>
-                        <hr class="w-full border-t my-6">
-                        <div class="flex flex-col">
 
-                            <div class="flex items-center mt-4">
-                                <mat-icon
-                                    matTooltip="created"
-                                    class="icon-size-5 mr-3"
-                                    [svgIcon]="'heroicons_solid:calendar'"></mat-icon>
-                                <span class="leading-none">{{item.payload.val().created | date: 'MM/dd/yy h:mm a'}}</span>                                      
-                            </div>
-                        </div>
-                        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Title -->
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-3xl text-slate-700 font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Certification & Licences
+                </h2>
+            </div>
 
-                            <button mat-mini-fab color="warn" matTooltip="delete" class="mt-8 mr-2" (click)="openConfirmationDialog(item.key)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                            
-                            <button mat-mini-fab color="basic" matTooltip="edit" class="mt-8" (click)="onShowEditForm(item.key)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                        </div>
+        </div>
+
+        <!-- Right Side - Action Buttons -->
+        <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
+
+            <button (click)="onShowAddForm();" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
+                [color]="'primary'">
+                Add Certification
+            </button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto -mt-16 p-0 sm:p-10 shadow bg-card bg-slate-100">
+
+        <!-- CONTENT GOES HERE -->
+        <div class="flex justify-center h-full">
+
+            <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
+            <div class="flex-initial w-[1400px]">
+
+                <!-- Switch Code to Control ViewState -->
+                <div [ngSwitch]="viewState">
+
+                    <!-- LOADING VIEW STATE -->
+                    <div *ngSwitchCase="0">
+                        LOADING....
+                    </div>
+
+                    <!-- SHOW LIST VIEW STATE -->
+                    <div *ngSwitchCase="1">
+
+                        <!-- Cert List Area (default) -->
+                        <!-- ------------------------ -->
+
+                        <!-- Certification List -->
+                        <div class="flex justify-center flex-wrap mt-5">
+
+                            <!-- Certification Container -->
+                            <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
+
+                                <!-- Certifciation Card -->
+                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
+
+                                    <!-- Cert Card - inner border -->
+                                    <div class="flex flex-col h-full relative border-8 border-gray-100">
+
+                                        <!-- Top Flex Row -->
+                                        <div class="flex-none">
+
+                                             <!--Flex Container for the Top Row -->
+                                            <div class="flex items-center">
+
+                                                <!-- Awarded On -->
+                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
+                                                    Awarded On: {{item.payload.val().awardedon | date: 'MM/dd/yy'}} 
+                                                </div>
+
+                                                <!-- Ribbon Icon -->
+                                                <div class="flex-none text-center">
+                                                    <img class="h-14 relative -mt-7"
+                                                        src="assets/images/ui/cert-ribbon.svg">
+                                                </div>
                                                 
-                    </fuse-card>
+                                                <!-- Expires On -->
+                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
+                                                    Expires On: {{item.payload.val().expireson | date: 'MM/dd/yy'}}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Middle Flex Row -->
+                                        <div class="flex-auto">
+                                            <div class="flex flex-col justify-evenly h-full">
+
+                                                <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
+
+                                                <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().awardedby}}</div>
+
+                                                <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
+                                                        style="
+                                                            display: -webkit-box;
+                                                            overflow: hidden;
+                                                            -webkit-line-clamp: 3;
+                                                            -webkit-box-orient: vertical;">
+                                                     {{item.payload.val().description}}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Bottom Flex Row -->
+                                        <div class="flex-none">
+                                            
+                                            <!-- Botton Flex Container -->
+                                            <div class="flex">
+
+                                                <!-- Delete Button -->
+                                                <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                    <button 
+                                                        (click)="onShowDelete(item.key);" 
+                                                        mat-stroked-button 
+                                                        type="button">
+                                                        Delete
+                                                    </button>
+                                                </div>
+
+                                                <!-- Cert Icon -->
+                                                <div class="flex-none">
+                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
+                                                </div>
+
+                                                <!-- Edit Button -->
+                                                <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                    <button (click)="onShowEditForm(item.key);" 
+                                                            mat-flat-button 
+                                                            type="button" 
+                                                            [color]="'primary'">
+                                                                Edit
+                                                    </button>
+                                                   
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                    <!-- SHOW "NO DATA" MESSAGE -->
+                    <div *ngSwitchCase="2">
+                        DUDE.. YOU NEED CERTS.
+                    </div>
+
+                    <!-- "ADD" VIEW STATE -->
+                    <div *ngSwitchCase="3">
+
+                        <!-- Form Container -->
+                        <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
+
+                            <!-- Form Title -->
+                            <div [ngSwitch]="formMode">
+
+                                <h2 *ngSwitchCase="'add'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Add a Certification or License
+                                </h2>
+
+                                <h2 *ngSwitchCase="'edit'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Edit a Certification or License
+                                </h2>
+
+                            </div>
+
+
+                            <!-- Form Start -->
+                            <form #addItemForm="ngForm">
+
+                                <!-- Form Feild - Name -->
+                                <div class="form-group mb-5">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Certification/License Name</mat-label>
+                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:file-text'" matPrefix>
+                                        </mat-icon>
+                                        <input type="text" id="name" class="form-control"
+                                            placeholder="Start Typing for Suggestions" #name="ngModel"
+                                            (ngModelChange)="applyFilter($event)" [(ngModel)]="model.name" name="name"
+                                            [matAutocomplete]="autocomadd" required matInput>
+                                        <mat-autocomplete #autocomadd="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredData" [value]="option">
+                                                {{option}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+
+                                    <!-- Form Feild - Name Error -->
+                                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                                        <span style="color:red;">Name is required</span>
+                                    </div>
+                                </div>
+
+                                <!-- Form Field - Awarded By -->
+                                <div class="form-group mb-5">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Awarded By</mat-label>
+                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:users'" matPrefix></mat-icon>
+                                        <input type="text" id="awardedby" class="form-control" #name="ngModel"
+                                            placeholder="optional" [(ngModel)]="model.awardedby" name="awardedby"
+                                            required matInput>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Form Field Description  -->
+                                <div class="form-group mb-5">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Description (optional)</mat-label>
+                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:annotation'"
+                                            matPrefix></mat-icon>
+                                        <textarea type="text" id="description" class="form-control" #name="ngModel"
+                                            placeholder="What is this Certification or Licence about and why did you get this?"
+                                            [(ngModel)]="model.description" name="description" matInput>
+                                            </textarea>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Form Field - Awarded On -->
+                                <div class="form-group">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Date Earned</mat-label>
+                                        <input matInput [matDatepicker]="addpicker"
+                                            (dateChange)="onDateChange($event, addpicker, 'award')" name="awardedon"
+                                            id="awardedon" required class="form-control">
+                                        <mat-hint>MM/DD/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matSuffix [for]="addpicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #addpicker startView="year"></mat-datepicker>
+                                    </mat-form-field>
+
+                                    <!-- Form Field - Expires On -->
+                                    <mat-form-field appearance="fill" class="ml-15">
+                                        <mat-label>Expires (Optional)</mat-label>
+                                        <input matInput [matDatepicker]="addpickerexp"
+                                            (dateChange)="onDateChange($event, addpickerexp, 'expire')" name="expireson"
+                                            id="expireson" class="form-control">
+                                        <mat-hint>MM/DD/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matSuffix [for]="addpickerexp"></mat-datepicker-toggle>
+                                        <mat-datepicker #addpickerexp startView="year"></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="flex justify-center mt-6">
+
+                                    <button
+                                        (click)="onCancelForm(addItemForm)"
+                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                        Cancel
+                                    </button>
+                                
+                                    <!-- Switch to control Add vs. Edit mode -->
+                                    <div [ngSwitch]="formMode">
+
+                                        <div *ngSwitchCase="'add'" >
+                                            <button 
+                                                (click)="onAdd(addItemForm);"
+                                                [disabled]="!addItemForm.form.valid" 
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Add New Certification/License
+                                            </button>
+                                        </div>
+
+                                        <div *ngSwitchCase="'edit'">
+                                            <button
+                                                (click)="onEdit(model.key);"
+                                                [disabled]="!addItemForm.form.valid" 
+                                                class="flex-none ml-4" mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Edit Certification/License
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <!-- CONFIRM DELETE VIEW STATE -->
+                    <div *ngSwitchCase="4">
+                        DELETE CONF
+                    </div>
+
                 </div>
 
             </div>
@@ -436,9 +337,5 @@
         </div>
 
     </div>
-
-</div>
-
-</div>
 
 </div>
