@@ -226,6 +226,11 @@
                                             placeholder="optional"
                                             matInput>
                                     </mat-form-field>
+                                    
+                                    <div *ngIf="(emailRefreportsto.invalid && emailRefreportsto.touched) || emailRefreportsto.dirty">
+                                        <span style="color:red;" *ngIf="emailRefreportsto.errors?.required">Email address is required</span>
+                                        <span style="color:red;" *ngIf="emailRefreportsto.errors?.pattern">Email address is invalid</span>
+                                    </div>
                                 </div>
 
                                 <!-- Form Field Description  -->

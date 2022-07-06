@@ -11,7 +11,7 @@ export const appRoutes: Route[] = [
 
     // Redirect empty path to '/example'
     // { path: '', pathMatch: 'full', redirectTo: 'home/dashboard' },
-    { path: '', pathMatch: 'full', redirectTo: 'education/certifications-licenses' },
+    { path: '', pathMatch: 'full', redirectTo: 'home/dashboard' },
 
 
     // Redirect signed in user to the '/example'

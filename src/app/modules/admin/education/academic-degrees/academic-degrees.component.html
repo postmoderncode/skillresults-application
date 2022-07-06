@@ -200,8 +200,8 @@
                             <form #addItemForm="ngForm">
 
                                 <!-- Form Field - State -->
-                                <div class="form-group mb-5">
-                                    <mat-form-field appearance="fill" class="min-w-50 mr-5">
+                                <div class="form-group mb-3">
+                                    <mat-form-field appearance="fill" class="min-w-50">
                                         <mat-label>State</mat-label>
                                         <mat-select   
                                         (selectionChange)="onStateChange($event)"
@@ -357,9 +357,6 @@
                                                 {{gradDate}}
                                             </span>
                                             
-                                        
-                                            
-                                        
                                         </mat-label>
                                         <input matInput [matDatepicker]="addpicker" 
                                         (dateChange)="onDateChange($event, addpicker)"
