@@ -74,7 +74,7 @@ export class CertificationsLicensesComponent implements OnInit {
     //Set the View State
     this.viewState = 3;
 
-    //Set teh Form Mode
+    //Set the Form Mode
     this.formMode = "edit";
 
     //Define Observable Item based on the Key

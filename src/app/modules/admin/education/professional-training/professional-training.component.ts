@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -68,7 +68,7 @@ export class ProfessionalTrainingComponent implements OnInit {
     //Set the View State
     this.viewState = 3;
 
-    //Set teh Form Mode
+    //Set the Form Mode
     this.formMode = "edit";
 
     //Define Observable

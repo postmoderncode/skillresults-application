@@ -1,44 +1,281 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
     <!-- Header -->
-<div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
-<div class="flex-1 min-w-0">
-    <!-- Breadcrumbs -->
-    <div>
-        <div class="hidden sm:flex flex-wrap items-center font-medium">
-            <div>
-                <a class="whitespace-nowrap text-primary-500">Skills</a>
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-slate-300">
+        <div class="flex-1 min-w-0">
+
+            <!-- Title -->
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-3xl text-slate-700 font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Talents & Hobbies
+                </h2>
             </div>
-            <div class="flex items-center ml-1 whitespace-nowrap">
-                <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                <a class="ml-1 text-primary-500">Talents</a>
+
+        </div>
+
+        <!-- Right Side - Action Buttons -->
+        <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
+
+            <button (click)="onShowAddForm();" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
+                [color]="'primary'">
+                Add Talent
+            </button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto -mt-16 p-0 sm:p-10 shadow bg-card bg-slate-100">
+
+        <!-- CONTENT GOES HERE -->
+        <div class="flex justify-center h-full">
+
+            <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
+            <div class="flex-initial w-[1400px]">
+
+                <!-- Switch Code to Control ViewState -->
+                <div [ngSwitch]="viewState">
+
+                    <!-- LOADING VIEW STATE -->
+                    <div *ngSwitchCase="0">
+                        LOADING....
+                    </div>
+
+                    <!-- SHOW LIST VIEW STATE -->
+                    <div *ngSwitchCase="1">
+
+                        <!-- Cert List Area (default) -->
+                        <!-- ------------------------ -->
+
+                        <!-- Certification List -->
+                        <div class="flex justify-center flex-wrap mt-5">
+
+                            <!-- Certification Container -->
+                            <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
+
+                                <!-- Certifciation Card -->
+                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
+
+                                    <!-- Cert Card - inner border -->
+                                    <div class="flex flex-col h-full relative border-8 border-gray-100">
+
+                                        <!-- Top Flex Row -->
+                                        <div class="flex-none">
+
+                                             <!--Flex Container for the Top Row -->
+                                            <div class="flex items-center">
+
+                                                <!-- Awarded On -->
+                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
+
+                                                </div>
+
+                                                <!-- Ribbon Icon -->
+                                                <div class="flex-none text-center">
+                                                    <img class="h-14 relative -mt-7"
+                                                        src="assets/images/ui/cert-ribbon.svg">
+                                                </div>
+                                                
+                                                <!-- Expires On -->
+                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
+ 
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Middle Flex Row -->
+                                        <div class="flex-auto">
+                                            <div class="flex flex-col justify-evenly h-full">
+
+                                                <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
+
+                                                <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().awardedby}}</div>
+
+                                                <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
+                                                        style="
+                                                            display: -webkit-box;
+                                                            overflow: hidden;
+                                                            -webkit-line-clamp: 3;
+                                                            -webkit-box-orient: vertical;">
+                                                     {{item.payload.val().description}}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Bottom Flex Row -->
+                                        <div class="flex-none">
+                                            
+                                            <!-- Botton Flex Container -->
+                                            <div class="flex">
+
+                                                <!-- Delete Button -->
+                                                <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                    <button 
+                                                        (click)="onShowDelete(item.key);" 
+                                                        mat-stroked-button 
+                                                        type="button">
+                                                        Delete
+                                                    </button>
+                                                </div>
+
+                                                <!-- Cert Icon -->
+                                                <div class="flex-none">
+                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
+                                                </div>
+
+                                                <!-- Edit Button -->
+                                                <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                    <button (click)="onShowEditForm(item.key);" 
+                                                            mat-flat-button 
+                                                            type="button" 
+                                                            [color]="'primary'">
+                                                                Edit
+                                                    </button>
+                                                   
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                    <!-- SHOW "NO DATA" MESSAGE -->
+                    <div *ngSwitchCase="2">
+                        DUDE.. YOU NEED TALENTS.
+                    </div>
+
+                    <!-- "ADD" VIEW STATE -->
+                    <div *ngSwitchCase="3">
+
+                        <!-- Form Container -->
+                        <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
+
+                            <!-- Form Title -->
+                            <div [ngSwitch]="formMode">
+
+                                <h2 *ngSwitchCase="'add'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Add Talent
+                                </h2>
+
+                                <h2 *ngSwitchCase="'edit'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Edit Talent
+                                </h2>
+
+                            </div>
+
+
+                            <!-- Form Start -->
+                            <form #addItemForm="ngForm">
+
+                                <!-- Form Feild - Name -->
+                                <div class="form-group mb-5">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Talent Name</mat-label>
+                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:file-text'" matPrefix>
+                                        </mat-icon>
+                                        <input type="text" id="name" class="form-control"
+                                            #name="ngModel" [(ngModel)]="model.name" 
+                                            name="name" required matInput>
+                                    </mat-form-field>
+
+                                    <!-- Form Feild - Name Error -->
+                                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                                        <span style="color:red;">Name is required</span>
+                                    </div>
+                                </div>
+
+                                <!-- Form Field Description  -->
+                                <div class="form-group mb-5">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Description (optional)</mat-label>
+                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:annotation'"
+                                            matPrefix></mat-icon>
+                                        <textarea type="text" id="description" class="form-control" #name="ngModel"
+                                            placeholder="What is this Talent or Hobby about?"
+                                            [(ngModel)]="model.description" name="description" matInput>
+                                            </textarea>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="flex justify-center mt-6">
+
+                                    <button
+                                        (click)="onCancelForm(addItemForm)"
+                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                        Cancel
+                                    </button>
+                                
+                                    <!-- Switch to control Add vs. Edit mode -->
+                                    <div [ngSwitch]="formMode">
+
+                                        <div *ngSwitchCase="'add'" >
+                                            <button 
+                                                (click)="onAdd(addItemForm);"
+                                                [disabled]="!addItemForm.form.valid" 
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Add New Talent
+                                            </button>
+                                        </div>
+
+                                        <div *ngSwitchCase="'edit'">
+                                            <button
+                                                (click)="onEdit(model.key);"
+                                                [disabled]="!addItemForm.form.valid" 
+                                                class="flex-none ml-4" mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Edit Talent
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <!-- CONFIRM DELETE VIEW STATE -->
+                    <div *ngSwitchCase="4">
+                        DELETE CONF
+                    </div>
+
+                </div>
+
             </div>
-            <div class="flex items-center ml-1 whitespace-nowrap">
-                <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                <span class="ml-1 text-secondary">Overview</span>
-            </div>
+
         </div>
 
     </div>
-    <!-- Title -->
-    <div class="mt-2">
-        <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-            Talents & Hobbies
-        </h2>
-    </div>
-</div>
-</div>
-
-
-<!-- Main -->
-<div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
-
-<!-- CONTENT GOES HERE -->
-<div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl"></div>
-
-
 
 </div>
-
-</div>
-
