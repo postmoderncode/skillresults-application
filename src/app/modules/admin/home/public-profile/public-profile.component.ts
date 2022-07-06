@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 @Component({
   selector: 'app-public-profile',
@@ -7,9 +8,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PublicProfileComponent implements OnInit {
 
-  constructor() { }
+  //Constructor
+  //---------------------
+  constructor(
+    public db: AngularFireDatabase
+  ) { }
+
+  //Initialize Variables
+  //---------------------
+
+  //Current User
+  fbuser = JSON.parse(localStorage.getItem('fbuser'));
+
+  //Firebase Observables
+  user;
+
+
+  //Functions
+  //---------------------
 
   ngOnInit(): void {
+
+    this.db.object('/users/' + this.fbuser.id)
+      .valueChanges().subscribe(
+        (results: any[]) => {
+          console.log(results);
+          this.user = results;
+        }
+
+      );
   }
 
 }
