@@ -11,7 +11,7 @@ export const appRoutes: Route[] = [
 
     // Redirect empty path to '/example'
     // { path: '', pathMatch: 'full', redirectTo: 'home/dashboard' },
-    {path: '', pathMatch : 'full', redirectTo: 'education/certifications-licenses'},
+    { path: '', pathMatch: 'full', redirectTo: 'education/certifications-licenses' },
 
 
     // Redirect signed in user to the '/example'
@@ -94,7 +94,6 @@ export const appRoutes: Route[] = [
             {
                 path: 'skills', children: [
                     { path: 'my-skills', loadChildren: () => import('app/modules/admin/skills/my-skills/my-skills.module').then(m => m.MySkillsModule) },
-                    { path: 'add-skills', loadChildren: () => import('app/modules/admin/skills/add-skills/add-skills.module').then(m => m.AddSkillsModule) },
                     { path: 'skill-wishlist', loadChildren: () => import('app/modules/admin/skills/skill-wishlist/skill-wishlist.module').then(m => m.SkillWishlistModule) },
                     { path: 'talents-hobbies', loadChildren: () => import('app/modules/admin/skills/talents-hobbies/talents-hobbies.module').then(m => m.TalentsHobbiesModule) },
                 ]

@@ -1,110 +1,125 @@
 {
-    "rules": {
-      
-      "users": {
-        ".indexOn": ["name","email"],
-        ".read": "auth !== null",
-          "$id": {
-              ".read": "auth !== null",
-              ".write": "$id == auth.uid" 
-                }  
-          },
-          
-        "awards": {
-        ".read": "auth !== null",
-          "$id": {
-              ".read": "auth !== null",
-              ".write": "$id == auth.uid" 
-                }  
-          },
-  
-        "certifications": {
-        ".read": "auth !== null",
-          "$id": {
-              ".read": "auth !== null",
-              ".write": "$id == auth.uid" 
-                }  
-          },
-  
-        "certnames": {
+  "rules": {
+    
+    "users": {
+      ".indexOn": ["name","email"],
+      ".read": "auth !== null",
+        "$id": {
             ".read": "auth !== null",
-            "$uid": {
-                ".write": "$uid !== null"
-            }
-  
+            ".write": "$id == auth.uid" 
+              }  
         },
-          
-      "counts": {
-        ".read": "auth !== null",
-          "$id": {
-              ".read": "auth !== null",
-              ".write": "$id == auth.uid" 
-                }  
-          },
-            
-        "degrees": {
+        
+      "awards": {
+      ".read": "auth !== null",
+        "$id": {
             ".read": "auth !== null",
-            "$uid": {
-                ".write": "$uid !== null"
-            }
-  
+            ".write": "$id == auth.uid" 
+              }  
         },
-            
-      "degreelevels": {
-        ".read": "auth !== null",
-        ".write": "auth !== null"
-          },
-            
-            
-      "degreetypes": {
-        ".read": "auth !== null",
-        ".write": "auth !== null"
-          },
-            
-      "institutions": {
-        ".indexOn": "state",
-        ".read": "auth !== null",
-        ".write": "auth !== null"
-          },
-            
-      "positions": {
-        ".read": "auth !== null",
-        ".write": "auth !== null"
-          },
-            
-            
-        "skillcatalog": {
+
+      "certifications": {
+      ".read": "auth !== null",
+        "$id": {
             ".read": "auth !== null",
-            "$uid": {
-                ".write": "$uid !== null",
-         
-              "catagories": {
-              ".indexOn": "area"
-              },
-              
-              "skills": {
-              ".indexOn": ["category", "value"] 
-              },      
-              
-            }
-  
+            ".write": "$id == auth.uid" 
+              }  
         },
-          
-        "talents": {
-            ".read": "auth !== null",
-            "$uid": {
-                ".write": "$uid !== null"
-            }
-  
-        },
-  
-        "training": {
-        ".read": "auth !== null",
-          "$id": {
-              ".read": "auth !== null",
-              ".write": "auth !== null" 
-                }  
+
+      "certnames": {
+          ".read": "auth !== null",
+          "$uid": {
+              ".write": "$uid !== null"
           }
-  
-    }
+
+      },
+        
+    "counts": {
+      ".read": "auth !== null",
+        "$id": {
+            ".read": "auth !== null",
+            ".write": "$id == auth.uid" 
+              }  
+        },
+          
+    "customs": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+          
+      "degrees": {
+          ".read": "auth !== null",
+          "$uid": {
+              ".write": "$uid !== null"
+          }
+
+      },
+          
+    "degreelevels": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+          
+          
+    "degreetypes": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+          
+    "institutions": {
+      ".indexOn": "state",
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+          
+    "positions": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+          
+          
+      "skillcatalog": {
+          ".read": "auth !== null",
+          "$uid": {
+              ".write": "$uid !== null",
+       
+            "catagories": {
+            ".indexOn": "area"
+            },
+            
+            "skills": {
+            ".indexOn": ["category", "value"] 
+            }      
+            
+          }
+
+      },
+
+      "skills": {
+        ".read": "auth !== null",
+        ".write": "auth !== null"
+          },
+        
+      "talents": {
+          ".read": "auth !== null",
+          "$uid": {
+              ".write": "$uid !== null"
+          }
+
+      },
+
+      "training": {
+      ".read": "auth !== null",
+        "$id": {
+            ".read": "auth !== null",
+            ".write": "auth !== null" 
+              }  
+        },
+    
+    "wishlists": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        }
+
   }
+}
