@@ -10,16 +10,8 @@ import { Observable, combineLatest, map } from 'rxjs';
   templateUrl: './skill-catalog.component.html',
   styleUrls: ['./skill-catalog.component.scss']
 })
+
 export class SkillCatalogComponent implements OnInit {
-
-  //Constructor
-  //---------------------
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _fuseConfirmationService: FuseConfirmationService,
-    public db: AngularFireDatabase
-  ) { }
-
 
   //Initialize Variables
   //-------------------
@@ -54,6 +46,16 @@ export class SkillCatalogComponent implements OnInit {
   //General Component Variables
   selectedIndex = 0;
   tabTitle = 'Area';
+
+
+  //Constructor
+  //---------------------
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _fuseConfirmationService: FuseConfirmationService,
+    public db: AngularFireDatabase
+  ) { }
+
 
 
   //Functions
@@ -110,7 +112,7 @@ export class SkillCatalogComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],
@@ -153,7 +155,7 @@ export class SkillCatalogComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],
@@ -358,7 +360,7 @@ export class SkillCatalogComponent implements OnInit {
     }
     else if (this.tabTitle.toLowerCase() === 'category') {
 
-      //Is this a new custom or a renamed master  
+      //Is this a new custom or a renamed master
       if (obj.customs[0]?.payload.val().customtype === 'new' || obj.customs[0]?.payload.val().customtype === 'rename') {
         //Define Observable
         this.item = this.db.object('/customs/categories/' + key).valueChanges();
@@ -410,7 +412,7 @@ export class SkillCatalogComponent implements OnInit {
       type = this.tabTitle.toLowerCase() + 's';
     }
 
-    //If Hidden Exists, Delete. Otherwise set Hidden 
+    //If Hidden Exists, Delete. Otherwise set Hidden
     this.db.object('/customs/' + type + '/' + key + '/hidden')
       .query.ref.transaction((hidden) => {
         if (hidden === true) {
@@ -453,7 +455,7 @@ export class SkillCatalogComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],

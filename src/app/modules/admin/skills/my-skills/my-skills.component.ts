@@ -10,18 +10,8 @@ import { Observable, combineLatest, map } from 'rxjs';
   templateUrl: './my-skills.component.html',
   styleUrls: ['./my-skills.component.scss']
 })
+
 export class MySkillsComponent implements OnInit {
-
-
-  //Constructor
-  //---------------------
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _fuseConfirmationService: FuseConfirmationService,
-    public db: AngularFireDatabase
-  ) { }
-
-
 
   //Initialize Variables
   //---------------------
@@ -65,6 +55,15 @@ export class MySkillsComponent implements OnInit {
   qresults1;
   qresults2;
   qresults3;
+
+
+  //Constructor
+  //---------------------
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _fuseConfirmationService: FuseConfirmationService,
+    public db: AngularFireDatabase
+  ) { }
 
 
   //Functions
@@ -167,7 +166,7 @@ export class MySkillsComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],
@@ -212,7 +211,7 @@ export class MySkillsComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],
@@ -391,7 +390,7 @@ export class MySkillsComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],

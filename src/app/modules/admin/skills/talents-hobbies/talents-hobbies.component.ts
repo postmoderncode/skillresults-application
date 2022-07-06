@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -11,15 +10,8 @@ import { Observable } from 'rxjs';
   templateUrl: './talents-hobbies.component.html',
   styleUrls: ['./talents-hobbies.component.scss']
 })
-export class TalentsHobbiesComponent implements OnInit {
 
-  //Constructor
-  //---------------------
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _fuseConfirmationService: FuseConfirmationService,
-    public db: AngularFireDatabase
-  ) { }
+export class TalentsHobbiesComponent implements OnInit {
 
   //Initialize Variables
   //---------------------
@@ -31,7 +23,7 @@ export class TalentsHobbiesComponent implements OnInit {
   viewState = 0;
 
   //Form Mode State (Add vs. Edit Mode)
-  formMode = "";
+  formMode = '';
 
   //Container to hold a list of items
   items: object;
@@ -48,6 +40,14 @@ export class TalentsHobbiesComponent implements OnInit {
   //Empty Model
   model = new Talent();
 
+  //Constructor
+  //---------------------
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _fuseConfirmationService: FuseConfirmationService,
+    public db: AngularFireDatabase
+  ) { }
+
   //Functions
   //---------------------
 
@@ -58,7 +58,7 @@ export class TalentsHobbiesComponent implements OnInit {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = "add";
+    this.formMode = 'add';
   }
 
   //Fuction - Show the Edit Form
@@ -68,7 +68,7 @@ export class TalentsHobbiesComponent implements OnInit {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = "edit";
+    this.formMode = 'edit';
 
     //Define Observable
     this.item = this.db.object('/users/' + this.fbuser.id + '/talents/' + key).valueChanges();
@@ -80,7 +80,7 @@ export class TalentsHobbiesComponent implements OnInit {
 
   }
 
-  //Function - Show the Delete Conf. 
+  //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
     //Open the dialog and save the reference of it
@@ -170,22 +170,22 @@ export class TalentsHobbiesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    //Call the Firebase Database and get the initial data. 
+    //Call the Firebase Database and get the initial data.
     this.db.list('/users/' + this.fbuser.id + '/talents').snapshotChanges().subscribe(
       (results: object) => {
 
-        //Put the results of the DB call into an object. 
+        //Put the results of the DB call into an object.
         this.items = results;
 
         console.log(this.items);
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
-          //It's empty, so set the view state to "No Data" mode. 
+          //It's empty, so set the view state to "No Data" mode.
           this.viewState = 2;
         }
         else {
-          //It's not empty, so set the view state to "Show Data" mode. 
+          //It's not empty, so set the view state to "Show Data" mode.
           this.viewState = 1;
         };
 

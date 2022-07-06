@@ -11,15 +11,8 @@ import { Observable } from 'rxjs';
   templateUrl: './professional-training.component.html',
   styleUrls: ['./professional-training.component.scss']
 })
-export class ProfessionalTrainingComponent implements OnInit {
 
-  //Constructor
-  //---------------------
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _fuseConfirmationService: FuseConfirmationService,
-    public db: AngularFireDatabase
-  ) { }
+export class ProfessionalTrainingComponent implements OnInit {
 
   //Initialize Variables
   //---------------------
@@ -31,7 +24,7 @@ export class ProfessionalTrainingComponent implements OnInit {
   viewState = 0;
 
   //Form Mode State (Add vs. Edit Mode)
-  formMode = "";
+  formMode = '';
 
   //Container to hold a list of items
   items: object;
@@ -49,6 +42,14 @@ export class ProfessionalTrainingComponent implements OnInit {
   model = new Training();
 
 
+  //Constructor
+  //---------------------
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _fuseConfirmationService: FuseConfirmationService,
+    public db: AngularFireDatabase
+  ) { }
+
   //Functions
   //---------------------
 
@@ -59,7 +60,7 @@ export class ProfessionalTrainingComponent implements OnInit {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = "add";
+    this.formMode = 'add';
   }
 
   //Fuction - Show the Edit Form
@@ -69,7 +70,7 @@ export class ProfessionalTrainingComponent implements OnInit {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = "edit";
+    this.formMode = 'edit';
 
     //Define Observable
     this.item = this.db.object('/users/' + this.fbuser.id + '/training/' + key).valueChanges();
@@ -81,7 +82,7 @@ export class ProfessionalTrainingComponent implements OnInit {
 
   }
 
-  //Function - Show the Delete Conf. 
+  //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
     //Open the dialog and save the reference of it
@@ -181,22 +182,22 @@ export class ProfessionalTrainingComponent implements OnInit {
 
   ngOnInit(): void {
 
-    //Call the Firebase Database and get the initial data. 
+    //Call the Firebase Database and get the initial data.
     this.db.list('/users/' + this.fbuser.id + '/training').snapshotChanges().subscribe(
       (results: object) => {
 
-        //Put the results of the DB call into an object. 
+        //Put the results of the DB call into an object.
         this.items = results;
 
         console.log(this.items);
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
-          //It's empty, so set the view state to "No Data" mode. 
+          //It's empty, so set the view state to "No Data" mode.
           this.viewState = 2;
         }
         else {
-          //It's not empty, so set the view state to "Show Data" mode. 
+          //It's not empty, so set the view state to "Show Data" mode.
           this.viewState = 1;
         };
 

@@ -6,13 +6,8 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
 
-  //Constructor
-  //---------------------
-  constructor(
-    public db: AngularFireDatabase
-  ) { }
+export class DashboardComponent implements OnInit {
 
   //Initialize Variables
   //---------------------
@@ -22,6 +17,13 @@ export class DashboardComponent implements OnInit {
 
   //Firebase Observables
   counts;
+
+
+  //Constructor
+  //---------------------
+  constructor(
+    public db: AngularFireDatabase
+  ) { }
 
 
   //Functions

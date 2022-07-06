@@ -6,13 +6,8 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
   templateUrl: './public-profile.component.html',
   styleUrls: ['./public-profile.component.scss']
 })
-export class PublicProfileComponent implements OnInit {
 
-  //Constructor
-  //---------------------
-  constructor(
-    public db: AngularFireDatabase
-  ) { }
+export class PublicProfileComponent implements OnInit {
 
   //Initialize Variables
   //---------------------
@@ -22,6 +17,13 @@ export class PublicProfileComponent implements OnInit {
 
   //Firebase Observables
   user;
+
+
+  //Constructor
+  //---------------------
+  constructor(
+    public db: AngularFireDatabase
+  ) { }
 
 
   //Functions

@@ -11,15 +11,8 @@ import { Observable } from 'rxjs';
   templateUrl: './awards-accolades.component.html',
   styleUrls: ['./awards-accolades.component.scss']
 })
-export class AwardsAccoladesComponent implements OnInit {
 
-  //Constructor
-  //---------------------
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _fuseConfirmationService: FuseConfirmationService,
-    public db: AngularFireDatabase
-  ) { }
+export class AwardsAccoladesComponent implements OnInit {
 
   //Initialize Variables
   //---------------------
@@ -31,7 +24,7 @@ export class AwardsAccoladesComponent implements OnInit {
   viewState = 0;
 
   //Form Mode State (Add vs. Edit Mode)
-  formMode = "";
+  formMode = '';
 
   //Container to hold a list of items
   items: object;
@@ -48,6 +41,16 @@ export class AwardsAccoladesComponent implements OnInit {
   //Empty Model
   model = new Award();
 
+
+  //Constructor
+  //---------------------
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _fuseConfirmationService: FuseConfirmationService,
+    public db: AngularFireDatabase
+  ) { }
+
+
   //Functions
   //---------------------
 
@@ -58,7 +61,7 @@ export class AwardsAccoladesComponent implements OnInit {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = "add";
+    this.formMode = 'add';
   }
 
   //Fuction - Show the Edit Form
@@ -68,7 +71,7 @@ export class AwardsAccoladesComponent implements OnInit {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = "edit";
+    this.formMode = 'edit';
 
     //Define Observable
     this.item = this.db.object('/users/' + this.fbuser.id + '/awards/' + key).valueChanges();
@@ -80,7 +83,7 @@ export class AwardsAccoladesComponent implements OnInit {
 
   }
 
-  //Function - Show the Delete Conf. 
+  //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
     //Open the dialog and save the reference of it
@@ -180,22 +183,22 @@ export class AwardsAccoladesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    //Call the Firebase Database and get the initial data. 
+    //Call the Firebase Database and get the initial data.
     this.db.list('/users/' + this.fbuser.id + '/awards').snapshotChanges().subscribe(
       (results: object) => {
 
-        //Put the results of the DB call into an object. 
+        //Put the results of the DB call into an object.
         this.items = results;
 
         console.log(this.items);
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
-          //It's empty, so set the view state to "No Data" mode. 
+          //It's empty, so set the view state to "No Data" mode.
           this.viewState = 2;
         }
         else {
-          //It's not empty, so set the view state to "Show Data" mode. 
+          //It's not empty, so set the view state to "Show Data" mode.
           this.viewState = 1;
         };
 
