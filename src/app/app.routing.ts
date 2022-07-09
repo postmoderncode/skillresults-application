@@ -94,7 +94,6 @@ export const appRoutes: Route[] = [
             {
                 path: 'skills', children: [
                     { path: 'my-skills', loadChildren: () => import('app/modules/admin/skills/my-skills/my-skills.module').then(m => m.MySkillsModule) },
-                    { path: 'skill-wishlist', loadChildren: () => import('app/modules/admin/skills/skill-wishlist/skill-wishlist.module').then(m => m.SkillWishlistModule) },
                     { path: 'talents-hobbies', loadChildren: () => import('app/modules/admin/skills/talents-hobbies/talents-hobbies.module').then(m => m.TalentsHobbiesModule) },
                 ]
             },
@@ -125,6 +124,12 @@ export const appRoutes: Route[] = [
                     { path: 'skill-catalog', loadChildren: () => import('app/modules/admin/administration/skill-catalog/skill-catalog.module').then(m => m.SkillCatalogModule) },
                     { path: 'positions', loadChildren: () => import('app/modules/admin/administration/positions/positions.module').then(m => m.PositionsModule) }
                 ]
+            },
+            // Wishklist Areas
+            {
+
+                path: 'wishlist', loadChildren: () => import('app/modules/admin/wishlist/wishlist.module').then(m => m.WishlistModule),
+
             },
             { path: '**', redirectTo: '/' },
         ]

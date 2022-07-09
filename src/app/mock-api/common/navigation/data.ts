@@ -23,6 +23,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'feather:user',
                 link: 'home/public-profile'
             },
+            {
+                id: 'wishlist',
+                title: 'Wishlist',
+                type: 'basic',
+                icon: 'heroicons_outline:sparkles',
+                link: 'wishlist'
+            },
         ]
     },
     {
@@ -37,13 +44,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'feather:send',
                 link: 'skills/my-skills'
-            },
-            {
-                id: 'skill-wishlist',
-                title: 'Skill Wishlist',
-                type: 'basic',
-                icon: 'heroicons_outline:sparkles',
-                link: 'skills/skill-wishlist'
             },
             {
                 id: 'talents-hobbies',
@@ -176,11 +176,11 @@ export const compactNavigation: FuseNavigationItem[] = [
                 link: 'home/public-profile'
             },
             {
-                id: 'my-settings',
-                title: 'My Settings',
+                id: 'wishlist',
+                title: 'Wishlist',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
-                link: 'home/my-settings'
+                icon: 'heroicons_outline:sparkles',
+                link: 'wishlist'
             }
         ]
     },
@@ -331,6 +331,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:user-circle',
                 link: 'home/public-profile'
+            },
+            {
+                id: 'wishlist',
+                title: 'Wishlist',
+                type: 'basic',
+                icon: 'heroicons_outline:sparkles',
+                link: 'wishlist'
             }
         ]
     },
@@ -345,13 +352,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
                 link: 'skills/my-skills'
-            },
-            {
-                id: 'skill-wishlist',
-                title: 'Skill Wishlist',
-                type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
-                link: 'skills/skill-wishlist'
             },
             {
                 id: 'talents-hobbies',
@@ -480,12 +480,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 link: 'home/public-profile'
             },
             {
-                id: 'my-settings',
-                title: 'My Settings',
+                id: 'wishlist',
+                title: 'Wishlist',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
-                link: 'home/my-settings'
-            }
+                icon: 'heroicons_outline:sparkles',
+                link: 'wishlist'
+            },
         ]
     },
     {
