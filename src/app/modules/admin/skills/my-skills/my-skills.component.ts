@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Observable, Subject, combineLatest, map } from 'rxjs';
 
 
 @Component({
@@ -10,14 +10,16 @@ import { Observable, combineLatest, map } from 'rxjs';
   templateUrl: './my-skills.component.html',
   styleUrls: ['./my-skills.component.scss']
 })
+export class MySkillsComponent implements OnInit, OnDestroy {
 
-export class MySkillsComponent implements OnInit {
-
-  //Initialize Variables
-  //---------------------
+  //Initialize Varables
+  //-------------------
 
   //Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
+
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Confirmation Dialog
   dialogconfigForm: FormGroup;
@@ -56,18 +58,14 @@ export class MySkillsComponent implements OnInit {
   qresults2;
   qresults3;
 
-
-  //Constructor
-  //---------------------
+  /**
+   * Constructor
+   */
   constructor(
     private _formBuilder: FormBuilder,
     private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
-
-
-  //Functions
-  //---------------------
 
   //Function to Handle the Back Arrow
   goback(): void {
@@ -166,7 +164,7 @@ export class MySkillsComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    );
+    )
 
     combineLatest(
       [merged, customs],
@@ -211,7 +209,7 @@ export class MySkillsComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    );
+    )
 
     combineLatest(
       [merged, customs],
@@ -377,6 +375,13 @@ export class MySkillsComponent implements OnInit {
     });
   }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * On init
+   */
   ngOnInit(): void {
 
     //Populate Areas - Firebase List Object
@@ -390,7 +395,7 @@ export class MySkillsComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    );
+    )
 
     combineLatest(
       [merged, customs],
@@ -434,7 +439,20 @@ export class MySkillsComponent implements OnInit {
 
   }
 
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+  }
+
 }
+
+// -----------------------------------------------------------------------------------------------------
+// @ Models
+// -----------------------------------------------------------------------------------------------------
 
 // Empty UserSkill class
 export class UserSkill {
@@ -462,4 +480,3 @@ export class CatalogState {
   ) { }
 
 }
-

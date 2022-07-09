@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-talents-hobbies',
@@ -11,13 +11,16 @@ import { Observable } from 'rxjs';
   styleUrls: ['./talents-hobbies.component.scss']
 })
 
-export class TalentsHobbiesComponent implements OnInit {
+export class TalentsHobbiesComponent implements OnInit, OnDestroy {
 
   //Initialize Variables
   //---------------------
 
   //Scroll element
   @ViewChild(CdkScrollable) cdkScrollable: CdkScrollable;
+
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Page View State (Default is "Loading..")
   viewState = 0;
@@ -168,6 +171,13 @@ export class TalentsHobbiesComponent implements OnInit {
     this.viewState = 1;
   }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * On init
+   */
   ngOnInit(): void {
 
     //Call the Firebase Database and get the initial data.
@@ -217,7 +227,20 @@ export class TalentsHobbiesComponent implements OnInit {
 
   }
 
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+  }
+
 }
+
+// -----------------------------------------------------------------------------------------------------
+// @ Models
+// -----------------------------------------------------------------------------------------------------
 
 // Empty Talent class
 export class Talent {

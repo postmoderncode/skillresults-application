@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-certifications-licenses',
@@ -11,10 +11,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./certifications-licenses.component.scss'],
 })
 
-export class CertificationsLicensesComponent implements OnInit {
+export class CertificationsLicensesComponent implements OnInit, OnDestroy {
 
   //Initialize Variables
   //---------------------
+
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Page View State (Default is "Loading..")
   viewState = 0;
@@ -195,6 +198,13 @@ export class CertificationsLicensesComponent implements OnInit {
     }
   }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * On init
+   */
   ngOnInit(): void {
 
     //Call the Firebase Database and get the initial data.
@@ -244,8 +254,20 @@ export class CertificationsLicensesComponent implements OnInit {
 
   }
 
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+  }
+
 }
 
+// -----------------------------------------------------------------------------------------------------
+// @ Models
+// -----------------------------------------------------------------------------------------------------
 
 // Empty Certification class
 export class Certification {
@@ -264,7 +286,3 @@ export class Certification {
   ) { }
 
 }
-
-
-
-

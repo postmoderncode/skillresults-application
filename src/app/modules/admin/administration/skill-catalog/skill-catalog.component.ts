@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Observable, Subject, combineLatest, map } from 'rxjs';
 
 
 @Component({
@@ -10,14 +10,16 @@ import { Observable, combineLatest, map } from 'rxjs';
   templateUrl: './skill-catalog.component.html',
   styleUrls: ['./skill-catalog.component.scss']
 })
+export class SkillCatalogComponent implements OnInit, OnDestroy {
 
-export class SkillCatalogComponent implements OnInit {
-
-  //Initialize Variables
+  //Initialize Varables
   //-------------------
 
   //Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
+
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Confirmation Dialog
   dialogconfigForm: FormGroup;
@@ -47,20 +49,14 @@ export class SkillCatalogComponent implements OnInit {
   selectedIndex = 0;
   tabTitle = 'Area';
 
-
-  //Constructor
-  //---------------------
+  /**
+   * Constructor
+   */
   constructor(
     private _formBuilder: FormBuilder,
     private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
-
-
-
-  //Functions
-  //---------------------
-
 
   //Function to Handle the Back Arrow
   goback(): void {
@@ -112,7 +108,7 @@ export class SkillCatalogComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    );
+    )
 
     combineLatest(
       [merged, customs],
@@ -155,7 +151,7 @@ export class SkillCatalogComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    );
+    )
 
     combineLatest(
       [merged, customs],
@@ -360,7 +356,7 @@ export class SkillCatalogComponent implements OnInit {
     }
     else if (this.tabTitle.toLowerCase() === 'category') {
 
-      //Is this a new custom or a renamed master
+      //Is this a new custom or a renamed master  
       if (obj.customs[0]?.payload.val().customtype === 'new' || obj.customs[0]?.payload.val().customtype === 'rename') {
         //Define Observable
         this.item = this.db.object('/customs/categories/' + key).valueChanges();
@@ -412,7 +408,7 @@ export class SkillCatalogComponent implements OnInit {
       type = this.tabTitle.toLowerCase() + 's';
     }
 
-    //If Hidden Exists, Delete. Otherwise set Hidden
+    //If Hidden Exists, Delete. Otherwise set Hidden 
     this.db.object('/customs/' + type + '/' + key + '/hidden')
       .query.ref.transaction((hidden) => {
         if (hidden === true) {
@@ -442,6 +438,13 @@ export class SkillCatalogComponent implements OnInit {
     });
   }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * On init
+   */
   ngOnInit(): void {
 
     //Populate Areas - Firebase List Object
@@ -455,7 +458,7 @@ export class SkillCatalogComponent implements OnInit {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    );
+    )
 
     combineLatest(
       [merged, customs],
@@ -496,8 +499,20 @@ export class SkillCatalogComponent implements OnInit {
 
   }
 
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+  }
+
 }
 
+// -----------------------------------------------------------------------------------------------------
+// @ Models
+// -----------------------------------------------------------------------------------------------------
 
 // Empty Catalog Item class
 export class CatItem {
@@ -525,6 +540,3 @@ export class CatalogState {
   ) { }
 
 }
-
-
-
