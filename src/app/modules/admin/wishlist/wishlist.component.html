@@ -52,28 +52,38 @@
         <!-- Drawer content -->
         <mat-drawer-content class="flex flex-col">
 
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-8 sm:pt-3 sm:pb-8 sm:px-10 bg-slate-300">
+                
+                <div class="flex-1 min-w-0">
+
+                    <!-- Panel header -->
+                    <div class="flex items-center">
+
+                        <!-- Drawer toggle -->
+                        <button
+                            class="lg:hidden -ml-2"
+                            mat-icon-button
+                            (click)="drawer.toggle()">
+                            <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+                        </button>
+
+                        <!-- Panel title -->
+                        <div class="ml-3 lg:ml-3 text-3xl font-bold tracking-tight leading-none">
+                            Wishlist {{getPanelInfo(selectedPanel).title}}
+                        </div>
+
+                    </div>
+
+                </div>
+                
+            </div>
+
             <!-- Main -->
             <div class="flex-auto px-6 pt-9 pb-12 md:p-8 md:pb-12 lg:p-12">
 
-                <!-- Panel header -->
-                <div class="flex items-center">
-
-                    <!-- Drawer toggle -->
-                    <button
-                        class="lg:hidden -ml-2"
-                        mat-icon-button
-                        (click)="drawer.toggle()">
-                        <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
-                    </button>
-
-                    <!-- Panel title -->
-                    <div class="ml-2 lg:ml-0 text-3xl font-bold tracking-tight leading-none">
-                        Wishlist {{getPanelInfo(selectedPanel).title}}
-                    </div>
-                </div>
-
                 <!-- Load settings panel -->
-                <div class="mt-8">
+                <div>
                     <ng-container [ngSwitch]="selectedPanel">
                         <!-- Awards -->
                         <ng-container *ngSwitchCase="'awards'">
