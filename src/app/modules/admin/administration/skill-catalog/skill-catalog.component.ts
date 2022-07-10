@@ -199,9 +199,10 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mname: string = this.model.name;
       const mdescription: string = this.model.description;
       const mvalue: string = this.onConvertName(this.model.name);
+      const mdatenow = Math.floor(Date.now());
 
       //Define Promise
-      const promiseAddItem = this.listRef.push({ name: mname, value: mvalue, description: mdescription, customtype: 'new' });
+      const promiseAddItem = this.listRef.push({ name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, user: this.fbuser.id });
 
       //Call Promise
       promiseAddItem
@@ -215,9 +216,10 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mdescription: string = this.model.description;
       const mvalue: string = this.onConvertName(this.model.name);
       const marea: string = this.catmodel.currentArea;
+      const mdatenow = Math.floor(Date.now());
 
       //Define Promise
-      const promiseAddItem = this.listRef.push({ area: marea, name: mname, value: mvalue, description: mdescription, customtype: 'new' });
+      const promiseAddItem = this.listRef.push({ area: marea, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, user: this.fbuser.id });
 
       //Call Promise
       promiseAddItem
@@ -231,9 +233,10 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mdescription: string = this.model.description;
       const mvalue: string = this.onConvertName(this.model.name);
       const mcategory: string = this.catmodel.currentCategory;
+      const mdatenow = Math.floor(Date.now());
 
       //Define Promise
-      const promiseAddItem = this.listRef.push({ category: mcategory, name: mname, value: mvalue, description: mdescription, customtype: 'new' });
+      const promiseAddItem = this.listRef.push({ category: mcategory, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, user: this.fbuser.id });
 
       //Call Promise
       promiseAddItem
@@ -250,6 +253,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     const mname: string = this.model.name;
     const mdescription: string = this.model.description;
     const mvalue: string = this.onConvertName(this.model.name);
+    const mdatenow = Math.floor(Date.now());
 
     //Define and call Promise to add Item
     if (this.tabTitle.toLowerCase() === 'area') {
@@ -258,13 +262,13 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         if (ref === null) {
 
           this.db.object('/customs/areas/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue });
+            .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, user: this.fbuser.id });
 
 
         } else {
 
           this.db.object('/customs/areas/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename' });
+            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
 
         }
       });
@@ -276,13 +280,13 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         if (ref === null) {
 
           this.db.object('/customs/categories/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue });
+            .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, user: this.fbuser.id });
 
 
         } else {
 
           this.db.object('/customs/categories/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename' });
+            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
 
         }
       });
@@ -295,13 +299,13 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         if (ref === null) {
 
           this.db.object('/customs/skills/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue });
+            .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, user: this.fbuser.id });
 
 
         } else {
 
           this.db.object('/customs/skills/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename' });
+            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
 
         }
       });
