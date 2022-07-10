@@ -1,126 +1,74 @@
-        <!-- CONTENT GOES HERE -->
-        <div class="flex justify-center h-full">
-            
-            <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
-            <div class="flex-initial w-[1400px]">
+<!-- CONTENT GOES HERE -->
+<div class="flex justify-center h-full">
 
-                <!-- Action Buttons -->
-                <div *ngIf="viewState !== 3" class="w-full text-right">
+    <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
+    <div class="flex-initial w-[1400px]">
 
-                    <button (click)="onShowAddForm();" [disabled]="showadditem" mat-flat-button type="button"
-                        [color]="'primary'">
-                        Add Award to Wishlist
-                    </button>
-                </div>
+        <!-- Action Buttons -->
+        <div class="w-full text-right">
+            <span *ngIf="viewState !== 3 && viewState !== 4 && viewState !== 5">
+                <button (click)="onShowCatalog();" class="ml-4" mat-flat-button type="button"
+                    [color]="'primary'">
+                    Add Skill to Wishlist
+                </button>
+            </span>
 
-                <!-- Switch Code to Control ViewState -->
-                <div [ngSwitch]="viewState">
+            <span *ngIf="viewState === 4 || viewState === 5">
+                <button
+                    (click)="ngOnInit()"
+                    class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                    Cancel
+                </button>
+            </span>
+        </div>
 
-                    <!-- LOADING VIEW STATE -->
-                    <div *ngSwitchCase="0">
-                        LOADING....
-                    </div>
+        <!-- Switch Code to Control ViewState -->
+        <div [ngSwitch]="viewState">
 
-                    <!-- SHOW LIST VIEW STATE -->
-                    <div *ngSwitchCase="1">
+            <!-- LOADING VIEW STATE -->
+            <div *ngSwitchCase="0">
+                LOADING....
+            </div>
 
-                        <!-- Cert List Area (default) -->
-                        <!-- ------------------------ -->
+            <!-- SHOW LIST VIEW STATE -->
+            <div *ngSwitchCase="1">
 
-                        <!-- Certification List -->
-                        <div class="flex justify-center flex-wrap mt-5">
+                <!-- Cert List Area (default) -->
+                <!-- ------------------------ -->
 
-                            <!-- Certification Container -->
-                            <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
+                <!-- Certification List -->
+                <div class="flex justify-center flex-wrap mt-5">
 
-                                <!-- Certifciation Card -->
-                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
+                    <!-- Certification Container -->
+                    <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
 
-                                    <!-- Cert Card - inner border -->
-                                    <div class="flex flex-col h-full relative border-8 border-gray-100">
+                        <!-- Certifciation Card -->
+                        <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
 
-                                        <!-- Top Flex Row -->
-                                        <div class="flex-none">
+                            <!-- Cert Card - inner border -->
+                            <div class="flex flex-col h-full relative border-8 border-gray-100">
 
-                                             <!--Flex Container for the Top Row -->
-                                            <div class="flex items-center">
+                                <!-- Top Flex Row -->
+                                <div class="flex-none">
 
-                                                <!-- Awarded On -->
-                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
-                                                    <span  *ngIf="item.payload.val().awardedon?.length > 0">
-                                                        Awarded On: {{item.payload.val().awardedon | date: 'MM/dd/yy'}} 
-                                                    </span>
-                                                </div>
+                                     <!--Flex Container for the Top Row -->
+                                    <div class="flex items-center">
 
-                                                <!-- Ribbon Icon -->
-                                                <div class="flex-none text-center">
-                                                    <img class="h-14 relative -mt-7"
-                                                        src="assets/images/ui/cert-ribbon.svg">
-                                                </div>
-                                                
-                                                <!-- Expires On -->
-                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
- 
-                                                </div>
-
-                                            </div>
-
+                                        <!-- Awarded On -->
+                                        <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
+                                            <span  *ngIf="item.payload.val().awardedon?.length > 0">
+                                                Awarded On: {{item.payload.val().awardedon | date: 'MM/dd/yy'}} 
+                                            </span>
                                         </div>
 
-                                        <!-- Middle Flex Row -->
-                                        <div class="flex-auto">
-                                            <div class="flex flex-col justify-evenly h-full">
-
-                                                <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
-
-                                                <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().awardedby}}</div>
-
-                                                <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
-                                                        style="
-                                                            display: -webkit-box;
-                                                            overflow: hidden;
-                                                            -webkit-line-clamp: 3;
-                                                            -webkit-box-orient: vertical;">
-                                                     {{item.payload.val().description}}
-                                                </div>
-
-                                            </div>
+                                        <!-- Ribbon Icon -->
+                                        <div class="flex-none text-center">
+                                            <img class="h-14 relative -mt-7"
+                                                src="assets/images/ui/cert-ribbon.svg">
                                         </div>
-
-
-                                        <!-- Bottom Flex Row -->
-                                        <div class="flex-none">
-                                            
-                                            <!-- Botton Flex Container -->
-                                            <div class="flex">
-
-                                                <!-- Delete Button -->
-                                                <div class="flex-auto basis-1/2 pt-2 text-center">
-                                                    <button 
-                                                        (click)="onShowDelete(item.key);" 
-                                                        mat-stroked-button 
-                                                        type="button">
-                                                        Delete
-                                                    </button>
-                                                </div>
-
-                                                <!-- Cert Icon -->
-                                                <div class="flex-none">
-                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
-                                                </div>
-
-                                                <!-- Edit Button -->
-                                                <div class="flex-auto basis-1/2 pt-2 text-center">
-                                                    <button (click)="onShowEditForm(item.key);" 
-                                                            mat-flat-button 
-                                                            type="button" 
-                                                            [color]="'primary'">
-                                                                Edit
-                                                    </button>
-                                                   
-                                                </div>
-
-                                            </div>
+                                        
+                                        <!-- Expires On -->
+                                        <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
 
                                         </div>
 
@@ -128,163 +76,355 @@
 
                                 </div>
 
-                            </div>
+                                <!-- Middle Flex Row -->
+                                <div class="flex-auto">
+                                    <div class="flex flex-col justify-evenly h-full">
 
+                                        <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
 
+                                        <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().rating}}</div>
 
+                                        <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
+                                                style="
+                                                    display: -webkit-box;
+                                                    overflow: hidden;
+                                                    -webkit-line-clamp: 3;
+                                                    -webkit-box-orient: vertical;">
+                                             {{item.payload.val().description}}
+                                        </div>
 
-
-
-
-                        </div>
-
-                    </div>
-
-                    <!-- SHOW "NO DATA" MESSAGE -->
-                    <div *ngSwitchCase="2">
-                        DUDE.. YOU NEED AWARDS.
-                    </div>
-
-                    <!-- "ADD" VIEW STATE -->
-                    <div *ngSwitchCase="3">
-
-                        <!-- Form Container -->
-                        <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
-
-                            <!-- Form Title -->
-                            <div [ngSwitch]="formMode">
-
-                                <h2 *ngSwitchCase="'add'"
-                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
-                                    Add Award
-                                </h2>
-
-                                <h2 *ngSwitchCase="'edit'"
-                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
-                                    Edit Award
-                                </h2>
-
-                            </div>
-
-
-                            <!-- Form Start -->
-                            <form #addItemForm="ngForm">
-
-                                <!-- Form Field - Name -->
-                                <div class="form-group mb-5">
-                                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                                        <mat-label>Award Name</mat-label>
-                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:file-text'" matPrefix>
-                                        </mat-icon>
-                                        <input type="text" id="name" class="form-control"
-                                            #name="ngModel" [(ngModel)]="model.name" 
-                                            name="name" required matInput>
-                                    </mat-form-field>
-
-                                    <!-- Form Field - Name Error -->
-                                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-                                        <span style="color:red;">Name is required</span>
                                     </div>
                                 </div>
 
-                                <!-- Form Field - Awarded By -->
-                                <div class="form-group mb-5">
-                                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                                        <mat-label>Awarded By</mat-label>
-                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:users'" matPrefix></mat-icon>
-                                        <input type="text" id="awardedby" class="form-control" #name="ngModel"
-                                            [(ngModel)]="model.awardedby" name="awardedby"
-                                            required matInput>
-                                    </mat-form-field>
-                                </div>
+                                <!-- Bottom Flex Row -->
+                                <div class="flex-none">
+                                    
+                                    <!-- Botton Flex Container -->
+                                    <div class="flex">
 
-                                <!-- Form Field Description  -->
-                                <div class="form-group mb-5">
-                                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                                        <mat-label>Description (optional)</mat-label>
-                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:annotation'"
-                                            matPrefix></mat-icon>
-                                        <textarea type="text" id="description" class="form-control" #name="ngModel"
-                                            placeholder="What is this Award about and why did you get this?"
-                                            [(ngModel)]="model.description" name="description" matInput>
-                                            </textarea>
-                                    </mat-form-field>
-                                </div>
-
-                                <!-- Form Field - Awarded On -->
-                                <div class="form-group">
-                                    <mat-form-field appearance="fill" class="min-w-50">
-                                        <mat-label>
-                                            <span  *ngIf="model.awardedon?.length > 0">
-                                                Awarded: {{model.awardedon| date: 'MM/dd/yyyy'}}
-                                            </span>
-                                            <span  *ngIf="model.awardedon?.length === 0">
-                                                Date Awarded
-                                            </span>
-                                        </mat-label>
-                                        <input matInput [matDatepicker]="addpicker"
-                                            (dateChange)="onDateChange($event, addpicker, 'award')" name="awardedon"
-                                            id="awardedon" required class="form-control">
-                                        <mat-hint>MM/DD/YYYY</mat-hint>
-                                        <mat-datepicker-toggle matSuffix [for]="addpicker"></mat-datepicker-toggle>
-                                        <mat-datepicker #addpicker startView="year"></mat-datepicker>
-                                    </mat-form-field>
-
-                                </div>
-
-                                <!-- Actions -->
-                                <div class="flex justify-center mt-6">
-
-                                    <button
-                                        (click)="onCancelForm(addItemForm)"
-                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
-                                        Cancel
-                                    </button>
-                                
-                                    <!-- Switch to control Add vs. Edit mode -->
-                                    <div [ngSwitch]="formMode">
-
-                                        <div *ngSwitchCase="'add'" >
+                                        <!-- Delete Button -->
+                                        <div class="flex-auto basis-1/2 pt-2 text-center">
                                             <button 
-                                                (click)="onAdd(addItemForm);"
-                                                [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" 
-                                                mat-flat-button
-                                                type="button" 
-                                                [color]="'primary'">
-                                                Add Award
+                                                (click)="onShowDelete(item.key);" 
+                                                mat-stroked-button 
+                                                type="button">
+                                                Delete
                                             </button>
                                         </div>
 
-                                        <div *ngSwitchCase="'edit'">
-                                            <button
-                                                (click)="onEdit(model.key);"
-                                                [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" mat-flat-button
-                                                type="button" 
-                                                [color]="'primary'">
-                                                Edit Award
+                                        <!-- Cert Icon -->
+                                        <div class="flex-none">
+                                            <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
+                                        </div>
+
+                                        <!-- Edit Button -->
+                                        <div class="flex-auto basis-1/2 pt-2 text-center">
+                                            <button (click)="onShowEditForm(item.key);" 
+                                                    mat-flat-button 
+                                                    type="button" 
+                                                    [color]="'primary'">
+                                                        Edit
                                             </button>
+                                           
                                         </div>
 
                                     </div>
 
-
                                 </div>
 
-                            </form>
+                            </div>
 
                         </div>
 
-                    </div>
-
-                    <!-- CONFIRM DELETE VIEW STATE -->
-                    <div *ngSwitchCase="4">
-                        DELETE CONF
                     </div>
 
                 </div>
 
             </div>
 
+            <!-- SHOW "NO DATA" MESSAGE -->
+            <div *ngSwitchCase="2">
+                DUDE.. YOU NEED SKILLS.
+            </div>
+
+            <!-- "ADD" VIEW STATE -->
+            <div *ngSwitchCase="3">
+
+                <!-- Form Container -->
+                <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
+
+                    <!-- Form Title -->
+                    <div [ngSwitch]="formMode">
+
+                        <h2 *ngSwitchCase="'add'"
+                            class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                            Add Skill
+                        </h2>
+
+                        <h2 *ngSwitchCase="'edit'"
+                            class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                            Edit Skill
+                        </h2>
+
+                    </div>
+
+                    <h2 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-5">
+                        {{model?.name}}
+                    </h2>
+                    <!-- Form Start -->
+                    <form #addItemForm="ngForm">
+
+                        <!-- Form Field - Rating -->
+                        <div class="form-group">
+
+                            <div class="mb-10">
+                                <mat-label class="mr-5 text-lg"><strong>Skill Rating:</strong> {{model.rating}}</mat-label>
+                            </div>
+                
+                            <mat-slider
+                             thumbLabel
+                             id ="rating"
+                             name="rating"
+                             [(ngModel)]="model.rating"
+                             #name="ngModel"
+                              min="0" max="100" step="5" value="50" style="min-width:300px;"></mat-slider>
+                  
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex justify-center mt-6">
+
+                            <button
+                                (click)="onCancelForm(addItemForm)"
+                                class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                Cancel
+                            </button>
+                        
+                            <!-- Switch to control Add vs. Edit mode -->
+                            <div [ngSwitch]="formMode">
+
+                                <div *ngSwitchCase="'add'" >
+                                    <button 
+                                        (click)="onAdd(addItemForm);"
+                                        [disabled]="!addItemForm.form.valid" 
+                                        class="flex-none ml-4" 
+                                        mat-flat-button
+                                        type="button" 
+                                        [color]="'primary'">
+                                        Add New Skill
+                                    </button>
+                                </div>
+
+                                <div *ngSwitchCase="'edit'">
+                                    <button
+                                        (click)="onEdit(model.key);"
+                                        [disabled]="!addItemForm.form.valid" 
+                                        class="flex-none ml-4" mat-flat-button
+                                        type="button" 
+                                        [color]="'primary'">
+                                        Edit Skill
+                                    </button>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- CATALOG -->
+            <div *ngSwitchCase="4">
+                <div>
+                    <button 
+                    (click)="onShowSearch();"
+                    mat-stroked-button
+                    type="button" 
+                    [color]="'primary'">
+                    USE SEARCH
+                    </button>
+                </div>
+
+                <!-- SELECTOR WRAPPER -->
+                <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px]">
+
+                    <!-- SELECTOR TITLE -->
+                    <div class="flex items-center h-15">
+
+                        <a (click)="goback()">
+                        <div *ngIf="selectedIndex!==0" class="pt-1">
+                            <mat-icon style="font-size:25px; height:25px; width:25px;" svgIcon="mat_solid:arrow_back"></mat-icon>
+                        </div>
+                        </a>
+
+                        <div class="flex-1 text-1xl p-2 mr-20 sm:text-2xl md:text-2xl lg:text-3xl font-extrabold text-center tracking-tight">
+                            Select {{tabTitle}}
+                        </div>
+
+                    </div>
+
+                    <!-- TAB GROUP WRAPPER -->
+                    
+                    <div class="">
+
+                        <mat-tab-group preserveContent class="h-[calc(100vh-360px)] min-h-50 overflow-scroll" [(selectedIndex)]=selectedIndex>
+
+                            <!--Areas Tab-->
+                            <mat-tab label="Areas">
+                                
+                                <!--Repeat for Each Area-->
+                                <span *ngFor="let area of (areas)" >
+                                    <span *ngIf="area.customs[0]?.payload.val().hidden !== true && area.payload.val().name?.length > 0">
+                                        <a (click)="onAreaSelect(area.key)" title="{{ area.payload.val().description }}">
+                                            <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                                <div class="flex-1">
+                                                    <span *ngIf="!area.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ area.payload.val().name }}</div>
+                                                    </span>
+                    
+                                                    <span *ngIf="area.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ area.customs[0]?.payload.val().name }}</div>
+                                                    </span>                                        
+                                                </div>
+                                                <div class="flex-none pt-1">
+                                                    <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </span>
+                                </span>
+                                
+                                <!--Bottom Division Line-->
+                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                                    <div class="flex-1"></div>
+                                </div>
+
+                            </mat-tab>
+
+                            <!--Categories Tab-->
+                            <mat-tab label="Catagories">
+
+                                <!--Repeat for Each Category-->
+                                <span *ngFor="let category of categories" >
+                                    <span *ngIf="category.customs[0]?.payload.val().hidden !== true && category.payload.val().name?.length > 0">
+                                        <a (click)="onCategorySelect(category.key)" title="{{ category.payload.val().description }}">
+                                            <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                                <div class="flex-1">
+                                                    <span *ngIf="!category.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ category.payload.val().name }}</div>
+                                                    </span>
+                    
+                                                    <span *ngIf="category.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ category.customs[0]?.payload.val().name }}</div>
+                                                    </span>                                        
+                                                </div>
+                                                <div class="flex-none pt-1">
+                                                    <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </span>
+                                </span>
+                                    
+                                <!--Bottom Division Line-->
+                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                                    <div class="flex-1"></div>
+                                </div>
+
+                            </mat-tab>
+
+                            <!--Skills Tab-->
+                            <mat-tab label="Skills">
+
+                                <!--Repeat for Each Skill-->
+                                <span *ngFor="let skill of skills" >
+                                    <span *ngIf="skill.customs[0]?.payload.val().hidden !== true && skill.payload.val().name?.length > 0">
+                                        <a (click)="selectSkill(skill.key, skill.payload.val().name)" title="{{ skill.payload.val().description }}">
+                                            <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                                <div class="flex-1">
+                                                    <span *ngIf="!skill.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ skill.payload.val().name }}</div>
+                                                    </span>
+                
+                                                    <span *ngIf="skill.customs[0]?.payload.val().name">
+                                                            <div class="flex-1 w-100"> {{ skill.customs[0]?.payload.val().name }}</div>
+                                                    </span>                                        
+                                                </div>
+                                                <div class="flex-none pt-1">
+                                                    <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </span>
+                                </span>
+
+                                <!--Bottom Division Line-->
+                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                                    <div class="flex-1"></div>
+                                </div>
+                            </mat-tab>
+
+                        </mat-tab-group>
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <!-- SEARCH -->
+            <div *ngSwitchCase="5">
+                <div>
+                    <button 
+                    (click)="onShowCatalog();"
+                    mat-stroked-button
+                    type="button" 
+                    [color]="'primary'">
+                    USE CATALOG
+                    </button>
+                </div>
+
+                <div class="w-full text-center mt-10" >
+
+                    <form #editItemForm="ngForm">
+
+                        <div class="form-group mb-5">
+                            <mat-form-field class="fuse-mat-no-subscript w-2/4">
+                                <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
+                                <input type="text" class="ml-4" 
+                                    placeholder="Search" 
+                                    #searchbox
+                                    matInput>
+                            </mat-form-field>
+                        
+                        <button  
+                            (click)="onSearch(searchbox.value);"
+                            class="ml-4"
+                            mat-flat-button
+                            type="button"
+                            [color]="'primary'">
+                        Search
+                        </button>
+                    </div>
+                    </form>
+        
+                    <div *ngFor="let searchresult of searchresults" class="text-left">
+                        <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult.key, searchresult.payload.val().name);">
+                            <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                        </button>
+                        {{searchresult.payload.val().name}}
+                        <span *ngIf="searchresult.payload.val().email?.length > 5">Email Address: {{searchresult.payload.val().email}}</span>
+                
+                    </div>
+                </div>
+
+            </div>
+
         </div>
+
+    </div>
+
+</div>
