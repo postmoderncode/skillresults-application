@@ -29,6 +29,7 @@
             </div>
 
         </div>
+        
     </div>
 
 
@@ -37,17 +38,6 @@
 
         <!-- CONTENT GOES HERE -->
         <div class="flex justify-center h-full ">
-
-            <!-- EXAMPLE COUNTS -->
-
-            <!-- 
-            Skills: {{counts?.skills}}
-            Degrees: {{counts?.degrees}}
-            Certifications: {{counts?.certifications}}
-            Training: {{counts?.training}}            
-            Awards: {{counts?.awards}}
-            Talents: {{counts?.talents}} 
-            -->
 
             <!-- OUTER FLEX CONTAINER -->
             <div class="flex-initial w-[1400px]">
@@ -63,67 +53,77 @@
                             <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
 
                                 <!-- SKILL CARD -->
-                                <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+                                <a [routerLink]="['/skills/my-skills']">
+                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
 
-                                    <div class="flex-auto basis-1/4">
-                                        <img
-                                            class="w-24 h-24 mx-auto "
-                                            src="assets/images/logo/logo.svg"
-                                            alt="My Skills">
-                                    </div>
-                                
-                                    <div class="flex-auto basis-3/4 p-4">
-                                        <div class="text-2xl font-extrabold leading-tight text-sky-900">My Skills</div>
-                                        <div class="mt-1 hidden sm:block ">
-                                            <p class="text-sky-500" style="
-                                            display: -webkit-box;
-                                            overflow: hidden;
-                                            -webkit-line-clamp: 2;
-                                            -webkit-box-orient: vertical;"
-                                            >
-                                            Here is the place to track all your skills.
-                                            Let's go!
-                                        </p>
+                                        <div class="flex-auto basis-1/4">
+                                            <img
+                                                class="w-24 h-24 mx-auto "
+                                                src="assets/images/logo/logo.svg"
+                                                alt="My Skills">
                                         </div>
-                                        <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                            <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
-                                            <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                    
+                                        <div class="flex-auto basis-3/4 p-4">
+                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">My Skills: {{counts?.skills ?? 0}}</div>
+                                            <div class="mt-1 hidden sm:block ">
+                                                <p class="text-sky-500" style="
+                                                display: -webkit-box;
+                                                overflow: hidden;
+                                                -webkit-line-clamp: 2;
+                                                -webkit-box-orient: vertical;"
+                                                >
+                                                Here is the place to track all your skills.
+                                                Let's go!
+                                            </p>
+                                            </div>
+                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
+                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                            </div>
+
                                         </div>
+
                                     </div>
-                                </div>
+
+                                </a>
        
                             </div>
 
-                        <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
+                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
 
-                            <!-- WISHLIST CARD -->
-                            <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+                                <!-- WISHLIST CARD -->
+                                <a [routerLink]="['/wishlist']">
+                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
 
-                                <div class="flex-auto basis-1/4">
-                                    <img
-                                        class="w-24 h-24 mx-auto "
-                                        src="assets/images/ui/wishlist.svg"
-                                        alt="My Skills">
-                                </div>
-                            
-                                <div class="flex-auto basis-3/4 p-4">
-                                    <div class="text-2xl font-extrabold leading-tight text-sky-900">Wishlists</div>
-                                    <div class="mt-1 hidden sm:block ">
-                                        <p class="text-sky-500" style="
-                                        display: -webkit-box;
-                                        overflow: hidden;
-                                        -webkit-line-clamp: 2;
-                                        -webkit-box-orient: vertical;"
-                                            >
-                                            What do you want to know? Track everything you want to learn here!
-                                        </p>
+                                        <div class="flex-auto basis-1/4">
+                                            <img
+                                                class="w-24 h-24 mx-auto "
+                                                src="assets/images/ui/wishlist.svg"
+                                                alt="My Skills">
                                         </div>
-                                        <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                            <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
-                                            <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                    
+                                        <div class="flex-auto basis-3/4 p-4">
+                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Wishlists</div>
+                                            <div class="mt-1 hidden sm:block ">
+                                                <p class="text-sky-500" style="
+                                                display: -webkit-box;
+                                                overflow: hidden;
+                                                -webkit-line-clamp: 2;
+                                                -webkit-box-orient: vertical;"
+                                                    >
+                                                    What do you want to know? Track everything you want to learn here!
+                                                </p>
+                                            </div>
+                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
+                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                            </div>
+
                                         </div>
+
                                     </div>
-                                </div>
+
+                                </a>
 
                             </div>
 
@@ -134,32 +134,36 @@
                     <!-- ROW 1 - RIGHT SIDE -->
                     <div class="flex-auto basis-3/5 h-80 pb-4">
 
-                        <div class="flex flex-col h-[304px] bg-white  rounded-lg shadow-md" >
+                        <a [routerLink]="['/home/public-profile']">
 
-                            <div class="flex-auto bg-local bg-cover relative h-40 bg-blue-300 rounded-t-lg" style="background-image: url('assets/images/backgrounds/bg-clouds.svg')">
-                                <div class="absolute inset-x-0 -bottom-10">
-                                    <img
-                                    class="w-36 h-36 mx-auto"
-                                    src="assets/images/ui/user.svg"
-                                    alt="My Skills">
+                            <div class="flex flex-col h-[304px] bg-white  rounded-lg shadow-md" >
+
+                                <div class="flex-auto bg-local bg-cover relative h-40 bg-blue-300 rounded-t-lg" style="background-image: url('assets/images/backgrounds/bg-clouds.svg')">
+                                    <div class="absolute inset-x-0 -bottom-10">
+                                        <img
+                                        class="w-36 h-36 mx-auto"
+                                        src="assets/images/ui/user.svg"
+                                        alt="My Skills">
+                                    </div>
                                 </div>
+
+                                <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Public Profile</div>
+
+                                <div class="flex-auto pl-5">
+                                    <p class="text-sky-500" style="
+                                    display: -webkit-box;
+                                    overflow: hidden;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;"
+                                        >
+                                        Visit your Public Profile to See your collecion of Skills, Talents and Education. 
+                                    </p>
+
+                                </div>
+
                             </div>
 
-                            <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Public Profile</div>
-
-                            <div class="flex-auto pl-5">
-                                <p class="text-sky-500" style="
-                                display: -webkit-box;
-                                overflow: hidden;
-                                -webkit-line-clamp: 2;
-                                -webkit-box-orient: vertical;"
-                                    >
-                                    Visit your Public Profile to See your collecion of Skills, Talents and Education. 
-                                </p>
-                            </div>
-    
-
-                        </div>
+                        </a>
                
 
                     </div>
@@ -179,60 +183,64 @@
 
 
                                 <!-- Academic Degrees -->
-                                <div class="flex flex-col h-full bg-white  rounded-lg shadow-md" >
-                                    <div class="flex-auto relative h-30 bg-sky-200 rounded-t-lg">
-                                        <div class="absolute inset-x-0 -bottom-6">
-                                            <img
-                                            class="w-36 h-36 mx-auto "
-                                            src="assets/images/ui/degrees.svg"
-                                            alt="My Skills">
+                                <a [routerLink]="['/education/academic-degrees']">
+                                    <div class="flex flex-col h-full bg-white  rounded-lg shadow-md" >
+                                        <div class="flex-auto relative h-30 bg-sky-200 rounded-t-lg">
+                                            <div class="absolute inset-x-0 -bottom-6">
+                                                <img
+                                                class="w-36 h-36 mx-auto "
+                                                src="assets/images/ui/degrees.svg"
+                                                alt="My Skills">
+                                            </div>
                                         </div>
+                                        <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Academic Degrees: {{counts?.degrees ?? 0}}</div>
+                                        <div class="flex-auto pl-5">
+                                            <p class="text-sky-500" style="
+                                            display: -webkit-box;
+                                            overflow: hidden;
+                                            -webkit-line-clamp: 2;
+                                            -webkit-box-orient: vertical;"
+                                                >
+                                                Select your Degree and add it to your public profile! Whatever your course of study is, show it off here. 
+                                            </p>
+
+                                        </div>
+
                                     </div>
-                                    <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Academic Degrees</div>
-                                    <div class="flex-auto pl-5">
-                                        <p class="text-sky-500" style="
-                                        display: -webkit-box;
-                                        overflow: hidden;
-                                        -webkit-line-clamp: 2;
-                                        -webkit-box-orient: vertical;"
-                                            >
-                                            Select your Degree and add it to your public profile! Whatever your course of study is, show it off here. 
-                                        </p></div>
-                                </div>
 
-
-
-
+                                </a>
 
                             </div>
 
                             <div class="flex-auto basis-1/2 h-60 pr-0 lg:pr-4">
 
-
-                                <!-- Academic Degrees -->
-                                <div class="flex flex-col h-full bg-white  rounded-lg shadow-md" >
-                                    <div class="flex-auto relative h-30 bg-purple-200 rounded-t-lg">
-                                        <div class="absolute inset-x-0 -bottom-6">
-                                            <img
-                                            class="w-36 h-36 mx-auto "
-                                            src="assets/images/ui/certifications.svg"
-                                            alt="My Skills">
+                                <!-- Certifications -->
+                                <a [routerLink]="['/education/certifications-licenses']">
+                                    <div class="flex flex-col h-full bg-white  rounded-lg shadow-md" >
+                                        <div class="flex-auto relative h-30 bg-purple-200 rounded-t-lg">
+                                            <div class="absolute inset-x-0 -bottom-6">
+                                                <img
+                                                class="w-36 h-36 mx-auto "
+                                                src="assets/images/ui/certifications.svg"
+                                                alt="My Skills">
+                                            </div>
                                         </div>
+                                        <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Certification & Licencess: {{counts?.certifications ?? 0}}</div>
+                                        <div class="flex-auto pl-5">
+                                            <p class="text-sky-500" style="
+                                            display: -webkit-box;
+                                            overflow: hidden;
+                                            -webkit-line-clamp: 2;
+                                            -webkit-box-orient: vertical;"
+                                                >
+                                                Select your Degree and add it to your public profile! Whatever your course of study is, show it off here. 
+                                            </p>
+
+                                        </div>
+
                                     </div>
-                                    <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Certification & Licencess</div>
-                                    <div class="flex-auto pl-5">
-                                        <p class="text-sky-500" style="
-                                        display: -webkit-box;
-                                        overflow: hidden;
-                                        -webkit-line-clamp: 2;
-                                        -webkit-box-orient: vertical;"
-                                            >
-                                            Select your Degree and add it to your public profile! Whatever your course of study is, show it off here. 
-                                        </p></div>
-                                </div>
 
-
-
+                                </a>
 
                             </div>
 
@@ -248,60 +256,62 @@
                             <div class="flex-auto basis-1/2 h-60 pr-4">
 
 
-                                <!-- Academic Degrees -->
-                                <div class="flex flex-col h-full bg-white  rounded-lg shadow-md" >
-                                    <div class="flex-auto relative h-30 bg-slate-300 rounded-t-lg">
-                                        <div class="absolute inset-x-0 -bottom-6">
-                                            <img
-                                            class="w-36 h-36 mx-auto "
-                                            src="assets/images/ui/training.svg"
-                                            alt="My Skills">
+                                <!-- Professional Training -->
+                                <a [routerLink]="['/education/professional-training']">
+                                    <div class="flex flex-col h-full bg-white  rounded-lg shadow-md" >
+                                        <div class="flex-auto relative h-30 bg-slate-300 rounded-t-lg">
+                                            <div class="absolute inset-x-0 -bottom-6">
+                                                <img
+                                                class="w-36 h-36 mx-auto "
+                                                src="assets/images/ui/training.svg"
+                                                alt="My Skills">
+                                            </div>
                                         </div>
+                                        <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Professional Training: {{counts?.training ?? 0}}</div>
+                                        <div class="flex-auto pl-5">
+                                            <p class="text-sky-500" style="
+                                            display: -webkit-box;
+                                            overflow: hidden;
+                                            -webkit-line-clamp: 2;
+                                            -webkit-box-orient: vertical;"
+                                                >
+                                                Select your Degree and add it to your public profile! Whatever your course of study is, show it off here. 
+                                            </p>
+
+                                        </div>
+
                                     </div>
-                                    <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Professional Training</div>
-                                    <div class="flex-auto pl-5">
-                                        <p class="text-sky-500" style="
-                                        display: -webkit-box;
-                                        overflow: hidden;
-                                        -webkit-line-clamp: 2;
-                                        -webkit-box-orient: vertical;"
-                                            >
-                                            Select your Degree and add it to your public profile! Whatever your course of study is, show it off here. 
-                                        </p></div>
-                                </div>
 
-
-
+                                </a>
 
                             </div>
 
                             <div class="flex-auto basis-1/2 h-60">
 
-
-
-                                <!-- Academic Degrees -->
-                                <div class="flex flex-col h-full bg-white  rounded-lg shadow-md" >
-                                    <div class="flex-auto relative h-30 bg-green-200 rounded-t-lg">
-                                        <div class="absolute inset-x-0 -bottom-6">
-                                            <img
-                                            class="w-36 h-36 mx-auto "
-                                            src="assets/images/ui/awards.svg"
-                                            alt="My Skills">
+                                <!-- Awards  -->
+                                <a [routerLink]="['/education/awards-accolades']">
+                                    <div class="flex flex-col h-full bg-white  rounded-lg shadow-md" >
+                                        <div class="flex-auto relative h-30 bg-green-200 rounded-t-lg">
+                                            <div class="absolute inset-x-0 -bottom-6">
+                                                <img
+                                                class="w-36 h-36 mx-auto "
+                                                src="assets/images/ui/awards.svg"
+                                                alt="My Skills">
+                                            </div>
+                                        </div>
+                                        <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Awards & Accolades: {{counts?.awards ?? 0}}</div>
+                                        <div class="flex-auto pl-5">
+                                            <p class="text-sky-500" style="
+                                            display: -webkit-box;
+                                            overflow: hidden;
+                                            -webkit-line-clamp: 2;
+                                            -webkit-box-orient: vertical;"
+                                                >
+                                                Select your Degree and add it to your public profile! Whatever your course of study is, show it off here. 
+                                            </p>
                                         </div>
                                     </div>
-                                    <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Awards & Accolades</div>
-                                    <div class="flex-auto pl-5">
-                                        <p class="text-sky-500" style="
-                                        display: -webkit-box;
-                                        overflow: hidden;
-                                        -webkit-line-clamp: 2;
-                                        -webkit-box-orient: vertical;"
-                                            >
-                                            Select your Degree and add it to your public profile! Whatever your course of study is, show it off here. 
-                                        </p></div>
-                                </div>
-
-
+                                </a>
 
                             </div>
 
@@ -316,18 +326,97 @@
 
                     <div class="flex-auto h-40 pb-4 pr-0 lg:pr-4">
 
-                                <!-- TALENTS & HOBBIES CARD -->
+                        <!-- TALENTS & HOBBIES CARD -->
+                        <a [routerLink]="['/skills/talents-hobbies']">
+                            <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+
+                                <div class="flex-auto basis-1/4">
+                                    <img
+                                        class="w-24 h-24 mx-auto "
+                                        src="assets/images/ui/talents.svg"
+                                        alt="My Skills">
+                                </div>
+                            
+                                <div class="flex-auto basis-3/4 p-4">
+                                    <div class="text-2xl font-extrabold leading-tight text-sky-900">Talents & Hobbies: {{counts?.talents ?? 0}}</div>
+                                    <div class="mt-1 hidden sm:block ">
+                                        <p class="text-sky-500" style="
+                                        display: -webkit-box;
+                                        overflow: hidden;
+                                        -webkit-line-clamp: 2;
+                                        -webkit-box-orient: vertical;"
+                                        >
+                                        Here is the place to track all your skills.
+                                        Let's go!
+                                    </p>
+                                    </div>
+                                    <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                        <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
+                                        <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="flex-auto  h-40 pb-4 pr-0 lg:pr-4">
+
+                        <!-- MY REPORTS CARD -->
+                        <a [routerLink]="['/reports/my-reports']">
+                            <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white " >
+
+                                <div class="flex-auto basis-1/4">
+                                    <img
+                                        class="w-24 h-24 mx-auto "
+                                        src="assets/images/ui/myreports.svg"
+                                        alt="My Skills">
+                                </div>
+                            
+                                <div class="flex-auto basis-3/4 p-4">
+                                    <div class="text-2xl font-extrabold leading-tight text-sky-900">My Reports</div>
+                                    <div class="mt-1 hidden sm:block ">
+                                        <p class="text-sky-500" style="
+                                        display: -webkit-box;
+                                        overflow: hidden;
+                                        -webkit-line-clamp: 2;
+                                        -webkit-box-orient: vertical;"
+                                        >
+                                        Here is the place to track all your skills.
+                                        Let's go!
+                                    </p>
+                                    </div>
+                                    <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                        <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
+                                        <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="flex-auto  h-40 pb-4">
+
+                            <!-- REPORT CATALOG CARD -->
+                            <a [routerLink]="['/reports/report-catalog']">
                                 <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
 
                                     <div class="flex-auto basis-1/4">
                                         <img
                                             class="w-24 h-24 mx-auto "
-                                            src="assets/images/ui/talents.svg"
+                                            src="assets/images/ui/reportcatalog.svg"
                                             alt="My Skills">
                                     </div>
-                                
+                            
                                     <div class="flex-auto basis-3/4 p-4">
-                                        <div class="text-2xl font-extrabold leading-tight text-sky-900">Talents & Hobbies</div>
+                                        <div class="text-2xl font-extrabold leading-tight text-sky-900">Report Catalog</div>
                                         <div class="mt-1 hidden sm:block ">
                                             <p class="text-sky-500" style="
                                             display: -webkit-box;
@@ -343,76 +432,12 @@
                                             <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
                                             <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
                                         </div>
+
                                     </div>
+
                                 </div>
 
-                    </div>
-
-                    <div class="flex-auto  h-40 pb-4 pr-0 lg:pr-4">
-
-                        <!-- SKILL CARD -->
-                        <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white " >
-
-                            <div class="flex-auto basis-1/4">
-                                <img
-                                    class="w-24 h-24 mx-auto "
-                                    src="assets/images/ui/myreports.svg"
-                                    alt="My Skills">
-                            </div>
-                        
-                            <div class="flex-auto basis-3/4 p-4">
-                                <div class="text-2xl font-extrabold leading-tight text-sky-900">My Reports</div>
-                                <div class="mt-1 hidden sm:block ">
-                                    <p class="text-sky-500" style="
-                                    display: -webkit-box;
-                                    overflow: hidden;
-                                    -webkit-line-clamp: 2;
-                                    -webkit-box-orient: vertical;"
-                                    >
-                                    Here is the place to track all your skills.
-                                    Let's go!
-                                </p>
-                                </div>
-                                <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                    <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
-                                    <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="flex-auto  h-40 pb-4">
-
-                            <!-- SKILL CARD -->
-                            <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                            <div class="flex-auto basis-1/4">
-                                <img
-                                    class="w-24 h-24 mx-auto "
-                                    src="assets/images/ui/reportcatalog.svg"
-                                    alt="My Skills">
-                            </div>
-                        
-                            <div class="flex-auto basis-3/4 p-4">
-                                <div class="text-2xl font-extrabold leading-tight text-sky-900">Report Catalog</div>
-                                <div class="mt-1 hidden sm:block ">
-                                    <p class="text-sky-500" style="
-                                    display: -webkit-box;
-                                    overflow: hidden;
-                                    -webkit-line-clamp: 2;
-                                    -webkit-box-orient: vertical;"
-                                    >
-                                    Here is the place to track all your skills.
-                                    Let's go!
-                                </p>
-                                </div>
-                                <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                    <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">MORE</span>
-                                    <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                </div>
-                            </div>
-                        </div>
+                            </a>
 
                     </div>
 

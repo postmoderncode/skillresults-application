@@ -1,6 +1,6 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
-            <!-- Header -->
+    <!-- Header -->
     <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-gray-200 dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
@@ -29,81 +29,11 @@
         </div>
     </div>
 
-
     <!-- Main -->
     <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-slate-100">
 
         <!-- CONTENT GOES HERE -->
         <div class="h-400 min-h-400 max-h-400 shadow-md rounded-2xl bg-white">
-
-
-            <!-- EXAMPLE PROFILE CONTENT FROM COMPONENT -->
-
-            <!-- 
-            {{user?.name}}
-            {{user?.email}}
-            <strong>Skills:</strong>
-            <div *ngFor="let skill of (user?.skills | keyvalue)">
-                {{user?.skills[skill.key]?.name}} <br />
-                {{user?.skills[skill.key]?.rating}} <br />
-                {{user?.skills[skill.key]?.created | date: 'MM/dd/yyyy' }} <br />
-                {{user?.skills[skill.key]?.modified | date: 'MM/dd/yyyy' }} <br />
-            </div>
-
-            <strong>Degrees</strong>
-            <div *ngFor="let degree of (user?.degrees | keyvalue)">
-                {{user?.degrees[degree.key]?.state}} <br />
-                {{user?.degrees[degree.key]?.institution}} <br />
-                {{user?.degrees[degree.key]?.degreelevel}} <br />
-                {{user?.degrees[degree.key]?.degreetype}} <br />
-                {{user?.degrees[degree.key]?.major}} <br />
-                {{user?.degrees[degree.key]?.minor}}            
-                {{user?.degrees[degree.key]?.completed}} <br />
-                {{user?.degrees[degree.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
-                {{user?.degrees[degree.key]?.created | date: 'MM/dd/yyyy' }} <br />
-                {{user?.degrees[degree.key]?.modifed | date: 'MM/dd/yyyy' }} <br />
-            </div>
-
-            <strong>Certifications</strong>
-            <div *ngFor="let certification of (user?.certifications | keyvalue)">
-                {{user?.certifications[certification.key]?.name}} <br />
-                {{user?.certifications[certification.key]?.description}} <br />
-                {{user?.certifications[certification.key]?.awardedby}} <br />
-                {{user?.certifications[certification.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
-                {{user?.certifications[certification.key]?.expireson | date: 'MM/dd/yyyy' }} <br />
-                {{user?.certifications[certification.key]?.created | date: 'MM/dd/yyyy' }} <br />
-                {{user?.certifications[certification.key]?.modifed | date: 'MM/dd/yyyy' }} <br />
-            </div>
-
-
-            <strong>Training:</strong>
-            <div *ngFor="let training of (user?.training| keyvalue)">
-                {{user?.training[training.key]?.name}} <br />
-                {{user?.training[training.key]?.description}} <br />
-                {{user?.training[training.key]?.awardedby}} <br />
-                {{user?.training[training.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
-                {{user?.training[training.key]?.created | date: 'MM/dd/yyyy' }} <br />
-                {{user?.training[training.key]?.modified | date: 'MM/dd/yyyy' }} <br />
-            </div>
-
-            <strong>Awards:</strong>
-            <div *ngFor="let award of (user?.awards | keyvalue)">
-                {{user?.awards[award.key]?.name}} <br />
-                {{user?.awards[award.key]?.description}} <br />
-                {{user?.awards[award.key]?.awardedby}} <br />
-                {{user?.awards[award.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
-                {{user?.awards[award.key]?.created | date: 'MM/dd/yyyy' }} <br />
-                {{user?.awards[award.key]?.modified | date: 'MM/dd/yyyy' }} <br />
-            </div>
-
-            <strong>Talents:</strong>
-            <div *ngFor="let talent of (user?.talents | keyvalue)">
-                {{user?.talents[talent.key]?.name}} <br />
-                {{user?.talents[talent.key]?.description}} <br />
-                {{user?.talents[talent.key]?.created | date: 'MM/dd/yyyy' }} <br />
-                {{user?.talents[talent.key]?.modified | date: 'MM/dd/yyyy' }} <br />
-            </div> 
-            -->
 
             <div class="flex flex-col bg-white " >
 
@@ -115,9 +45,9 @@
                         alt="My Skills">
                     </div>
                 </div>
-    
+
                 <div class="flex-auto pl-5 pt-5 text-2xl font-extrabold leading-tight text-sky-900">Public Profile</div>
-    
+
                 <div class="flex-auto pl-5">
                     <p class="text-sky-500" style="
                     display: -webkit-box;
@@ -128,12 +58,77 @@
                         Visit your Public Profile to See your collecion of Skills, Talents and Education. 
                     </p>
                 </div>
-    
-    
+                
+                <div class="flex-auto pl-5 mt-10">
+
+                    {{user?.name}}
+                    <br />
+                    {{user?.email}}
+                    <div class="mt-10"></div>
+                    <strong>Skills:</strong>
+                    <div *ngFor="let skill of (user?.skills | keyvalue)">
+                        {{user?.skills[skill.key]?.name}} <br />
+                        {{user?.skills[skill.key]?.rating}} <br />
+                        {{user?.skills[skill.key]?.created | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.skills[skill.key]?.modified | date: 'MM/dd/yyyy' }} <br />
+                    </div>
+                    <div class="mt-10"></div>
+                    <strong>Degrees</strong>
+                    <div *ngFor="let degree of (user?.degrees | keyvalue)">
+                        {{user?.degrees[degree.key]?.state}} <br />
+                        {{user?.degrees[degree.key]?.institution}} <br />
+                        {{user?.degrees[degree.key]?.degreelevel}} <br />
+                        {{user?.degrees[degree.key]?.degreetype}} <br />
+                        {{user?.degrees[degree.key]?.major}} <br />
+                        {{user?.degrees[degree.key]?.minor}}            
+                        {{user?.degrees[degree.key]?.completed}} <br />
+                        {{user?.degrees[degree.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.degrees[degree.key]?.created | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.degrees[degree.key]?.modifed | date: 'MM/dd/yyyy' }} <br />
+                    </div>
+                    <div class="mt-10"></div>
+                    <strong>Certifications</strong>
+                    <div *ngFor="let certification of (user?.certifications | keyvalue)">
+                        {{user?.certifications[certification.key]?.name}} <br />
+                        {{user?.certifications[certification.key]?.description}} <br />
+                        {{user?.certifications[certification.key]?.awardedby}} <br />
+                        {{user?.certifications[certification.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.certifications[certification.key]?.expireson | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.certifications[certification.key]?.created | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.certifications[certification.key]?.modifed | date: 'MM/dd/yyyy' }} <br />
+                    </div>
+                    <div class="mt-10"></div>
+                    <strong>Training:</strong>
+                    <div *ngFor="let training of (user?.training| keyvalue)">
+                        {{user?.training[training.key]?.name}} <br />
+                        {{user?.training[training.key]?.description}} <br />
+                        {{user?.training[training.key]?.awardedby}} <br />
+                        {{user?.training[training.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.training[training.key]?.created | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.training[training.key]?.modified | date: 'MM/dd/yyyy' }} <br />
+                    </div>
+                    <div class="mt-10"></div>
+                    <strong>Awards:</strong>
+                    <div *ngFor="let award of (user?.awards | keyvalue)">
+                        {{user?.awards[award.key]?.name}} <br />
+                        {{user?.awards[award.key]?.description}} <br />
+                        {{user?.awards[award.key]?.awardedby}} <br />
+                        {{user?.awards[award.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.awards[award.key]?.created | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.awards[award.key]?.modified | date: 'MM/dd/yyyy' }} <br />
+                    </div>
+                    <div class="mt-10"></div>
+                    <strong>Talents:</strong>
+                    <div *ngFor="let talent of (user?.talents | keyvalue)">
+                        {{user?.talents[talent.key]?.name}} <br />
+                        {{user?.talents[talent.key]?.description}} <br />
+                        {{user?.talents[talent.key]?.created | date: 'MM/dd/yyyy' }} <br />
+                        {{user?.talents[talent.key]?.modified | date: 'MM/dd/yyyy' }} <br />
+                    </div> 
+
+                </div>
+
             </div>
-
-
-
 
         </div>
 
