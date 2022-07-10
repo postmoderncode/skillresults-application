@@ -43,8 +43,7 @@ export class DashboardComponent implements OnInit {
             (this.counts.wishlists?.certificates ?? 0) +
             (this.counts.wishlists?.degrees ?? 0) +
             (this.counts.wishlists?.skills ?? 0) +
-            (this.counts.wishlists?.training ?? 0)
-
+            (this.counts.wishlists?.training ?? 0);
 
         }
 

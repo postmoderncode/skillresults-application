@@ -258,17 +258,17 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     const mdatenow = Math.floor(Date.now());
 
     //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/skills').push({ key: mkey, name: mname, rating: mrating, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push({ key: mkey, name: mname, rating: mrating, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
 
     //Call Promise
     promiseAddItem
-      .then(_ => this.db.object('/skills/' + this.fbuser.id + '/' + _.key)
+      .then(_ => this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + _.key)
         .update({ key: mkey, name: mname, rating: mrating, created: mdatenow, modified: mdatenow, user: this.fbuser.id }))
       .then(_ => form.resetForm())
       .catch(err => console.log(err, 'Error Submitting Skill!'));
 
     //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 1;
       } else {
@@ -285,20 +285,20 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     const mrating: number = this.model.rating;
     const mdatenow = Math.floor(Date.now());
 
-    this.db.object('/users/' + this.fbuser.id + '/skills/' + key)
+    this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key)
       .update({ rating: mrating, modified: mdatenow });
-    this.db.object('/skills/' + this.fbuser.id + '/' + key)
+    this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + key)
       .update({ rating: mrating, modified: mdatenow });
 
   }
 
   //Function - Delete Item in DB
   onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/skills/' + key).remove();
-    this.db.object('/skills/' + this.fbuser.id + '/' + key).remove();
+    this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).remove();
+    this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + key).remove();
 
     //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 0;
       } else {
@@ -334,7 +334,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     this.formMode = 'edit';
 
     //Define Observable
-    this.item = this.db.object('/users/' + this.fbuser.id + '/skills/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).valueChanges();
 
     //Subscribe to Observable
     this.item.subscribe((item) => {
@@ -412,7 +412,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         });
 
     //Populate User Skills - Firebase List Object
-    this.items = this.db.list('/users/' + this.fbuser.id + '/skills').snapshotChanges().subscribe(
+    this.items = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').snapshotChanges().subscribe(
       (results: object) => {
 
         //Put the results of the DB call into an object.
