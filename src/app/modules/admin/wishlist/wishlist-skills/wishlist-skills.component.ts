@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject, combineLatest, map } from 'rxjs';
 
@@ -15,11 +15,23 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   //Initialize Varables
   //-------------------
 
-  //Current User
-  fbuser = JSON.parse(localStorage.getItem('fbuser'));
-
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+
+  //Page View State (Default is "Loading..")
+  viewState = 0;
+
+  //Form Mode State (Add vs. Edit Mode)
+  formMode = '';
+
+  //Container to hold a list of items
+  items: object;
+
+  //Container to hold a single item
+  item: Observable<any>;
+
+  //Container to hold Current User
+  fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
   //Confirmation Dialog
   dialogconfigForm: FormGroup;
@@ -27,17 +39,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   //Empty Model
   model = new UserSkill();
   catmodel = new CatalogState();
-
-  //Firebase Observables
-  listRef: AngularFireList<any>;
-  item: Observable<any>;
-  items: Observable<any[]>;
-
-  //Form Visibility Modifiers
-  showadditem = false;
-  showedititem = false;
-  showsearch = false;
-  showcatalog = false;
 
   //Object to Hold All Areas.
   areas;
@@ -58,14 +59,18 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   qresults2;
   qresults3;
 
-  /**
-   * Constructor
-   */
+
+  //Constructor
+  //---------------------
   constructor(
     private _formBuilder: FormBuilder,
     private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
+
+
+  //Functions
+  //---------------------
 
   //Function to Handle the Back Arrow
   goback(): void {
@@ -234,17 +239,17 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     this.catmodel.currentSkill = skillId;
     this.model.key = skillId;
     this.model.name = skillName;
-    this.showedititem = false;
-    this.showadditem = true;
-    this.showsearch = false;
-    this.showcatalog = false;
+    //Set the View State
+    this.viewState = 3;
+
+    //Set the Form Mode
+    this.formMode = 'add';
 
   }
 
-  onAdd(): void {
 
-
-    this.listRef = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills');
+  //Function - Add New Item to DB
+  onAdd(form: NgForm): void {
 
     //Cast model to variable for formReset
     const mkey: string = this.model.key;
@@ -253,17 +258,17 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     const mdatenow = Math.floor(Date.now());
 
     //Define Promise
-    const promiseAddItem = this.listRef.push({ key: mkey, name: mname, rating: mrating, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/skills').push({ key: mkey, name: mname, rating: mrating, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
 
     //Call Promise
     promiseAddItem
-      .then(_ => this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + _.key)
+      .then(_ => this.db.object('/skills/' + this.fbuser.id + '/' + _.key)
         .update({ key: mkey, name: mname, rating: mrating, created: mdatenow, modified: mdatenow, user: this.fbuser.id }))
-      .then(_ => this.showadditem = false)
+      .then(_ => form.resetForm())
       .catch(err => console.log(err, 'Error Submitting Skill!'));
 
     //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 1;
       } else {
@@ -273,31 +278,27 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   }
 
+  //Function - Update Item in DB
   onEdit(key): void {
 
     //Cast model to variable for formReset
     const mrating: number = this.model.rating;
     const mdatenow = Math.floor(Date.now());
 
-    this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key)
+    this.db.object('/users/' + this.fbuser.id + '/skills/' + key)
       .update({ rating: mrating, modified: mdatenow });
-    this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + key)
+    this.db.object('/skills/' + this.fbuser.id + '/' + key)
       .update({ rating: mrating, modified: mdatenow });
-    this.showedititem = false;
 
   }
 
+  //Function - Delete Item in DB
   onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).remove();
-    this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + key).remove();
-
-    this.showedititem = false;
-    this.showadditem = false;
-    this.showsearch = false;
-    this.showcatalog = false;
+    this.db.object('/users/' + this.fbuser.id + '/skills/' + key).remove();
+    this.db.object('/skills/' + this.fbuser.id + '/' + key).remove();
 
     //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 0;
       } else {
@@ -307,39 +308,33 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   }
 
-  //Contextual Button based on tabTitle
+  //Function - Cancel the Add or Edit Form
+  onCancelForm(form: NgForm): void {
+    form.resetForm();
+    this.viewState = 1;
+  }
+
+  //Fuction - Show the Add Form
   onShowAddForm(): void {
-    this.showedititem = false;
-    this.showadditem = true;
-    this.showsearch = false;
-    this.showcatalog = false;
 
+    //Set the View State
+    this.viewState = 3;
+
+    //Set the Form Mode
+    this.formMode = 'add';
   }
 
-  onHideAddForm(): void {
-    this.showadditem = false;
-
-  }
-
-  onCancelAdd(): void {
-
-    this.showedititem = false;
-    this.showadditem = false;
-    this.showsearch = false;
-    this.showcatalog = false;
-
-  }
-
+  //Fuction - Show the Edit Form
   onShowEditForm(key): void {
-    console.log('edit form shown');
-    this.showadditem = false;
-    this.showsearch = false;
-    this.showcatalog = false;
-    this.showedititem = true;
 
+    //Set the View State
+    this.viewState = 3;
+
+    //Set the Form Mode
+    this.formMode = 'edit';
 
     //Define Observable
-    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/skills/' + key).valueChanges();
 
     //Subscribe to Observable
     this.item.subscribe((item) => {
@@ -347,32 +342,38 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     });
 
     console.log(key + 'has been selected to edit');
-  }
-
-  onHideEditForm(): void {
-    this.showedititem = false;
-    this.model = new UserSkill();
 
   }
 
-  onShowCatalog(): void {
-    this.showadditem = false;
-    this.showedititem = false;
-    this.showsearch = false;
-    this.showcatalog = true;
+  //Function - Show the Delete Conf.
+  onShowDelete(key): void {
 
-  }
-
-  openConfirmationDialog(key): void {
-    // Open the dialog and save the reference of it
+    //Open the dialog and save the reference of it
     const dialogRef = this._fuseConfirmationService.open(this.dialogconfigForm.value);
 
-    // Subscribe to afterClosed from the dialog reference
+    //Subscribe to afterClosed from the dialog reference
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'confirmed') {
+        //Call Actual Delete
         this.onDelete(key);
       }
     });
+  }
+
+
+  onShowCatalog(): void {
+
+    //Set the View State
+    this.viewState = 4;
+
+  }
+
+
+  onShowSearch(): void {
+
+    //Set the View State
+    this.viewState = 5;
+
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -411,7 +412,26 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         });
 
     //Populate User Skills - Firebase List Object
-    this.items = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').snapshotChanges();
+    this.items = this.db.list('/users/' + this.fbuser.id + '/skills').snapshotChanges().subscribe(
+      (results: object) => {
+
+        //Put the results of the DB call into an object.
+        this.items = results;
+
+        console.log(this.items);
+
+        //Check if the results object is empty
+        if (Object.keys(this.items).length === 0) {
+          //It's empty, so set the view state to "No Data" mode.
+          this.viewState = 2;
+        }
+        else {
+          //It's not empty, so set the view state to "Show Data" mode.
+          this.viewState = 1;
+        };
+
+      }
+    );
 
 
     //Formbuilder for Dialog Popup

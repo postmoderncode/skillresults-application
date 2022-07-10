@@ -59,7 +59,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   qresults3;
 
 
-
   //Constructor
   //---------------------
   constructor(
@@ -67,6 +66,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
+
 
   //Functions
   //---------------------
