@@ -1,1 +1,409 @@
-<p>wishlist-degrees works!</p>
+        <!-- CONTENT GOES HERE -->
+        <div class="flex justify-center h-full">
+
+            <!-- Action Buttons -->
+            <div *ngIf="viewState !== 3">
+
+                <button (click)="onShowAddForm();" [disabled]="showadditem" mat-flat-button type="button"
+                    [color]="'primary'">
+                    Add Degree
+                </button>
+            </div>
+
+            <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
+            <div class="flex-initial w-[1400px]">
+
+                <!-- Switch Code to Control ViewState -->
+                <div [ngSwitch]="viewState">
+
+                    <!-- LOADING VIEW STATE -->
+                    <div *ngSwitchCase="0">
+                        LOADING....
+                    </div>
+
+                    <!-- SHOW LIST VIEW STATE -->
+                    <div *ngSwitchCase="1">
+
+                        <!-- Cert List Area (default) -->
+                        <!-- ------------------------ -->
+
+                        <!-- Certification List -->
+                        <div class="flex justify-center flex-wrap mt-5">
+
+                            <!-- Certification Container -->
+                            <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
+
+                                <!-- Certifciation Card -->
+                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
+
+                                    <!-- Cert Card - inner border -->
+                                    <div class="flex flex-col h-full relative border-8 border-gray-100">
+
+                                        <!-- Top Flex Row -->
+                                        <div class="flex-none">
+
+                                             <!--Flex Container for the Top Row -->
+                                            <div class="flex items-center">
+
+                                                <!-- Awarded On -->
+                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
+                                                    <span  *ngIf="item.payload.val().awardedon?.length > 0">
+                                                        {{item.payload.val().awardedon | date: 'MM/dd/yy'}} 
+                                                    </span>
+                                                </div>
+
+                                                <!-- Ribbon Icon -->
+                                                <div class="flex-none text-center">
+                                                    <img class="h-14 relative -mt-7"
+                                                        src="assets/images/ui/cert-ribbon.svg">
+                                                </div>
+                                                
+                                                <!-- Expires On -->
+                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Middle Flex Row -->
+                                        <div class="flex-auto">
+                                            <div class="flex flex-col justify-evenly h-full">
+
+                                                <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().degreetype}}</div>
+
+                                                <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().institution}}</div>
+
+                                                <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
+                                                        style="
+                                                            display: -webkit-box;
+                                                            overflow: hidden;
+                                                            -webkit-line-clamp: 3;
+                                                            -webkit-box-orient: vertical;">
+
+                                                    <span  *ngIf="item.payload.val().major?.length > 0">
+                                                        Major: {{item.payload.val().major }} 
+                                                    </span>
+                                                    
+                                                    <span  *ngIf="item.payload.val().minor?.length > 0">
+                                                        Minor: {{item.payload.val().minor }} 
+                                                    </span>  
+                                                     
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Bottom Flex Row -->
+                                        <div class="flex-none">
+                                            
+                                            <!-- Botton Flex Container -->
+                                            <div class="flex">
+
+                                                <!-- Delete Button -->
+                                                <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                    <button 
+                                                        (click)="onShowDelete(item.key);" 
+                                                        mat-stroked-button 
+                                                        type="button">
+                                                        Delete
+                                                    </button>
+                                                </div>
+
+                                                <!-- Cert Icon -->
+                                                <div class="flex-none">
+                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
+                                                </div>
+
+                                                <!-- Edit Button -->
+                                                <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                    <button (click)="onShowEditForm(item.key);" 
+                                                            mat-flat-button 
+                                                            type="button" 
+                                                            [color]="'primary'">
+                                                                Edit
+                                                    </button>
+                                                   
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                    <!-- SHOW "NO DATA" MESSAGE -->
+                    <div *ngSwitchCase="2">
+                        DUDE.. YOU NEED DEGREES.
+                    </div>
+
+                    <!-- "ADD" VIEW STATE -->
+                    <div *ngSwitchCase="3">
+
+                        <!-- Form Container -->
+                        <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
+
+                            <!-- Form Title -->
+                            <div [ngSwitch]="formMode">
+
+                                <h2 *ngSwitchCase="'add'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Add a Degree
+                                </h2>
+
+                                <h2 *ngSwitchCase="'edit'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Edit a Degree
+                                </h2>
+
+                            </div>
+
+
+                            <!-- Form Start -->
+                            <form #addItemForm="ngForm">
+
+                                <!-- Form Field - State -->
+                                <div class="form-group mb-3">
+                                    <mat-form-field appearance="fill" class="min-w-50">
+                                        <mat-label>State</mat-label>
+                                        <mat-select   
+                                        (selectionChange)="onStateChange($event)"
+                                        #name="ngModel"
+                                        name="state"                                
+                                        [(ngModel)]="model.state"
+                                        required >
+                                        <mat-option *ngFor="let state of states" [value]="state.abbreviation">
+                                            {{state.name}}
+                                        </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Form Field - Institution -->
+                                <div class="form-group mb-5">   
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Name of Institution</mat-label>
+                                        <mat-icon
+                                            class="icon-size-5"
+                                            [svgIcon]="'heroicons_outline:office-building'"
+                                            matPrefix></mat-icon>
+                                            <input type="text"
+                                            id="institution" 
+                                            class="form-control"
+                                            placeholder="Start Typing for Suggestions" 
+                                            #name="ngModel"
+                                            name="institution"
+                                            (ngModelChange)="applyFilterSchools($event)"
+                                            [(ngModel)]="model.institution" 
+                                            [matAutocomplete]="autocomaddschool"
+                                            required
+                                            matInput>
+                                            <mat-autocomplete #autocomaddschool="matAutocomplete">
+                                                <mat-option *ngFor="let option of schoolfilteredData" [value]="option.name">
+                                                    {{option.name}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                    </mat-form-field>  
+                                </div> 
+
+                                <div class="form-group">
+                                    <!-- Form Field - Degree Level -->
+                                    <mat-form-field appearance="fill" class="mr-5 min-w-50">
+                                        <mat-label>Degree Level</mat-label>
+                                        <mat-select 
+                                        (selectionChange)="onDegreeLevelChanged($event)"  
+                                        #name="ngModel"
+                                        [(ngModel)]="model.degreelevel"
+                                        name="degreelevel"
+                                        required>
+                                          <mat-option *ngFor="let degreelevel of degreelevels" [value]="degreelevel.level">
+                                            {{degreelevel.name}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                      <!-- Form Field - Degree Type -->
+                                      <mat-form-field appearance="fill" class="w-100">
+                                        <mat-label>Degree Type</mat-label>
+                                        <mat-select
+                                        #name="ngModel"
+                                        name="degreetype" 
+                                        [(ngModel)]="model.degreetype"                             
+                                        required>
+                                          <mat-option *ngFor="let degreetype of degreetypesfilteredData" [value]="degreetype.name">
+                                            {{degreetype.name}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+        
+                                </div>
+
+                                <!-- Form Field - Major -->
+                                <div class="form-group">
+
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Major Field of Study</mat-label>
+                                        <mat-icon
+                                            class="icon-size-5"
+                                            [svgIcon]="'heroicons_outline:academic-cap'"
+                                            matPrefix></mat-icon>
+                                            <input type="text"
+                                            id="major" 
+                                            class="form-control"
+                                            placeholder="Start Typing for Suggestions" 
+                                            #name="ngModel"
+                                            name="major"
+                                            (ngModelChange)="applyFilterFields($event)"
+                                            [(ngModel)]="model.major" 
+                                            [matAutocomplete]="autocomaddmajor"
+                                            required
+                                            matInput>
+                                            <!-- [formControl]="myControl" -->
+                                            <mat-autocomplete #autocomaddmajor="matAutocomplete">
+                                                <mat-option *ngFor="let option of fieldfilteredData" [value]="option">
+                                                    {{option}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                    </mat-form-field>
+             
+                                </div>
+
+                                <!-- Form Field - Minor -->
+                                <div class="form-group mt-5">
+
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Minor Field of Study</mat-label>
+                                        <mat-icon
+                                            class="icon-size-5"
+                                            [svgIcon]="'heroicons_outline:book-open'"
+                                            matPrefix></mat-icon>
+                                            <input type="text"
+                                            id="minor" 
+                                            class="form-control"
+                                            placeholder="Start Typing for Suggestions" 
+                                            #name="ngModel"
+                                            name="minor"
+                                            (ngModelChange)="applyFilterFields($event)"
+                                            [(ngModel)]="model.minor" 
+                                            [matAutocomplete]="autocomaddminor"
+                                            matInput>
+                                            <!-- [formControl]="myControl" -->
+                                            <mat-autocomplete #autocomaddminor="matAutocomplete">
+                                                <mat-option *ngFor="let option of fieldfilteredData" [value]="option">
+                                                    {{option}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                    </mat-form-field>
+        
+                                </div>
+
+                                <div class="form-group mt-10">
+
+                                    <mat-checkbox      
+                                    [checked]= "model.completed"
+                                    name="reqcompleted"
+                                    id="reqcompleted"
+                                    class="form-control"
+                                    (change)="onCompletedChecked($event)">Academic Requirements Completed</mat-checkbox>
+                                
+                                </div>
+        
+                                <!-- Form Field - Awarded On -->
+                                <div class="form-group mt-10">
+        
+                                    <mat-form-field appearance="fill"  class="min-w-50">
+                                        <mat-label>
+
+                                            <span  *ngIf="model.awardedon?.length > 0">
+                                                {{gradDate}}: {{model.awardedon| date: 'MM/dd/yyyy'}} 
+                                            </span>
+                                            <span  *ngIf="model.awardedon?.length === 0">
+                                                {{gradDate}}
+                                            </span>
+                                            
+                                        </mat-label>
+                                        <input matInput [matDatepicker]="addpicker" 
+                                        (dateChange)="onDateChange($event, addpicker)"
+                                        name="awardedon"  
+                                        id="awardedon"
+                                        class="form-control"
+                                        required>
+                                        <mat-hint>MM/DD/YYYY</mat-hint>
+                                        <mat-datepicker-toggle matSuffix [for]="addpicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #addpicker startView="year"></mat-datepicker>
+                                    </mat-form-field>
+                    
+                                </div>
+
+
+                                <!-- Actions -->
+                                <div class="flex justify-center mt-6">
+
+                                    <button
+                                        (click)="onCancelForm(addItemForm)"
+                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                        Cancel
+                                    </button>
+                                
+                                    <!-- Switch to control Add vs. Edit mode -->
+                                    <div [ngSwitch]="formMode">
+
+                                        <div *ngSwitchCase="'add'" >
+                                            <button 
+                                                (click)="onAdd(addItemForm);"
+                                                [disabled]="!addItemForm.form.valid" 
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Add New Degree
+                                            </button>
+                                        </div>
+
+                                        <div *ngSwitchCase="'edit'">
+                                            <button
+                                                (click)="onEdit(model.key);"
+                                                [disabled]="!addItemForm.form.valid" 
+                                                class="flex-none ml-4" mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Edit Degree
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <!-- CONFIRM DELETE VIEW STATE -->
+                    <div *ngSwitchCase="4">
+                        DELETE CONF
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>

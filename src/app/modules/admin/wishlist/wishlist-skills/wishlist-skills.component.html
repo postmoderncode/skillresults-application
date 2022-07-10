@@ -1,1 +1,302 @@
-<p>wishlist-skills works!</p>
+<!-- CONTENT GOES HERE -->
+<div class="h-400 min-h-400 max-h-400">
+
+    <!-- Add Form -->
+    <div [hidden]="!showadditem">
+        <fuse-card class="flex flex-col w-full p-8 filter-info mb-3 drop-shadow-lg bg-orange-50">
+            <h2 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-5">
+                Add {{tabTitle}} : {{model?.name}}
+            </h2>
+            <form #addItemForm="ngForm">
+                <div class="form-group">
+
+                    <div class="mb-10">
+                        <mat-label class="mr-5 text-lg"><strong>Skill Rating:</strong> {{model.rating}}</mat-label>
+                    </div>
+        
+                    <mat-slider
+                     thumbLabel
+                     id ="rating"
+                     name="rating"
+                     [(ngModel)]="model.rating"
+                     #name="ngModel"
+                      min="0" max="100" step="5" value="50" style="min-width:300px;"></mat-slider>
+        
+        
+                </div>
+    
+                    <!-- Spacer -->
+                    <div class="mt-5"></div>
+
+                    <!-- Actions -->
+                    <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+
+                        <button  
+                            (click)="onHideAddForm(); addItemForm.resetForm(); editItemForm.resetForm();"
+                            class="ml-4"
+                            mat-stroked-button
+                            type="button"
+                            [color]="'primary'">
+                            Cancel
+                        </button>
+
+                        <button  
+                            (click)="onAdd(); addItemForm.resetForm(); editItemForm.resetForm();"
+                            [disabled]="!addItemForm.form.valid" 
+                            class="ml-4"
+                            mat-flat-button
+                            type="button"
+                            [color]="'primary'">
+                            Add Skill
+                        </button>
+        
+                    </div>
+
+            </form>
+        </fuse-card>
+
+    </div>
+
+    <!-- Edit Form -->
+    <div [hidden]="!showedititem">
+        <fuse-card class="flex flex-col w-full p-8 filter-info mb-3 drop-shadow-lg bg-orange-50">
+            <h2 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-5">
+                Edit Custom{{tabTitle}}
+            </h2>
+
+            <form #addItemForm="ngForm">
+                <div class="form-group">
+
+                    <div class="mb-10">
+                        <mat-label class="mr-5 text-lg"><strong>Skill Rating:</strong> {{model.rating}}</mat-label>
+                    </div>
+        
+                    <mat-slider
+                     thumbLabel
+                     id ="rating"
+                     name="rating"
+                     [(ngModel)]="model.rating"
+                     #name="ngModel"
+                      min="0" max="100" step="5" value="50" style="min-width:300px;"></mat-slider>
+        
+        
+                </div>
+    
+                    <!-- Spacer -->
+                    <div class="mt-5"></div>
+
+                <!-- Actions -->
+                <div class="flex shrink-0 items-center mt-3 sm:mt-0 sm:ml-4">
+
+                    <button  
+                        (click)="onHideEditForm(); editItemForm.resetForm(); addItemForm.resetForm()"
+                        class="ml-4"
+                        mat-stroked-button
+                        type="button"
+                        [color]="'primary'">
+                        Cancel
+                    </button>
+
+                    <button  
+                        (click)="onEdit(model.key); editItemForm.resetForm(); addItemForm.resetForm()"
+                        [disabled]="!editItemForm.form.valid" 
+                        class="ml-4"
+                        mat-flat-button
+                        type="button"
+                        [color]="'primary'">
+                        Accept Edits
+                    </button>
+    
+                </div>
+
+                <div class="float-right text-right mt-3">
+                    created:{{model.created | date: 'MM/dd/yy h:mm a'}}
+                    <br />
+                    modified:{{model.modified | date: 'MM/dd/yy h:mm a'}}
+                    <br />
+                    <button mat-mini-fab color="warn" matTooltip="delete" class="mt-2" (click)="openConfirmationDialog(model.key)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+
+            </form>
+
+        </fuse-card>
+
+    </div>
+
+    <!-- Search -->
+    <div [hidden]="!showcatalog">
+
+        <div class="w-full text-right" >
+
+            <form #editItemForm="ngForm">
+                <input #searchbox type="text" placeholder="search">
+                <button  
+                    (click)="onSearch(searchbox.value);"
+                    class="ml-4"
+                    mat-stroked-button
+                    type="button"
+                    [color]="'primary'">
+                Search
+                </button>
+            </form>
+
+            <div *ngFor="let searchresult of searchresults">
+                <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult.key, searchresult.payload.val().name);">
+                    <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                </button>
+                {{searchresult.payload.val().name}}
+                <span *ngIf="searchresult.payload.val().email?.length > 5">Email Address: {{searchresult.payload.val().email}}</span>
+        
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SELECTOR WRAPPER -->
+    <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px] " [hidden]="!showcatalog">
+
+        <!-- SELECTOR TITLE -->
+        <div class="flex items-center h-15">
+
+            <a (click)="goback()">
+            <div *ngIf="selectedIndex!==0" class="pt-1">
+                <mat-icon style="font-size:25px; height:25px; width:25px;" svgIcon="mat_solid:arrow_back"></mat-icon>
+            </div>
+            </a>
+
+            <div class="flex-1 text-1xl p-2 mr-20 sm:text-2xl md:text-2xl lg:text-3xl font-extrabold text-center tracking-tight">
+                Select {{tabTitle}}
+            </div>
+
+        </div>
+
+        <!-- TAB GROUP WRAPPER -->
+        
+        <div class="">
+
+            <mat-tab-group preserveContent class="h-[calc(100vh-360px)] min-h-50 overflow-scroll" [(selectedIndex)]=selectedIndex>
+
+                <!--Areas Tab-->
+                <mat-tab label="Areas">
+                    
+                    <!--Repeat for Each Area-->
+                    <span *ngFor="let area of (areas)" >
+                        <span *ngIf="area.customs[0]?.payload.val().hidden !== true && area.payload.val().name?.length > 0">
+                            <a (click)="onAreaSelect(area.key)" title="{{ area.payload.val().description }}">
+                                <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                    <div class="flex-1">
+                                        <span *ngIf="!area.customs[0]?.payload.val().name">
+                                            <div class="flex-1 w-100"> {{ area.payload.val().name }}</div>
+                                         </span>
+        
+                                        <span *ngIf="area.customs[0]?.payload.val().name">
+                                            <div class="flex-1 w-100"> {{ area.customs[0]?.payload.val().name }}</div>
+                                        </span>                                        
+                                    </div>
+                                    <div class="flex-none pt-1">
+                                        <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                    </div>
+                                </div>
+                            </a>
+                        </span>
+                    </span>
+                    
+                    <!--Bottom Division Line-->
+                    <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                        <div class="flex-1"></div>
+                    </div>
+
+                </mat-tab>
+
+                <!--Categories Tab-->
+                <mat-tab label="Catagories">
+
+                    <!--Repeat for Each Category-->
+                    <span *ngFor="let category of categories" >
+                        <span *ngIf="category.customs[0]?.payload.val().hidden !== true && category.payload.val().name?.length > 0">
+                            <a (click)="onCategorySelect(category.key)" title="{{ category.payload.val().description }}">
+                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                    <div class="flex-1">
+                                        <span *ngIf="!category.customs[0]?.payload.val().name">
+                                            <div class="flex-1 w-100"> {{ category.payload.val().name }}</div>
+                                        </span>
+        
+                                        <span *ngIf="category.customs[0]?.payload.val().name">
+                                             <div class="flex-1 w-100"> {{ category.customs[0]?.payload.val().name }}</div>
+                                         </span>                                        
+                                    </div>
+                                    <div class="flex-none pt-1">
+                                        <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                    </div>
+                                </div>
+                            </a>
+                        </span>
+                    </span>
+                        
+                    <!--Bottom Division Line-->
+                    <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                        <div class="flex-1"></div>
+                    </div>
+
+                </mat-tab>
+
+                <!--Skills Tab-->
+                <mat-tab label="Skills">
+
+                    <!--Repeat for Each Skill-->
+                    <span *ngFor="let skill of skills" >
+                        <span *ngIf="skill.customs[0]?.payload.val().hidden !== true && skill.payload.val().name?.length > 0">
+                            <a (click)="selectSkill(skill.key, skill.payload.val().name)" title="{{ skill.payload.val().description }}">
+                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                    <div class="flex-1">
+                                        <span *ngIf="!skill.customs[0]?.payload.val().name">
+                                            <div class="flex-1 w-100"> {{ skill.payload.val().name }}</div>
+                                        </span>
+    
+                                        <span *ngIf="skill.customs[0]?.payload.val().name">
+                                                <div class="flex-1 w-100"> {{ skill.customs[0]?.payload.val().name }}</div>
+                                        </span>                                        
+                                    </div>
+                                    <div class="flex-none pt-1">
+                                        <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
+                                    </div>
+                                </div>
+                            </a>
+                        </span>
+                    </span>
+
+                    <!--Bottom Division Line-->
+                    <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                        <div class="flex-1"></div>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+        </div>
+    
+    </div>
+
+    <!--Default View-->
+    <div [hidden]="showadditem||showedititem||showsearch||showcatalog">
+
+        <h2 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-5">
+            My Skills
+        </h2>
+
+        <ul>
+        <div *ngFor="let skill of (items | async)">
+           <li>                                
+            <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(skill.key);">
+                <mat-icon>edit</mat-icon>
+            </button>
+          {{skill?.payload.val().name}} : {{skill?.payload.val().rating}}</li> 
+        </div>
+        </ul>
+
+
+    </div>
+    
+
+</div>

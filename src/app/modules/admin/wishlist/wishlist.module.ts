@@ -13,6 +13,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { FuseAlertModule } from '@fuse/components/alert';
@@ -54,6 +55,7 @@ const wishlistRoutes: Route[] = [
     MatTableModule,
     MatTooltipModule,
     MatDatepickerModule,
+    MatAutocompleteModule,
     MatNativeDateModule,
     FuseAlertModule,
     FuseCardModule,

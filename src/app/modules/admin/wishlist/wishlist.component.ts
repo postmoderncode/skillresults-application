@@ -7,7 +7,7 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
   selector: 'app-wishlist',
   templateUrl: './wishlist.component.html',
   styleUrls: ['./wishlist.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class WishlistComponent implements OnInit, OnDestroy {
