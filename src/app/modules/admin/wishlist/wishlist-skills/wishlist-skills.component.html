@@ -20,6 +20,28 @@
                             Cancel
                         </button>
                     </span>
+
+                    <span *ngIf="viewState === 5">
+                        <button 
+                        (click)="onShowCatalog();"
+                        class="flex-none ml-4" 
+                        mat-flat-button
+                        type="button" 
+                        [color]="'primary'">
+                        USE CATALOG
+                        </button>
+                    </span>
+                    
+                    <span *ngIf="viewState === 4">
+                        <button 
+                        (click)="onShowSearch();"
+                        class="flex-none ml-4" 
+                        mat-flat-button
+                        type="button" 
+                        [color]="'primary'">
+                        USE SEARCH
+                        </button>
+                    </span>
                 </div>
 
                 <!-- Switch Code to Control ViewState -->
@@ -239,15 +261,6 @@
 
                     <!-- CATALOG -->
                     <div *ngSwitchCase="4">
-                        <div>
-                            <button 
-                            (click)="onShowSearch();"
-                            mat-stroked-button
-                            type="button" 
-                            [color]="'primary'">
-                            USE SEARCH
-                            </button>
-                        </div>
 
                         <!-- SELECTOR WRAPPER -->
                         <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px]">
@@ -377,15 +390,6 @@
 
                     <!-- SEARCH -->
                     <div *ngSwitchCase="5">
-                        <div>
-                            <button 
-                            (click)="onShowCatalog();"
-                            mat-stroked-button
-                            type="button" 
-                            [color]="'primary'">
-                            USE CATALOG
-                            </button>
-                        </div>
 
                         <div class="w-full text-center mt-10" >
 
@@ -405,7 +409,7 @@
                                     class="ml-4"
                                     mat-flat-button
                                     type="button"
-                                    [color]="'primary'">
+                                    [color]="'default'">
                                 Search
                                 </button>
                             </div>
