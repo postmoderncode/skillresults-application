@@ -137,7 +137,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     this.formMode = 'edit';
 
     //Define Observable Item based on the Key
-    this.item = this.db.object('/users/' + this.fbuser.id + '/degrees/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key).valueChanges();
 
     //Subscribe to Observable
     this.item.subscribe((item) => {
@@ -178,18 +178,18 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     const mdatenow = Math.floor(Date.now());
 
     //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/degrees')
+    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees')
       .push({ state: mstate, institution: minstitution, degreelevel: mdegreelevel, degreetype: mdegreetype, major: mmajor, minor: mminor, completed: mcompleted, awardedon: mawardedon, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
 
     //Call Promise
     promiseAddItem
-      .then(_ => this.db.object('/degrees/' + this.fbuser.id + '/' + _.key)
+      .then(_ => this.db.object('/wishlists/degrees/' + this.fbuser.id + '/' + _.key)
         .update({ state: mstate, institution: minstitution, degreelevel: mdegreelevel, degreetype: mdegreetype, major: mmajor, minor: mminor, completed: mcompleted, awardedon: mawardedon, created: mdatenow, modified: mdatenow, user: this.fbuser.id }))
       .then(_ => form.resetForm())
       .catch(err => console.log(err, 'Error Submitting Degree!'));
 
     //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/degrees').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/wishlists/degrees').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 1;
       } else {
@@ -215,10 +215,10 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     const mawardedon: string = this.model.awardedon;
     const mdatenow = Math.floor(Date.now());
 
-    this.db.object('/degrees/' + this.fbuser.id + '/' + key)
+    this.db.object('/wishlists/degrees/' + this.fbuser.id + '/' + key)
       .update({ state: mstate, institution: minstitution, degreelevel: mdegreelevel, degreetype: mdegreetype, major: mmajor, minor: mminor, completed: mcompleted, awardedon: mawardedon, modified: mdatenow, user: this.fbuser.id });
 
-    this.db.object('/users/' + this.fbuser.id + '/degrees/' + key)
+    this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key)
       .update({ state: mstate, institution: minstitution, degreelevel: mdegreelevel, degreetype: mdegreetype, major: mmajor, minor: mminor, completed: mcompleted, awardedon: mawardedon, modified: mdatenow, user: this.fbuser.id });
 
     this.cdkScrollable.scrollTo({ top: 0 });
@@ -226,11 +226,11 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
 
   //Function - Delete Item in DB
   onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/degrees/' + key).remove();
-    this.db.object('/degrees/' + this.fbuser.id + '/' + key).remove();
+    this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key).remove();
+    this.db.object('/wishlists/degrees/' + this.fbuser.id + '/' + key).remove();
 
     //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/degrees').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/wishlists/degrees').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 0;
       } else {
@@ -323,7 +323,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     this.fieldfilteredData = this.fieldoptions;
 
     //Call the Firebase Database and get the initial data.
-    this.db.list('/users/' + this.fbuser.id + '/degrees').snapshotChanges().subscribe(
+    this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees').snapshotChanges().subscribe(
       (results: object) => {
 
         //Put the results of the DB call into an object.

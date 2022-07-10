@@ -78,7 +78,7 @@ export class WishlistAwardsComponent implements OnInit, OnDestroy {
     this.formMode = 'edit';
 
     //Define Observable
-    this.item = this.db.object('/users/' + this.fbuser.id + '/awards/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/awards/' + key).valueChanges();
 
     //Subscribe to Observable
     this.item.subscribe((item) => {
@@ -113,18 +113,18 @@ export class WishlistAwardsComponent implements OnInit, OnDestroy {
     const mdatenow = Math.floor(Date.now());
 
     //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/awards')
+    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/awards')
       .push({ name: mname, description: mdescription, created: mdatenow, modified: mdatenow, user: this.fbuser.id, awardedby: mawardedby, awardedon: mawardedon });
 
     //Call Promise
     promiseAddItem
-      .then(_ => this.db.object('/awards/' + this.fbuser.id + '/' + _.key)
+      .then(_ => this.db.object('/wishlists/awards/' + this.fbuser.id + '/' + _.key)
         .update({ name: mname, description: mdescription, created: mdatenow, modified: mdatenow, user: this.fbuser.id, awardedby: mawardedby, awardedon: mawardedon }))
       .then(_ => form.resetForm())
       .catch(err => console.log(err, 'Error Submitting Award!'));
 
     //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/awards').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/wishlists/awards').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 1;
       } else {
@@ -146,9 +146,9 @@ export class WishlistAwardsComponent implements OnInit, OnDestroy {
     const mawardedon: string = this.model.awardedon;
     const mdatenow = Math.floor(Date.now());
 
-    this.db.object('/users/' + this.fbuser.id + '/awards' + '/' + key)
+    this.db.object('/users/' + this.fbuser.id + '/wishlists/awards' + '/' + key)
       .update({ name: mname, description: mdescription, modified: mdatenow, awardedby: mawardedby, awardedon: mawardedon });
-    this.db.object('/awards/' + this.fbuser.id + '/' + key)
+    this.db.object('/wishlists/awards/' + this.fbuser.id + '/' + key)
       .update({ name: mname, description: mdescription, modified: mdatenow, awardedby: mawardedby, awardedon: mawardedon });
 
     this.cdkScrollable.scrollTo({ top: 0 });
@@ -158,11 +158,11 @@ export class WishlistAwardsComponent implements OnInit, OnDestroy {
 
   //Function - Delete Item in DB
   onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/awards/' + key).remove();
-    this.db.object('/awards/' + this.fbuser.id + '/' + key).remove();
+    this.db.object('/users/' + this.fbuser.id + '/wishlists/awards/' + key).remove();
+    this.db.object('/wishlists/awards/' + this.fbuser.id + '/' + key).remove();
 
     //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/awards').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/wishlists/awards').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 0;
       } else {
@@ -195,7 +195,7 @@ export class WishlistAwardsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     //Call the Firebase Database and get the initial data.
-    this.db.list('/users/' + this.fbuser.id + '/awards').snapshotChanges().subscribe(
+    this.db.list('/users/' + this.fbuser.id + '/wishlists/awards').snapshotChanges().subscribe(
       (results: object) => {
 
         //Put the results of the DB call into an object.

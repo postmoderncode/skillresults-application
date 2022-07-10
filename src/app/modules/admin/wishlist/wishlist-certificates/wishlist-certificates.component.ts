@@ -80,7 +80,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
     this.formMode = 'edit';
 
     //Define Observable Item based on the Key
-    this.item = this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications/' + key).valueChanges();
 
     //Subscribe to Observable
     this.item.subscribe((item) => {
@@ -116,18 +116,18 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
     const mdatenow = Math.floor(Date.now());
 
     //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/certifications')
+    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/certifications')
       .push({ name: mname, description: mdescription, created: mdatenow, modified: mdatenow, user: this.fbuser.id, awardedby: mawardedby, awardedon: mawardedon, expireson: mexpireson });
 
     //Call Promise
     promiseAddItem
-      .then(_ => this.db.object('/certifications/' + this.fbuser.id + '/' + _.key)
+      .then(_ => this.db.object('/wishlists/certifications/' + this.fbuser.id + '/' + _.key)
         .update({ name: mname, description: mdescription, created: mdatenow, modified: mdatenow, user: this.fbuser.id, awardedby: mawardedby, awardedon: mawardedon, expireson: mexpireson }))
       .then(_ => form.resetForm())
       .catch(err => console.log(err, 'Error Submitting Certification!'));
 
     //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/certifications').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 1;
       } else {
@@ -148,9 +148,9 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
     const mexpireson: string = this.model.expireson;
     const mdatenow = Math.floor(Date.now());
 
-    this.db.object('/users/' + this.fbuser.id + '/certifications' + '/' + key)
+    this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications' + '/' + key)
       .update({ name: mname, description: mdescription, modified: mdatenow, awardedby: mawardedby, awardedon: mawardedon, expireson: mexpireson });
-    this.db.object('/certifications/' + this.fbuser.id + '/' + key)
+    this.db.object('/wishlists/certifications/' + this.fbuser.id + '/' + key)
       .update({ name: mname, description: mdescription, modified: mdatenow, awardedby: mawardedby, awardedon: mawardedon, expireson: mexpireson });
 
 
@@ -159,11 +159,11 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
 
   //Function - Delete Item in DB
   onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).remove();
-    this.db.object('/certifications/' + this.fbuser.id + '/' + key).remove();
+    this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications/' + key).remove();
+    this.db.object('/wishlists/certifications/' + this.fbuser.id + '/' + key).remove();
 
     //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/certifications').query.ref.transaction((likes) => {
+    this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
       if (likes === null) {
         return likes = 0;
       } else {
@@ -209,7 +209,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     //Call the Firebase Database and get the initial data.
-    this.db.list('/users/' + this.fbuser.id + '/certifications').snapshotChanges().subscribe(
+    this.db.list('/users/' + this.fbuser.id + '/wishlists/certifications').snapshotChanges().subscribe(
       (results: object) => {
 
         //Put the results of the DB call into an object.
