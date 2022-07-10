@@ -239,7 +239,7 @@
 
                                 <div class="form-group">
                                     <!-- Form Field - Degree Level -->
-                                    <mat-form-field appearance="fill" class="mr-5 min-w-50">
+                                    <mat-form-field appearance="fill">
                                         <mat-label>Degree Level</mat-label>
                                         <mat-select 
                                         (selectionChange)="onDegreeLevelChanged($event)"  
@@ -257,7 +257,7 @@
 
                                 <div class="form-group">
                                       <!-- Form Field - Degree Type -->
-                                      <mat-form-field appearance="fill" class="w-100">
+                                      <mat-form-field appearance="fill">
                                         <mat-label>Degree Type</mat-label>
                                         <mat-select
                                         #name="ngModel"
@@ -345,7 +345,7 @@
                                 <!-- Form Field - Awarded On -->
                                 <div class="form-group mt-10">
         
-                                    <mat-form-field appearance="fill"  class="min-w-50">
+                                    <mat-form-field appearance="fill">
                                         <mat-label>
 
                                             <span  *ngIf="model.awardedon?.length > 0">
