@@ -6,7 +6,7 @@
 
                 <button (click)="onShowAddForm();" [disabled]="showadditem" mat-flat-button type="button"
                     [color]="'primary'">
-                    Add Training
+                    Add Training to Wishlist
                 </button>
             </div>
 
@@ -20,7 +20,6 @@
                     <div *ngSwitchCase="0">
                         LOADING....
                     </div>
-
 
                     <!-- SHOW LIST VIEW STATE -->
                     <div *ngSwitchCase="1">
