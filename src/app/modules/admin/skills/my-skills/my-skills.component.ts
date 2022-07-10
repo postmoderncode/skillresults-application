@@ -75,7 +75,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   goback(): void {
     switch (this.selectedIndex) {
       case 1: {
-        console.log('goback 1');
         this.tabTitle = 'Area';
         this.selectedIndex = 0;
         this.catmodel.currentCategory = '';
@@ -83,7 +82,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
         break;
       }
       case 2: {
-        console.log('goback 2');
         this.tabTitle = 'Category';
         this.selectedIndex = 1;
         this.catmodel.currentSkill = '';
@@ -191,14 +189,10 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
     this.catmodel.currentArea = areaId;
 
-    console.log(this.tabTitle);
-
   }
 
   //Function to call when a category is selected
   onCategorySelect(categoryId): void {
-
-    console.log(categoryId);
 
     //Populate Skills - Firebase List w/ Sort&Filter Query
     const masters = this.db.list('/skillcatalog/skills/', ref => ref
@@ -245,7 +239,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     this.formMode = 'add';
 
   }
-
 
   //Function - Add New Item to DB
   onAdd(form: NgForm): void {

@@ -76,7 +76,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   goback(): void {
     switch (this.selectedIndex) {
       case 1: {
-        console.log('goback 1');
         this.tabTitle = 'Area';
         this.selectedIndex = 0;
         this.catmodel.currentCategory = '';
@@ -84,7 +83,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         break;
       }
       case 2: {
-        console.log('goback 2');
         this.tabTitle = 'Category';
         this.selectedIndex = 1;
         this.catmodel.currentSkill = '';
