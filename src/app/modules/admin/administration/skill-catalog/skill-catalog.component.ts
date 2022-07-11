@@ -329,9 +329,24 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
+  //Function - Delete Item in DB
   onDelete(key: string): void {
 
-    console.log(key + ' deleted');
+    let type: string;
+
+    //Switch catalog path based on item type
+    if (this.tabTitle.toLowerCase() === 'category') {
+      type = 'categories';
+    } else {
+      type = this.tabTitle.toLowerCase() + 's';
+    }
+
+    this.db.object('/customs/' + type + '/' + key).query.ref.transaction((ref) => {
+      if (ref !== null) {
+        this.db.object('/customs/' + type + '/' + key).remove();
+      }
+      this.onHideForm();
+    });
 
   }
 
