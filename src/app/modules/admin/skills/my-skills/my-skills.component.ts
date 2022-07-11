@@ -229,7 +229,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
         ))
       .subscribe(
         (res) => {
-          this.skills = res.filter(skill => skill.payload.val().name !== '' && skill.payload.val().name !== null);
+          this.skills = res.filter(skill => (skill.payload.val().name !== '' && skill.payload.val().name !== null) || (skill.payload.val().ratingsteps != 5));
         });
 
     this.tabTitle = 'Skill';
@@ -238,15 +238,19 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   }
 
   //Function to call when a skill is selected
-  selectSkill(skillId, skillName): void {
-    this.catmodel.currentSkill = skillId;
-    this.model.key = skillId;
-    this.model.name = skillName;
+  selectSkill(skill): void {
+    this.catmodel.currentSkill = skill.key;
+    this.model.key = skill.key;
+    this.model.name = skill.payload.val().name;
+
+    this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
     //Set the View State
     this.viewState = 3;
 
     //Set the Form Mode
     this.formMode = 'add';
+
+    console.log('steps: ' + this.ratingsteps);
 
   }
 

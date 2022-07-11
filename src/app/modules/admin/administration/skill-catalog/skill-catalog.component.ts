@@ -33,10 +33,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   //Container to hold Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
-  //Form Visibility Modifiers
-  showadditem = false;
-  showedititem = false;
-
   //Confirmation Dialog
   dialogconfigForm: FormGroup;
 
@@ -56,6 +52,8 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   //General Component Variables
   selectedIndex = 0;
   tabTitle = 'Area';
+
+  ratingsteps = 5;
 
 
   //Constructor
@@ -188,7 +186,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     this.catmodel.currentSkill = skillId;
   }
 
-  onAdd(): void {
+  onAdd(form: NgForm): void {
 
     let type: string;
 
@@ -213,7 +211,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
       //Call Promise
       promiseAddItem
-        .then(_ => this.showadditem = false)
+        .then(_ => this.onHideForm())
         .catch(err => console.log(err, 'Error Submitting Item!'));
 
     } else if (this.tabTitle.toLowerCase() === 'category') {
@@ -230,7 +228,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
       //Call Promise
       promiseAddItem
-        .then(_ => this.showadditem = false)
+        .then(_ => this.onHideForm())
         .catch(err => console.log(err, 'Error Submitting Item!'));
 
     } else { //this is a skill
@@ -240,14 +238,15 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mdescription: string = this.model.description;
       const mvalue: string = this.onConvertName(this.model.name);
       const mcategory: string = this.catmodel.currentCategory;
+      const mratingsteps: number = this.model.ratingsteps;
       const mdatenow = Math.floor(Date.now());
 
       //Define Promise
-      const promiseAddItem = this.db.list('/customs/' + type).push({ category: mcategory, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+      const promiseAddItem = this.db.list('/customs/' + type).push({ category: mcategory, name: mname, value: mvalue, description: mdescription, ratingsteps: mratingsteps, customtype: 'new', created: mdatenow, modified: mdatenow, user: this.fbuser.id });
 
       //Call Promise
       promiseAddItem
-        .then(_ => this.showadditem = false)
+        .then(_ => this.onHideForm())
         .catch(err => console.log(err, 'Error Submitting Item!'));
 
     }
@@ -271,11 +270,14 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
           this.db.object('/customs/areas/' + key)
             .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, user: this.fbuser.id });
 
+          this.onHideForm();
 
         } else {
 
           this.db.object('/customs/areas/' + key)
             .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
+
+          this.onHideForm();
 
         }
       });
@@ -289,12 +291,14 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
           this.db.object('/customs/categories/' + key)
             .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, user: this.fbuser.id });
 
+          this.onHideForm();
 
         } else {
 
           this.db.object('/customs/categories/' + key)
             .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
 
+          this.onHideForm();
         }
       });
 
@@ -302,24 +306,26 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     else { //this is a skill
 
 
+      const mratingsteps: number = this.model.ratingsteps;
+
       this.db.object('/skillcatalog/skills/' + key).query.ref.transaction((ref) => {
-        if (ref === null) {
+        if (ref === null || mratingsteps != 5) {
 
           this.db.object('/customs/skills/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, ratingsteps: mratingsteps, modified: mdatenow, user: this.fbuser.id });
 
+          this.onHideForm();
 
         } else {
 
           this.db.object('/customs/skills/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, ratingsteps: mratingsteps, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
 
+          this.onHideForm();
         }
       });
 
     }
-
-    this.showedititem = false;
 
   }
 
@@ -328,9 +334,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     console.log(key + ' deleted');
 
   }
-
-
-
 
 
   //Function - Cancel the Add or Edit Form
@@ -434,8 +437,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   //Function - Hide the selected item
   onHideItem(key: string): void {
 
-    console.log('This ' + this.tabTitle + ' is hidden: ' + key);
-
     //Write item to Custom skill tree
     let type: string;
 
@@ -459,9 +460,10 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
-  onHideEditForm(): void {
-    this.showedititem = false;
+  onHideForm(): void {
+
     this.model = new CatItem();
+    this.viewState = 1;
 
   }
 
@@ -551,6 +553,7 @@ export class CatItem {
     public description: string = '',
     public area?,
     public category?,
+    public ratingsteps?
 
   ) { }
 

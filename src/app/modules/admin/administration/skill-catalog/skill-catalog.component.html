@@ -301,6 +301,23 @@
                                     </mat-form-field>
                                 </div>
 
+                                <!-- Form Field Description  -->
+                                <div *ngIf="tabTitle === 'Skill'" class="form-group mb-5 mt-5">
+                                    <p>Set the number of 'ticks' in a rating slider of 0-100. ex. 20 would be 5, 25 is 4. Default is 5 to give 20. </p>
+                                    <div class="mb-5">
+                                        <mat-label class="mr-5 text-lg"><strong>Rating Ticks:</strong> {{model.ratingsteps}}</mat-label>
+                                    </div>
+                        
+                                    <mat-slider
+                                    thumbLabel
+                                    id ="ratingsteps"
+                                    name="ratingsteps"
+                                    [(ngModel)]="model.ratingsteps"
+                                    #name="ngModel"
+                                    min="0" max="50" step="1" value="5"></mat-slider>
+
+                                </div>
+
                                 <!-- Actions -->
                                 <div class="flex justify-center mt-6">
 
