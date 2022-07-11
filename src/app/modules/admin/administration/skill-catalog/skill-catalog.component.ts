@@ -475,6 +475,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
+  //Function - Hide Form and Reset Model
   onHideForm(): void {
 
     this.model = new CatItem();
