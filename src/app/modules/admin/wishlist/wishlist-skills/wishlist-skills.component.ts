@@ -59,6 +59,10 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   qresults2;
   qresults3;
 
+  //Rating Customizations
+  ratingtype = 0;
+  ratingsteps = 5;
+
 
   //Constructor
   //---------------------
@@ -76,6 +80,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   goback(): void {
     switch (this.selectedIndex) {
       case 1: {
+        console.log('goback 1');
         this.tabTitle = 'Area';
         this.selectedIndex = 0;
         this.catmodel.currentCategory = '';
@@ -83,6 +88,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         break;
       }
       case 2: {
+        console.log('goback 2');
         this.tabTitle = 'Category';
         this.selectedIndex = 1;
         this.catmodel.currentSkill = '';
@@ -253,15 +259,16 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     const mkey: string = this.model.key;
     const mname: string = this.model.name;
     const mrating: number = this.model.rating;
+    const mpriority: number = this.model.priority;
     const mdatenow = Math.floor(Date.now());
 
     //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push({ key: mkey, name: mname, rating: mrating, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push({ key: mkey, name: mname, rating: mrating, priority: mpriority, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
 
     //Call Promise
     promiseAddItem
       .then(_ => this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + _.key)
-        .update({ key: mkey, name: mname, rating: mrating, created: mdatenow, modified: mdatenow, user: this.fbuser.id }))
+        .update({ key: mkey, name: mname, rating: mrating, priority: mpriority, created: mdatenow, modified: mdatenow, user: this.fbuser.id }))
       .then(_ => form.resetForm())
       .catch(err => console.log(err, 'Error Submitting Skill!'));
 
@@ -281,12 +288,13 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
     //Cast model to variable for formReset
     const mrating: number = this.model.rating;
+    const mpriority: number = this.model.priority;
     const mdatenow = Math.floor(Date.now());
 
     this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key)
-      .update({ rating: mrating, modified: mdatenow });
+      .update({ rating: mrating, priority: mpriority, modified: mdatenow });
     this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + key)
-      .update({ rating: mrating, modified: mdatenow });
+      .update({ rating: mrating, priority: mpriority, modified: mdatenow });
 
   }
 
@@ -336,7 +344,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
     //Subscribe to Observable
     this.item.subscribe((item) => {
-      this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user);
+      this.model = new UserSkill(key, item.name, item.rating, item.priority, item.created, item.modified, item.user);
     });
 
     console.log(key + 'has been selected to edit');
@@ -479,6 +487,7 @@ export class UserSkill {
     public key: string = '',
     public name: string = '',
     public rating: number = 0,
+    public priority: number = 0,
     public created: string = '',
     public modified: string = '',
     public user: string = '',
