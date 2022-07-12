@@ -19,15 +19,6 @@
         <!-- Right Side - Action Buttons -->
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
-            <!-- <button  
-                (click)="onHideAddForm(); addItemForm.resetForm(); editItemForm.resetForm();"
-                class="ml-4"
-                mat-stroked-button
-                type="button"
-                [color]="'primary'">
-                Cancel
-            </button> -->
-
             <button  
                 (click)="onShowAddForm(tabTitle);"
                 [disabled]="showadditem"
@@ -37,7 +28,6 @@
                 [color]="'primary'">
                 Add {{tabTitle}}
             </button>
-
 
         </div>
     </div>
@@ -142,8 +132,7 @@
 
                                         <!--Repeat for Each Category-->
                                         <span *ngFor="let category of categories" >
-
-                                            <div class="flex" *ngIf="category.payload.val().name?.length > 0">
+                                            <div class="flex" *ngIf="(category.payload.val().name?.length > 0 && category.payload.val().customtype !== 'rename')">
                                                 <div class="flex-none">
                                                     <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(category.key, category);">
                                                         <mat-icon>edit</mat-icon>
@@ -192,7 +181,7 @@
                                         <!--Repeat for Each Skill-->
                                         <span *ngFor="let skill of skills" >
 
-                                            <div class="flex" *ngIf="skill.payload.val().name?.length > 0">
+                                            <div class="flex" *ngIf="skill.payload.val().name?.length > 0 && skill.payload.val().customtype !== 'rename'">
                                                 <div class="flex-none">
                                                     <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(skill.key, skill);">
                                                         <mat-icon>edit</mat-icon>
@@ -219,9 +208,7 @@
                                                                 <div class="flex-1 w-100"> {{ skill.customs[0]?.payload.val().name }}</div>
                                                         </span>
 
-                                                            <div class="flex-none pt-1">
-                                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                                            </div>  
+
                                                     </div>
                                                 </a>
                                             </div>

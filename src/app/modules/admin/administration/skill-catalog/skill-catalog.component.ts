@@ -53,6 +53,8 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   selectedIndex = 0;
   tabTitle = 'Area';
 
+  //Rating Customizations
+  ratingtype = 0;
   ratingsteps = 5;
 
 
@@ -130,7 +132,8 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         ))
       .subscribe(
         (res) => {
-          this.categories = res.filter(catagory => catagory.payload.val().name !== '' && catagory.payload.val().name !== null);
+          console.log(res)
+          this.categories = res.filter(category => ((category.payload.val().name !== '' && category.payload.val().name !== null)));
         });
 
     //Set the title
@@ -468,9 +471,8 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       .query.ref.transaction((hidden) => {
         if (hidden === true) {
           this.db.object('/customs/' + type + '/' + key + '/hidden').remove();
-        } else {
-          return hidden = true;
-        }
+
+        } else { return hidden = true; }
       });
 
   }
