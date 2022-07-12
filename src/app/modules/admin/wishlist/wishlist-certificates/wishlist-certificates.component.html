@@ -23,7 +23,7 @@
 
                     <!-- SHOW LIST VIEW STATE -->
                     <div *ngSwitchCase="1">
-
+                  
                         <!-- Cert List Area (default) -->
                         <!-- ------------------------ -->
 
@@ -62,7 +62,7 @@
                                                 <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
                                                     <span *ngIf="item.payload.val().expireson?.length > 0">
                                                         Expires On: {{item.payload.val().expireson | date: 'MM/dd/yy'}}
-                                                    </span>   
+                                                    </span> 
                                                 </div>
 
                                             </div>
@@ -88,7 +88,6 @@
 
                                             </div>
                                         </div>
-
 
                                         <!-- Bottom Flex Row -->
                                         <div class="flex-none">
@@ -132,7 +131,6 @@
 
                             </div>
 
-
                         </div>
 
                     </div>
@@ -173,9 +171,13 @@
                                         <mat-label>Certification/License Name</mat-label>
                                         <mat-icon class="icon-size-5" [svgIcon]="'feather:file-text'" matPrefix>
                                         </mat-icon>
-                                        <input type="text" id="name" class="form-control"
-                                            placeholder="Start Typing for Suggestions" #name="ngModel"
-                                            (ngModelChange)="applyFilter($event)" [(ngModel)]="model.name" name="name"
+                                        <input 
+                                            type="text" id="name" class="form-control"
+                                            placeholder="Start Typing for Suggestions" 
+                                            #name="ngModel"
+                                            (ngModelChange)="applyFilter($event)" 
+                                            [(ngModel)]="model.name" 
+                                            name="name"
                                             [matAutocomplete]="autocomadd" required matInput>
                                         <mat-autocomplete #autocomadd="matAutocomplete">
                                             <mat-option *ngFor="let option of filteredData" [value]="option">
@@ -195,9 +197,16 @@
                                     <mat-form-field class="fuse-mat-no-subscript w-full">
                                         <mat-label>Awarded By</mat-label>
                                         <mat-icon class="icon-size-5" [svgIcon]="'feather:users'" matPrefix></mat-icon>
-                                        <input type="text" id="awardedby" class="form-control" #name="ngModel"
-                                            placeholder="optional" [(ngModel)]="model.awardedby" name="awardedby"
-                                            required matInput>
+                                        <input 
+                                            type="text" 
+                                            id="awardedby" 
+                                            class="form-control" 
+                                            #name="ngModel"
+                                            placeholder="optional" 
+                                            [(ngModel)]="model.awardedby" 
+                                            name="awardedby"
+                                            required 
+                                            matInput>
                                     </mat-form-field>
                                 </div>
 
@@ -214,38 +223,34 @@
                                     </mat-form-field>
                                 </div>
 
+
+
                                 <!-- Form Field - Awarded On -->
                                 <div class="form-group">
-                                    <mat-form-field appearance="fill" class="min-w-50">
-                                        <mat-label>
-                                            <span  *ngIf="model.awardedon?.length > 0">
-                                               Earned: {{model.awardedon| date: 'MM/dd/yyyy'}}
-                                            </span>
-                                            <span  *ngIf="model.awardedon?.length === 0">
-                                                Date Earned
-                                            </span>                                            
-                                        </mat-label>
-                                        <input matInput [matDatepicker]="addpicker"
-                                            (dateChange)="onDateChange($event, addpicker, 'award')" name="awardedon"
-                                            id="awardedon" required class="form-control">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Date Earned (Optional)</mat-label>
+                                        <input 
+                                            matInput 
+                                            [(ngModel)]="formDates.awardedonForm"
+                                            [matDatepicker]="addpicker"
+                                            name="awardedon"
+                                            id="awardedon" 
+                                            class="form-control">
                                         <mat-hint>MM/DD/YYYY</mat-hint>
                                         <mat-datepicker-toggle matSuffix [for]="addpicker"></mat-datepicker-toggle>
                                         <mat-datepicker #addpicker startView="year"></mat-datepicker>
                                     </mat-form-field>
 
                                     <!-- Form Field - Expires On -->
-                                    <mat-form-field appearance="fill" class="ml-15 min-w-50">
-                                        <mat-label>
-                                            <span  *ngIf="model.expireson?.length > 0">
-                                                Expires: {{model.awardedon| date: 'MM/dd/yyyy'}}
-                                            </span>
-                                            <span  *ngIf="model.expireson?.length === 0">
-                                                Expires (Optional)
-                                            </span>
-                                        </mat-label>
-                                        <input matInput [matDatepicker]="addpickerexp"
-                                            (dateChange)="onDateChange($event, addpickerexp, 'expire')" name="expireson"
-                                            id="expireson" class="form-control">
+                                    <mat-form-field appearance="fill" class="ml-15">
+                                        <mat-label>Expires (Optional)</mat-label>
+                                        <input 
+                                            matInput
+                                            [(ngModel)]="formDates.expiresonForm" 
+                                            [matDatepicker]="addpickerexp"
+                                            id="expireson" 
+                                            name="expireson"
+                                            class="form-control">
                                         <mat-hint>MM/DD/YYYY</mat-hint>
                                         <mat-datepicker-toggle matSuffix [for]="addpickerexp"></mat-datepicker-toggle>
                                         <mat-datepicker #addpickerexp startView="year"></mat-datepicker>
@@ -254,10 +259,12 @@
 
                                 <!-- Actions -->
                                 <div class="flex justify-center mt-6">
-
+                                    
                                     <button
                                         (click)="onCancelForm(addItemForm)"
-                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                        class="flex-none ml-4" 
+                                        mat-stroked-button type="button" 
+                                        [color]="'primary'">
                                         Cancel
                                     </button>
                                 
@@ -278,9 +285,10 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(currentkey);"
                                                 [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" mat-flat-button
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
                                                 Edit Certification/License

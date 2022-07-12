@@ -14,7 +14,6 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 
 export class CertificationsLicensesComponent implements OnInit, OnDestroy {
 
-
   //Initialize Variables
   //---------------------
 
@@ -77,7 +76,6 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
 
     //Set the Form Mode
     this.formMode = "add";
-
   }
 
   //Fuction - Show the Edit Form
@@ -101,11 +99,8 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
       //Populate the Item Model with the response date from the DB. 
       this.model = response;
 
-      console.log('this key--------------------');
-      console.log(this.model)
-
       //Populate the "Form Dates Model" with the Unix Epoch Dates (Converted to GMT)
-      if (this.model.awardedby != null) {
+      if (this.model.awardedon != null) {
         this.formDates.awardedonForm = new Date(this.model.awardedon);
       };
 
@@ -218,12 +213,13 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
       //Error Handling
       .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
 
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
   }
 
   //Function - Update Item in DB
   onEdit(key): void {
-
-    console.log(key);
 
     //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
     if (this.formDates.awardedonForm != null) {
@@ -267,11 +263,13 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
       //Error Handling
       .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
 
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
   }
 
   //Function - Delete Item in DB
   onDelete(key): void {
-    //this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).remove().then({console.log("DELETED")});
 
     //Delete Item from the Item Node. 
     this.db.object('/certifications/' + key).remove().then(responseObject => {
@@ -298,13 +296,16 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
       )
 
         //Error Handling
-        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));;
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
 
     }
     )
 
       //Error Handling
-      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));;
+      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
 
   }
 
@@ -313,6 +314,8 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
     this.model = new Certification();
     this.formDates = new FormDates();
     this.viewState = 1;
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
   }
 
   //Function - Filter Autocomplete
@@ -365,6 +368,7 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+
   }
 
 }

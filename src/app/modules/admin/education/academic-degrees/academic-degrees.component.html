@@ -15,13 +15,17 @@
 
         </div>
 
-        <!-- Action Buttons -->
-        <div *ngIf="viewState !== 3">
+        <!-- Right Side - Action Buttons -->
+        <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
-            <button (click)="onShowAddForm();" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
-                [color]="'primary'">
+            <button (click)="onShowAddForm(this.addItemForm);" 
+            [disabled]="showadditem" 
+            class="ml-4" 
+            mat-flat-button type="button"
+            [color]="'primary'">
                 Add Degree
             </button>
+
         </div>
     </div>
 
@@ -341,41 +345,43 @@
                                     (change)="onCompletedChecked($event)">Academic Requirements Completed</mat-checkbox>
                                 
                                 </div>
-        
+
                                 <!-- Form Field - Awarded On -->
-                                <div class="form-group mt-10">
-        
+                                <div class="form-group">
                                     <mat-form-field appearance="fill">
                                         <mat-label>
 
-                                            <span  *ngIf="model.awardedon?.length > 0">
+                                            <span  *ngIf="model.awardedon?.length != null">
                                                 {{gradDate}}: {{model.awardedon| date: 'MM/dd/yyyy'}} 
                                             </span>
-                                            <span  *ngIf="model.awardedon?.length === 0">
+                                            <span  *ngIf="model.awardedon?.length === null">
                                                 {{gradDate}}
                                             </span>
                                             
                                         </mat-label>
-                                        <input matInput [matDatepicker]="addpicker" 
-                                        (dateChange)="onDateChange($event, addpicker)"
-                                        name="awardedon"  
-                                        id="awardedon"
-                                        class="form-control"
-                                        required>
+                                        <input 
+                                            matInput 
+                                            [(ngModel)]="formDates.awardedonForm"
+                                            [matDatepicker]="addpicker"
+                                            name="awardedon"
+                                            id="awardedon" 
+                                            class="form-control"
+                                            required>
                                         <mat-hint>MM/DD/YYYY</mat-hint>
                                         <mat-datepicker-toggle matSuffix [for]="addpicker"></mat-datepicker-toggle>
                                         <mat-datepicker #addpicker startView="year"></mat-datepicker>
                                     </mat-form-field>
-                    
-                                </div>
 
-
+                                </div>                               
+        
                                 <!-- Actions -->
                                 <div class="flex justify-center mt-6">
 
                                     <button
                                         (click)="onCancelForm(addItemForm)"
-                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                        class="flex-none ml-4" 
+                                        mat-stroked-button type="button" 
+                                        [color]="'primary'">
                                         Cancel
                                     </button>
                                 
@@ -390,18 +396,19 @@
                                                 mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
-                                                Add New Degree
+                                                Add Award
                                             </button>
                                         </div>
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(currentkey);"
                                                 [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" mat-flat-button
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
-                                                Edit Degree
+                                                Edit Award
                                             </button>
                                         </div>
 

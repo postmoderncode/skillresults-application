@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { CdkScrollable } from '@angular/cdk/scrolling';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Observable, Subject } from 'rxjs';
+import { serverTimestamp } from '@angular/fire/database'
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-awards-accolades',
@@ -38,11 +38,14 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
   //Container to hold Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
-  //Confirmation Dialog
-  dialogconfigForm: FormGroup;
-
-  //Empty Model
+  //Container for Strongly typed Model. 
   model = new Award();
+
+  //Container for Strongly typed From Date Info. 
+  formDates = new FormDates();
+
+  //Container to hold Current Active Item Key
+  currentkey = "";
 
 
   //Constructor
@@ -70,6 +73,9 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
   //Fuction - Show the Edit Form
   onShowEditForm(key): void {
 
+    //Set the current key
+    this.currentkey = key;
+
     //Set the View State
     this.viewState = 3;
 
@@ -80,17 +86,48 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
     this.item = this.db.object('/users/' + this.fbuser.id + '/awards/' + key).valueChanges();
 
     //Subscribe to Observable
-    this.item.subscribe((item) => {
-      this.model = new Award(key, item.name, item.description, item.created, item.modified, item.user, item.awardedby, item.awardedon);
+    this.item.subscribe((response) => {
+
+      //Populate the Item Model with the response date from the DB. 
+      this.model = response;
+
+      //Populate the "Form Dates Model" with the Unix Epoch Dates (Converted to GMT)
+      if (this.model.awardedon != null) {
+        this.formDates.awardedonForm = new Date(this.model.awardedon);
+      };
+
     });
 
   }
 
-  //Function - Show the Delete Conf.
+  //Function - Show the Delete Conf. 
   onShowDelete(key): void {
 
+    //Formbuilder for Dialog Popup
+    const dialogconfigForm = this._formBuilder.group({
+      title: 'Remove Item',
+      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
+      icon: this._formBuilder.group({
+        show: true,
+        name: 'heroicons_outline:exclamation',
+        color: 'warn'
+      }),
+      actions: this._formBuilder.group({
+        confirm: this._formBuilder.group({
+          show: true,
+          label: 'Remove',
+          color: 'warn'
+        }),
+        cancel: this._formBuilder.group({
+          show: true,
+          label: 'Cancel'
+        })
+      }),
+      dismissible: false
+    });
+
     //Open the dialog and save the reference of it
-    const dialogRef = this._fuseConfirmationService.open(this.dialogconfigForm.value);
+    const dialogRef = this._fuseConfirmationService.open(dialogconfigForm.value);
 
     //Subscribe to afterClosed from the dialog reference
     dialogRef.afterClosed().subscribe((result) => {
@@ -102,35 +139,63 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
   }
 
   //Function - Add New Item to DB
-  onAdd(form: NgForm): void {
+  onAdd(): void {
 
-    //Cast model to variable for formReset
-    const mname: string = this.model.name;
-    const mdescription: string = this.model.description;
-    const mawardedby: string = this.model.awardedby;
-    const mawardedon: string = this.model.awardedon;
-    const mdatenow = Math.floor(Date.now());
+    //Add the User ID to the Model
+    this.model.uid = this.fbuser.id;
 
-    //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/awards')
-      .push({ name: mname, description: mdescription, created: mdatenow, modified: mdatenow, user: this.fbuser.id, awardedby: mawardedby, awardedon: mawardedon });
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    if (this.formDates.awardedonForm != null) {
+      this.model.awardedon = this.formDates.awardedonForm.valueOf();
+    }
 
-    //Call Promise
-    promiseAddItem
-      .then(_ => this.db.object('/awards/' + this.fbuser.id + '/' + _.key)
-        .update({ name: mname, description: mdescription, created: mdatenow, modified: mdatenow, user: this.fbuser.id, awardedby: mawardedby, awardedon: mawardedon }))
-      .then(_ => form.resetForm())
-      .catch(err => console.log(err, 'Error Submitting Award!'));
+    //Add Server Side Timestamp to the Model
+    this.model.created = serverTimestamp();
+    this.model.modified = serverTimestamp();
 
-    //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/awards').query.ref.transaction((likes) => {
-      if (likes === null) {
-        return likes = 1;
-      } else {
-        return likes + 1;
-      }
-    });
+    //Begin Database Calls to add the New Item
+    //----------------------------------------
 
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/awards').push(this.model).then(responseObject => {
+
+      //Log Success
+      console.log('Item added to the User Node');
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const addItem = this.db.list('/awards/').set(responseObject.key, this.model).then(responseObject => {
+
+        console.log('Item added to the Item Node');
+
+        //Increment Count
+        this.db.object('/counts/' + this.fbuser.id + '/awards').query.ref.transaction((likes) => {
+
+          //Log the Counter Success
+          console.log("Counter Updated Succesfuly");
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.model = new Award();
+          this.formDates = new FormDates();
+
+          //Set the Counts
+          if (likes === null) {
+            return likes = 1;
+          } else {
+            return likes + 1;
+          }
+
+        });
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+    //Scroll to Top
     this.cdkScrollable.scrollTo({ top: 0 });
 
   }
@@ -138,50 +203,97 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
   //Function - Update Item in DB
   onEdit(key): void {
 
-    //Cast model to variable for formReset
-    const mname: string = this.model.name;
-    const mdescription: string = this.model.description;
-    const mawardedby: string = this.model.awardedby;
-    const mawardedon: string = this.model.awardedon;
-    const mdatenow = Math.floor(Date.now());
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    if (this.formDates.awardedonForm != null) {
+      this.model.awardedon = this.formDates.awardedonForm.valueOf();
+    }
 
-    this.db.object('/users/' + this.fbuser.id + '/awards' + '/' + key)
-      .update({ name: mname, description: mdescription, modified: mdatenow, awardedby: mawardedby, awardedon: mawardedon });
-    this.db.object('/awards/' + this.fbuser.id + '/' + key)
-      .update({ name: mname, description: mdescription, modified: mdatenow, awardedby: mawardedby, awardedon: mawardedon });
+    //Add Server Side Timestamp to the Model
 
+    this.model.modified = serverTimestamp();
+
+    //Begin Database Calls to Update the Existing Item
+    //----------------------------------------
+
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/awards/' + key + '/').update(this.model).then(responseObject => {
+
+      //Log Success
+      console.log('Item updated in the User Node');
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const editItem = this.db.object('/awards/' + key + '/').update(this.model).then(responseObject => {
+
+        console.log('Item updated in the Item Node');
+
+        //Reset the Models back to Zero (Which also Resets the Form)
+        this.model = new Award();
+        this.formDates = new FormDates();
+        this.currentkey = '';
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+    //Scroll to top
     this.cdkScrollable.scrollTo({ top: 0 });
 
-    console.log(key + ' edited');
   }
 
   //Function - Delete Item in DB
   onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/awards/' + key).remove();
-    this.db.object('/awards/' + this.fbuser.id + '/' + key).remove();
 
-    //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/awards').query.ref.transaction((likes) => {
-      if (likes === null) {
-        return likes = 0;
-      } else {
-        return likes - 1;
+    //Delete Item from the Item Node. 
+    this.db.object('/awards/' + key).remove().then(responseObject => {
+
+      //Log Sucess
+      console.log("Remove Item from the Item Node Complete");
+
+      //Delete Item from the User Node. 
+      this.db.object('/users/' + this.fbuser.id + '/awards/' + key).remove().then(responseObject => {
+
+        //Log Sucess
+        console.log("Remove Item from the User Node Complete");
+
+        //Decrement Count
+        this.db.object('/counts/' + this.fbuser.id + '/awards').query.ref.transaction((likes) => {
+          if (likes === null) {
+            return likes = 0;
+          } else {
+            return likes - 1;
+          }
+        });
+
       }
-    });
+      )
 
-    console.log(key + ' deleted');
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
+
+    }
+    )
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
 
   }
 
   //Function - Cancel the Add or Edit Form
   onCancelForm(form: NgForm): void {
-    form.resetForm();
+    this.model = new Award();
+    this.formDates = new FormDates();
     this.viewState = 1;
-  }
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
 
-  onDateChange(event: MatDatepickerInputEvent<any>, control: AbstractControl): void {
-
-    this.model.awardedon = ((event.value.valueOf()).toString());
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -215,29 +327,6 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
       }
     );
 
-    //Formbuilder for Dialog Popup
-    this.dialogconfigForm = this._formBuilder.group({
-      title: 'Remove Item',
-      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
-      icon: this._formBuilder.group({
-        show: true,
-        name: 'heroicons_outline:exclamation',
-        color: 'warn'
-      }),
-      actions: this._formBuilder.group({
-        confirm: this._formBuilder.group({
-          show: true,
-          label: 'Remove',
-          color: 'warn'
-        }),
-        cancel: this._formBuilder.group({
-          show: true,
-          label: 'Cancel'
-        })
-      }),
-      dismissible: false
-    });
-
   }
 
   /**
@@ -262,12 +351,21 @@ export class Award {
     public key: string = '',
     public name: string = '',
     public description: string = '',
-    public created: string = '',
-    public modified: string = '',
-    public user: string = '',
+    public created: object = {},
+    public modified: object = {},
+    public uid: string = '',
     public awardedby: string = '',
-    public awardedon: string = '',
+    public awardedon: number = null,
 
   ) { }
 
 }
+
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+export class FormDates {
+  constructor(
+    public awardedonForm: Date = null,
+    public expiresonForm: Date = null,
+  ) { }
+}
+

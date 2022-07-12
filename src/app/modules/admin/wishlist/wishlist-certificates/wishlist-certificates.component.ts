@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Observable, Subject } from 'rxjs';
+import { serverTimestamp } from '@angular/fire/database'
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 
 @Component({
@@ -17,6 +18,9 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
   //Initialize Variables
   //---------------------
 
+  //Scroll element
+  @ViewChild(CdkScrollable) cdkScrollable: CdkScrollable;
+
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -24,7 +28,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
   viewState = 0;
 
   //Form Mode State (Add vs. Edit Mode)
-  formMode = '';
+  formMode = "";
 
   //Container to hold a list of items
   items: object;
@@ -32,14 +36,17 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
   //Container to hold a single item
   item: Observable<any>;
 
+  //Container for Strongly typed Model. 
+  model = new Certification();
+
+  //Container for Strongly typed From Date Info. 
+  formDates = new FormDates();
+
   //Container to hold Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
-  //Confirmation Dialog
-  dialogconfigForm: FormGroup;
-
-  //Empty Model
-  model = new Certification();
+  //Container to hold Current Active Item Key
+  currentkey = "";
 
   //Autocomplete Data
   //-----------------
@@ -67,171 +74,49 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = 'add';
+    this.formMode = "add";
   }
 
   //Fuction - Show the Edit Form
   onShowEditForm(key): void {
 
-    //Set the View State
+    //Set the current key
+    this.currentkey = key;
+
+    //Set the View State to the form
     this.viewState = 3;
 
-    //Set the Form Mode
-    this.formMode = 'edit';
+    //Set the Form Mode to Edit
+    this.formMode = "edit";
 
     //Define Observable Item based on the Key
-    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).valueChanges();
 
     //Subscribe to Observable
-    this.item.subscribe((item) => {
-      this.model = new Certification(key, item.name, item.description, item.created, item.modified, item.user, item.awardedby, item.awardedon, item.expireson);
+    this.item.subscribe((response) => {
+
+      //Populate the Item Model with the response date from the DB. 
+      this.model = response;
+
+      //Populate the "Form Dates Model" with the Unix Epoch Dates (Converted to GMT)
+      if (this.model.awardedon != null) {
+        this.formDates.awardedonForm = new Date(this.model.awardedon);
+      };
+
+      //Populate the "Form Dates Model" with the Unix Epoch Dates (Converted to GMT)
+      if (this.model.expireson != null) {
+        this.formDates.expiresonForm = new Date(this.model.expireson);
+      };
+
     });
 
   }
 
-  //Function - Show the Delete Conf.
+  //Function - Show the Delete Conf. 
   onShowDelete(key): void {
 
-    //Open the dialog and save the reference of it
-    const dialogRef = this._fuseConfirmationService.open(this.dialogconfigForm.value);
-
-    //Subscribe to afterClosed from the dialog reference
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'confirmed') {
-        //Call Actual Delete
-        this.onDelete(key);
-      }
-    });
-  }
-
-  //Function - Add New Item to DB
-  onAdd(form: NgForm): void {
-
-    //Cast model to variable for formReset
-    const mname: string = this.model.name;
-    const mdescription: string = this.model.description;
-    const mawardedby: string = this.model.awardedby;
-    const mawardedon: string = this.model.awardedon;
-    const mexpireson: string = this.model.expireson;
-    const mdatenow = Math.floor(Date.now());
-
-    //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/certifications')
-      .push({ name: mname, description: mdescription, created: mdatenow, modified: mdatenow, user: this.fbuser.id, awardedby: mawardedby, awardedon: mawardedon, expireson: mexpireson });
-
-    //Call Promise
-    promiseAddItem
-      .then(_ => this.db.object('/wishlists/certifications/' + this.fbuser.id + '/' + _.key)
-        .update({ name: mname, description: mdescription, created: mdatenow, modified: mdatenow, user: this.fbuser.id, awardedby: mawardedby, awardedon: mawardedon, expireson: mexpireson }))
-      .then(_ => form.resetForm())
-      .catch(err => console.log(err, 'Error Submitting Certification!'));
-
-    //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
-      if (likes === null) {
-        return likes = 1;
-      } else {
-        return likes + 1;
-      }
-    });
-
-  }
-
-  //Function - Update Item in DB
-  onEdit(key): void {
-
-    //Cast model to variable for formReset
-    const mname: string = this.model.name;
-    const mdescription: string = this.model.description;
-    const mawardedby: string = this.model.awardedby;
-    const mawardedon: string = this.model.awardedon;
-    const mexpireson: string = this.model.expireson;
-    const mdatenow = Math.floor(Date.now());
-
-    this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications' + '/' + key)
-      .update({ name: mname, description: mdescription, modified: mdatenow, awardedby: mawardedby, awardedon: mawardedon, expireson: mexpireson });
-    this.db.object('/wishlists/certifications/' + this.fbuser.id + '/' + key)
-      .update({ name: mname, description: mdescription, modified: mdatenow, awardedby: mawardedby, awardedon: mawardedon, expireson: mexpireson });
-
-
-    console.log(key + ' edited');
-  }
-
-  //Function - Delete Item in DB
-  onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications/' + key).remove();
-    this.db.object('/wishlists/certifications/' + this.fbuser.id + '/' + key).remove();
-
-    //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
-      if (likes === null) {
-        return likes = 0;
-      } else {
-        return likes - 1;
-      }
-    });
-
-    console.log(key + ' deleted');
-
-  }
-
-  //Function - Cancel the Add or Edit Form
-  onCancelForm(form: NgForm): void {
-    form.resetForm();
-    this.viewState = 1;
-  }
-
-  onDateChange(event: MatDatepickerInputEvent<any>, control: AbstractControl, picker: string): void {
-    console.log(picker);
-    if (picker === 'expire') {
-      this.model.expireson = ((event.value.valueOf()).toString());
-    }
-    else {
-      this.model.awardedon = ((event.value.valueOf()).toString());
-    }
-  }
-
-  applyFilter(evt: string): void {
-    evt = evt + '';
-    if (!evt) { this.filteredData = this.options; }
-    else {
-      this.filteredData = this.options.filter(item => (item + '') === evt || item.toLocaleLowerCase().indexOf(evt.toLocaleLowerCase()) >= 0);
-    }
-  }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-
-    //Call the Firebase Database and get the initial data.
-    this.db.list('/users/' + this.fbuser.id + '/wishlists/certifications').snapshotChanges().subscribe(
-      (results: object) => {
-
-        //Put the results of the DB call into an object.
-        this.items = results;
-
-        console.log(this.items);
-
-        //Check if the results object is empty
-        if (Object.keys(this.items).length === 0) {
-          //It's empty, so set the view state to "No Data" mode.
-          this.viewState = 2;
-        }
-        else {
-          //It's not empty, so set the view state to "Show Data" mode.
-          this.viewState = 1;
-        };
-
-      }
-    );
-
     //Formbuilder for Dialog Popup
-    this.dialogconfigForm = this._formBuilder.group({
+    const dialogconfigForm = this._formBuilder.group({
       title: 'Remove Item',
       message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
       icon: this._formBuilder.group({
@@ -253,6 +138,226 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
       dismissible: false
     });
 
+    //Open the dialog and save the reference of it
+    const dialogRef = this._fuseConfirmationService.open(dialogconfigForm.value);
+
+    //Subscribe to afterClosed from the dialog reference
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirmed') {
+        //Call Actual Delete
+        this.onDelete(key);
+      }
+    });
+  }
+
+  //Function - Add New Item to DB
+  onAdd(): void {
+
+    //Add the User ID to the Model
+    this.model.uid = this.fbuser.id;
+
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    if (this.formDates.awardedonForm != null) {
+      this.model.awardedon = this.formDates.awardedonForm.valueOf();
+    }
+
+    //If the Date "Expires On" on the Form is not null, then add it to the item model (In Unix Epoch Time).
+    if (this.formDates.expiresonForm != null) {
+      this.model.expireson = this.formDates.expiresonForm.valueOf();
+    }
+
+    //Add Server Side Timestamp to the Model
+    this.model.created = serverTimestamp();
+    this.model.modified = serverTimestamp();
+
+    //Begin Database Calls to add the New Item
+    //----------------------------------------
+
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/certifications').push(this.model).then(responseObject => {
+
+      //Log Success
+      console.log('Item added to the User Node');
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const addItem = this.db.list('/certifications/').set(responseObject.key, this.model).then(responseObject => {
+
+        console.log('Item added to the Item Node');
+
+        //Increment Count
+        this.db.object('/counts/' + this.fbuser.id + '/certifications').query.ref.transaction((likes) => {
+
+          //Log the Counter Success
+          console.log("Counter Updated Succesfuly");
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.model = new Certification();
+          this.formDates = new FormDates();
+
+          //Set the Counts
+          if (likes === null) {
+            return likes = 1;
+          } else {
+            return likes + 1;
+          }
+
+        });
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
+  }
+
+  //Function - Update Item in DB
+  onEdit(key): void {
+
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    if (this.formDates.awardedonForm != null) {
+      this.model.awardedon = this.formDates.awardedonForm.valueOf();
+    }
+
+    //If the Date "Expires On" on the Form is not null, then add it to the item model (In Unix Epoch Time).
+    if (this.formDates.expiresonForm != null) {
+      this.model.expireson = this.formDates.expiresonForm.valueOf();
+    }
+
+    //Add Server Side Timestamp to the Model
+
+    this.model.modified = serverTimestamp();
+
+    //Begin Database Calls to Update the Existing Item
+    //----------------------------------------
+
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/certifications/' + key + '/').update(this.model).then(responseObject => {
+
+      //Log Success
+      console.log('Item updated in the User Node');
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const editItem = this.db.object('/certifications/' + key + '/').update(this.model).then(responseObject => {
+
+        console.log('Item updated in the Item Node');
+
+        //Reset the Models back to Zero (Which also Resets the Form)
+        this.model = new Certification();
+        this.formDates = new FormDates();
+        this.currentkey = '';
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
+  }
+
+  //Function - Delete Item in DB
+  onDelete(key): void {
+
+    //Delete Item from the Item Node. 
+    this.db.object('/certifications/' + key).remove().then(responseObject => {
+
+      //Log Sucess
+      console.log("Remove Item from the Item Node Complete");
+
+      //Delete Item from the User Node. 
+      this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).remove().then(responseObject => {
+
+        //Log Sucess
+        console.log("Remove Item from the User Node Complete");
+
+        //Decrement Count
+        this.db.object('/counts/' + this.fbuser.id + '/certifications').query.ref.transaction((likes) => {
+          if (likes === null) {
+            return likes = 0;
+          } else {
+            return likes - 1;
+          }
+        });
+
+      }
+      )
+
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
+
+    }
+    )
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
+  }
+
+  //Function - Cancel the Add or Edit Form
+  onCancelForm(form: NgForm): void {
+    this.model = new Certification();
+    this.formDates = new FormDates();
+    this.viewState = 1;
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+  }
+
+  //Function - Filter Autocomplete
+  applyFilter(evt: string): void {
+    evt = evt + '';
+    if (!evt) { this.filteredData = this.options; }
+    else {
+      this.filteredData = this.options.filter(item => (item + '') === evt || item.toLocaleLowerCase().indexOf(evt.toLocaleLowerCase()) >= 0);
+    }
+  }
+
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * On init
+   */
+  ngOnInit(): void {
+
+    //Call the Firebase Database and get the initial data. 
+    this.db.list('/users/' + this.fbuser.id + '/certifications').snapshotChanges().subscribe(
+      (results: object) => {
+
+        //Put the results of the DB call into an object. 
+        this.items = results;
+
+        console.log(this.items);
+
+        //Check if the results object is empty
+        if (Object.keys(this.items).length === 0) {
+          //It's empty, so set the view state to "No Data" mode. 
+          this.viewState = 2;
+        }
+        else {
+          //It's not empty, so set the view state to "Show Data" mode. 
+          this.viewState = 1;
+        };
+
+      }
+    );
+
   }
 
   /**
@@ -262,6 +367,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+
   }
 
 }
@@ -272,18 +378,23 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
 
 // Empty Certification class
 export class Certification {
-
   constructor(
     public key: string = '',
     public name: string = '',
     public description: string = '',
-    public created: string = '',
-    public modified: string = '',
-    public user: string = '',
+    public created: object = {},
+    public modified: object = {},
+    public uid: string = '',
     public awardedby: string = '',
-    public awardedon: string = '',
-    public expireson: string = '',
-
+    public awardedon: number = null,
+    public expireson: number = null,
   ) { }
+}
 
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+export class FormDates {
+  constructor(
+    public awardedonForm: Date = null,
+    public expiresonForm: Date = null,
+  ) { }
 }

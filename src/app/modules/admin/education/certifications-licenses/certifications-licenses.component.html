@@ -19,10 +19,14 @@
         <!-- Right Side - Action Buttons -->
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
-            <button (click)="onShowAddForm(this.addItemForm);" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
-                [color]="'primary'">
+            <button (click)="onShowAddForm(this.addItemForm);" 
+            [disabled]="showadditem" 
+            class="ml-4" 
+            mat-flat-button type="button"
+            [color]="'primary'">
                 Add Certification
             </button>
+
         </div>
     </div>
 
@@ -281,10 +285,12 @@
 
                                 <!-- Actions -->
                                 <div class="flex justify-center mt-6">
-
+                                    
                                     <button
                                         (click)="onCancelForm(addItemForm)"
-                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                        class="flex-none ml-4" 
+                                        mat-stroked-button type="button" 
+                                        [color]="'primary'">
                                         Cancel
                                     </button>
                                 

@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { CdkScrollable } from '@angular/cdk/scrolling';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Observable, Subject } from 'rxjs';
+import { serverTimestamp } from '@angular/fire/database'
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-wishlist-degrees',
@@ -27,7 +27,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   viewState = 0;
 
   //Form Mode State (Add vs. Edit Mode)
-  formMode = '';
+  formMode = "";
 
   //Container to hold a list of items
   items: object;
@@ -35,20 +35,20 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Container to hold a single item
   item: Observable<any>;
 
+  //Container for Strongly typed Model. 
+  model = new Degree();
+
+  //Container for Strongly typed From Date Info. 
+  formDates = new FormDates();
+
   //Container to hold Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
-  //Confirmation Dialog
-  dialogconfigForm: FormGroup;
-
-  //Controls Edit Datepicker
-  editDate: any;
-
-  //Empty Model
-  model = new Education();
+  //Container to hold Current Active Item Key
+  currentkey = "";
 
   //Graduation Label Text
-  gradDate = 'Date Completed';
+  gradDate = 'Expected Graduation Date';
 
   //Autocomplete Data
   schoolfilteredData;
@@ -124,25 +124,34 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = 'add';
+    this.formMode = "add";
   }
 
   //Fuction - Show the Edit Form
   onShowEditForm(key): void {
 
-    //Set the View State
+    //Set the current key
+    this.currentkey = key;
+
+    //Set the View State to the form
     this.viewState = 3;
 
-    //Set the Form Mode
-    this.formMode = 'edit';
+    //Set the Form Mode to Edit
+    this.formMode = "edit";
 
     //Define Observable Item based on the Key
-    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/degrees/' + key).valueChanges();
 
     //Subscribe to Observable
-    this.item.subscribe((item) => {
-      this.model = new Education(key, item.state, item.institution, item.degreelevel, item.degreetype, item.major, item.minor, item.completed, item.awardedon, item.created, item.modeified, item.user);
-      this.editDate = item.awardedon;
+    this.item.subscribe((response) => {
+
+      //Populate the Item Model with the response date from the DB. 
+      this.model = response;
+
+      //Populate the "Form Dates Model" with the Unix Epoch Dates (Converted to GMT)
+      if (this.model.awardedon != null) {
+        this.formDates.awardedonForm = new Date(this.model.awardedon);
+      };
 
     });
 
@@ -151,8 +160,31 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Function - Show the Delete Conf. 
   onShowDelete(key): void {
 
+    //Formbuilder for Dialog Popup
+    const dialogconfigForm = this._formBuilder.group({
+      title: 'Remove Item',
+      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
+      icon: this._formBuilder.group({
+        show: true,
+        name: 'heroicons_outline:exclamation',
+        color: 'warn'
+      }),
+      actions: this._formBuilder.group({
+        confirm: this._formBuilder.group({
+          show: true,
+          label: 'Remove',
+          color: 'warn'
+        }),
+        cancel: this._formBuilder.group({
+          show: true,
+          label: 'Cancel'
+        })
+      }),
+      dismissible: false
+    });
+
     //Open the dialog and save the reference of it
-    const dialogRef = this._fuseConfirmationService.open(this.dialogconfigForm.value);
+    const dialogRef = this._fuseConfirmationService.open(dialogconfigForm.value);
 
     //Subscribe to afterClosed from the dialog reference
     dialogRef.afterClosed().subscribe((result) => {
@@ -164,39 +196,63 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   }
 
   //Function - Add New Item to DB
-  onAdd(form: NgForm): void {
+  onAdd(): void {
 
-    //Cast model to variable for formReset
-    const mstate: string = this.model.state;
-    const minstitution: string = this.model.institution;
-    const mdegreelevel: string = this.model.degreelevel;
-    const mdegreetype: string = this.model.degreetype;
-    const mmajor: string = this.model.major;
-    const mminor: string = this.model.minor;
-    const mcompleted: boolean = this.model.completed;
-    const mawardedon: string = this.model.awardedon;
-    const mdatenow = Math.floor(Date.now());
+    //Add the User ID to the Model
+    this.model.uid = this.fbuser.id;
 
-    //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees')
-      .push({ state: mstate, institution: minstitution, degreelevel: mdegreelevel, degreetype: mdegreetype, major: mmajor, minor: mminor, completed: mcompleted, awardedon: mawardedon, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    if (this.formDates.awardedonForm != null) {
+      this.model.awardedon = this.formDates.awardedonForm.valueOf();
+    }
 
-    //Call Promise
-    promiseAddItem
-      .then(_ => this.db.object('/wishlists/degrees/' + this.fbuser.id + '/' + _.key)
-        .update({ state: mstate, institution: minstitution, degreelevel: mdegreelevel, degreetype: mdegreetype, major: mmajor, minor: mminor, completed: mcompleted, awardedon: mawardedon, created: mdatenow, modified: mdatenow, user: this.fbuser.id }))
-      .then(_ => form.resetForm())
-      .catch(err => console.log(err, 'Error Submitting Degree!'));
+    //Add Server Side Timestamp to the Model
+    this.model.created = serverTimestamp();
+    this.model.modified = serverTimestamp();
 
-    //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/wishlists/degrees').query.ref.transaction((likes) => {
-      if (likes === null) {
-        return likes = 1;
-      } else {
-        return likes + 1;
-      }
-    });
+    //Begin Database Calls to add the New Item
+    //----------------------------------------
 
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/degrees').push(this.model).then(responseObject => {
+
+      //Log Success
+      console.log('Item added to the User Node');
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const addItem = this.db.list('/degrees/').set(responseObject.key, this.model).then(responseObject => {
+
+        console.log('Item added to the Item Node');
+
+        //Increment Count
+        this.db.object('/counts/' + this.fbuser.id + '/degrees').query.ref.transaction((likes) => {
+
+          //Log the Counter Success
+          console.log("Counter Updated Succesfuly");
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.model = new Degree();
+          this.formDates = new FormDates();
+
+          //Set the Counts
+          if (likes === null) {
+            return likes = 1;
+          } else {
+            return likes + 1;
+          }
+
+        });
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+    //Scroll to top
     this.cdkScrollable.scrollTo({ top: 0 });
 
   }
@@ -204,64 +260,107 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Function - Update Item in DB
   onEdit(key): void {
 
-    //Cast model to variable for formReset
-    const mstate: string = this.model.state;
-    const minstitution: string = this.model.institution;
-    const mdegreelevel: string = this.model.degreelevel;
-    const mdegreetype: string = this.model.degreetype;
-    const mmajor: string = this.model.major;
-    const mminor: string = this.model.minor;
-    const mcompleted: boolean = this.model.completed;
-    const mawardedon: string = this.model.awardedon;
-    const mdatenow = Math.floor(Date.now());
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    if (this.formDates.awardedonForm != null) {
+      this.model.awardedon = this.formDates.awardedonForm.valueOf();
+    }
 
-    this.db.object('/wishlists/degrees/' + this.fbuser.id + '/' + key)
-      .update({ state: mstate, institution: minstitution, degreelevel: mdegreelevel, degreetype: mdegreetype, major: mmajor, minor: mminor, completed: mcompleted, awardedon: mawardedon, modified: mdatenow, user: this.fbuser.id });
+    //Add Server Side Timestamp to the Model
 
-    this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key)
-      .update({ state: mstate, institution: minstitution, degreelevel: mdegreelevel, degreetype: mdegreetype, major: mmajor, minor: mminor, completed: mcompleted, awardedon: mawardedon, modified: mdatenow, user: this.fbuser.id });
+    this.model.modified = serverTimestamp();
 
+    //Begin Database Calls to Update the Existing Item
+    //----------------------------------------
+
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/degrees/' + key + '/').update(this.model).then(responseObject => {
+
+      //Log Success
+      console.log('Item updated in the User Node');
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const editItem = this.db.object('/degrees/' + key + '/').update(this.model).then(responseObject => {
+
+        console.log('Item updated in the Item Node');
+
+        //Reset the Models back to Zero (Which also Resets the Form)
+        this.model = new Degree();
+        this.formDates = new FormDates();
+        this.currentkey = '';
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+    //Scroll to top
     this.cdkScrollable.scrollTo({ top: 0 });
+
   }
 
   //Function - Delete Item in DB
   onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key).remove();
-    this.db.object('/wishlists/degrees/' + this.fbuser.id + '/' + key).remove();
 
-    //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/wishlists/degrees').query.ref.transaction((likes) => {
-      if (likes === null) {
-        return likes = 0;
-      } else {
-        return likes - 1;
+    //Delete Item from the Item Node. 
+    this.db.object('/degrees/' + key).remove().then(responseObject => {
+
+      //Log Sucess
+      console.log("Remove Item from the Item Node Complete");
+
+      //Delete Item from the User Node. 
+      this.db.object('/users/' + this.fbuser.id + '/degrees/' + key).remove().then(responseObject => {
+
+        //Log Sucess
+        console.log("Remove Item from the User Node Complete");
+
+        //Decrement Count
+        this.db.object('/counts/' + this.fbuser.id + '/degrees').query.ref.transaction((likes) => {
+          if (likes === null) {
+            return likes = 0;
+          } else {
+            return likes - 1;
+          }
+        });
+
       }
-    });
+      )
 
-    console.log(key + ' deleted');
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
+
+    }
+    )
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
 
   }
 
   //Function - Cancel the Add or Edit Form
   onCancelForm(form: NgForm): void {
-    form.resetForm();
+    this.model = new Degree();
+    this.formDates = new FormDates();
     this.viewState = 1;
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
   }
 
-  onDateChange(event: MatDatepickerInputEvent<any>, control: AbstractControl): void {
 
-    this.model.awardedon = ((event.value.valueOf()).toString());
-
-  }
-
-  //Degree Completed Checkbox
+  //Function - Degree Completed Checkbox
   onCompletedChecked($event): void {
     if ($event.checked === true) { this.gradDate = 'Date Completed'; this.model.completed = true; }
     else { this.gradDate = 'Expected Graduation Date'; this.model.completed = false; }
   }
 
 
-  //Filter for Field of Study Autocomplete
+  //Function - Filter for Field of Study Autocomplete
   applyFilterFields(evt: string): void {
     evt = evt + '';
     if (!evt) { this.fieldfilteredData = this.fieldoptions; }
@@ -271,7 +370,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   }
 
 
-  //Filter for Institution Autocomplete
+  //Function - Filter for Institution Autocomplete
   applyFilterSchools(evt: string): void {
     evt = evt + '';
     if (!evt) { this.schoolfilteredData = this.schooloptions; }
@@ -281,14 +380,14 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   }
 
 
-  //Change fileter of degree types based on degree level dropdown
+  //Function - Change fileter of degree types based on degree level dropdown
   onDegreeLevelChanged(ob): void {
 
     this.degreetypesfilteredData = this.degreetypes.filter(degreetypes => degreetypes.degreeLevel === ob.value.toString());
 
   }
 
-  //State Dropdown Change Event
+  //Function - State Dropdown Change Event
   onStateChange(ob): void {
 
     this.model.institution = '';
@@ -322,50 +421,27 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     //Prepopulate Field of Study Autocomplete
     this.fieldfilteredData = this.fieldoptions;
 
-    //Call the Firebase Database and get the initial data.
-    this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees').snapshotChanges().subscribe(
+    //Call the Firebase Database and get the initial data. 
+    this.db.list('/users/' + this.fbuser.id + '/degrees').snapshotChanges().subscribe(
       (results: object) => {
 
-        //Put the results of the DB call into an object.
+        //Put the results of the DB call into an object. 
         this.items = results;
 
         console.log(this.items);
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
-          //It's empty, so set the view state to "No Data" mode.
+          //It's empty, so set the view state to "No Data" mode. 
           this.viewState = 2;
         }
         else {
-          //It's not empty, so set the view state to "Show Data" mode.
+          //It's not empty, so set the view state to "Show Data" mode. 
           this.viewState = 1;
         };
 
       }
     );
-
-    //Formbuilder for Dialog Popup
-    this.dialogconfigForm = this._formBuilder.group({
-      title: 'Remove Item',
-      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
-      icon: this._formBuilder.group({
-        show: true,
-        name: 'heroicons_outline:exclamation',
-        color: 'warn'
-      }),
-      actions: this._formBuilder.group({
-        confirm: this._formBuilder.group({
-          show: true,
-          label: 'Remove',
-          color: 'warn'
-        }),
-        cancel: this._formBuilder.group({
-          show: true,
-          label: 'Cancel'
-        })
-      }),
-      dismissible: false
-    });
 
   }
 
@@ -384,8 +460,8 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
 // @ Models
 // -----------------------------------------------------------------------------------------------------
 
-// Empty Education class
-export class Education {
+// Empty Degree class
+export class Degree {
 
   constructor(
     public key: string = '',
@@ -395,13 +471,21 @@ export class Education {
     public degreetype: string = '',
     public major: string = '',
     public minor: string = '',
-    public completed: boolean = true,
-    public awardedon: string = '',
-    public created: string = '',
-    public modified: string = '',
-    public user: string = '',
+    public completed: boolean = false,
+    public awardedon: number = null,
+    public created: object = {},
+    public modified: object = {},
+    public uid: string = '',
 
   ) { }
 
+}
+
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+export class FormDates {
+  constructor(
+    public awardedonForm: Date = null,
+    public expiresonForm: Date = null,
+  ) { }
 }
 

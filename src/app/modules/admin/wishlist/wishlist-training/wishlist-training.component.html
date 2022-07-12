@@ -130,12 +130,6 @@
 
                             </div>
 
-
-
-
-
-
-
                         </div>
 
                     </div>
@@ -211,20 +205,18 @@
                                     </mat-form-field>
                                 </div>
 
+
                                 <!-- Form Field - Awarded On -->
                                 <div class="form-group">
-                                    <mat-form-field appearance="fill" class="min-w-50">
-                                        <mat-label>
-                                            <span  *ngIf="model.awardedon?.length > 0">
-                                                Completed: {{model.awardedon| date: 'MM/dd/yyyy'}}
-                                            </span>
-                                            <span  *ngIf="model.awardedon?.length === 0">
-                                                Date Completed
-                                            </span>
-                                        </mat-label>
-                                        <input matInput [matDatepicker]="addpicker"
-                                            (dateChange)="onDateChange($event, addpicker, 'award')" name="awardedon"
-                                            id="awardedon" required class="form-control">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Date Earned (Optional)</mat-label>
+                                        <input 
+                                            matInput 
+                                            [(ngModel)]="formDates.awardedonForm"
+                                            [matDatepicker]="addpicker"
+                                            name="awardedon"
+                                            id="awardedon" 
+                                            class="form-control">
                                         <mat-hint>MM/DD/YYYY</mat-hint>
                                         <mat-datepicker-toggle matSuffix [for]="addpicker"></mat-datepicker-toggle>
                                         <mat-datepicker #addpicker startView="year"></mat-datepicker>
@@ -237,7 +229,9 @@
 
                                     <button
                                         (click)="onCancelForm(addItemForm)"
-                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                        class="flex-none ml-4" 
+                                        mat-stroked-button type="button" 
+                                        [color]="'primary'">
                                         Cancel
                                     </button>
                                 
@@ -258,9 +252,10 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(currentkey);"
                                                 [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" mat-flat-button
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
                                                 Edit Training

@@ -18,10 +18,14 @@
         <!-- Right Side - Action Buttons -->
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
-            <button (click)="onShowAddForm();" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
-                [color]="'primary'">
-                Add Talent
+            <button (click)="onShowAddForm(this.addItemForm);" 
+            [disabled]="showadditem" 
+            class="ml-4" 
+            mat-flat-button type="button"
+            [color]="'primary'">
+                Add Talent/Hobby
             </button>
+
         </div>
     </div>
 
@@ -149,12 +153,6 @@
 
                             </div>
 
-
-
-
-
-
-
                         </div>
 
                     </div>
@@ -184,7 +182,6 @@
                                 </h2>
 
                             </div>
-
 
                             <!-- Form Start -->
                             <form #addItemForm="ngForm">
@@ -224,7 +221,9 @@
 
                                     <button
                                         (click)="onCancelForm(addItemForm)"
-                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                        class="flex-none ml-4" 
+                                        mat-stroked-button type="button" 
+                                        [color]="'primary'">
                                         Cancel
                                     </button>
                                 
@@ -245,7 +244,7 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(currentkey);"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" mat-flat-button
                                                 type="button" 
