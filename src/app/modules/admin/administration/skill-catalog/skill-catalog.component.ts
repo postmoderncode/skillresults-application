@@ -309,7 +309,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     }
     else { //this is a skill
 
-
       const mratingsteps: number = this.model.ratingsteps;
       const mcategory: string = this.model.category;
 
@@ -432,7 +431,8 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
       //Subscribe to Observable
       this.item.subscribe((item) => {
-        this.model = new CatItem(key, item.name, item.value, item.description, item.category);
+        this.model = new CatItem(key, item.name, item.value, item.description, null, item.category, item.ratingsteps);
+        console.log(this.model);
       });
 
     }

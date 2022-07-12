@@ -207,15 +207,17 @@
                                         </div>
                             
                                         <mat-slider
-                                        thumbLabel
-                                        id ="rating"
-                                        name="rating"
-                                        [(ngModel)]="model.rating"
-                                        #name="ngModel"
-                                        min="0" max="100" step="25" style="min-width:300px;"></mat-slider>
+                                            thumbLabel
+                                            id ="rating"
+                                            name="rating"
+                                            [(ngModel)]="model.rating"
+                                            #name="ngModel"
+                                            min="0" max="100" s
+                                            tep="25" 
+                                            style="min-width:300px;">
+                                        </mat-slider>
                             
                                     </div>
-
 
                                     <!-- Form Field - Rating Default-->
                                     <div class="form-group" *ngSwitchDefault>
@@ -225,12 +227,15 @@
                                         </div>
                             
                                         <mat-slider
-                                        thumbLabel
-                                        id ="rating"
-                                        name="rating"
-                                        [(ngModel)]="model.rating"
-                                        #name="ngModel"
-                                        min="0" max="100" step={{ratingsteps}} style="min-width:300px;"></mat-slider>
+                                            thumbLabel
+                                            id ="rating"
+                                            name="rating"
+                                            [(ngModel)]="model.rating"
+                                            #name="ngModel"
+                                            min="0" max="100" 
+                                            step={{ratingsteps}} 
+                                            style="min-width:300px;">
+                                        </mat-slider>
                             
                                     </div>
 
