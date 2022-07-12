@@ -473,12 +473,12 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       .query.ref.transaction((hidden) => {
         if (hidden === true) {
           this.db.object('/customs/' + type + '/' + key + '/hidden').remove();
-
+        } else if (type === 'areas') {
+          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true })
+        } else if (type === 'categories') {
+          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, area: this.catmodel.currentArea })
         } else {
-
-          return hidden = true;
-
-
+          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, category: this.catmodel.currentCategory })
         }
       });
 
