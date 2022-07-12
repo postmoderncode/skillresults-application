@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject, combineLatest, map } from 'rxjs';
+import { serverTimestamp } from '@angular/fire/database'
 
 
 @Component({
@@ -30,15 +31,15 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   //Container to hold a single item
   item: Observable<any>;
 
-  //Container to hold Current User
-  fbuser = JSON.parse(localStorage.getItem('fbuser'));
-
-  //Confirmation Dialog
-  dialogconfigForm: FormGroup;
-
-  //Empty Model
+  //Container for Strongly typed Model. 
   model = new CatItem();
   catmodel = new CatalogState();
+
+  //Container for Strongly typed From Date Info. 
+  formDates = new FormDates();
+
+  //Container to hold Current User
+  fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
   //Object to Hold All Areas.
   areas;
@@ -333,6 +334,44 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
+  //Function - Show the Delete Conf. 
+  onShowDelete(key): void {
+
+    //Formbuilder for Dialog Popup
+    const dialogconfigForm = this._formBuilder.group({
+      title: 'Remove Item',
+      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
+      icon: this._formBuilder.group({
+        show: true,
+        name: 'heroicons_outline:exclamation',
+        color: 'warn'
+      }),
+      actions: this._formBuilder.group({
+        confirm: this._formBuilder.group({
+          show: true,
+          label: 'Remove',
+          color: 'warn'
+        }),
+        cancel: this._formBuilder.group({
+          show: true,
+          label: 'Cancel'
+        })
+      }),
+      dismissible: false
+    });
+
+    //Open the dialog and save the reference of it
+    const dialogRef = this._fuseConfirmationService.open(dialogconfigForm.value);
+
+    //Subscribe to afterClosed from the dialog reference
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirmed') {
+        //Call Actual Delete
+        this.onDelete(key);
+      }
+    });
+  }
+
   //Function - Delete Item in DB
   onDelete(key: string): void {
 
@@ -354,14 +393,24 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
-
   //Function - Cancel the Add or Edit Form
   onCancelForm(form: NgForm): void {
-    form.resetForm();
+    this.model = new CatItem();
+    this.formDates = new FormDates();
     this.viewState = 1;
   }
 
-  //Contextual Button based on tabTitle
+  //Function - Hide Form and Reset Model
+  onHideForm(): void {
+
+    //Reset the Models back to Zero (Which also Resets the Form
+    this.model = new CatItem();
+    this.formDates = new FormDates();
+    this.viewState = 1;
+
+  }
+
+  //Fuction - Show the Add Form
   onShowAddForm(type: string): void {
     //Set the View State
     this.viewState = 3;
@@ -439,21 +488,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
-  //Function - Show the Delete Conf.
-  onShowDelete(key): void {
-
-    //Open the dialog and save the reference of it
-    const dialogRef = this._fuseConfirmationService.open(this.dialogconfigForm.value);
-
-    //Subscribe to afterClosed from the dialog reference
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'confirmed') {
-        //Call Actual Delete
-        this.onDelete(key);
-      }
-    });
-  }
-
   //Function - Hide the selected item
   onHideItem(key: string): void {
 
@@ -481,14 +515,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
           this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, category: this.catmodel.currentCategory })
         }
       });
-
-  }
-
-  //Function - Hide Form and Reset Model
-  onHideForm(): void {
-
-    this.model = new CatItem();
-    this.viewState = 1;
 
   }
 
@@ -527,29 +553,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         (res) => {
           this.areas = res.filter(area => area.payload.val().name !== '' && area.payload.val().name !== null);
         });
-
-    //Formbuilder for Dialog Popup
-    this.dialogconfigForm = this._formBuilder.group({
-      title: 'Remove Item',
-      message: 'Are you sure you want to remove this ' + this.tabTitle + ' permanently? <span class="font-medium">This action cannot be undone!</span>',
-      icon: this._formBuilder.group({
-        show: true,
-        name: 'heroicons_outline:exclamation',
-        color: 'warn'
-      }),
-      actions: this._formBuilder.group({
-        confirm: this._formBuilder.group({
-          show: true,
-          label: 'Remove',
-          color: 'warn'
-        }),
-        cancel: this._formBuilder.group({
-          show: true,
-          label: 'Cancel'
-        })
-      }),
-      dismissible: false
-    });
 
   }
 
@@ -594,4 +597,12 @@ export class CatalogState {
 
   ) { }
 
+}
+
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+export class FormDates {
+  constructor(
+    public awardedonForm: Date = null,
+    public expiresonForm: Date = null,
+  ) { }
 }
