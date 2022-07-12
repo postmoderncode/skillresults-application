@@ -132,7 +132,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         ))
       .subscribe(
         (res) => {
-          console.log(res)
           this.categories = res.filter(category => ((category.payload.val().name !== '' && category.payload.val().name !== null)));
         });
 
@@ -288,18 +287,20 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     }
     else if (this.tabTitle.toLowerCase() === 'category') {
 
+      const marea: string = this.model.area;
+
       this.db.object('/skillcatalog/categories/' + key).query.ref.transaction((ref) => {
         if (ref === null) {
 
           this.db.object('/customs/categories/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, area: marea, modified: mdatenow, user: this.fbuser.id });
 
           this.onHideForm();
 
         } else {
 
           this.db.object('/customs/categories/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, area: marea, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
 
           this.onHideForm();
         }
@@ -310,19 +311,20 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
 
       const mratingsteps: number = this.model.ratingsteps;
+      const mcategory: string = this.model.category;
 
       this.db.object('/skillcatalog/skills/' + key).query.ref.transaction((ref) => {
         if (ref === null || mratingsteps != 5) {
 
           this.db.object('/customs/skills/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, ratingsteps: mratingsteps, modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, modified: mdatenow, user: this.fbuser.id });
 
           this.onHideForm();
 
         } else {
 
           this.db.object('/customs/skills/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, ratingsteps: mratingsteps, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
 
           this.onHideForm();
         }
@@ -472,7 +474,12 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         if (hidden === true) {
           this.db.object('/customs/' + type + '/' + key + '/hidden').remove();
 
-        } else { return hidden = true; }
+        } else {
+
+          return hidden = true;
+
+
+        }
       });
 
   }
