@@ -324,8 +324,8 @@ export class Talent {
     public key: string = '',
     public name: string = '',
     public description: string = '',
-    public created: string = '',
-    public modified: string = '',
+    public created: object = {},
+    public modified: object = {},
     public uid: string = '',
 
   ) { }

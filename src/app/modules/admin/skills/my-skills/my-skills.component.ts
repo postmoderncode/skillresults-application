@@ -488,9 +488,9 @@ export class UserSkill {
     public key: string = '',
     public name: string = '',
     public rating: number = 0,
-    public created: string = '',
-    public modified: string = '',
-    public user: string = '',
+    public created: object = {},
+    public modified: object = {},
+    public uid: string = '',
 
   ) { }
 
