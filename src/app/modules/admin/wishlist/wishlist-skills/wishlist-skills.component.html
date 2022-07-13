@@ -104,7 +104,7 @@
 
                                                 <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
 
-                                                <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().rating}} ({{item.payload.val().priority}})</div>
+                                                <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().rating}}</div>
 
                                                 <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
                                                         style="
@@ -207,15 +207,17 @@
                                         </div>
                             
                                         <mat-slider
-                                        thumbLabel
-                                        id ="rating"
-                                        name="rating"
-                                        [(ngModel)]="model.rating"
-                                        #name="ngModel"
-                                        min="0" max="100" step="25" style="min-width:300px;"></mat-slider>
+                                            thumbLabel
+                                            id ="rating"
+                                            name="rating"
+                                            [(ngModel)]="model.rating"
+                                            #name="ngModel"
+                                            min="0" max="100" s
+                                            tep="25" 
+                                            style="min-width:300px;">
+                                        </mat-slider>
                             
                                     </div>
-
 
                                     <!-- Form Field - Rating Default-->
                                     <div class="form-group" *ngSwitchDefault>
@@ -225,32 +227,20 @@
                                         </div>
                             
                                         <mat-slider
-                                        thumbLabel
-                                        id ="rating"
-                                        name="rating"
-                                        [(ngModel)]="model.rating"
-                                        #name="ngModel"
-                                        min="0" max="100" step={{ratingsteps}} style="min-width:300px;"></mat-slider>
+                                            thumbLabel
+                                            id ="rating"
+                                            name="rating"
+                                            [(ngModel)]="model.rating"
+                                            #name="ngModel"
+                                            min="0" max="100" 
+                                            step={{ratingsteps}} 
+                                            style="min-width:300px;">
+                                        </mat-slider>
                             
                                     </div>
 
                                 </div>
 
-                                <div class="form-group">
-
-                                    <div class="mb-10 mt-15">
-                                        <mat-label class="mr-5 text-lg"><strong>Priority:</strong> {{model.priority}}</mat-label>
-                                    </div>
-                        
-                                    <mat-slider
-                                     thumbLabel
-                                     id ="priority"
-                                     name="priority"
-                                     [(ngModel)]="model.priority"
-                                     #name="ngModel"
-                                      min="0" max="100" step="5" value="50" style="min-width:300px;"></mat-slider>
-                          
-                                </div>
 
                                 <!-- Actions -->
                                 <div class="flex justify-center mt-6">
@@ -278,9 +268,10 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(currentkey);"
                                                 [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" mat-flat-button
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
                                                 Edit Skill
@@ -300,6 +291,16 @@
 
                     <!-- CATALOG -->
                     <div *ngSwitchCase="4">
+                        <div>
+                            <button 
+                            (click)="onShowSearch();"
+                            class="flex-none ml-4" 
+                            mat-stroked-button
+                            type="button" 
+                            [color]="'primary'">
+                            USE SEARCH
+                            </button>
+                        </div>
 
                         <!-- SELECTOR WRAPPER -->
                         <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px]">
@@ -394,8 +395,8 @@
 
                                         <!--Repeat for Each Skill-->
                                         <span *ngFor="let skill of skills" >
-                                            <span *ngIf="skill.customs[0]?.payload.val().hidden !== true && skill.payload.val().name?.length > 0">
-                                                <a (click)="selectSkill(skill.key, skill.payload.val().name)" title="{{ skill.payload.val().description }}">
+                                            <span *ngIf="(skill.customs[0]?.payload.val().hidden !== true) && (skill.payload.val().name?.length > 0)">
+                                                <a (click)="selectSkill(skill)" title="{{ skill.payload.val().description }}">
                                                     <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
                                                         <div class="flex-1">
                                                             <span *ngIf="!skill.customs[0]?.payload.val().name">
@@ -429,6 +430,16 @@
 
                     <!-- SEARCH -->
                     <div *ngSwitchCase="5">
+                        <div>
+                            <button 
+                            (click)="onShowCatalog();"
+                            class="flex-none ml-4" 
+                            mat-stroked-button
+                            type="button" 
+                            [color]="'primary'">
+                            USE CATALOG
+                            </button>
+                        </div>
 
                         <div class="w-full text-center mt-10" >
 
@@ -448,7 +459,7 @@
                                     class="ml-4"
                                     mat-flat-button
                                     type="button"
-                                    [color]="'default'">
+                                    [color]="'primary'">
                                 Search
                                 </button>
                             </div>
@@ -467,7 +478,3 @@
                     </div>
 
                 </div>
-
-            </div>
-
-        </div>

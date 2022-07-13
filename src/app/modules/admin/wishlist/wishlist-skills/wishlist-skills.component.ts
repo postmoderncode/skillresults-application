@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject, combineLatest, map } from 'rxjs';
 
@@ -12,8 +12,8 @@ import { Observable, Subject, combineLatest, map } from 'rxjs';
 })
 export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
-  //Initialize Varables
-  //-------------------
+  //Initialize Variables
+  //---------------------
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -33,12 +33,15 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   //Container to hold Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
-  //Confirmation Dialog
-  dialogconfigForm: FormGroup;
-
-  //Empty Model
+  //Container for Strongly typed Model. 
   model = new UserSkill();
   catmodel = new CatalogState();
+
+  //Container for Strongly typed From Date Info. 
+  formDates = new FormDates();
+
+  //Container to hold Current Active Item Key
+  currentkey = "";
 
   //Object to Hold All Areas.
   areas;
@@ -64,6 +67,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   ratingsteps = 5;
 
 
+
   //Constructor
   //---------------------
   constructor(
@@ -71,7 +75,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
-
 
   //Functions
   //---------------------
@@ -97,7 +100,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     }
   }
 
-  //Function for unique value of name for search/duplicates
+  //Function - Unique value of name for search/duplicates
   onConvertName(name: string): string {
     //trim leading and trailing spaces
     const trimname: string = name.trim();
@@ -112,7 +115,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   }
 
-  //Function to search through skills for filtered querytext
+  //Function - Search through skills for filtered querytext
   onSearch(queryText: string): void {
 
 
@@ -157,7 +160,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   }
 
-  //Function to call when an area is selected
+  //Function - Call when an area is selected
   onAreaSelect(areaId): void {
 
     //Populate Categories - Firebase List w/ Sort&Filter Query
@@ -200,7 +203,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   }
 
-  //Function to call when a category is selected
+  //Function - Call when a category is selected
   onCategorySelect(categoryId): void {
 
     console.log(categoryId);
@@ -230,7 +233,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         ))
       .subscribe(
         (res) => {
-          this.skills = res.filter(skill => skill.payload.val().name !== '' && skill.payload.val().name !== null);
+          this.skills = res.filter(skill => (skill.payload.val().name !== '' && skill.payload.val().name !== null) || (skill.payload.val().ratingsteps != 5));
         });
 
     this.tabTitle = 'Skill';
@@ -238,86 +241,154 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     this.catmodel.currentCategory = categoryId;
   }
 
-  //Function to call when a skill is selected
-  selectSkill(skillId, skillName): void {
-    this.catmodel.currentSkill = skillId;
-    this.model.key = skillId;
-    this.model.name = skillName;
+  //Function - Call when a skill is selected
+  selectSkill(skill): void {
+    this.catmodel.currentSkill = skill.key;
+    this.model.key = skill.key;
+    this.model.name = skill.payload.val().name;
+
+    this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
     //Set the View State
     this.viewState = 3;
 
     //Set the Form Mode
     this.formMode = 'add';
 
+    console.log('steps: ' + this.ratingsteps);
+
   }
 
 
   //Function - Add New Item to DB
-  onAdd(form: NgForm): void {
+  onAdd(): void {
 
-    //Cast model to variable for formReset
-    const mkey: string = this.model.key;
-    const mname: string = this.model.name;
-    const mrating: number = this.model.rating;
-    const mpriority: number = this.model.priority;
-    const mdatenow = Math.floor(Date.now());
+    //Add the User ID to the Model
+    this.model.uid = this.fbuser.id;
 
-    //Define Promise
-    const promiseAddItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push({ key: mkey, name: mname, rating: mrating, priority: mpriority, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+    //Begin Database Calls to add the New Item
+    //----------------------------------------
 
-    //Call Promise
-    promiseAddItem
-      .then(_ => this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + _.key)
-        .update({ key: mkey, name: mname, rating: mrating, priority: mpriority, created: mdatenow, modified: mdatenow, user: this.fbuser.id }))
-      .then(_ => form.resetForm())
-      .catch(err => console.log(err, 'Error Submitting Skill!'));
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push(this.model).then(responseObject => {
 
-    //Increment Count
-    this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((likes) => {
-      if (likes === null) {
-        return likes = 1;
-      } else {
-        return likes + 1;
-      }
-    });
+      //Log Success
+      console.log('Item added to the User Node');
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const addItem = this.db.list('/wishlists/skills/').set(responseObject.key, this.model).then(responseObject => {
+
+        console.log('Item added to the Item Node');
+
+        //Increment Count
+        this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((likes) => {
+
+          //Log the Counter Success
+          console.log("Counter Updated Succesfuly");
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.model = new UserSkill();
+          this.formDates = new FormDates();
+
+          //Set the Counts
+          if (likes === null) {
+            return likes = 1;
+          } else {
+            return likes + 1;
+          }
+
+        });
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
 
   }
+
 
   //Function - Update Item in DB
   onEdit(key): void {
 
-    //Cast model to variable for formReset
-    const mrating: number = this.model.rating;
-    const mpriority: number = this.model.priority;
-    const mdatenow = Math.floor(Date.now());
+    //Begin Database Calls to Update the Existing Item
+    //----------------------------------------
 
-    this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key)
-      .update({ rating: mrating, priority: mpriority, modified: mdatenow });
-    this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + key)
-      .update({ rating: mrating, priority: mpriority, modified: mdatenow });
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key + '/').update(this.model).then(responseObject => {
+
+      //Log Success
+      console.log('Item updated in the User Node');
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const editItem = this.db.object('/wishlists/skills/' + key + '/').update(this.model).then(responseObject => {
+
+        console.log('Item updated in the Item Node');
+
+        //Reset the Models back to Zero (Which also Resets the Form)
+        this.model = new UserSkill();
+        this.formDates = new FormDates();
+        this.currentkey = '';
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
 
   }
 
   //Function - Delete Item in DB
   onDelete(key): void {
-    this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).remove();
-    this.db.object('/wishlists/skills/' + this.fbuser.id + '/' + key).remove();
 
-    //Decrement Count
-    this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((likes) => {
-      if (likes === null) {
-        return likes = 0;
-      } else {
-        return likes - 1;
+    //Delete Item from the Item Node. 
+    this.db.object('/wishlists/skills/' + key).remove().then(responseObject => {
+
+      //Log Sucess
+      console.log("Remove Item from the Item Node Complete");
+
+      //Delete Item from the User Node. 
+      this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).remove().then(responseObject => {
+
+        //Log Sucess
+        console.log("Remove Item from the User Node Complete");
+
+        //Decrement Count
+        this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((likes) => {
+          if (likes === null) {
+            return likes = 0;
+          } else {
+            return likes - 1;
+          }
+        });
+
       }
-    });
+      )
+
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
+
+    }
+    )
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
+
 
   }
 
   //Function - Cancel the Add or Edit Form
   onCancelForm(form: NgForm): void {
-    form.resetForm();
+    this.model = new UserSkill();
+    this.formDates = new FormDates();
     this.viewState = 1;
+
   }
 
   //Fuction - Show the Add Form
@@ -344,18 +415,41 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
     //Subscribe to Observable
     this.item.subscribe((item) => {
-      this.model = new UserSkill(key, item.name, item.rating, item.priority, item.created, item.modified, item.user);
+      this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user);
     });
 
     console.log(key + 'has been selected to edit');
 
   }
 
-  //Function - Show the Delete Conf.
+  //Function - Show the Delete Conf. 
   onShowDelete(key): void {
 
+    //Formbuilder for Dialog Popup
+    const dialogconfigForm = this._formBuilder.group({
+      title: 'Remove Item',
+      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
+      icon: this._formBuilder.group({
+        show: true,
+        name: 'heroicons_outline:exclamation',
+        color: 'warn'
+      }),
+      actions: this._formBuilder.group({
+        confirm: this._formBuilder.group({
+          show: true,
+          label: 'Remove',
+          color: 'warn'
+        }),
+        cancel: this._formBuilder.group({
+          show: true,
+          label: 'Cancel'
+        })
+      }),
+      dismissible: false
+    });
+
     //Open the dialog and save the reference of it
-    const dialogRef = this._fuseConfirmationService.open(this.dialogconfigForm.value);
+    const dialogRef = this._fuseConfirmationService.open(dialogconfigForm.value);
 
     //Subscribe to afterClosed from the dialog reference
     dialogRef.afterClosed().subscribe((result) => {
@@ -367,6 +461,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   }
 
 
+  //Function - Show Skill Catalog
   onShowCatalog(): void {
 
     //Set the View State
@@ -375,6 +470,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   }
 
 
+  //Function - Show Search Dialog
   onShowSearch(): void {
 
     //Set the View State
@@ -439,30 +535,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
       }
     );
 
-
-    //Formbuilder for Dialog Popup
-    this.dialogconfigForm = this._formBuilder.group({
-      title: 'Remove Item',
-      message: 'Are you sure you want to remove this ' + this.tabTitle + ' permanently? <span class="font-medium">This action cannot be undone!</span>',
-      icon: this._formBuilder.group({
-        show: true,
-        name: 'heroicons_outline:exclamation',
-        color: 'warn'
-      }),
-      actions: this._formBuilder.group({
-        confirm: this._formBuilder.group({
-          show: true,
-          label: 'Remove',
-          color: 'warn'
-        }),
-        cancel: this._formBuilder.group({
-          show: true,
-          label: 'Cancel'
-        })
-      }),
-      dismissible: false
-    });
-
   }
 
   /**
@@ -475,6 +547,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   }
 
 }
+
 
 // -----------------------------------------------------------------------------------------------------
 // @ Models
@@ -506,4 +579,12 @@ export class CatalogState {
 
   ) { }
 
+}
+
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+export class FormDates {
+  constructor(
+    public awardedonForm: Date = null,
+    public expiresonForm: Date = null,
+  ) { }
 }

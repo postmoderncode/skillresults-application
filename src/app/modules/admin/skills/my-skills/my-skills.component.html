@@ -18,7 +18,10 @@
         <!-- Right Side - Action Buttons -->
         <div class="flex shrink-0 items-center mt-3">
             <span *ngIf="viewState !== 3 && viewState !== 4 && viewState !== 5">
-                <button (click)="onShowCatalog();" class="ml-4" mat-flat-button type="button"
+                <button 
+                    (click)="onShowCatalog();" 
+                    class="ml-4" 
+                    mat-flat-button type="button"
                     [color]="'primary'">
                     Add Skill 
                 </button>
@@ -27,7 +30,10 @@
             <span *ngIf="viewState === 4 || viewState === 5">
                 <button
                     (click)="ngOnInit()"
-                    class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                    class="flex-none ml-4" 
+                    mat-stroked-button 
+                    type="button" 
+                    [color]="'primary'">
                     Cancel
                 </button>
             </span>
@@ -268,9 +274,10 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(currentkey);"
                                                 [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" mat-flat-button
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
                                                 Edit Skill
