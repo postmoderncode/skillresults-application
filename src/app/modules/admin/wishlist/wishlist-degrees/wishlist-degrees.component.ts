@@ -140,7 +140,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     this.formMode = "edit";
 
     //Define Observable Item based on the Key
-    this.item = this.db.object('/users/' + this.fbuser.id + '/degrees/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key).valueChanges();
 
     //Subscribe to Observable
     this.item.subscribe((response) => {
@@ -214,18 +214,18 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/degrees').push(this.model).then(responseObject => {
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees').push(this.model).then(responseObject => {
 
       //Log Success
       console.log('Item added to the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const addItem = this.db.list('/degrees/').set(responseObject.key, this.model).then(responseObject => {
+      const addItem = this.db.list('/wishlists/degrees/').set(responseObject.key, this.model).then(responseObject => {
 
         console.log('Item added to the Item Node');
 
         //Increment Count
-        this.db.object('/counts/' + this.fbuser.id + '/degrees').query.ref.transaction((likes) => {
+        this.db.object('/counts/' + this.fbuser.id + '/wishlists/degrees').query.ref.transaction((likes) => {
 
           //Log the Counter Success
           console.log("Counter Updated Succesfuly");
@@ -273,13 +273,13 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/degrees/' + key + '/').update(this.model).then(responseObject => {
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key + '/').update(this.model).then(responseObject => {
 
       //Log Success
       console.log('Item updated in the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const editItem = this.db.object('/degrees/' + key + '/').update(this.model).then(responseObject => {
+      const editItem = this.db.object('/wishlists/degrees/' + key + '/').update(this.model).then(responseObject => {
 
         console.log('Item updated in the Item Node');
 
@@ -306,7 +306,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   onDelete(key): void {
 
     //Delete Item from the Item Node. 
-    this.db.object('/degrees/' + key).remove().then(responseObject => {
+    this.db.object('/wishlists/degrees/' + key).remove().then(responseObject => {
 
       //Log Sucess
       console.log("Remove Item from the Item Node Complete");
@@ -318,7 +318,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
         console.log("Remove Item from the User Node Complete");
 
         //Decrement Count
-        this.db.object('/counts/' + this.fbuser.id + '/degrees').query.ref.transaction((likes) => {
+        this.db.object('/counts/' + this.fbuser.id + '/wishlists/degrees').query.ref.transaction((likes) => {
           if (likes === null) {
             return likes = 0;
           } else {
@@ -422,7 +422,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     this.fieldfilteredData = this.fieldoptions;
 
     //Call the Firebase Database and get the initial data. 
-    this.db.list('/users/' + this.fbuser.id + '/degrees').snapshotChanges().subscribe(
+    this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees').snapshotChanges().subscribe(
       (results: object) => {
 
         //Put the results of the DB call into an object. 

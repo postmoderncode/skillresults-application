@@ -174,7 +174,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/certifications').push(this.model).then(responseObject => {
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/certifications').push(this.model).then(responseObject => {
 
       //Log Success
       console.log('Item added to the User Node');
@@ -185,7 +185,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
         console.log('Item added to the Item Node');
 
         //Increment Count
-        this.db.object('/counts/' + this.fbuser.id + '/certifications').query.ref.transaction((likes) => {
+        this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
 
           //Log the Counter Success
           console.log("Counter Updated Succesfuly");
@@ -238,13 +238,13 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/certifications/' + key + '/').update(this.model).then(responseObject => {
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications/' + key + '/').update(this.model).then(responseObject => {
 
       //Log Success
       console.log('Item updated in the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const editItem = this.db.object('/certifications/' + key + '/').update(this.model).then(responseObject => {
+      const editItem = this.db.object('/wishlists/certifications/' + key + '/').update(this.model).then(responseObject => {
 
         console.log('Item updated in the Item Node');
 
@@ -271,19 +271,19 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
   onDelete(key): void {
 
     //Delete Item from the Item Node. 
-    this.db.object('/certifications/' + key).remove().then(responseObject => {
+    this.db.object('/wishlists/certifications/' + key).remove().then(responseObject => {
 
       //Log Sucess
       console.log("Remove Item from the Item Node Complete");
 
       //Delete Item from the User Node. 
-      this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).remove().then(responseObject => {
+      this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications/' + key).remove().then(responseObject => {
 
         //Log Sucess
         console.log("Remove Item from the User Node Complete");
 
         //Decrement Count
-        this.db.object('/counts/' + this.fbuser.id + '/certifications').query.ref.transaction((likes) => {
+        this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
           if (likes === null) {
             return likes = 0;
           } else {
@@ -337,7 +337,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     //Call the Firebase Database and get the initial data. 
-    this.db.list('/users/' + this.fbuser.id + '/certifications').snapshotChanges().subscribe(
+    this.db.list('/users/' + this.fbuser.id + '/wishlists/certifications').snapshotChanges().subscribe(
       (results: object) => {
 
         //Put the results of the DB call into an object. 
