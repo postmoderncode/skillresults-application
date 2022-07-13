@@ -418,6 +418,9 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     //Set the Form Mode
     this.formMode = 'add';
 
+    //Set default Slider Steps
+    this.model.ratingsteps = 5;
+
   }
 
   //Fuction - Show the Edit Form
@@ -467,6 +470,9 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
     }
     else { //this is a skill
+
+      //Set default Slider Steps
+      this.model.ratingsteps = 5;
 
       //Is this a new custom or a renamed master
       if (obj.customs[0]?.payload.val().customtype === 'new' || obj.customs[0]?.payload.val().customtype === 'rename') {
