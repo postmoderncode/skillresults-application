@@ -6,14 +6,13 @@ import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
 
 @Component({
-    selector       : 'user',
-    templateUrl    : './user.component.html',
-    encapsulation  : ViewEncapsulation.None,
+    selector: 'user',
+    templateUrl: './user.component.html',
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs       : 'user'
+    exportAs: 'user'
 })
-export class UserComponent implements OnInit, OnDestroy
-{
+export class UserComponent implements OnInit, OnDestroy {
     /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_showAvatar: BooleanInput;
     /* eslint-enable @typescript-eslint/naming-convention */
@@ -30,8 +29,7 @@ export class UserComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _userService: UserService
-    )
-    {
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -41,8 +39,7 @@ export class UserComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Subscribe to user changes
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -57,8 +54,7 @@ export class UserComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
@@ -68,16 +64,19 @@ export class UserComponent implements OnInit, OnDestroy
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    clickProfile(): void {
+        this._router.navigate(['/home/public-profile']);
+    }
+
+
     /**
      * Update the user status
      *
      * @param status
      */
-    updateUserStatus(status: string): void
-    {
+    updateUserStatus(status: string): void {
         // Return if user is not available
-        if ( !this.user )
-        {
+        if (!this.user) {
             return;
         }
 
@@ -91,8 +90,7 @@ export class UserComponent implements OnInit, OnDestroy
     /**
      * Sign out
      */
-    signOut(): void
-    {
+    signOut(): void {
         this._router.navigate(['/sign-out']);
     }
 }
