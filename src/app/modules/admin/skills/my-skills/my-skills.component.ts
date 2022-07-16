@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject, combineLatest, map } from 'rxjs';
-
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-my-skills',
@@ -66,6 +67,10 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   ratingtype = 0;
   ratingsteps = 5;
 
+  //Table Settings
+  displayedColumns: string[] = ['name', 'rating'];
+  dataSource;
+
 
 
   //Constructor
@@ -75,6 +80,13 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
+
+
+  @ViewChild(MatSort) sort: MatSort;
+
+  @ViewChild(MatSort) set MatSort(sort: MatSort) {
+    this.dataSource.sort = this.sort;
+  }
 
   //Functions
   //---------------------
@@ -313,7 +325,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   //Function - Update Item in DB
   onEdit(key): void {
 
-    console.log(this.model);
     //Begin Database Calls to Update the Existing Item
     //----------------------------------------
 
@@ -523,6 +534,8 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
         //Put the results of the DB call into an object.
         this.items = results;
+
+        this.dataSource = new MatTableDataSource(Array(results));
 
         console.log(this.items);
 
