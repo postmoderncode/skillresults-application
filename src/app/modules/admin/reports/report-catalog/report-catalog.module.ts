@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ReportCatalogComponent } from './report-catalog.component';
 import { Route, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 const reportcatalogRoutes: Route[] = [
-    {
-        path     : '',
-        component: ReportCatalogComponent
-    }
+  {
+    path: '',
+    component: ReportCatalogComponent
+  }
 ];
 
 @NgModule({
@@ -18,6 +20,8 @@ const reportcatalogRoutes: Route[] = [
   imports: [
     CommonModule,
     MatIconModule,
+    MatSortModule,
+    MatTableModule,
     RouterModule.forChild(reportcatalogRoutes)
   ]
 })

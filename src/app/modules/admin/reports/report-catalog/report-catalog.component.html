@@ -1,43 +1,97 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
-            <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
-        <div class="flex-1 min-w-0">
-            <!-- Breadcrumbs -->
+    <!-- Header -->
+<div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
+<div class="flex-1 min-w-0">
+    <!-- Breadcrumbs -->
+    <div>
+        <div class="hidden sm:flex flex-wrap items-center font-medium">
             <div>
-                <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div>
-                        <a class="whitespace-nowrap text-primary-500">Reports</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                        <a class="ml-1 text-primary-500">Report Catalog</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                        <span class="ml-1 text-secondary">Overview</span>
-                    </div>
-                </div>
-
+                <a class="whitespace-nowrap text-primary-500">Reports</a>
             </div>
-            <!-- Title -->
-            <div class="mt-2">
-                <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Report Catalog
-                </h2>
+            <div class="flex items-center ml-1 whitespace-nowrap">
+                <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                <a class="ml-1 text-primary-500">Report Catalog</a>
+            </div>
+            <div class="flex items-center ml-1 whitespace-nowrap">
+                <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                <span class="ml-1 text-secondary">Overview</span>
             </div>
         </div>
-    </div>
-
-
-    <!-- Main -->
-    <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
-
-        <!-- CONTENT GOES HERE -->
-        <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl"></div>
-        
-
 
     </div>
+    <!-- Title -->
+    <div class="mt-2">
+        <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+            Report Catalog
+        </h2>
+    </div>
+</div>
+</div>
+
+
+<!-- Main -->
+<div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
+
+<!-- CONTENT GOES HERE -->
+<div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
+
+  <style>
+    table {
+        width: 100%;
+      }
+      
+      th.mat-sort-header-sorted {
+        color: black;
+      }
+  </style>
+
+    <table mat-table [dataSource]="dataSource" matSort 
+    class="mat-elevation-z8">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+      No.
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+      Name
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
+      Weight
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
+      Symbol
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+
+
+</div>
+
+
+
+</div>
 
 </div>
