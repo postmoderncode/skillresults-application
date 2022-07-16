@@ -472,7 +472,7 @@
                             </form>
                 
                             <div *ngFor="let searchresult of searchresults" class="text-left">
-                                <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult.key, searchresult.payload.val().name);">
+                                <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult);">
                                     <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
                                 </button>
                                 {{searchresult.payload.val().name}}

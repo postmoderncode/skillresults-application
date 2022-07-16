@@ -404,6 +404,9 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   //Fuction - Show the Edit Form
   onShowEditForm(key): void {
 
+    //Set the current key
+    this.currentkey = key;
+
     //Set the View State
     this.viewState = 3;
 

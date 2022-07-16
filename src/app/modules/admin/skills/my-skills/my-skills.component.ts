@@ -313,6 +313,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   //Function - Update Item in DB
   onEdit(key): void {
 
+    console.log(this.model);
     //Begin Database Calls to Update the Existing Item
     //----------------------------------------
 
@@ -403,6 +404,9 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
   //Fuction - Show the Edit Form
   onShowEditForm(key): void {
+
+    //Set the current key
+    this.currentkey = key;
 
     //Set the View State
     this.viewState = 3;
