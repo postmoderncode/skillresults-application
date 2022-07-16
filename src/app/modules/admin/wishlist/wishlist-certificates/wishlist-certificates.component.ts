@@ -90,7 +90,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
     this.formMode = "edit";
 
     //Define Observable Item based on the Key
-    this.item = this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/certifications/' + key).valueChanges();
 
     //Subscribe to Observable
     this.item.subscribe((response) => {
@@ -180,7 +180,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
       console.log('Item added to the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const addItem = this.db.list('/certifications/').set(responseObject.key, this.model).then(responseObject => {
+      const addItem = this.db.list('/wishlists/certifications/').set(responseObject.key, this.model).then(responseObject => {
 
         console.log('Item added to the Item Node');
 
