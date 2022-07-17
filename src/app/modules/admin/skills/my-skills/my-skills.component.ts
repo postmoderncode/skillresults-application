@@ -68,8 +68,8 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   ratingsteps = 5;
 
   //Table Settings
-  displayedColumns: string[] = ['name', 'rating'];
-  dataSource;
+  displayedColumns: string[] = ['name', 'rating', 'delete', 'edit'];
+  //dataSource;
 
 
 
@@ -82,11 +82,11 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   ) { }
 
 
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatSort) sort: MatSort;
 
-  @ViewChild(MatSort) set MatSort(sort: MatSort) {
-    this.dataSource.sort = this.sort;
-  }
+  // @ViewChild(MatSort) set MatSort(sort: MatSort) {
+  //   this.dataSource.sort = this.sort;
+  // }
 
   //Functions
   //---------------------
@@ -374,6 +374,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
         //Decrement Count
         this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((counts) => {
           if (counts === null || counts <= 0) {
+
             return counts = 0;
           } else {
             return counts - 1;
@@ -530,14 +531,13 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
     //Populate User Skills - Firebase List Object
     this.items = this.db.list('/users/' + this.fbuser.id + '/skills').snapshotChanges().subscribe(
-      (results: object) => {
+      (results) => {
 
         //Put the results of the DB call into an object.
         this.items = results;
 
-        this.dataSource = new MatTableDataSource(Array(results));
 
-        console.log(this.items);
+        //  this.dataSource = new MatTableDataSource(Array(results));
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
@@ -551,7 +551,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
       }
     );
-
 
   }
 
