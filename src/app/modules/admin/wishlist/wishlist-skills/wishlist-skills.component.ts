@@ -3,6 +3,8 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject, combineLatest, map } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-wishlist-skills',
@@ -65,6 +67,10 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   //Rating Customizations
   ratingtype = 0;
   ratingsteps = 5;
+
+  //Table Settings
+  displayedColumns: string[] = ['name', 'rating'];
+  //dataSource;
 
 
 

@@ -11,6 +11,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -54,6 +55,7 @@ const wishlistRoutes: Route[] = [
     MatSlideToggleModule,
     MatTabsModule,
     MatTableModule,
+    MatSortModule,
     MatCheckboxModule,
     MatTooltipModule,
     MatDatepickerModule,

@@ -61,7 +61,8 @@
                     <!-- SHOW LIST VIEW STATE -->
                     <div *ngSwitchCase="1">
 
-
+                        <!-- Skill List Area (default) -->
+                        <!-- ------------------------ -->
 
                         <style>
                             table {
@@ -95,113 +96,6 @@
                           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
-
-                        <!-- Cert List Area (default) -->
-                        <!-- ------------------------ -->
-
-                        <!-- Certification List -->
-                        <div class="flex justify-center flex-wrap mt-5">
-
-                            <!-- Certification Container -->
-                            <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
-
-                                <!-- Certifciation Card -->
-                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
-
-                                    <!-- Cert Card - inner border -->
-                                    <div class="flex flex-col h-full relative border-8 border-gray-100">
-
-                                        <!-- Top Flex Row -->
-                                        <div class="flex-none">
-
-                                             <!--Flex Container for the Top Row -->
-                                            <div class="flex items-center">
-
-                                                <!-- Awarded On -->
-                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
-                                                    <span  *ngIf="item.payload.val().awardedon?.length > 0">
-                                                        Awarded On: {{item.payload.val().awardedon | date: 'MM/dd/yy'}} 
-                                                    </span>
-                                                </div>
-
-                                                <!-- Ribbon Icon -->
-                                                <div class="flex-none text-center">
-                                                    <img class="h-14 relative -mt-7"
-                                                        src="assets/images/ui/cert-ribbon.svg">
-                                                </div>
-                                                
-                                                <!-- Expires On -->
-                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
- 
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <!-- Middle Flex Row -->
-                                        <div class="flex-auto">
-                                            <div class="flex flex-col justify-evenly h-full">
-
-                                                <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
-
-                                                <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().rating}}</div>
-
-                                                <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
-                                                        style="
-                                                            display: -webkit-box;
-                                                            overflow: hidden;
-                                                            -webkit-line-clamp: 3;
-                                                            -webkit-box-orient: vertical;">
-                                                     {{item.payload.val().description}}
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <!-- Bottom Flex Row -->
-                                        <div class="flex-none">
-                                            
-                                            <!-- Botton Flex Container -->
-                                            <div class="flex">
-
-                                                <!-- Delete Button -->
-                                                <div class="flex-auto basis-1/2 pt-2 text-center">
-                                                    <button 
-                                                        (click)="onShowDelete(item.key);" 
-                                                        mat-stroked-button 
-                                                        type="button">
-                                                        Delete
-                                                    </button>
-                                                </div>
-
-                                                <!-- Cert Icon -->
-                                                <div class="flex-none">
-                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
-                                                </div>
-
-                                                <!-- Edit Button -->
-                                                <div class="flex-auto basis-1/2 pt-2 text-center">
-                                                    <button (click)="onShowEditForm(item.key);" 
-                                                            mat-flat-button 
-                                                            type="button" 
-                                                            [color]="'primary'">
-                                                                Edit
-                                                    </button>
-                                                   
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
 
                     </div>
 
