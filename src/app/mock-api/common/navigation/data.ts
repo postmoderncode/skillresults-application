@@ -21,7 +21,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Public Profile',
                 type: 'basic',
                 icon: 'feather:user',
-                link: 'home/public-profile'
+                link: 'home/public-profile/' + JSON.parse(localStorage.getItem('fbuser')).id
             },
             {
                 id: 'wishlist',
@@ -45,12 +45,19 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'feather:send',
                 link: 'skills/my-skills'
             },
+            // {
+            //     id: 'skill-wishlist',
+            //     title: 'Skill Wishlist',
+            //     type: 'basic',
+            //     icon: 'heroicons_outline:sparkles',
+            //     link: 'skills/skill-wishlist'
+            // },
             {
-                id: 'talents-hobbies',
+                id: 'talent-hobbies',
                 title: 'Talents & Hobbies',
                 type: 'basic',
                 icon: 'feather:heart',
-                link: 'skills/talents-hobbies'
+                link: 'skills/talent-hobbies'
             }
         ]
     },
@@ -91,7 +98,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
-        id: 'reports',
+        id: 'report',
         title: 'Reports',
         subtitle: 'SkillResults Built-in Reports',
         type: 'group',
@@ -176,11 +183,11 @@ export const compactNavigation: FuseNavigationItem[] = [
                 link: 'home/public-profile'
             },
             {
-                id: 'wishlist',
-                title: 'Wishlist',
+                id: 'my-settings',
+                title: 'My Settings',
                 type: 'basic',
-                icon: 'heroicons_outline:sparkles',
-                link: 'wishlist'
+                icon: 'heroicons_outline:chart-pie',
+                link: 'home/my-settings'
             }
         ]
     },
@@ -330,7 +337,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 title: 'Public Profile',
                 type: 'basic',
                 icon: 'heroicons_outline:user-circle',
-                link: 'home/public-profile'
+                link: 'home/public-profile/'
             },
             {
                 id: 'wishlist',
@@ -338,7 +345,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:sparkles',
                 link: 'wishlist'
-            }
+            },
         ]
     },
     {
@@ -353,12 +360,19 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:chart-pie',
                 link: 'skills/my-skills'
             },
+            // {
+            //     id: 'skill-wishlist',
+            //     title: 'Skill Wishlist',
+            //     type: 'basic',
+            //     icon: 'heroicons_outline:chart-pie',
+            //     link: 'skills/skill-wishlist'
+            // },
             {
-                id: 'talents-hobbies',
+                id: 'talent-hobbies',
                 title: 'Talents & Hobbies',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'skills/talents-hobbies'
+                link: 'skills/talent-hobbies'
             }
         ]
     },
@@ -480,12 +494,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 link: 'home/public-profile'
             },
             {
-                id: 'wishlist',
-                title: 'Wishlist',
+                id: 'my-settings',
+                title: 'My Settings',
                 type: 'basic',
-                icon: 'heroicons_outline:sparkles',
-                link: 'wishlist'
-            },
+                icon: 'heroicons_outline:chart-pie',
+                link: 'home/my-settings'
+            }
         ]
     },
     {
@@ -509,11 +523,11 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 link: 'skills/skill-wishlist'
             },
             {
-                id: 'talents-hobbies',
+                id: 'talent-hobbies',
                 title: 'Talents & Hobbies',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'skills/talents-hobbies'
+                link: 'skills/talent-hobbies'
             }
         ]
     },

@@ -9,6 +9,7 @@ import { InitialDataResolver } from 'app/app.resolvers';
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
 
+
     // Redirect empty path to '/example'
     // { path: '', pathMatch: 'full', redirectTo: 'home/dashboard' },
     { path: '', pathMatch: 'full', redirectTo: 'home/dashboard' },
@@ -85,7 +86,8 @@ export const appRoutes: Route[] = [
             {
                 path: 'home', children: [
                     { path: 'dashboard', loadChildren: () => import('app/modules/admin/home/dashboard/dashboard.module').then(m => m.DashboardModule) },
-                    { path: 'public-profile', loadChildren: () => import('app/modules/admin/home/public-profile/public-profile.module').then(m => m.PublicProfileModule) },
+                    { path: 'public-profile/:id', loadChildren: () => import('app/modules/admin/home/public-profile/public-profile.module').then(m => m.PublicProfileModule) },
+                    //{ path: 'public-profile', loadChildren: () => import('app/modules/admin/home/public-profile/public-profile.module').then(m => m.PublicProfileModule) },
                     { path: 'my-settings', loadChildren: () => import('app/modules/admin/home/my-settings/my-settings.module').then(m => m.MySettingsModule) },
                 ]
             },

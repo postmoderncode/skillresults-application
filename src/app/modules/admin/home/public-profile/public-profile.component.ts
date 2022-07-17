@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-public-profile',
@@ -27,12 +29,15 @@ export class PublicProfileComponent implements OnInit, OnDestroy {
   //Total Wishlists
   wishlistscount;
 
+  //Incoming userid from route 
+  id;
 
 
   //Constructor
   //---------------------
   constructor(
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    private _Activatedroute: ActivatedRoute
   ) { }
 
 
@@ -45,7 +50,10 @@ export class PublicProfileComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-    this.db.object('/users/' + this.fbuser.id)
+
+    this.id = this._Activatedroute.snapshot.paramMap.get("id");
+
+    this.db.object('/users/' + this.id)
       .valueChanges().subscribe(
         (results: any[]) => {
           console.log(results);
@@ -56,7 +64,7 @@ export class PublicProfileComponent implements OnInit, OnDestroy {
 
     this.wishlistscount = 0;
 
-    this.db.object('/counts/' + this.fbuser.id)
+    this.db.object('/counts/' + this.id)
       .valueChanges().subscribe(
         (results: any[]) => {
           this.counts = results;
