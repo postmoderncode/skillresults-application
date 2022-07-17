@@ -62,12 +62,12 @@ export class WishlistComponent implements OnInit, OnDestroy {
         title: 'Training',
         description: 'Professional training that you\'d like to undergo'
       },
-      {
-        id: 'awards',
-        icon: 'feather:award',
-        title: 'Awards',
-        description: 'Awards and accolades that you aspire to be awarded'
-      }
+      // {
+      //   id: 'awards',
+      //   icon: 'feather:award',
+      //   title: 'Awards',
+      //   description: 'Awards and accolades that you aspire to be awarded'
+      // }
 
     ];
 
