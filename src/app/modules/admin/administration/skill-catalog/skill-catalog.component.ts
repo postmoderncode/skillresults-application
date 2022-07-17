@@ -210,7 +210,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mdatenow = Math.floor(Date.now());
 
       //Define Promise
-      const promiseAddItem = this.db.list('/customs/' + type).push({ name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+      const promiseAddItem = this.db.list('/customs/' + type).push({ name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
 
       //Call Promise
       promiseAddItem
@@ -227,7 +227,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mdatenow = Math.floor(Date.now());
 
       //Define Promise
-      const promiseAddItem = this.db.list('/customs/' + type).push({ area: marea, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+      const promiseAddItem = this.db.list('/customs/' + type).push({ area: marea, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
 
       //Call Promise
       promiseAddItem
@@ -245,7 +245,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mdatenow = Math.floor(Date.now());
 
       //Define Promise
-      const promiseAddItem = this.db.list('/customs/' + type).push({ category: mcategory, name: mname, value: mvalue, description: mdescription, ratingsteps: mratingsteps, customtype: 'new', created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+      const promiseAddItem = this.db.list('/customs/' + type).push({ category: mcategory, name: mname, value: mvalue, description: mdescription, ratingsteps: mratingsteps, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
 
       //Call Promise
       promiseAddItem
@@ -271,14 +271,14 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         if (ref === null) {
 
           this.db.object('/customs/areas/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, uid: this.fbuser.id });
 
           this.onHideForm();
 
         } else {
 
           this.db.object('/customs/areas/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, uid: this.fbuser.id });
 
           this.onHideForm();
 
@@ -294,14 +294,14 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         if (ref === null) {
 
           this.db.object('/customs/categories/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, area: marea, modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, area: marea, modified: mdatenow, uid: this.fbuser.id });
 
           this.onHideForm();
 
         } else {
 
           this.db.object('/customs/categories/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, area: marea, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, area: marea, customtype: 'rename', modified: mdatenow, uid: this.fbuser.id });
 
           this.onHideForm();
         }
@@ -317,14 +317,14 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
         if (ref === null || mratingsteps != 5) {
 
           this.db.object('/customs/skills/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, modified: mdatenow, uid: this.fbuser.id });
 
           this.onHideForm();
 
         } else {
 
           this.db.object('/customs/skills/' + key)
-            .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, customtype: 'rename', modified: mdatenow, user: this.fbuser.id });
+            .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, customtype: 'rename', modified: mdatenow, uid: this.fbuser.id });
 
           this.onHideForm();
         }

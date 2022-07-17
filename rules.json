@@ -14,7 +14,7 @@
       ".read": "auth !== null",
         "$id": {
             ".read": "auth !== null",
-            ".write": "$id == auth.uid" 
+            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null",
               }  
         },
 
@@ -22,7 +22,7 @@
       ".read": "auth !== null",
         "$id": {
             ".read": "auth !== null",
-            ".write": "$id == auth.uid" 
+            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null", 
               }  
         },
 
@@ -103,7 +103,7 @@
       "talents": {
           ".read": "auth !== null",
           "$uid": {
-              ".write": "$uid !== null"
+              ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null",
           }
 
       },
@@ -112,7 +112,7 @@
       ".read": "auth !== null",
         "$id": {
             ".read": "auth !== null",
-            ".write": "auth !== null" 
+            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null", 
               }  
         },
     

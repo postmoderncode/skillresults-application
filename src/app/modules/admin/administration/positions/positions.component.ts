@@ -120,7 +120,7 @@ export class PositionsComponent implements OnInit, OnDestroy {
 
     //Define Promise
     const promiseAddItem = this.db.list('/positions')
-      .push({ name: mname, reportsto: mreportsto, description: mdescription, filled: mfilled, heldby: mheldby, compensation: mcompensation, complower: mcomplower, compupper: mcompupper, created: mdatenow, modified: mdatenow, user: this.fbuser.id });
+      .push({ name: mname, reportsto: mreportsto, description: mdescription, filled: mfilled, heldby: mheldby, compensation: mcompensation, complower: mcomplower, compupper: mcompupper, created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
 
     //Call Promise
     promiseAddItem

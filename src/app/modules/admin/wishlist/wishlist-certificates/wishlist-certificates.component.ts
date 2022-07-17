@@ -284,7 +284,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
 
         //Decrement Count
         this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
-          if (likes === null) {
+          if (likes === null || likes <= 0) {
             return likes = 0;
           } else {
             return likes - 1;
