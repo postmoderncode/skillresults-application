@@ -185,7 +185,7 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
         console.log('Item added to the Item Node');
 
         //Increment Count
-        this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
+        this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((counts) => {
 
           //Log the Counter Success
           console.log("Counter Updated Succesfuly");
@@ -195,10 +195,10 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
           this.formDates = new FormDates();
 
           //Set the Counts
-          if (likes === null) {
-            return likes = 1;
+          if (counts === null) {
+            return counts = 1;
           } else {
-            return likes + 1;
+            return counts + 1;
           }
 
         });
@@ -283,11 +283,11 @@ export class WishlistCertificatesComponent implements OnInit, OnDestroy {
         console.log("Remove Item from the User Node Complete");
 
         //Decrement Count
-        this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((likes) => {
-          if (likes === null || likes <= 0) {
-            return likes = 0;
+        this.db.object('/counts/' + this.fbuser.id + '/wishlists/certifications').query.ref.transaction((counts) => {
+          if (counts === null || counts <= 0) {
+            return counts = 0;
           } else {
-            return likes - 1;
+            return counts - 1;
           }
         });
 
