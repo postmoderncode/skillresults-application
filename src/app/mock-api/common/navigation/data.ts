@@ -105,9 +105,9 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'my-reports',
-                title: 'My Reports',
+                title: 'People Browser',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:users',
                 link: 'reports/my-reports'
             },
             {
@@ -145,7 +145,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'positions',
                 title: 'Positions',
                 type: 'basic',
-                icon: 'heroicons_outline:users',
+                icon: 'heroicons_solid:user-group',
                 link: 'administration/positions'
             },
             {
@@ -264,9 +264,9 @@ export const compactNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'my-reports',
-                title: 'My Reports',
+                title: 'People Browser',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:users',
                 link: 'reports/my-reports'
             },
             {
@@ -304,7 +304,7 @@ export const compactNavigation: FuseNavigationItem[] = [
                 id: 'positions',
                 title: 'Positions',
                 type: 'basic',
-                icon: 'heroicons_outline:users',
+                icon: 'heroicons_solid:user-group',
                 link: 'administration/positions'
             },
             {
@@ -418,16 +418,16 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'my-reports',
-                title: 'My Reports',
+                title: 'People Browser',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:users',
                 link: 'reports/my-reports'
             },
             {
                 id: 'report-catalog',
                 title: 'Report Catalog',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:chart-square-bar',
                 link: 'reports/report-catalog'
             },
 
@@ -457,7 +457,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 id: 'positions',
                 title: 'Positions',
                 type: 'basic',
-                icon: 'heroicons_outline:users',
+                icon: 'heroicons_solid:user-group',
                 link: 'administration/positions'
             },
             {
@@ -575,9 +575,9 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'my-reports',
-                title: 'My Reports',
+                title: 'People Browser',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:users',
                 link: 'reports/my-reports'
             },
             {
@@ -613,7 +613,7 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 id: 'positions',
                 title: 'Positions',
                 type: 'basic',
-                icon: 'heroicons_outline:users',
+                icon: 'heroicons_solid:user-group',
                 link: 'administration/positions'
             },
             {

@@ -65,7 +65,7 @@ export class UserComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     clickProfile(): void {
-        this._router.navigate(['/home/public-profile']);
+        this._router.navigate(['/home/public-profile/' + JSON.parse(localStorage.getItem('fbuser')).id]);
     }
 
 

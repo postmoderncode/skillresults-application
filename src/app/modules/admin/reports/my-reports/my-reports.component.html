@@ -1,49 +1,46 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
-            <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
-        <div class="flex-1 min-w-0">
-            <!-- Breadcrumbs -->
-            <div>
-                <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div>
-                        <a class="whitespace-nowrap text-primary-500">Reports</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                        <a class="ml-1 text-primary-500">My Reports</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon class="icon-size-5 text-secondary" [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
-                        <span class="ml-1 text-secondary">Overview</span>
-                    </div>
+    <!-- Header -->
+<div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
+<div class="flex-1 min-w-0">
+
+    <!-- Title -->
+    <div class="mt-2">
+        <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+            People Browser
+        </h2>
+    </div>
+</div>
+</div>
+
+
+<!-- Main -->
+<div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
+
+<!-- CONTENT GOES HERE -->
+<div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
+
+    <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
+        
+        <!-- User Card -->
+        <a [routerLink]="['/home/public-profile/' + item.key]">
+            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
+                <div class="float-left w-24">
+                    <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
                 </div>
-
+                <div class="float-right">
+                    {{item.payload.val().name}}
+                    <br />
+                    {{item.payload.val().email}}
+                </div>
             </div>
-            <!-- Title -->
-            <div class="mt-2">
-                <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    My Reports
-                </h2>
-            </div>
-        </div>
+        </a>
     </div>
 
-
-    <!-- Main -->
-    <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
-
-        <!-- CONTENT GOES HERE -->
-        <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl">
-
-            test
-            
-            <button (click)="onBtnClk()" type="button">Click</button>
+</div>
 
 
-        </div>
 
-
-    </div>
+</div>
 
 </div>
