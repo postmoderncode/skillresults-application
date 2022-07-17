@@ -50,8 +50,11 @@ export class PublicProfileComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-
-    this.id = this._Activatedroute.snapshot.paramMap.get("id");
+    if (this._Activatedroute.snapshot.paramMap.get("id") === 'self') {
+      this.id = this.fbuser.id;
+    } else {
+      this.id = this._Activatedroute.snapshot.paramMap.get("id");
+    }
 
     this.db.object('/users/' + this.id)
       .valueChanges().subscribe(

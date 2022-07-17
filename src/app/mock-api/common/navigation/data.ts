@@ -21,7 +21,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Public Profile',
                 type: 'basic',
                 icon: 'feather:user',
-                link: 'home/public-profile/' + JSON.parse(localStorage.getItem('fbuser')).id
+                link: 'home/public-profile/self'
             },
             {
                 id: 'wishlist',
@@ -180,7 +180,7 @@ export const compactNavigation: FuseNavigationItem[] = [
                 title: 'Public Profile',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'home/public-profile'
+                link: 'home/public-profile/self'
             },
             {
                 id: 'my-settings',
@@ -337,7 +337,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 title: 'Public Profile',
                 type: 'basic',
                 icon: 'heroicons_outline:user-circle',
-                link: 'home/public-profile/'
+                link: 'home/public-profile/self'
             },
             {
                 id: 'wishlist',
@@ -360,13 +360,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:chart-pie',
                 link: 'skills/my-skills'
             },
-            // {
-            //     id: 'skill-wishlist',
-            //     title: 'Skill Wishlist',
-            //     type: 'basic',
-            //     icon: 'heroicons_outline:chart-pie',
-            //     link: 'skills/skill-wishlist'
-            // },
             {
                 id: 'talent-hobbies',
                 title: 'Talents & Hobbies',
@@ -491,7 +484,7 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 title: 'Public Profile',
                 type: 'basic',
                 icon: 'heroicons_outline:chart-pie',
-                link: 'home/public-profile'
+                link: 'home/public-profile/self'
             },
             {
                 id: 'my-settings',
