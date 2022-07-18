@@ -4,13 +4,13 @@ import { DashboardComponent } from './dashboard.component';
 import { Route, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card'
-import { FuseCardModule } from './../../../../../@fuse/components/card';
+import { FuseCardModule } from '@fuse/components/card';
 
 const dashboardRoutes: Route[] = [
-    {
-        path     : '',
-        component: DashboardComponent
-    }
+  {
+    path: '',
+    component: DashboardComponent
+  }
 ];
 
 @NgModule({
