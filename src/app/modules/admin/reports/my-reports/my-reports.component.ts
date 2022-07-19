@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -9,20 +9,20 @@ import { Observable, Subject } from 'rxjs';
   templateUrl: './my-reports.component.html',
   styleUrls: ['./my-reports.component.scss']
 })
-export class MyReportsComponent implements OnInit {
+export class MyReportsComponent implements OnInit, OnDestroy {
 
 
   //Initialize Varables
   //-------------------
-
-  //Unscubscribe All
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
   //Container to hold a list of items
   items: object;
+
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Constructor
   //---------------------

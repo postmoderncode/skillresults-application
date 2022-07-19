@@ -14,9 +14,6 @@ export class PublicProfileComponent implements OnInit, OnDestroy {
   //Initialize Varables
   //-------------------
 
-  //Unscubscribe All
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-
   //Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
@@ -29,9 +26,11 @@ export class PublicProfileComponent implements OnInit, OnDestroy {
   //Total Wishlists
   wishlistscount;
 
-  //Incoming userid from route 
+  //Incoming userid from route
   id;
 
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Constructor
   //---------------------
@@ -50,10 +49,10 @@ export class PublicProfileComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-    if (this._Activatedroute.snapshot.paramMap.get("id") === 'self') {
+    if (this._Activatedroute.snapshot.paramMap.get('id') === 'self') {
       this.id = this.fbuser.id;
     } else {
-      this.id = this._Activatedroute.snapshot.paramMap.get("id");
+      this.id = this._Activatedroute.snapshot.paramMap.get('id');
     }
 
     this.db.object('/users/' + this.id)

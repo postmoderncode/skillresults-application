@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject } from 'rxjs';
-import { serverTimestamp } from '@angular/fire/database'
+import { serverTimestamp } from '@angular/fire/database';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
@@ -20,14 +21,11 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Scroll element
   @ViewChild(CdkScrollable) cdkScrollable: CdkScrollable;
 
-  //Unscubscribe All
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-
   //Page View State (Default is "Loading..")
   viewState = 0;
 
   //Form Mode State (Add vs. Edit Mode)
-  formMode = "";
+  formMode = '';
 
   //Container to hold a list of items
   items: object;
@@ -35,20 +33,20 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Container to hold a single item
   item: Observable<any>;
 
-  //Container for Strongly typed Model. 
+  //Container for Strongly typed Model.
   model = new Degree();
 
-  //Container for Strongly typed From Date Info. 
+  //Container for Strongly typed From Date Info.
   formDates = new FormDates();
 
   //Container to hold Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
   //Container to hold Current Active Item Key
-  currentkey = "";
+  currentkey = '';
 
   //Graduation Label Text
-  gradDate = 'Expected Graduation Date';
+  gradDate = 'Date Completed';
 
   //Autocomplete Data
   schoolfilteredData;
@@ -60,7 +58,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Dropdown List Data
   degreetypesfilteredData;
 
-  states = [{ "name": "Alabama", "abbreviation": "AL" }, { "name": "Alaska", "abbreviation": "AK" }, { "name": "Arizona", "abbreviation": "AZ" }, { "name": "Arkansas", "abbreviation": "AR" }, { "name": "California", "abbreviation": "CA" }, { "name": "Colorado", "abbreviation": "CO" }, { "name": "Connecticut", "abbreviation": "CT" }, { "name": "Delaware", "abbreviation": "DE" }, { "name": "Florida", "abbreviation": "FL" }, { "name": "Georgia", "abbreviation": "GA" }, { "name": "Hawaii", "abbreviation": "HI" }, { "name": "Idaho", "abbreviation": "ID" }, { "name": "Illinois", "abbreviation": "IL" }, { "name": "Indiana", "abbreviation": "IN" }, { "name": "Iowa", "abbreviation": "IA" }, { "name": "Kansas", "abbreviation": "KS" }, { "name": "Kentucky", "abbreviation": "KY" }, { "name": "Louisiana", "abbreviation": "LA" }, { "name": "Maine", "abbreviation": "ME" }, { "name": "Maryland", "abbreviation": "MD" }, { "name": "Massachusetts", "abbreviation": "MA" }, { "name": "Michigan", "abbreviation": "MI" }, { "name": "Minnesota", "abbreviation": "MN" }, { "name": "Mississippi", "abbreviation": "MS" }, { "name": "Missouri", "abbreviation": "MO" }, { "name": "Montana", "abbreviation": "MT" }, { "name": "Nebraska", "abbreviation": "NE" }, { "name": "Nevada", "abbreviation": "NV" }, { "name": "New Hampshire", "abbreviation": "NH" }, { "name": "New Jersey", "abbreviation": "NJ" }, { "name": "New Mexico", "abbreviation": "NM" }, { "name": "New York", "abbreviation": "NY" }, { "name": "North Carolina", "abbreviation": "NC" }, { "name": "North Dakota", "abbreviation": "ND" }, { "name": "Ohio", "abbreviation": "OH" }, { "name": "Oklahoma", "abbreviation": "OK" }, { "name": "Oregon", "abbreviation": "OR" }, { "name": "Pennsylvania", "abbreviation": "PA" }, { "name": "Rhode Island", "abbreviation": "RI" }, { "name": "South Carolina", "abbreviation": "SC" }, { "name": "South Dakota", "abbreviation": "SD" }, { "name": "Tennessee", "abbreviation": "TN" }, { "name": "Texas", "abbreviation": "TX" }, { "name": "Utah", "abbreviation": "UT" }, { "name": "Vermont", "abbreviation": "VT" }, { "name": "Virginia", "abbreviation": "VA" }, { "name": "Washington", "abbreviation": "WA" }, { "name": "West Virginia", "abbreviation": "WV" }, { "name": "Wisconsin", "abbreviation": "WI" }, { "name": "Wyoming", "abbreviation": "WY" }];
+  states = [{ 'name': 'Alabama', 'abbreviation': 'AL' }, { 'name': 'Alaska', 'abbreviation': 'AK' }, { 'name': 'Arizona', 'abbreviation': 'AZ' }, { 'name': 'Arkansas', 'abbreviation': 'AR' }, { 'name': 'California', 'abbreviation': 'CA' }, { 'name': 'Colorado', 'abbreviation': 'CO' }, { 'name': 'Connecticut', 'abbreviation': 'CT' }, { 'name': 'Delaware', 'abbreviation': 'DE' }, { 'name': 'Florida', 'abbreviation': 'FL' }, { 'name': 'Georgia', 'abbreviation': 'GA' }, { 'name': 'Hawaii', 'abbreviation': 'HI' }, { 'name': 'Idaho', 'abbreviation': 'ID' }, { 'name': 'Illinois', 'abbreviation': 'IL' }, { 'name': 'Indiana', 'abbreviation': 'IN' }, { 'name': 'Iowa', 'abbreviation': 'IA' }, { 'name': 'Kansas', 'abbreviation': 'KS' }, { 'name': 'Kentucky', 'abbreviation': 'KY' }, { 'name': 'Louisiana', 'abbreviation': 'LA' }, { 'name': 'Maine', 'abbreviation': 'ME' }, { 'name': 'Maryland', 'abbreviation': 'MD' }, { 'name': 'Massachusetts', 'abbreviation': 'MA' }, { 'name': 'Michigan', 'abbreviation': 'MI' }, { 'name': 'Minnesota', 'abbreviation': 'MN' }, { 'name': 'Mississippi', 'abbreviation': 'MS' }, { 'name': 'Missouri', 'abbreviation': 'MO' }, { 'name': 'Montana', 'abbreviation': 'MT' }, { 'name': 'Nebraska', 'abbreviation': 'NE' }, { 'name': 'Nevada', 'abbreviation': 'NV' }, { 'name': 'New Hampshire', 'abbreviation': 'NH' }, { 'name': 'New Jersey', 'abbreviation': 'NJ' }, { 'name': 'New Mexico', 'abbreviation': 'NM' }, { 'name': 'New York', 'abbreviation': 'NY' }, { 'name': 'North Carolina', 'abbreviation': 'NC' }, { 'name': 'North Dakota', 'abbreviation': 'ND' }, { 'name': 'Ohio', 'abbreviation': 'OH' }, { 'name': 'Oklahoma', 'abbreviation': 'OK' }, { 'name': 'Oregon', 'abbreviation': 'OR' }, { 'name': 'Pennsylvania', 'abbreviation': 'PA' }, { 'name': 'Rhode Island', 'abbreviation': 'RI' }, { 'name': 'South Carolina', 'abbreviation': 'SC' }, { 'name': 'South Dakota', 'abbreviation': 'SD' }, { 'name': 'Tennessee', 'abbreviation': 'TN' }, { 'name': 'Texas', 'abbreviation': 'TX' }, { 'name': 'Utah', 'abbreviation': 'UT' }, { 'name': 'Vermont', 'abbreviation': 'VT' }, { 'name': 'Virginia', 'abbreviation': 'VA' }, { 'name': 'Washington', 'abbreviation': 'WA' }, { 'name': 'West Virginia', 'abbreviation': 'WV' }, { 'name': 'Wisconsin', 'abbreviation': 'WI' }, { 'name': 'Wyoming', 'abbreviation': 'WY' }];
 
   degreelevels =
     [
@@ -104,6 +102,9 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
 
     ];
 
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
+
 
   //Constructor
   //---------------------
@@ -124,7 +125,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     this.viewState = 3;
 
     //Set the Form Mode
-    this.formMode = "add";
+    this.formMode = 'add';
   }
 
   //Fuction - Show the Edit Form
@@ -137,7 +138,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     this.viewState = 3;
 
     //Set the Form Mode to Edit
-    this.formMode = "edit";
+    this.formMode = 'edit';
 
     //Define Observable Item based on the Key
     this.item = this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key).valueChanges();
@@ -145,7 +146,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     //Subscribe to Observable
     this.item.subscribe((response) => {
 
-      //Populate the Item Model with the response date from the DB. 
+      //Populate the Item Model with the response date from the DB.
       this.model = response;
 
       //Populate the "Form Dates Model" with the Unix Epoch Dates (Converted to GMT)
@@ -157,7 +158,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
 
   }
 
-  //Function - Show the Delete Conf. 
+  //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
     //Formbuilder for Dialog Popup
@@ -201,7 +202,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     //Add the User ID to the Model
     this.model.uid = this.fbuser.id;
 
-    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time).
     if (this.formDates.awardedonForm != null) {
       this.model.awardedon = this.formDates.awardedonForm.valueOf();
     }
@@ -214,13 +215,13 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees').push(this.model).then(responseObject => {
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees').push(this.model).then((responseObject) => {
 
       //Log Success
       console.log('Item added to the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const addItem = this.db.list('/wishlists/degrees/').set(responseObject.key, this.model).then(responseObject => {
+      const addItem = this.db.list('/wishlists/degrees/').set(responseObject.key, this.model).then((responseObject) => {
 
         console.log('Item added to the Item Node');
 
@@ -228,7 +229,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
         this.db.object('/counts/' + this.fbuser.id + '/wishlists/degrees').query.ref.transaction((counts) => {
 
           //Log the Counter Success
-          console.log("Counter Updated Succesfuly");
+          console.log('Counter Updated Succesfuly');
 
           //Reset the Models back to Zero (Which also Resets the Form)
           this.model = new Degree();
@@ -260,7 +261,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Function - Update Item in DB
   onEdit(key): void {
 
-    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time).
     if (this.formDates.awardedonForm != null) {
       this.model.awardedon = this.formDates.awardedonForm.valueOf();
     }
@@ -273,13 +274,13 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key + '/').update(this.model).then(responseObject => {
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key + '/').update(this.model).then((responseObject) => {
 
       //Log Success
       console.log('Item updated in the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const editItem = this.db.object('/wishlists/degrees/' + key + '/').update(this.model).then(responseObject => {
+      const editItem = this.db.object('/wishlists/degrees/' + key + '/').update(this.model).then((responseObject) => {
 
         console.log('Item updated in the Item Node');
 
@@ -305,17 +306,17 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Function - Delete Item in DB
   onDelete(key): void {
 
-    //Delete Item from the Item Node. 
-    this.db.object('/wishlists/degrees/' + key).remove().then(responseObject => {
+    //Delete Item from the Item Node.
+    this.db.object('/wishlists/degrees/' + key).remove().then((responseObject) => {
 
       //Log Sucess
-      console.log("Remove Item from the Item Node Complete");
+      console.log('Remove Item from the Item Node Complete');
 
-      //Delete Item from the User Node. 
-      this.db.object('/users/' + this.fbuser.id + '/degrees/' + key).remove().then(responseObject => {
+      //Delete Item from the User Node.
+      this.db.object('/users/' + this.fbuser.id + '/wishlists/degrees/' + key).remove().then((responseObject) => {
 
         //Log Sucess
-        console.log("Remove Item from the User Node Complete");
+        console.log('Remove Item from the User Node Complete');
 
         //Decrement Count
         this.db.object('/counts/' + this.fbuser.id + '/wishlists/degrees').query.ref.transaction((counts) => {
@@ -421,22 +422,22 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     //Prepopulate Field of Study Autocomplete
     this.fieldfilteredData = this.fieldoptions;
 
-    //Call the Firebase Database and get the initial data. 
+    //Call the Firebase Database and get the initial data.
     this.db.list('/users/' + this.fbuser.id + '/wishlists/degrees').snapshotChanges().subscribe(
       (results: object) => {
 
-        //Put the results of the DB call into an object. 
+        //Put the results of the DB call into an object.
         this.items = results;
 
         console.log(this.items);
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
-          //It's empty, so set the view state to "No Data" mode. 
+          //It's empty, so set the view state to "No Data" mode.
           this.viewState = 2;
         }
         else {
-          //It's not empty, so set the view state to "Show Data" mode. 
+          //It's not empty, so set the view state to "Show Data" mode.
           this.viewState = 1;
         };
 
@@ -471,7 +472,7 @@ export class Degree {
     public degreetype: string = '',
     public major: string = '',
     public minor: string = '',
-    public completed: boolean = false,
+    public completed: boolean = true,
     public awardedon: number = null,
     public created: object = {},
     public modified: object = {},
@@ -481,11 +482,12 @@ export class Degree {
 
 }
 
-// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates.
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,
     public expiresonForm: Date = null,
   ) { }
 }
+
 

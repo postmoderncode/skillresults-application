@@ -19,9 +19,6 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
   //Scroll element
   @ViewChild(CdkScrollable) cdkScrollable: CdkScrollable;
 
-  //Unscubscribe All
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-
   //Page View State (Default is "Loading..")
   viewState = 0;
 
@@ -37,14 +34,17 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
   //Container to hold Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
-  //Container for Strongly typed Model. 
+  //Container for Strongly typed Model.
   model = new Talent();
 
-  //Container for Strongly typed From Date Info. 
+  //Container for Strongly typed From Date Info.
   formDates = new FormDates();
 
   //Container to hold Current Active Item Key
-  currentkey = "";
+  currentkey = '';
+
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Constructor
   //---------------------
@@ -85,14 +85,14 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
     //Subscribe to Observable
     this.item.subscribe((response) => {
 
-      //Populate the Item Model with the response date from the DB. 
+      //Populate the Item Model with the response date from the DB.
       this.model = response;
 
     });
 
   }
 
-  //Function - Show the Delete Conf. 
+  //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
     //Formbuilder for Dialog Popup
@@ -140,13 +140,13 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/talents').push(this.model).then(responseObject => {
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/talents').push(this.model).then((responseObject) => {
 
       //Log Success
       console.log('Item added to the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const addItem = this.db.list('/talents/').set(responseObject.key, this.model).then(responseObject => {
+      const addItem = this.db.list('/talents/').set(responseObject.key, this.model).then((responseObject) => {
 
         console.log('Item added to the Item Node');
 
@@ -154,7 +154,7 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
         this.db.object('/counts/' + this.fbuser.id + '/talents').query.ref.transaction((counts) => {
 
           //Log the Counter Success
-          console.log("Counter Updated Succesfuly");
+          console.log('Counter Updated Succesfuly');
 
           //Reset the Models back to Zero (Which also Resets the Form)
           this.model = new Talent();
@@ -190,13 +190,13 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/talents/' + key + '/').update(this.model).then(responseObject => {
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/talents/' + key + '/').update(this.model).then((responseObject) => {
 
       //Log Success
       console.log('Item updated in the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const editItem = this.db.object('/talents/' + key + '/').update(this.model).then(responseObject => {
+      const editItem = this.db.object('/talents/' + key + '/').update(this.model).then((responseObject) => {
 
         console.log('Item updated in the Item Node');
 
@@ -222,17 +222,17 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
   //Function - Delete Item in DB
   onDelete(key): void {
 
-    //Delete Item from the Item Node. 
-    this.db.object('/talents/' + key).remove().then(responseObject => {
+    //Container for Strongly //Delete Item from the Item Node.
+    this.db.object('/talents/' + key).remove().then((responseObject) => {
 
       //Log Sucess
-      console.log("Remove Item from the Item Node Complete");
+      console.log('Remove Item from the Item Node Complete');
 
-      //Delete Item from the User Node. 
-      this.db.object('/users/' + this.fbuser.id + '/talents/' + key).remove().then(responseObject => {
+      //Delete Item from the User Node.
+      this.db.object('/users/' + this.fbuser.id + '/talents/' + key).remove().then((responseObject) => {
 
         //Log Sucess
-        console.log("Remove Item from the User Node Complete");
+        console.log('Remove Item from the User Node Complete');
 
         //Decrement Count
         this.db.object('/counts/' + this.fbuser.id + '/talents').query.ref.transaction((counts) => {
@@ -332,7 +332,7 @@ export class Talent {
 
 }
 
-// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates.
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,

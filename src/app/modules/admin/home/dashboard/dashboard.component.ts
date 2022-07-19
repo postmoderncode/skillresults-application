@@ -13,9 +13,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //Initialize Variables
   //---------------------
 
-  //Unscubscribe All
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-
   //Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
@@ -25,6 +22,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //Total Wishlists
   wishlistscount;
 
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Constructor
   //---------------------

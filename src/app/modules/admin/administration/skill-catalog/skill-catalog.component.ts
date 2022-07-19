@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject, combineLatest, map } from 'rxjs';
-import { serverTimestamp } from '@angular/fire/database'
+import { serverTimestamp } from '@angular/fire/database';
 
 
 @Component({
@@ -15,9 +16,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   //Initialize Varables
   //-------------------
-
-  //Unscubscribe All
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Page View State (Default is "Loading..")
   viewState = 1;
@@ -31,11 +29,11 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   //Container to hold a single item
   item: Observable<any>;
 
-  //Container for Strongly typed Model. 
+  //Container for Strongly typed Model.
   model = new CatItem();
   catmodel = new CatalogState();
 
-  //Container for Strongly typed From Date Info. 
+  //Container for Strongly typed From Date Info.
   formDates = new FormDates();
 
   //Container to hold Current User
@@ -58,6 +56,8 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   ratingtype = 0;
   ratingsteps = 5;
 
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Constructor
   //---------------------
@@ -121,7 +121,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],
@@ -162,7 +162,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],
@@ -314,7 +314,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mcategory: string = this.model.category;
 
       this.db.object('/skillcatalog/skills/' + key).query.ref.transaction((ref) => {
-        if (ref === null || mratingsteps != 5) {
+        if (ref === null || mratingsteps !== 5) {
 
           this.db.object('/customs/skills/' + key)
             .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, modified: mdatenow, uid: this.fbuser.id });
@@ -334,7 +334,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
-  //Function - Show the Delete Conf. 
+  //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
     //Formbuilder for Dialog Popup
@@ -453,7 +453,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     }
     else if (this.tabTitle.toLowerCase() === 'category') {
 
-      //Is this a new custom or a renamed master  
+      //Is this a new custom or a renamed master
       if (obj.customs[0]?.payload.val().customtype === 'new' || obj.customs[0]?.payload.val().customtype === 'rename') {
         //Define Observable
         this.item = this.db.object('/customs/categories/' + key).valueChanges();
@@ -508,17 +508,17 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       type = this.tabTitle.toLowerCase() + 's';
     }
 
-    //If Hidden Exists, Delete. Otherwise set Hidden 
+    //If Hidden Exists, Delete. Otherwise set Hidden
     this.db.object('/customs/' + type + '/' + key + '/hidden')
       .query.ref.transaction((hidden) => {
         if (hidden === true) {
           this.db.object('/customs/' + type + '/' + key + '/hidden').remove();
         } else if (type === 'areas') {
-          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true })
+          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true });
         } else if (type === 'categories') {
-          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, area: this.catmodel.currentArea })
+          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, 'area': this.catmodel.currentArea });
         } else {
-          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, category: this.catmodel.currentCategory })
+          this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, 'category': this.catmodel.currentCategory });
         }
       });
 
@@ -545,7 +545,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
     const merged = combineLatest<any[]>([customs, masters]).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur))),
-    )
+    );
 
     combineLatest(
       [merged, customs],
@@ -605,7 +605,7 @@ export class CatalogState {
 
 }
 
-// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,

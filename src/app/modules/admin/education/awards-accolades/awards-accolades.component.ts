@@ -3,7 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject } from 'rxjs';
-import { serverTimestamp } from '@angular/fire/database'
+import { serverTimestamp } from '@angular/fire/database';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
@@ -20,9 +20,6 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
   //Scroll element
   @ViewChild(CdkScrollable) cdkScrollable: CdkScrollable;
 
-  //Unscubscribe All
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-
   //Page View State (Default is "Loading..")
   viewState = 0;
 
@@ -38,15 +35,17 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
   //Container to hold Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
-  //Container for Strongly typed Model. 
+  //Container for Strongly typed Model.
   model = new Award();
 
-  //Container for Strongly typed From Date Info. 
+  //Container for Strongly typed From Date Info.
   formDates = new FormDates();
 
   //Container to hold Current Active Item Key
-  currentkey = "";
+  currentkey = '';
 
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Constructor
   //---------------------
@@ -88,7 +87,7 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
     //Subscribe to Observable
     this.item.subscribe((response) => {
 
-      //Populate the Item Model with the response date from the DB. 
+      //Populate the Item Model with the response date from the DB.
       this.model = response;
 
       //Populate the "Form Dates Model" with the Unix Epoch Dates (Converted to GMT)
@@ -100,7 +99,7 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
 
   }
 
-  //Function - Show the Delete Conf. 
+  //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
     //Formbuilder for Dialog Popup
@@ -144,7 +143,7 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
     //Add the User ID to the Model
     this.model.uid = this.fbuser.id;
 
-    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time).
     if (this.formDates.awardedonForm != null) {
       this.model.awardedon = this.formDates.awardedonForm.valueOf();
     }
@@ -157,13 +156,13 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/awards').push(this.model).then(responseObject => {
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/awards').push(this.model).then((responseObject) => {
 
       //Log Success
       console.log('Item added to the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const addItem = this.db.list('/awards/').set(responseObject.key, this.model).then(responseObject => {
+      const addItem = this.db.list('/awards/').set(responseObject.key, this.model).then((responseObject) => {
 
         console.log('Item added to the Item Node');
 
@@ -171,7 +170,7 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
         this.db.object('/counts/' + this.fbuser.id + '/awards').query.ref.transaction((counts) => {
 
           //Log the Counter Success
-          console.log("Counter Updated Succesfuly");
+          console.log('Counter Updated Succesfuly');
 
           //Reset the Models back to Zero (Which also Resets the Form)
           this.model = new Award();
@@ -203,7 +202,7 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
   //Function - Update Item in DB
   onEdit(key): void {
 
-    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time). 
+    //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time).
     if (this.formDates.awardedonForm != null) {
       this.model.awardedon = this.formDates.awardedonForm.valueOf();
     }
@@ -216,13 +215,13 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/awards/' + key + '/').update(this.model).then(responseObject => {
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/awards/' + key + '/').update(this.model).then((responseObject) => {
 
       //Log Success
       console.log('Item updated in the User Node');
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const editItem = this.db.object('/awards/' + key + '/').update(this.model).then(responseObject => {
+      const editItem = this.db.object('/awards/' + key + '/').update(this.model).then((responseObject) => {
 
         console.log('Item updated in the Item Node');
 
@@ -248,17 +247,17 @@ export class AwardsAccoladesComponent implements OnInit, OnDestroy {
   //Function - Delete Item in DB
   onDelete(key): void {
 
-    //Delete Item from the Item Node. 
-    this.db.object('/awards/' + key).remove().then(responseObject => {
+    //Container for Strongly //Delete Item from the Item Node.
+    this.db.object('/awards/' + key).remove().then((responseObject) => {
 
       //Log Sucess
-      console.log("Remove Item from the Item Node Complete");
+      console.log('Remove Item from the Item Node Complete');
 
-      //Delete Item from the User Node. 
-      this.db.object('/users/' + this.fbuser.id + '/awards/' + key).remove().then(responseObject => {
+      //Delete Item from the User Node.
+      this.db.object('/users/' + this.fbuser.id + '/awards/' + key).remove().then((responseObject) => {
 
         //Log Sucess
-        console.log("Remove Item from the User Node Complete");
+        console.log('Remove Item from the User Node Complete');
 
         //Decrement Count
         this.db.object('/counts/' + this.fbuser.id + '/awards').query.ref.transaction((counts) => {
@@ -361,7 +360,7 @@ export class Award {
 
 }
 
-// Empty Form Date class - Handles the conversion from UTC to Epoch dates. 
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates.
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,
