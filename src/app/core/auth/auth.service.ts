@@ -9,8 +9,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { User } from '../user/user.types';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
+import { serverTimestamp } from '@angular/fire/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 @Injectable()
 export class AuthService {
@@ -194,8 +194,6 @@ export class AuthService {
     //Microsoft SSO Login with OAuth
     OAuthMicrosoft(): Observable<any> {
 
-        console.log('2. OAuthMicrosoft() on app/core/auth/auth.service.ts has Fired...Calling OAuth Login to AzureAD...');
-
         const loginObservable = new Observable(observer => {
 
             //Sign in using a redirect to Microsoft. 
@@ -208,11 +206,10 @@ export class AuthService {
                     fbuser.email = result.user.email;
                     fbuser.isadmin = false;
 
-                    //AngularFire add user to list
-                    const listRef = this.db.list('users');
+                    const lastlogged = serverTimestamp();
 
                     // Write user to Firebase with Promise
-                    const promise_writeuser = listRef.update(result.user.uid, { id: result.user.uid, name: result.user.displayName, email: result.user.email, isadmin: false });
+                    const promise_writeuser = this.db.list('users').update(result.user.uid, { id: result.user.uid, name: result.user.displayName, email: result.user.email, isadmin: false, lastlogged: lastlogged });
                     promise_writeuser
                         .then(_ =>
                             localStorage.setItem('fbuser', JSON.stringify(fbuser))
@@ -285,9 +282,6 @@ export class AuthService {
      */
     firebaseCheck(): Observable<any> {
 
-        //Firebase Check Fired. 
-        console.log("FIREBASE CHECK!")
-
         // Renew token
         const firebaseCheckObservable = new Observable(observer => {
 
@@ -308,7 +302,6 @@ export class AuthService {
                 };
 
                 //Talk to the User Service
-                console.log("6. Calling the _userService.user.");
                 this._userService.user = msuser;
 
                 observer.next();
@@ -327,22 +320,18 @@ export class AuthService {
     check(): Observable<boolean> {
         // Check to See if the Auth Service is already Authenticated. If not, RouteGaurd will dispaly the login page. 
         // If the Auth Service is already Authenticated, then everything we need (Access Tokens, User profiles, etc.. should be already loaded.)
-        console.log("1) Check if the Auth Service is Authenticated")
-        console.log(this._authenticated);
         if (this._authenticated) {
             //Return "TRUE" (I am authenticated) so that Route Gaurd can forward to the protected areas
             return of(true);
         }
 
         //Check the access token availability
-        console.log("2) Check for Access Token...")
         if (!this.accessToken) {
             console.log("no access token found");
             return of(false);
         }
 
         // Check the access token expire date
-        console.log("3) Check if the Access Token is Expired...")
         console.log(AuthUtils.isTokenExpired(this.accessToken));
 
         if (AuthUtils.isTokenExpired(this.accessToken)) {
@@ -350,7 +339,7 @@ export class AuthService {
         }
 
         //Check to see if there is a Firebase Access Token in Local Storage, and if so, use it to auto-login. 
-        console.log("4) Check to see if Firebase Access Token already exists...")
+
         return this.firebaseCheck();
 
         // If the access token exists and it didn't expire, sign in using it
@@ -366,6 +355,7 @@ export class FirebaseUser {
         public name: string = '',
         public email: string = '',
         public isadmin: boolean = false,
+        public lastlogged: number = null,
 
     ) { }
 
