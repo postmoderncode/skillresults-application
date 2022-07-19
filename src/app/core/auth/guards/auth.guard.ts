@@ -6,16 +6,14 @@ import { AuthService } from 'app/core/auth/auth.service';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
-{
+export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     /**
      * Constructor
      */
     constructor(
         private _authService: AuthService,
         private _router: Router
-    )
-    {
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -28,9 +26,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
      * @param route
      * @param state
      */
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean
-    {
-        console.log("--------Authguard canActivate Check");
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         const redirectUrl = state.url === '/sign-out' ? '/' : state.url;
         return this._check(redirectUrl);
     }
@@ -41,9 +37,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
      * @param childRoute
      * @param state
      */
-    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
-    {
-        console.log("--------Authguard canActivate Check");
+    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const redirectUrl = state.url === '/sign-out' ? '/' : state.url;
         return this._check(redirectUrl);
     }
@@ -54,8 +48,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
      * @param route
      * @param segments
      */
-    canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean
-    {
+    canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
         return this._check('/');
     }
 
@@ -69,29 +62,24 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
      * @param redirectURL
      * @private
      */
-    private _check(redirectURL: string): Observable<boolean>
-    {
-        console.log("AUTHGAURD _Check")
+    private _check(redirectURL: string): Observable<boolean> {
         // Check the authentication status
         return this._authService.check()
-                   .pipe(
-                       switchMap((authenticated) => {
+            .pipe(
+                switchMap((authenticated) => {
 
-                           // If the user is not authenticated...
-                           if ( !authenticated )
-                           {
-                               // Redirect to the sign-in page
-                                console.log("AUTHGAURD DENIED. FORWARDING TO SIGN-IN.");
-                               this._router.navigate(['sign-in'], {queryParams: {redirectURL}});
+                    // If the user is not authenticated...
+                    if (!authenticated) {
+                        // Redirect to the sign-in page
+                        this._router.navigate(['sign-in'], { queryParams: { redirectURL } });
 
-                               // Prevent the access
-                               return of(false);
-                           }
+                        // Prevent the access
+                        return of(false);
+                    }
 
-                           // Allow the access
-                            console.log("AUTHGAURD IS ALLOWING ACCESS TO THE ROUTE");
-                           return of(true);
-                       })
-                   );
+                    // Allow the access
+                    return of(true);
+                })
+            );
     }
 }

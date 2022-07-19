@@ -189,8 +189,6 @@ export class PositionsComponent implements OnInit, OnDestroy {
         //Put the results of the DB call into an object.
         this.items = results;
 
-        console.log(this.items);
-
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
           //It's empty, so set the view state to "No Data" mode.

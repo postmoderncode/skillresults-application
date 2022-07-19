@@ -260,7 +260,6 @@ export class AuthService {
                     var FirebaseToken = (await result.user.getIdToken()).toString();
                     //Also store the Firebase Token in a Varible on the Auth Service. 
                     this.accessToken = FirebaseToken;
-                    console.log(FirebaseToken);
 
                     //Set the authenticated flag to true
                     this._authenticated = true;
@@ -327,7 +326,6 @@ export class AuthService {
 
         //Check the access token availability
         if (!this.accessToken) {
-            console.log("no access token found");
             return of(false);
         }
 
