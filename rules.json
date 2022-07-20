@@ -9,6 +9,11 @@
             ".write": "$id == auth.uid" 
               }  
         },
+    "userlist": {
+      ".indexOn": ["name","email"],
+      ".read": "auth !== null",
+			".write": "auth !== null", 
+        },
         
       "awards": {
       ".read": "auth !== null",

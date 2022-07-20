@@ -211,9 +211,16 @@ export class AuthService {
                     // Write user to Firebase with Promise
                     const promise_writeuser = this.db.list('users').update(result.user.uid, { id: result.user.uid, name: result.user.displayName, email: result.user.email, isadmin: false, lastlogged: lastlogged });
                     promise_writeuser
-                        .then(_ =>
-                            localStorage.setItem('fbuser', JSON.stringify(fbuser))
-                        )
+                        .then(_ => {
+
+                            //write user to userlist
+                            const promise_writeuserlist = this.db.list('userlist').update(result.user.uid, { id: result.user.uid, name: result.user.displayName, email: result.user.email, isadmin: false, lastlogged: lastlogged });
+                            promise_writeuserlist;
+
+                            //store user in local storage
+                            localStorage.setItem('fbuser', JSON.stringify(fbuser));
+
+                        })
                         .catch(err =>
                             console.log(err, 'ANGULAR FIRE USER WRITE: Error!')
                         );
