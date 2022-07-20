@@ -49,56 +49,31 @@
                     <!-- SHOW LIST VIEW STATE -->
                     <div *ngSwitchCase="1">
 
-                        <!-- Cert List Area (default) -->
+                        <!-- Talent List Area (default) -->
                         <!-- ------------------------ -->
 
-                        <!-- Certification List -->
+                        <!-- Talent List -->
                         <div class="flex justify-center flex-wrap mt-5">
 
-                            <!-- Certification Container -->
-                            <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
+                            <!-- Talent Container -->
+                            <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/3 max-w-100">
 
-                                <!-- Certifciation Card -->
-                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
+                                <!-- Talent Card -->
+                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 rounded-2xl shadow-lg border-2 border-slate-200 bg-white">
 
                                     <!-- Cert Card - inner border -->
-                                    <div class="flex flex-col h-full relative border-8 border-gray-100">
+                                    <div class="flex flex-col h-full relative border-8 rounded-2xl border-sky-100">
 
-                                        <!-- Top Flex Row -->
-                                        <div class="flex-none">
-
-                                             <!--Flex Container for the Top Row -->
-                                            <div class="flex items-center">
-
-                                                <!-- Awarded On -->
-                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
-
-                                                </div>
-
-                                                <!-- Ribbon Icon -->
-                                                <div class="flex-none text-center">
-                                                    <img class="h-14 relative -mt-7"
-                                                        src="assets/images/ui/cert-ribbon.svg">
-                                                </div>
-                                                
-                                                <!-- Expires On -->
-                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
- 
-                                                </div>
-
-                                            </div>
-
-                                        </div>
 
                                         <!-- Middle Flex Row -->
                                         <div class="flex-auto">
                                             <div class="flex flex-col justify-evenly h-full">
 
-                                                <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
+                                                <div class="flex-none text-center leading-4 text-xl text-orange-500 font-bold tracking-tight leading-7">{{item.payload.val().name}}</div>
 
                                                 <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().awardedby}}</div>
 
-                                                <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
+                                                <div class="flex-none px-2 text-center text-md text-slate-500 tracking-tight leading-4"
                                                         style="
                                                             display: -webkit-box;
                                                             overflow: hidden;
@@ -129,7 +104,7 @@
 
                                                 <!-- Cert Icon -->
                                                 <div class="flex-none">
-                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
+                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/talents.svg">
                                                 </div>
 
                                                 <!-- Edit Button -->
