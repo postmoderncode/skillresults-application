@@ -201,29 +201,50 @@ export class AuthService {
                 .then(async (result) => {
 
                     const fbuser = new FirebaseUser();
+                    const lastlogged = serverTimestamp();
+                    fbuser.key = result.user.uid;
                     fbuser.id = result.user.uid;
                     fbuser.name = result.user.displayName;
                     fbuser.email = result.user.email;
-                    fbuser.isadmin = false;
+                    fbuser.lastlogged = lastlogged;
 
-                    const lastlogged = serverTimestamp();
+                    //See if user exists and if they are flagged as Admin
+                    firebase.database().ref('userlist/' + result.user.uid).once('value', function (snapshot) {
+                        if (snapshot.exists() && snapshot.val().isadmin == true) {
+                            fbuser.isadmin = true;
 
-                    // Write user to Firebase with Promise
-                    const promise_writeuser = this.db.list('users').update(result.user.uid, { id: result.user.uid, name: result.user.displayName, email: result.user.email, isadmin: false, lastlogged: lastlogged });
-                    promise_writeuser
-                        .then(_ => {
+                        } else if (snapshot.exists() && snapshot.val().isadmin == false) {
+                            fbuser.isadmin = false;
 
-                            //write user to userlist
-                            const promise_writeuserlist = this.db.list('userlist').update(result.user.uid, { id: result.user.uid, name: result.user.displayName, email: result.user.email, isadmin: false, lastlogged: lastlogged });
-                            promise_writeuserlist;
+                        } else {
+                            fbuser.isadmin = false;
+                        }
 
-                            //store user in local storage
-                            localStorage.setItem('fbuser', JSON.stringify(fbuser));
+                    }).then(_ => {
 
-                        })
+                        // Write user to Firebase with Promise
+                        const promise_writeuser = this.db.object('users/' + result.user.uid + '/').update(fbuser);
+                        promise_writeuser
+                            .then(_ => {
+
+                                //write user to userlist
+                                const promise_writeuserlist = this.db.object('userlist/' + result.user.uid + '/').update(fbuser);
+                                promise_writeuserlist;
+
+                                //store user in local storage
+                                localStorage.setItem('fbuser', JSON.stringify(fbuser));
+
+                            })
+                            .catch(err =>
+                                console.log(err, 'ANGULAR FIRE USER WRITE: Error!')
+                            );
+
+                    })
                         .catch(err =>
                             console.log(err, 'ANGULAR FIRE USER WRITE: Error!')
                         );
+
+
 
                     //Create Path to MS token in the Auth Object
                     const credential = result.credential as firebase.auth.OAuthCredential;
@@ -356,11 +377,12 @@ export class AuthService {
 export class FirebaseUser {
 
     constructor(
+        public key: string = '',
         public id: string = '',
         public name: string = '',
         public email: string = '',
-        public isadmin: boolean = false,
-        public lastlogged: number = null,
+        public isadmin: boolean = null,
+        public lastlogged: object = {},
 
     ) { }
 
