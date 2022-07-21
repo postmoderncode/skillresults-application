@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { FormBuilder } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-my-reports',
@@ -43,7 +43,7 @@ export class MyReportsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     //Call the Firebase Database and get the initial data.
-    this.db.list('/users').snapshotChanges().subscribe(
+    this.db.list('/userlist').snapshotChanges().subscribe(
       (results: object) => {
 
         //Put the results of the DB call into an object.
