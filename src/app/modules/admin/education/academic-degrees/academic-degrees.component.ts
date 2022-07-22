@@ -465,7 +465,6 @@ export class AcademicDegreesComponent implements OnInit, OnDestroy {
 export class Degree {
 
   constructor(
-    public key: string = '',
     public state: string = '',
     public institution: string = '',
     public degreelevel: string = '',

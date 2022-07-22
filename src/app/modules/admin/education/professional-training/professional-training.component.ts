@@ -346,7 +346,6 @@ export class ProfessionalTrainingComponent implements OnInit, OnDestroy {
 export class Training {
 
   constructor(
-    public key: string = '',
     public name: string = '',
     public description: string = '',
     public created: object = {},

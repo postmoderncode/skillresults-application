@@ -381,7 +381,6 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
 // Empty Certification class
 export class Certification {
   constructor(
-    public key: string = '',
     public name: string = '',
     public description: string = '',
     public created: object = {},

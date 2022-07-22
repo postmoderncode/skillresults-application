@@ -321,7 +321,6 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
 export class Talent {
 
   constructor(
-    public key: string = '',
     public name: string = '',
     public description: string = '',
     public created: object = {},
