@@ -11,7 +11,11 @@
                     class="text-3xl md:text-3xl text-slate-700 font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                     Skill Catalog
                 </h2>
-                 <!-- Catalog_State: {{this.catmodel.currentArea}} | {{this.catmodel.currentCategory}} | {{this.catmodel.currentSkill}} -->
+
+                {{this.catmodel.currentArea}} | {{this.catmodel.currentCategory}} | {{this.catmodel.currentSkill}}
+                 <br />
+                {{this.catmodel.currentAreaName}}{{this.catmodel.currentCategoryName}}{{this.catmodel.currentSkillName}}
+
             </div>
 
         </div>
@@ -100,7 +104,7 @@
                                                         </button>                                     
                                                     </span>
                                                 </div> 
-                                                <a (click)="onAreaSelect(area.key)" title="{{ area.payload.val().description }}">
+                                                <a (click)="onAreaSelect(area)" title="{{ area.payload.val().description }}">
                                                     <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
                                                         
                                                         <span *ngIf="!area.customs[0]?.payload.val().name">
@@ -148,7 +152,7 @@
                                                         </button>                                     
                                                     </span>
                                                 </div> 
-                                                <a (click)="onCategorySelect(category.key)" title="{{ category.payload.val().description }}">
+                                                <a (click)="onCategorySelect(category)" title="{{ category.payload.val().description }}">
                                                     <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
                                             
                                                         <span *ngIf="!category.customs[0]?.payload.val().name">

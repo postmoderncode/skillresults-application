@@ -266,6 +266,9 @@
                             </button>
                         </div>
 
+                        <div class="text-center items-center w-full">
+                            {{this.catmodel.currentAreaName}}{{this.catmodel.currentCategoryName}}{{this.catmodel.currentSkillName}}
+                        </div>
                         <!-- SELECTOR WRAPPER -->
                         <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px]">
 
@@ -296,7 +299,7 @@
                                         <!--Repeat for Each Area-->
                                         <span *ngFor="let area of (areas)" >
                                             <span *ngIf="area.customs[0]?.payload.val().hidden !== true && area.payload.val().name?.length > 0">
-                                                <a (click)="onAreaSelect(area.key)" title="{{ area.payload.val().description }}">
+                                                <a (click)="onAreaSelect(area)" title="{{ area.payload.val().description }}">
                                                     <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
                                                         <div class="flex-1">
                                                             <span *ngIf="!area.customs[0]?.payload.val().name">
@@ -328,7 +331,7 @@
                                         <!--Repeat for Each Category-->
                                         <span *ngFor="let category of categories" >
                                             <span *ngIf="category.customs[0]?.payload.val().hidden !== true && category.payload.val().name?.length > 0">
-                                                <a (click)="onCategorySelect(category.key)" title="{{ category.payload.val().description }}">
+                                                <a (click)="onCategorySelect(category)" title="{{ category.payload.val().description }}">
                                                     <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
                                                         <div class="flex-1">
                                                             <span *ngIf="!category.customs[0]?.payload.val().name">
