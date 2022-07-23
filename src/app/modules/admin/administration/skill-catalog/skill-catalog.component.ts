@@ -77,15 +77,14 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       case 1: {
         this.tabTitle = 'Area';
         this.selectedIndex = 0;
-        this.catmodel.currentCategory = '';
-        this.catmodel.currentSkill = '';
-        this.catmodel.currentCategoryName = '';
-        this.catmodel.currentSkillName = '';
+        this.catmodel = new CatalogState();
         break;
       }
       case 2: {
         this.tabTitle = 'Category';
         this.selectedIndex = 1;
+        this.catmodel.currentCategory = '';
+        this.catmodel.currentCategoryName = '';
         this.catmodel.currentSkill = '';
         this.catmodel.currentSkillName = '';
         break;
