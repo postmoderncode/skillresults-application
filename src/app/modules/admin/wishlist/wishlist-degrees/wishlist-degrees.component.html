@@ -146,7 +146,7 @@
                     <div *ngSwitchCase="2">
 
                         <!-- Empty Item Card -->
-                        <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 max-w-160 shadow-lg border-2 border-slate-200 bg-white">
+                        <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 max-w-160 shadow-lg border-2 border-slate-200 bg-white mt-5">
 
                             <span class="text-xl mt-10">
                                 You do not have any listed academic degrees.<br/>Click on the "Add Degree to Wishlist" button in the upper right corner to get started.
@@ -227,7 +227,7 @@
 
                                 <div class="form-group">
                                     <!-- Form Field - Degree Level -->
-                                    <mat-form-field appearance="fill">
+                                    <mat-form-field appearance="fill" class="min-w-100">
                                         <mat-label>Degree Level</mat-label>
                                         <mat-select 
                                         (selectionChange)="onDegreeLevelChanged($event)"  
@@ -245,7 +245,7 @@
 
                                 <div class="form-group">
                                       <!-- Form Field - Degree Type -->
-                                      <mat-form-field appearance="fill">
+                                      <mat-form-field appearance="fill" class="min-w-100">
                                         <mat-label>Degree Type</mat-label>
                                         <mat-select
                                         #name="ngModel"
@@ -332,7 +332,7 @@
 
                                 <!-- Form Field - Awarded On -->
                                 <div class="form-group">
-                                    <mat-form-field appearance="fill">
+                                    <mat-form-field appearance="fill" class="min-w-50">
                                         <mat-label>
 
                                             <span  *ngIf="model.awardedon?.length != null">
@@ -380,7 +380,7 @@
                                                 mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
-                                                Add Award
+                                                Add Degree
                                             </button>
                                         </div>
 
@@ -392,7 +392,7 @@
                                                 mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
-                                                Edit Award
+                                                Edit Degree
                                             </button>
                                         </div>
 
