@@ -22,40 +22,23 @@
         <!-- CONTENT GOES HERE -->
         <div class="h-400 min-h-400 max-h-400">
 
+
             <div class="w-full text-center mt-10 mb-10" >
 
-                <form #searchItemForm="ngForm">
-
-                    <div class="form-group mb-5">
-                        <mat-form-field class="fuse-mat-no-subscript w-2/4">
-                            <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
-                            <input type="text" class="ml-4" 
-                                placeholder="Search" 
-                                #searchbox
-                                matInput>
-                        </mat-form-field>
-                    
-                    <button  
-                        (click)="onSearch(searchbox.value);"
-                        class="ml-4"
-                        mat-flat-button
-                        type="button"
-                        [color]="'primary'">
-                    Search
-                    </button>
+                <div class="form-group mb-5">
+                    <mat-form-field class="fuse-mat-no-subscript w-2/4">
+                        <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
+                        <input type="text" class="ml-4" 
+                            placeholder="Search" 
+                            #searchbox
+                            (input)="onSearch()"
+                            [(ngModel)]="searchText"
+                            matInput>
+                    </mat-form-field>
+                
                 </div>
-                </form>
 
-                <div *ngFor="let searchresult of searchresults" class="text-left">
-                    <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult);">
-                        <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
-                    </button>
-                    {{searchresult.payload.val().name}}
-                    <span *ngIf="searchresult.payload.val().email?.length > 5">Email Address: {{searchresult.payload.val().email}}</span>
-            
-                </div>
             </div>
-
 
             <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
                 
@@ -65,9 +48,9 @@
                 
                         <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
                     
-                        <span class="font-semibold">{{item.payload.val().name}}</span>
+                        <span class="font-semibold">{{item.name}}</span>
                         <br />
-                        {{item.payload.val().email}}
+                        {{item.email}}
 
                     </div>
                 </a>

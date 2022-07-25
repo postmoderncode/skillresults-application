@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Subject } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-my-reports',
@@ -19,10 +21,10 @@ export class MyReportsComponent implements OnInit, OnDestroy {
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
   //Container to hold a list of items
-  items: object;
+  items;
 
   //Search Variables
-  searchresults: object;
+  searchText;
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -35,47 +37,22 @@ export class MyReportsComponent implements OnInit, OnDestroy {
     public db: AngularFireDatabase
   ) { }
 
-  //Function - Search through skills for filtered querytext
-  onSearch(queryText: string): void {
+
+  //Function - 
+  onSearch(): void {
+
+    if (this.searchText !== "") {
+      let searchValue = this.searchText.toLocaleLowerCase();
+
+      this.items = this.items.filter(contact => {
+        return contact.name.toLocaleLowerCase().match(searchValue) ||
+          contact.email.toLocaleLowerCase().match(searchValue);
 
 
-    //Only search if search term exists
-    if (queryText.length > 1) {
+      });
 
-      // //Searh Skills by Unique Value
-      // this.qresults1 = this.db.list('/skillcatalog/skills/', ref => ref
-      //   .orderByChild('value')
-      //   .startAt(this.onConvertName(queryText))
-      //   .endAt(this.onConvertName(queryText) + '\uf8ff')).snapshotChanges();
-
-      // //Search User by Name
-      // this.qresults2 = this.db.list('/users/', ref => ref
-      //   .orderByChild('name')
-      //   .startAt(queryText)
-      //   .endAt(queryText + '\uf8ff')).snapshotChanges();
-
-      // //Search User by Email
-      // this.qresults3 = this.db.list('/users/', ref => ref
-      //   .orderByChild('email')
-      //   .startAt(queryText)
-      //   .endAt(queryText + '\uf8ff')).snapshotChanges();
-
-      // //Combine search results
-      // this.qresults1.subscribe((searchskill) => {
-      //   this.qresults2.subscribe((searchuser) => {
-      //     this.qresults3.subscribe((searchemail) => {
-
-      //       let results;
-
-      //       results = searchskill.concat(searchuser);
-      //       this.searchresults = results.concat(searchemail);
-
-      //     });
-
-      //   });
-
-      // });
-
+    } else {
+      this.ngOnInit();
     }
 
   }
@@ -89,14 +66,10 @@ export class MyReportsComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-    //Call the Firebase Database and get the initial data.
-    this.db.list('/userlist').snapshotChanges().subscribe(
-      (results: object) => {
+    this.db.list('/userlist').valueChanges().subscribe((response) => {
+      this.items = response;
+    });
 
-        //Put the results of the DB call into an object.
-        this.items = results;
-      }
-    );
 
   }
 
@@ -108,5 +81,6 @@ export class MyReportsComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
   }
+
 
 }
