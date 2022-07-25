@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -21,6 +21,9 @@ export class MyReportsComponent implements OnInit, OnDestroy {
   //Container to hold a list of items
   items: object;
 
+  //Search Variables
+  searchresults: object;
+
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -32,6 +35,50 @@ export class MyReportsComponent implements OnInit, OnDestroy {
     public db: AngularFireDatabase
   ) { }
 
+  //Function - Search through skills for filtered querytext
+  onSearch(queryText: string): void {
+
+
+    //Only search if search term exists
+    if (queryText.length > 1) {
+
+      // //Searh Skills by Unique Value
+      // this.qresults1 = this.db.list('/skillcatalog/skills/', ref => ref
+      //   .orderByChild('value')
+      //   .startAt(this.onConvertName(queryText))
+      //   .endAt(this.onConvertName(queryText) + '\uf8ff')).snapshotChanges();
+
+      // //Search User by Name
+      // this.qresults2 = this.db.list('/users/', ref => ref
+      //   .orderByChild('name')
+      //   .startAt(queryText)
+      //   .endAt(queryText + '\uf8ff')).snapshotChanges();
+
+      // //Search User by Email
+      // this.qresults3 = this.db.list('/users/', ref => ref
+      //   .orderByChild('email')
+      //   .startAt(queryText)
+      //   .endAt(queryText + '\uf8ff')).snapshotChanges();
+
+      // //Combine search results
+      // this.qresults1.subscribe((searchskill) => {
+      //   this.qresults2.subscribe((searchuser) => {
+      //     this.qresults3.subscribe((searchemail) => {
+
+      //       let results;
+
+      //       results = searchskill.concat(searchuser);
+      //       this.searchresults = results.concat(searchemail);
+
+      //     });
+
+      //   });
+
+      // });
+
+    }
+
+  }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
