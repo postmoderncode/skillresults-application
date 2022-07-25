@@ -25,6 +25,7 @@ export class MyReportsComponent implements OnInit, OnDestroy {
 
   //Search Variables
   searchText;
+  itemsFiltered;
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -43,12 +44,9 @@ export class MyReportsComponent implements OnInit, OnDestroy {
 
     if (this.searchText !== "") {
       let searchValue = this.searchText.toLocaleLowerCase();
-
-      this.items = this.items.filter(contact => {
+      this.itemsFiltered = this.items.filter(contact => {
         return contact.name.toLocaleLowerCase().match(searchValue) ||
           contact.email.toLocaleLowerCase().match(searchValue);
-
-
       });
 
     } else {
@@ -68,6 +66,7 @@ export class MyReportsComponent implements OnInit, OnDestroy {
 
     this.db.list('/userlist').valueChanges().subscribe((response) => {
       this.items = response;
+      this.itemsFiltered = response;
     });
 
 
@@ -84,3 +83,5 @@ export class MyReportsComponent implements OnInit, OnDestroy {
 
 
 }
+
+

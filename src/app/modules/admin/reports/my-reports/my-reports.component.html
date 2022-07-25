@@ -40,7 +40,7 @@
 
             </div>
 
-            <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
+            <div *ngFor="let item of itemsFiltered" class="flex-initial basis-full xl:basis-1/2 max-w-160">
                 
                 <!-- User Card -->
                 <a [routerLink]="['/home/public-profile/' + item.key]">
