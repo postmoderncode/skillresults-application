@@ -88,7 +88,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   goback(): void {
     switch (this.selectedIndex) {
       case 1: {
-        console.log('goback 1');
         this.tabTitle = 'Area';
         this.selectedIndex = 0;
         this.catmodel.currentCategory = '';
@@ -96,7 +95,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         break;
       }
       case 2: {
-        console.log('goback 2');
         this.tabTitle = 'Category';
         this.selectedIndex = 1;
         this.catmodel.currentSkill = '';
@@ -204,14 +202,10 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
     this.catmodel.currentArea = areaId;
 
-    console.log(this.tabTitle);
-
   }
 
   //Function - Call when a category is selected
   onCategorySelect(categoryId): void {
-
-    console.log(categoryId);
 
     //Populate Skills - Firebase List w/ Sort&Filter Query
     const masters = this.db.list('/skillcatalog/skills/', ref => ref
@@ -259,8 +253,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     //Set the Form Mode
     this.formMode = 'add';
 
-    console.log('steps: ' + this.ratingsteps);
-
   }
 
 
@@ -276,19 +268,12 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push(this.model).then((responseObject) => {
 
-      //Log Success
-      console.log('Item added to the User Node');
-
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const addItem = this.db.list('/wishlists/skills/').set(responseObject.key, this.model).then((responseObject) => {
 
-        console.log('Item added to the Item Node');
 
         //Increment Count
         this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((counts) => {
-
-          //Log the Counter Success
-          console.log('Counter Updated Succesfuly');
 
           //Reset the Models back to Zero (Which also Resets the Form)
           this.model = new UserSkill();
@@ -324,13 +309,8 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const editUserItem = this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key + '/').update(this.model).then((responseObject) => {
 
-      //Log Success
-      console.log('Item updated in the User Node');
-
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const editItem = this.db.object('/wishlists/skills/' + key + '/').update(this.model).then((responseObject) => {
-
-        console.log('Item updated in the Item Node');
 
         //Reset the Models back to Zero (Which also Resets the Form)
         this.model = new UserSkill();
@@ -355,14 +335,10 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     //Container for Strongly //Delete Item from the Item Node.
     this.db.object('/wishlists/skills/' + key).remove().then((responseObject) => {
 
-      //Log Sucess
-      console.log('Remove Item from the Item Node Complete');
 
       //Delete Item from the User Node.
       this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).remove().then((responseObject) => {
 
-        //Log Sucess
-        console.log('Remove Item from the User Node Complete');
 
         //Decrement Count
         this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((counts) => {
@@ -426,7 +402,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
       this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user);
     });
 
-    console.log(key + 'has been selected to edit');
 
   }
 
@@ -527,8 +502,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
         //Put the results of the DB call into an object.
         this.items = results;
-
-        console.log(this.items);
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {

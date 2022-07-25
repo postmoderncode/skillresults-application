@@ -95,8 +95,6 @@ export class MyReportsComponent implements OnInit, OnDestroy {
 
         //Put the results of the DB call into an object.
         this.items = results;
-        console.log(this.items);
-
       }
     );
 

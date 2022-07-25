@@ -504,7 +504,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       //Subscribe to Observable
       this.item.subscribe((item) => {
         this.model = new CatItem(key, item.name, item.value, item.description, null, item.category, item.ratingsteps);
-        console.log(this.model);
+
       });
 
     }

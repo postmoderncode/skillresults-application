@@ -296,19 +296,12 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const addUserItem = this.db.list('/users/' + this.fbuser.id + '/skills').push(this.model).then((responseObject) => {
 
-      //Log Success
-      console.log('Item added to the User Node');
-
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const addItem = this.db.list('/skills/').set(responseObject.key, this.model).then((responseObject) => {
 
-        console.log('Item added to the Item Node');
 
         //Increment Count
         this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((counts) => {
-
-          //Log the Counter Success
-          console.log('Counter Updated Succesfuly');
 
           //Reset the Models back to Zero (Which also Resets the Form)
           this.model = new UserSkill();
@@ -344,13 +337,8 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const editUserItem = this.db.object('/users/' + this.fbuser.id + '/skills/' + key + '/').update(this.model).then((responseObject) => {
 
-      //Log Success
-      console.log('Item updated in the User Node');
-
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const editItem = this.db.object('/skills/' + key + '/').update(this.model).then((responseObject) => {
-
-        console.log('Item updated in the Item Node');
 
         //Reset the Models back to Zero (Which also Resets the Form)
         this.model = new UserSkill();
@@ -375,14 +363,10 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     //Container for Strongly //Delete Item from the Item Node.
     this.db.object('/skills/' + key).remove().then((responseObject) => {
 
-      //Log Sucess
-      console.log('Remove Item from the Item Node Complete');
 
       //Delete Item from the User Node.
       this.db.object('/users/' + this.fbuser.id + '/skills/' + key).remove().then((responseObject) => {
 
-        //Log Sucess
-        console.log('Remove Item from the User Node Complete');
 
         //Decrement Count
         this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((counts) => {
@@ -447,7 +431,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
       this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user);
     });
 
-    console.log(key + 'has been selected to edit');
 
   }
 

@@ -158,19 +158,12 @@ export class ProfessionalTrainingComponent implements OnInit, OnDestroy {
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const addUserItem = this.db.list('/users/' + this.fbuser.id + '/training').push(this.model).then((responseObject) => {
 
-      //Log Success
-      console.log('Item added to the User Node');
-
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const addItem = this.db.list('/training/').set(responseObject.key, this.model).then((responseObject) => {
 
-        console.log('Item added to the Item Node');
 
         //Increment Count
         this.db.object('/counts/' + this.fbuser.id + '/training').query.ref.transaction((counts) => {
-
-          //Log the Counter Success
-          console.log('Counter Updated Succesfuly');
 
           //Reset the Models back to Zero (Which also Resets the Form)
           this.model = new Training();
@@ -217,13 +210,8 @@ export class ProfessionalTrainingComponent implements OnInit, OnDestroy {
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const editUserItem = this.db.object('/users/' + this.fbuser.id + '/training/' + key + '/').update(this.model).then((responseObject) => {
 
-      //Log Success
-      console.log('Item updated in the User Node');
-
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const editItem = this.db.object('/training/' + key + '/').update(this.model).then((responseObject) => {
-
-        console.log('Item updated in the Item Node');
 
         //Reset the Models back to Zero (Which also Resets the Form)
         this.model = new Training();
@@ -250,14 +238,10 @@ export class ProfessionalTrainingComponent implements OnInit, OnDestroy {
     //Container for Strongly //Delete Item from the Item Node.
     this.db.object('/training/' + key).remove().then((responseObject) => {
 
-      //Log Sucess
-      console.log('Remove Item from the Item Node Complete');
 
       //Delete Item from the User Node.
       this.db.object('/users/' + this.fbuser.id + '/training/' + key).remove().then((responseObject) => {
 
-        //Log Sucess
-        console.log('Remove Item from the User Node Complete');
 
         //Decrement Count
         this.db.object('/counts/' + this.fbuser.id + '/training').query.ref.transaction((counts) => {
@@ -309,8 +293,6 @@ export class ProfessionalTrainingComponent implements OnInit, OnDestroy {
 
         //Put the results of the DB call into an object.
         this.items = results;
-
-        console.log(this.items);
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
