@@ -83,5 +83,3 @@ export class MyReportsComponent implements OnInit, OnDestroy {
 
 
 }
-
-
