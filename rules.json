@@ -71,6 +71,11 @@
       ".write": "auth !== null"
         },
           
+    "globals": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+          
     "institutions": {
       ".indexOn": "state",
       ".read": "auth !== null",

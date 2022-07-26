@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from 'app/shared/shared.module';
 import { GlobalSettingsComponent } from './global-settings.component';
 import { Route, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,7 +24,6 @@ const globalsettingsRoutes: Route[] = [
     GlobalSettingsComponent
   ],
   imports: [
-    CommonModule,
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -34,6 +33,7 @@ const globalsettingsRoutes: Route[] = [
     MatSelectModule,
     MatSlideToggleModule,
     MatTooltipModule,
+    SharedModule,
     RouterModule.forChild(globalsettingsRoutes)
   ]
 })
