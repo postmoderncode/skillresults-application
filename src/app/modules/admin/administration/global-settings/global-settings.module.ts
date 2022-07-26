@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 
@@ -32,6 +33,7 @@ const globalsettingsRoutes: Route[] = [
     MatRadioModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatSliderModule,
     MatTooltipModule,
     SharedModule,
     RouterModule.forChild(globalsettingsRoutes)

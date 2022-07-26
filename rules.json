@@ -125,6 +125,11 @@
             ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null", 
               }  
         },
+          
+    "whitelist": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
     
     "wishlists": {
       ".read": "auth !== null",

@@ -1,94 +1,141 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
-        <div class="flex-1 min-w-0">
+<div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
+<div class="flex-1 min-w-0">
+    
+    <!-- Title -->
+    <div class="mt-2">
+        <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+            Global Settings
+        </h2>
+    </div>
+</div>
+</div>
+
+
+<!-- Main -->
+<div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
+
+<!-- CONTENT GOES HERE -->
+<div class="justify-center h-full">
+
+    <div class="max-w-160 mb=10">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </div>
+
+    <br />
+    <div class="flex-none">
+
+        <div class="form-group">
+            <mat-slide-toggle
+            [(ngModel)]="model.rating"
+            #name="ngModel"
+            color="primary"
+            name="name"
+            class="mt-10 mb-10">
+            Assign Default Rating Scale
+            </mat-slide-toggle>
+        </div>
+
+        <div *ngIf="model.rating === true">
             
-            <!-- Title -->
-            <div class="mt-2">
-                <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Global Settings
-                </h2>
+            <div class="h-60 m-0 sm:mr-5 mb-5 p-5 h-60 shadow-lg border-2 border-slate-200 bg-white">
+                
+                <div class="mb-8">
+                    Rating Steps: {{model.ratingsteps}}
+                </div>
+
+                <mat-slider
+                thumbLabel
+                id ="ratingsteps"
+                name="ratingsteps"
+                [(ngModel)]="model.ratingsteps"
+                #name="ngModel"
+                min="1" max="50" 
+                step="1"
+                style="min-width:300px;">
+            </mat-slider>
+
+            <div class="mt-5 mb-5">
+                <mat-label>Example Slider with Custom Ticks:</mat-label>
             </div>
+            <mat-slider
+                thumbLabel
+                id ="example"
+                name="example"
+                min="0" max="100" 
+                step={{model.ratingsteps}}
+                style="min-width:300px;">
+            </mat-slider>
+
+            </div>
+        
         </div>
-    </div>
-
-
-    <!-- Main -->
-    <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
-
-        <!-- CONTENT GOES HERE -->
-        <div class="justify-center h-full">
-
-            <div class="max-w-160 mb=10">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </div>
-
-            <br />
-            <div class="flex-none">
-
-                <div class="form-group">
-                    <mat-slide-toggle
-                    [(ngModel)]="model.ratingscale"
-                    #name="ngModel"
-                    color="primary"
-                    name="name"
-                    class="mt-10 mb-10">
-                    Assign Default Rating Scale
-                    </mat-slide-toggle>
-                </div>
-
-                <div *ngIf="model.ratingscale === true">
-                    
-                    <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
-                        Rating Scale Area
-                    </div>
-                
-                </div>
-                
-                <div class="form-group">
-                    <mat-slide-toggle
-                    [(ngModel)]="model.usercustom"
-                    #name="ngModel"
-                    color="primary"
-                    class="mb-10">
-                    Allow Users to Create Custom Items
-                    </mat-slide-toggle>
-                </div>
-
-                <div class="form-group">
-                    <mat-slide-toggle
-                    [(ngModel)]="model.restrictdomain"
-                    #name="ngModel"
-                    color="primary"
-                    class="mb-10">
-                    Open User Registration to Outside Email Domains
-                    </mat-slide-toggle>
-                </div>
-
-                <div class="form-group">
-                    <mat-slide-toggle
-                    [(ngModel)]="model.whitelist"
-                    #name="ngModel"
-                    color="primary"
-                    class="mb-10">
-                    Restrict User Registration to Whitelist
-                    </mat-slide-toggle>
-                </div>
-
-                <div *ngIf="model.whitelist === true">
-                    
-                    <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
-                        Whitelist Area
-                    </div>
-                
-                </div>
-
-            </div>
-
+        
+        <div class="form-group">
+            <mat-slide-toggle
+            [(ngModel)]="model.usercustom"
+            #name="ngModel"
+            color="primary"
+            class="mb-10">
+            Allow Users to Create Custom Items
+            </mat-slide-toggle>
         </div>
 
+        <div *ngIf="model.usercustom === true">
+            
+            <div class="h-20 m-0 sm:mr-5 mb-5 p-5 h-20 shadow-lg border-2 border-slate-200 bg-white">
+                All Users can CREATE and EDIT custom AREAS, CATEGORIES, and SKILLS
+
+            </div>
+        
+        </div>
+
+        <div class="form-group">
+            <mat-slide-toggle
+            [(ngModel)]="model.restrictdomain"
+            #name="ngModel"
+            color="primary"
+            class="mb-10">
+            Open User Registration to Outside Email Domains
+            </mat-slide-toggle>
+        </div>
+
+        <div *ngIf="model.restrictdomain === true">
+            
+            <div class="h-40 m-0 sm:mr-5 mb-5 p-5 h-40 shadow-lg border-2 border-slate-200 bg-white">
+                Restrict User Registration to the following domain: (ex: mycompany.com)
+
+            </div>
+        
+        </div>
+
+        <div class="form-group">
+            <mat-slide-toggle
+            [(ngModel)]="model.whitelist"
+            #name="ngModel"
+            color="primary"
+            class="mb-10">
+            Restrict User Registration to Whitelist
+            </mat-slide-toggle>
+        </div>
+
+        <div *ngIf="model.whitelist === true">
+            
+            <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
+                Whitelist Area
+            </div>
+        
+        </div>
+
     </div>
+
+</div>
+
+
+
+</div>
 
 </div>
 

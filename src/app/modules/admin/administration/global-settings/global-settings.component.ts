@@ -60,9 +60,11 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
 export class Global {
 
   constructor(
-    public ratingscale?,
+    public rating?,
+    public ratingsteps?,
     public usercustom?,
     public restrictdomain?,
+    public domain?,
     public whitelist?
 
   ) { }
