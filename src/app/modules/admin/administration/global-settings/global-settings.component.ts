@@ -29,6 +29,61 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
     public db: AngularFireDatabase
   ) { }
 
+
+  //Functions
+  //---------------------
+
+  onToggleRating($event): void {
+
+    this.db.object('/globals/rating').query.ref.transaction((state) => {
+      if ($event.checked === true) {
+        return state = true;
+      } else {
+        return state = false;
+      }
+    });
+  }
+
+  onToggleUserCustom($event): void {
+
+    this.db.object('/globals/usercustom').query.ref.transaction((state) => {
+      if ($event.checked === true) {
+        return state = true;
+      } else {
+        return state = false;
+      }
+    });
+  }
+
+  onToggleRestrictDomain($event): void {
+
+    this.db.object('/globals/restrictdomain').query.ref.transaction((state) => {
+      if ($event.checked === true) {
+        return state = true;
+      } else {
+        return state = false;
+      }
+    });
+  }
+
+  onToggleWhitelist($event): void {
+
+    this.db.object('/globals/whitelist').query.ref.transaction((state) => {
+      if ($event.checked === true) {
+        return state = true;
+      } else {
+        return state = false;
+      }
+    });
+  }
+
+  onSaveRatingSteps(steps): void {
+
+    this.db.object('/globals/ratingsteps').set(steps)
+
+    console.log('steps saved');
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
   // -----------------------------------------------------------------------------------------------------
@@ -38,6 +93,12 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
+    //Call the Firebase Database and get the global data.
+    this.db.object('/globals').valueChanges().subscribe(
+      (results: object) => {
+        this.model = results;
+      }
+    );
 
   }
 

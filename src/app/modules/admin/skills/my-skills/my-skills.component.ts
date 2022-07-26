@@ -34,6 +34,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   //Container for Strongly typed Model.
   model = new UserSkill();
   catmodel = new CatalogState();
+  globals = new Global();
 
   //Container for Strongly typed From Date Info.
   formDates = new FormDates();
@@ -62,7 +63,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
   //Rating Customizations
   ratingtype = 0;
-  ratingsteps = 5;
+  ratingsteps;
 
   //Table Settings
   displayedColumns: string[] = ['name', 'rating', 'delete', 'edit'];
@@ -209,7 +210,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     //Set the tab to categories
     this.selectedIndex = 1;
 
-    //Set thte catalog state
+    //Set the catalog state
     this.catmodel.currentArea = areaId;
     this.catmodel.currentAreaName = area.payload.val().name;
 
@@ -255,7 +256,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     //Set the tab to skills
     this.selectedIndex = 2;
 
-    //Set thte catalog state
+    //Set the catalog state
     this.catmodel.currentCategory = categoryId;
     this.catmodel.currentCategoryName = ' > ' + category.payload.val().name;
   }
@@ -269,7 +270,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
 
-    this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
+    this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
 
     //Set the View State
     this.viewState = 3;
@@ -277,7 +278,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     //Set the Form Mode
     this.formMode = 'add';
 
-    //Set thte catalog state
+    //Set the catalog state
     this.catmodel.currentSkill = skillId;
     this.catmodel.currentSkillName = ' > ' + skill.payload.val().name;
 
@@ -295,6 +296,8 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const addUserItem = this.db.list('/users/' + this.fbuser.id + '/skills').push(this.model).then((responseObject) => {
+
+
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const addItem = this.db.list('/skills/').set(responseObject.key, this.model).then((responseObject) => {
@@ -428,7 +431,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
     //Subscribe to Observable
     this.item.subscribe((item) => {
-      this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user);
+      this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user, item.ratingsteps);
     });
 
 
@@ -548,6 +551,21 @@ export class MySkillsComponent implements OnInit, OnDestroy {
       }
     );
 
+    //Call the Firebase Database and get the global data.
+    this.db.object('/globals/').valueChanges().subscribe(
+      (results: object) => {
+
+        this.globals = results;
+
+        if (this.globals.rating === true) {
+          this.model.ratingsteps = this.globals.ratingsteps;
+        } else {
+          this.model.ratingsteps = 5;
+        }
+      }
+    );
+
+
   }
 
   /**
@@ -575,6 +593,7 @@ export class UserSkill {
     public created: object = {},
     public modified: object = {},
     public uid: string = '',
+    public ratingsteps: number = 5
 
   ) { }
 
@@ -601,4 +620,19 @@ export class FormDates {
     public awardedonForm: Date = null,
     public expiresonForm: Date = null,
   ) { }
+}
+
+// Empty Catalog Item class
+export class Global {
+
+  constructor(
+    public rating?,
+    public ratingsteps?,
+    public usercustom?,
+    public restrictdomain?,
+    public domain?,
+    public whitelist?
+
+  ) { }
+
 }

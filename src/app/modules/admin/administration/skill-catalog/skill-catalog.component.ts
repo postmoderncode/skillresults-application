@@ -32,6 +32,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   //Container for Strongly typed Model.
   model = new CatItem();
   catmodel = new CatalogState();
+  globals = new Global();
 
   //Container for Strongly typed From Date Info.
   formDates = new FormDates();
@@ -54,7 +55,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   //Rating Customizations
   ratingtype = 0;
-  ratingsteps = 5;
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -331,7 +331,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mcategory: string = this.model.category;
 
       this.db.object('/skillcatalog/skills/' + key).query.ref.transaction((ref) => {
-        if (ref === null || mratingsteps !== 5) {
+        if (ref === null || mratingsteps !== this.globals.ratingsteps) {
 
           this.db.object('/customs/skills/' + key)
             .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, modified: mdatenow, uid: this.fbuser.id });
@@ -435,9 +435,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     //Set the Form Mode
     this.formMode = 'add';
 
-    //Set default Slider Steps
-    this.model.ratingsteps = 5;
-
   }
 
   //Fuction - Show the Edit Form
@@ -487,9 +484,6 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
     }
     else { //this is a skill
-
-      //Set default Slider Steps
-      this.model.ratingsteps = 5;
 
       //Is this a new custom or a renamed master
       if (obj.customs[0]?.payload.val().customtype === 'new' || obj.customs[0]?.payload.val().customtype === 'rename') {
@@ -577,6 +571,20 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
           this.areas = res.filter(area => area.payload.val().name !== '' && area.payload.val().name !== null);
         });
 
+    //Call the Firebase Database and get the global data.
+    this.db.object('/globals/').valueChanges().subscribe(
+      (results: object) => {
+
+        this.globals = results;
+
+        if (this.globals.rating === true) {
+          this.model.ratingsteps = this.globals.ratingsteps;
+        } else {
+          this.model.ratingsteps = 5;
+        }
+      }
+    );
+
   }
 
   /**
@@ -631,4 +639,19 @@ export class FormDates {
     public awardedonForm: Date = null,
     public expiresonForm: Date = null,
   ) { }
+}
+
+// Empty Catalog Item class
+export class Global {
+
+  constructor(
+    public rating?,
+    public ratingsteps?,
+    public usercustom?,
+    public restrictdomain?,
+    public domain?,
+    public whitelist?
+
+  ) { }
+
 }
