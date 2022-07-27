@@ -34,73 +34,66 @@
                     <!-- SHOW LIST VIEW STATE -->
                     <div *ngSwitchCase="1">
 
+                        <div class="min-h-screen shadow-md rounded-2xl bg-white">
+                    
+                            <table mat-table [dataSource]="items" matSort class="w-full lg:w-200 xl:w-240 mx-auto">
+                            
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+                                    Name
+                                    </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.payload.val().name}} </td>
+                                </ng-container>
+    
+                                <!-- Rating Column -->
+                                <ng-container matColumnDef="rating">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by rating">
+                                    Rating
+                                    </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.payload.val().rating}} </td>
+                                </ng-container>
+    
+                                <!-- Delete Column -->
+                                <ng-container matColumnDef="delete">
+                                    <th mat-header-cell  *matHeaderCellDef > </th>
+                                    <td mat-cell *matCellDef="let item" class="w-30">
+                                        <button 
+                                        (click)="onShowDelete(item.key);" 
+                                            mat-stroked-button 
+                                            type="button">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </ng-container>
+    
+                                <!-- Edit Column -->
+                                <ng-container matColumnDef="edit">
+                                    <th mat-header-cell  *matHeaderCellDef > </th>
+                                    <td mat-cell *matCellDef="let item" class="w-20">
+                                        <button (click)="onShowEditForm(item.key);" 
+                                        mat-flat-button 
+                                        type="button" 
+                                        [color]="'primary'">
+                                            Edit
+                                        </button>
+                                    </td>
+                                </ng-container>
+                
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                            </table>
+
+
+                        </div>
+
                         <!-- Skill List Area (default) -->
                         <!-- ------------------------ -->
 
-                        <style>
-                            table {
-                                width: 60%;
-                              }
-                              
-                              th.mat-sort-header-sorted {
-                                color: black;
-                              }
-                          </style>
-                
-                            <table mat-table [dataSource]="items" matSort 
-                            class="mat-elevation-z8">
-                        
-                          <!-- Name Column -->
-                          <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
-                              Name
-                            </th>
-                            <td mat-cell *matCellDef="let element"> {{element.payload.val().name}} </td>
-                          </ng-container>
-
-                          <!-- Position Column -->
-                          <ng-container matColumnDef="rating">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by rating">
-                              Rating
-                            </th>
-                            <td mat-cell *matCellDef="let element"> {{element.payload.val().rating}} </td>
-                          </ng-container>
-
-                            <!-- Delete Column -->
-                            <ng-container matColumnDef="delete">
-                                <th mat-header-cell  *matHeaderCellDef > </th>
-                                <td mat-cell *matCellDef="let item" >
-                                    <button 
-                                    mat-mini-fab 
-                                    color="warn" 
-                                    matTooltip="delete" 
-                                    class="mr-2" 
-                                    (click)="onShowDelete(item.key);" >
-                                        <mat-icon>delete</mat-icon>
-                                    </button>
-                                </td>
-                            </ng-container>
-
-                            <!-- Edit Column -->
-                            <ng-container matColumnDef="edit">
-                                <th mat-header-cell  *matHeaderCellDef > </th>
-                                <td mat-cell *matCellDef="let item" >
-                                    <button 
-                                    mat-mini-fab 
-                                    color="basic" 
-                                    matTooltip="edit" 
-                                    (click)="onShowEditForm(item.key);" >
-                                        <mat-icon>edit</mat-icon>
-                                    </button>
-                                </td>
-                            </ng-container>
-            
-                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-
                     </div>
-
+                    
                     <!-- SHOW "NO DATA" MESSAGE -->
                     <div *ngSwitchCase="2">
 
