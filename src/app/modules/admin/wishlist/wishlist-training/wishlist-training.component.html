@@ -34,10 +34,10 @@
                             <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
 
                                 <!-- Certifciation Card -->
-                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
+                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 shadow-lg border-2 border-slate-200 bg-white">
 
                                     <!-- Cert Card - inner border -->
-                                    <div class="flex flex-col h-full relative border-8 border-gray-100">
+                                    <div class="flex flex-col h-full relative border-8 border-green-100">
 
                                         <!-- Top Flex Row -->
                                         <div class="flex-none">
@@ -45,22 +45,17 @@
                                              <!--Flex Container for the Top Row -->
                                             <div class="flex items-center">
 
-                                                <!-- Awarded On -->
-                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
-                                                    <span  *ngIf="item.payload.val().awardedon?.length > 0">
-                                                        Awarded On: {{item.payload.val().awardedon | date: 'MM/dd/yy'}} 
-                                                    </span>
-                                                </div>
 
                                                 <!-- Ribbon Icon -->
-                                                <div class="flex-none text-center">
-                                                    <img class="h-14 relative -mt-7"
-                                                        src="assets/images/ui/cert-ribbon.svg">
+                                                <div class="flex-none w-20 pl-4 items-center font-serif mt-4 leading-5 text-center text-xl text-slate-500 tracking-widest">
+                                                    PROFESSIONAL TRAINING
                                                 </div>
-                                                
-                                                <!-- Expires On -->
+
+                                                <!-- Awarded On -->
                                                 <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
- 
+                                                    <span  *ngIf="item.payload.val().awardedon?.toString().length > 0">
+                                                        Awarded On: {{item.payload.val().awardedon.toString() | date: 'MM/dd/yy'}} 
+                                                    </span>
                                                 </div>
 
                                             </div>
@@ -73,7 +68,7 @@
 
                                                 <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
 
-                                                <div class="flex-none text-center leading-4 text-lg text-sky-400 font-bold italic tracking-tight leading-7">{{item.payload.val().awardedby}}</div>
+                                                <div class="flex-none text-center leading-4 text-lg text-green-400 font-bold italic tracking-tight leading-7">{{item.payload.val().awardedby}}</div>
 
                                                 <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
                                                         style="
@@ -99,14 +94,15 @@
                                                     <button 
                                                         (click)="onShowDelete(item.key);" 
                                                         mat-stroked-button 
-                                                        type="button">
+                                                        type="button"
+                                                        class="bg-white">
                                                         Delete
                                                     </button>
                                                 </div>
 
                                                 <!-- Cert Icon -->
                                                 <div class="flex-none">
-                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
+                                                    <img class="h-14 relative -bottom-4" src="assets/images/ui/training-icon.svg">
                                                 </div>
 
                                                 <!-- Edit Button -->
