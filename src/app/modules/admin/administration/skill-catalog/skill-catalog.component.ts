@@ -641,7 +641,7 @@ export class FormDates {
   ) { }
 }
 
-// Empty Catalog Item class
+// Empty Global state
 export class Global {
 
   constructor(

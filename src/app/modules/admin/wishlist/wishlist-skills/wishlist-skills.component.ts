@@ -35,6 +35,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   //Container for Strongly typed Model.
   model = new UserSkill();
   catmodel = new CatalogState();
+  globals = new Global();
 
   //Container for Strongly typed From Date Info.
   formDates = new FormDates();
@@ -63,7 +64,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   //Rating Customizations
   ratingtype = 0;
-  ratingsteps = 5;
+  ratingsteps;
 
   //Table Settings
   displayedColumns: string[] = ['name', 'rating', 'delete', 'edit'];
@@ -232,7 +233,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         ))
       .subscribe(
         (res) => {
-          this.skills = res.filter(skill => (skill.payload.val().name !== '' && skill.payload.val().name !== null) || (skill.payload.val().ratingsteps != 5));
+          this.skills = res.filter(skill => (skill.payload.val().name !== '' && skill.payload.val().name !== null) || (skill.payload.val().ratingsteps !== 5));
         });
 
     this.tabTitle = 'Skill';
@@ -246,7 +247,13 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
 
-    this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
+    if (this.globals.rating === true) {
+      this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
+    } else {
+      this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
+    }
+
+
     //Set the View State
     this.viewState = 3;
 
@@ -267,6 +274,8 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push(this.model).then((responseObject) => {
+
+
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const addItem = this.db.list('/wishlists/skills/').set(responseObject.key, this.model).then((responseObject) => {
@@ -516,6 +525,21 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
       }
     );
 
+    //Call the Firebase Database and get the global data.
+    this.db.object('/globals/').valueChanges().subscribe(
+      (results: object) => {
+
+        this.globals = results;
+
+
+        if (this.globals.rating === true) {
+          this.model.ratingsteps = this.globals.ratingsteps;
+        } else if (isNaN(Number(this.model.ratingsteps))) {
+          this.model.ratingsteps = 5;
+        }
+      }
+    );
+
   }
 
   /**
@@ -541,10 +565,10 @@ export class UserSkill {
     public key: string = '',
     public name: string = '',
     public rating: number = 0,
-    public priority: number = 0,
     public created: object = {},
     public modified: object = {},
     public uid: string = '',
+    public ratingsteps: number = null
 
   ) { }
 
@@ -568,4 +592,17 @@ export class FormDates {
     public awardedonForm: Date = null,
     public expiresonForm: Date = null,
   ) { }
+}
+
+// Empty Global State
+export class Global {
+
+  constructor(
+    public rating?,
+    public ratingsteps?,
+    public usercustom?,
+    public whitelist?
+
+  ) { }
+
 }

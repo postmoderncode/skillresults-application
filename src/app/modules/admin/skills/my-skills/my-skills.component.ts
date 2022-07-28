@@ -628,15 +628,13 @@ export class FormDates {
   ) { }
 }
 
-// Empty Catalog Item class
+// Empty Global State
 export class Global {
 
   constructor(
     public rating?,
     public ratingsteps?,
     public usercustom?,
-    public restrictdomain?,
-    public domain?,
     public whitelist?
 
   ) { }
