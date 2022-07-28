@@ -1,417 +1,426 @@
-        <!-- CONTENT GOES HERE -->
-        <div class="flex justify-center h-full">
+<!-- CONTENT GOES HERE -->
+<div class="flex justify-center h-full">
 
-            <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
-            <div class="flex-initial w-[1400px]">
+    <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
+    <div class="flex-initial w-[1400px]">
 
-                <!-- Action Buttons -->
-                <div class="w-full text-right">
-                    <span *ngIf="viewState !== 3 && viewState !== 4 && viewState !== 5">
-                        <button (click)="onShowCatalog();" class="ml-4" mat-flat-button type="button"
-                            [color]="'primary'">
-                            Add Skill to Wishlist
-                        </button>
-                    </span>
+        <!-- Action Buttons -->
+        <div class="w-full text-right mb-3">
+            <span *ngIf="viewState !== 3 && viewState !== 4 && viewState !== 5">
+                <button (click)="onShowCatalog();" class="ml-4" mat-flat-button type="button"
+                    [color]="'primary'">
+                    Add Skill to Wishlist
+                </button>
+            </span>
 
-                    <span *ngIf="viewState === 4 || viewState === 5">
-                        <button
-                            (click)="ngOnInit()"
-                            class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
-                            Cancel
-                        </button>
-                    </span>
+            <span *ngIf="viewState === 4 || viewState === 5">
+                <button
+                    (click)="ngOnInit()"
+                    class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                    Cancel
+                </button>
+            </span>
+            
+        </div>
+
+        <!-- Switch Code to Control ViewState -->
+        <div [ngSwitch]="viewState">
+
+            <!-- LOADING VIEW STATE -->
+            <div *ngSwitchCase="0">
+                LOADING....
+            </div>
+
+            <!-- SHOW LIST VIEW STATE -->
+            <div *ngSwitchCase="1">
+
+                <div class="min-h-screen shadow-md rounded-2xl bg-white">
+            
+                    <table mat-table [dataSource]="items" matSort class="w-full lg:w-200 xl:w-240 mx-auto">
                     
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+                            Name
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.payload.val().name}} </td>
+                        </ng-container>
+
+                        <!-- Rating Column -->
+                        <ng-container matColumnDef="rating">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by rating">
+                            Rating
+                            </th>
+                            <td mat-cell *matCellDef="let element"> {{element.payload.val().rating}} </td>
+                        </ng-container>
+
+                        <!-- Delete Column -->
+                        <ng-container matColumnDef="delete">
+                            <th mat-header-cell  *matHeaderCellDef > </th>
+                            <td mat-cell *matCellDef="let item" class="w-30">
+                                <button 
+                                (click)="onShowDelete(item.key);" 
+                                    mat-stroked-button 
+                                    type="button">
+                                    Delete
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <!-- Edit Column -->
+                        <ng-container matColumnDef="edit">
+                            <th mat-header-cell  *matHeaderCellDef > </th>
+                            <td mat-cell *matCellDef="let item" class="w-20">
+                                <button (click)="onShowEditForm(item.key);" 
+                                mat-flat-button 
+                                type="button" 
+                                [color]="'primary'">
+                                    Edit
+                                </button>
+                            </td>
+                        </ng-container>
+        
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    </table>
+
+
                 </div>
 
-                <!-- Switch Code to Control ViewState -->
-                <div [ngSwitch]="viewState">
+                <!-- Skill List Area (default) -->
+                <!-- ------------------------ -->
 
-                    <!-- LOADING VIEW STATE -->
-                    <div *ngSwitchCase="0">
-                        LOADING....
+            </div>
+            
+            <!-- SHOW "NO DATA" MESSAGE -->
+            <div *ngSwitchCase="2">
+
+                <!-- Empty Item Card -->
+                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 max-w-160 shadow-lg border-2 border-slate-200 bg-white mt-5">
+                    <span class="text-xl mt-10">
+                        You do not have any listed skills.<br/>Click on the "Add Skill to Wishlist" button in the upper right corner to get started.
+                    </span>
+                </div>
+
+            </div>
+
+            <!-- "ADD" VIEW STATE -->
+            <div *ngSwitchCase="3">
+
+                <!-- Form Container -->
+                <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
+
+                    <!-- Form Title -->
+                    <div [ngSwitch]="formMode">
+
+                        <h2 *ngSwitchCase="'add'"
+                            class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                            Add Skill
+                        </h2>
+
+                        <h2 *ngSwitchCase="'edit'"
+                            class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                            Edit Skill
+                        </h2>
+
                     </div>
 
-                    <!-- SHOW LIST VIEW STATE -->
-                    <div *ngSwitchCase="1">
+                    <h2 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-5">
+                        {{model?.name}}
+                    </h2>
+                    <!-- Form Start -->
+                    <form #addItemForm="ngForm">
 
-                        <div class="min-h-screen shadow-md rounded-2xl bg-white">
-                    
-                            <table mat-table [dataSource]="items" matSort class="w-full lg:w-200 xl:w-240 mx-auto">
+                        <!-- Switch Rating Type -->
+                        <div [ngSwitch]="ratingtype">
                             
-                                <!-- Name Column -->
-                                <ng-container matColumnDef="name">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
-                                    Name
-                                    </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.payload.val().name}} </td>
-                                </ng-container>
-    
-                                <!-- Rating Column -->
-                                <ng-container matColumnDef="rating">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by rating">
-                                    Rating
-                                    </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.payload.val().rating}} </td>
-                                </ng-container>
-    
-                                <!-- Delete Column -->
-                                <ng-container matColumnDef="delete">
-                                    <th mat-header-cell  *matHeaderCellDef > </th>
-                                    <td mat-cell *matCellDef="let item" class="w-30">
-                                        <button 
-                                        (click)="onShowDelete(item.key);" 
-                                            mat-stroked-button 
-                                            type="button">
-                                            Delete
-                                        </button>
-                                    </td>
-                                </ng-container>
-    
-                                <!-- Edit Column -->
-                                <ng-container matColumnDef="edit">
-                                    <th mat-header-cell  *matHeaderCellDef > </th>
-                                    <td mat-cell *matCellDef="let item" class="w-20">
-                                        <button (click)="onShowEditForm(item.key);" 
-                                        mat-flat-button 
-                                        type="button" 
-                                        [color]="'primary'">
-                                            Edit
-                                        </button>
-                                    </td>
-                                </ng-container>
-                
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <!-- Form Field - Rating Type 1 -->
+                            <div class="form-group" *ngSwitchCase="1">
 
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                            </table>
-
-
-                        </div>
-
-                        <!-- Skill List Area (default) -->
-                        <!-- ------------------------ -->
-
-                    </div>
+                                <div class="mb-10">
+                                    <mat-label class="mr-5 text-lg"><strong>Skill Rating:</strong> {{model.rating}}</mat-label>
+                                </div>
                     
-                    <!-- SHOW "NO DATA" MESSAGE -->
-                    <div *ngSwitchCase="2">
+                                <mat-slider
+                                    thumbLabel
+                                    id ="rating"
+                                    name="rating"
+                                    [(ngModel)]="model.rating"
+                                    #name="ngModel"
+                                    min="0" max="100" s
+                                    tep="25" 
+                                    style="min-width:300px;">
+                                </mat-slider>
+                    
+                            </div>
 
-                        <!-- Empty Item Card -->
-                        <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 max-w-160 shadow-lg border-2 border-slate-200 bg-white mt-5">
-                            <span class="text-xl mt-10">
-                                You do not have any listed skills.<br/>Click on the "Add Skill to Wishlist" button in the upper right corner to get started.
-                            </span>
+                            <!-- Form Field - Rating Default-->
+                            <div class="form-group" *ngSwitchDefault>
+
+                                <div class="mb-10">
+                                    <mat-label class="mr-5 text-lg"><strong>Skill Rating:</strong> {{model.rating}}</mat-label>
+                                </div>
+                    
+                                <mat-slider
+                                    thumbLabel
+                                    id ="rating"
+                                    name="rating"
+                                    [(ngModel)]="model.rating"
+                                    #name="ngModel"
+                                    min="0" max="100" 
+                                    step={{ratingsteps}} 
+                                    style="min-width:300px;">
+                                </mat-slider>
+                    
+                            </div>
+
                         </div>
 
-                    </div>
 
-                    <!-- "ADD" VIEW STATE -->
-                    <div *ngSwitchCase="3">
+                        <!-- Actions -->
+                        <div class="flex justify-center mt-6">
 
-                        <!-- Form Container -->
-                        <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
-
-                            <!-- Form Title -->
+                            <button
+                                (click)="onCancelForm(addItemForm)"
+                                class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
+                                Cancel
+                            </button>
+                        
+                            <!-- Switch to control Add vs. Edit mode -->
                             <div [ngSwitch]="formMode">
 
-                                <h2 *ngSwitchCase="'add'"
-                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
-                                    Add Skill
-                                </h2>
-
-                                <h2 *ngSwitchCase="'edit'"
-                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
-                                    Edit Skill
-                                </h2>
-
-                            </div>
-
-                            <h2 class="text-2xl md:text-2xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-5">
-                                {{model?.name}}
-                            </h2>
-                            <!-- Form Start -->
-                            <form #addItemForm="ngForm">
-
-                                <!-- Switch Rating Type -->
-                                <div [ngSwitch]="ratingtype">
-                                    
-                                    <!-- Form Field - Rating Type 1 -->
-                                    <div class="form-group" *ngSwitchCase="1">
-
-                                        <div class="mb-10">
-                                            <mat-label class="mr-5 text-lg"><strong>Skill Rating:</strong> {{model.rating}}</mat-label>
-                                        </div>
-                            
-                                        <mat-slider
-                                            thumbLabel
-                                            id ="rating"
-                                            name="rating"
-                                            [(ngModel)]="model.rating"
-                                            #name="ngModel"
-                                            min="0" max="100" s
-                                            tep="25" 
-                                            style="min-width:300px;">
-                                        </mat-slider>
-                            
-                                    </div>
-
-                                    <!-- Form Field - Rating Default-->
-                                    <div class="form-group" *ngSwitchDefault>
-
-                                        <div class="mb-10">
-                                            <mat-label class="mr-5 text-lg"><strong>Skill Rating:</strong> {{model.rating}}</mat-label>
-                                        </div>
-                            
-                                        <mat-slider
-                                            thumbLabel
-                                            id ="rating"
-                                            name="rating"
-                                            [(ngModel)]="model.rating"
-                                            #name="ngModel"
-                                            min="0" max="100" 
-                                            step={{ratingsteps}} 
-                                            style="min-width:300px;">
-                                        </mat-slider>
-                            
-                                    </div>
-
-                                </div>
-
-
-                                <!-- Actions -->
-                                <div class="flex justify-center mt-6">
-
-                                    <button
-                                        (click)="onCancelForm(addItemForm)"
-                                        class="flex-none ml-4" mat-stroked-button type="button" [color]="'primary'">
-                                        Cancel
+                                <div *ngSwitchCase="'add'" >
+                                    <button 
+                                        (click)="onAdd(addItemForm);"
+                                        [disabled]="!addItemForm.form.valid" 
+                                        class="flex-none ml-4" 
+                                        mat-flat-button
+                                        type="button" 
+                                        [color]="'primary'">
+                                        Add New Skill
                                     </button>
-                                
-                                    <!-- Switch to control Add vs. Edit mode -->
-                                    <div [ngSwitch]="formMode">
-
-                                        <div *ngSwitchCase="'add'" >
-                                            <button 
-                                                (click)="onAdd(addItemForm);"
-                                                [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" 
-                                                mat-flat-button
-                                                type="button" 
-                                                [color]="'primary'">
-                                                Add New Skill
-                                            </button>
-                                        </div>
-
-                                        <div *ngSwitchCase="'edit'">
-                                            <button
-                                                (click)="onEdit(currentkey);"
-                                                [disabled]="!addItemForm.form.valid" 
-                                                class="flex-none ml-4" 
-                                                mat-flat-button
-                                                type="button" 
-                                                [color]="'primary'">
-                                                Edit Skill
-                                            </button>
-                                        </div>
-
-                                    </div>
-
-
                                 </div>
 
-                            </form>
+                                <div *ngSwitchCase="'edit'">
+                                    <button
+                                        (click)="onEdit(currentkey);"
+                                        [disabled]="!addItemForm.form.valid" 
+                                        class="flex-none ml-4" 
+                                        mat-flat-button
+                                        type="button" 
+                                        [color]="'primary'">
+                                        Edit Skill
+                                    </button>
+                                </div>
 
+                            </div>
+
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- CATALOG -->
+            <div *ngSwitchCase="4">
+                <div>
+                    <button 
+                    (click)="onShowSearch();"
+                    class="flex-none ml-4 mt-3 mb-3" 
+                    mat-stroked-button
+                    type="button" 
+                    [color]="'primary'">
+                    USE SEARCH
+                    </button>
+                </div>
+
+                <div class="text-center items-center w-full text-sky-500">
+                    {{this.catmodel.currentAreaName}}{{this.catmodel.currentCategoryName}}{{this.catmodel.currentSkillName}}
+                </div>
+
+                <!-- SELECTOR WRAPPER -->
+                <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px]">
+
+                    <!-- SELECTOR TITLE -->
+                    <div class="flex items-center h-15">
+
+                        <a (click)="goback()">
+                        <div *ngIf="selectedIndex!==0" class="pt-1">
+                            <mat-icon style="font-size:25px; height:25px; width:25px;" svgIcon="mat_solid:arrow_back"></mat-icon>
+                        </div>
+                        </a>
+
+                        <div class="flex-1 text-1xl p-2 mr-20 sm:text-2xl md:text-2xl lg:text-3xl font-extrabold text-center tracking-tight">
+                            Select {{tabTitle}}
                         </div>
 
                     </div>
 
-                    <!-- CATALOG -->
-                    <div *ngSwitchCase="4">
-                        <div>
-                            <button 
-                            (click)="onShowSearch();"
-                            class="flex-none ml-4" 
-                            mat-stroked-button
-                            type="button" 
-                            [color]="'primary'">
-                            USE SEARCH
-                            </button>
-                        </div>
+                    <!-- TAB GROUP WRAPPER -->
+                    
+                    <div class="">
 
-                        <!-- SELECTOR WRAPPER -->
-                        <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px]">
+                        <mat-tab-group preserveContent class="h-[calc(100vh-360px)] min-h-50 overflow-scroll" [(selectedIndex)]=selectedIndex>
 
-                            <!-- SELECTOR TITLE -->
-                            <div class="flex items-center h-15">
-
-                                <a (click)="goback()">
-                                <div *ngIf="selectedIndex!==0" class="pt-1">
-                                    <mat-icon style="font-size:25px; height:25px; width:25px;" svgIcon="mat_solid:arrow_back"></mat-icon>
-                                </div>
-                                </a>
-
-                                <div class="flex-1 text-1xl p-2 mr-20 sm:text-2xl md:text-2xl lg:text-3xl font-extrabold text-center tracking-tight">
-                                    Select {{tabTitle}}
-                                </div>
-
-                            </div>
-
-                            <!-- TAB GROUP WRAPPER -->
-                            
-                            <div class="">
-
-                                <mat-tab-group preserveContent class="h-[calc(100vh-360px)] min-h-50 overflow-scroll" [(selectedIndex)]=selectedIndex>
-
-                                    <!--Areas Tab-->
-                                    <mat-tab label="Areas">
-                                        
-                                        <!--Repeat for Each Area-->
-                                        <span *ngFor="let area of (areas)" >
-                                            <span *ngIf="area.customs[0]?.payload.val().hidden !== true && area.payload.val().name?.length > 0">
-                                                <a (click)="onAreaSelect(area.key)" title="{{ area.payload.val().description }}">
-                                                    <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                                        <div class="flex-1">
-                                                            <span *ngIf="!area.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ area.payload.val().name }}</div>
-                                                            </span>
-                            
-                                                            <span *ngIf="area.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ area.customs[0]?.payload.val().name }}</div>
-                                                            </span>                                        
-                                                        </div>
-                                                        <div class="flex-none pt-1">
-                                                            <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </span>
-                                        </span>
-                                        
-                                        <!--Bottom Division Line-->
-                                        <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
-                                            <div class="flex-1"></div>
-                                        </div>
-
-                                    </mat-tab>
-
-                                    <!--Categories Tab-->
-                                    <mat-tab label="Catagories">
-
-                                        <!--Repeat for Each Category-->
-                                        <span *ngFor="let category of categories" >
-                                            <span *ngIf="category.customs[0]?.payload.val().hidden !== true && category.payload.val().name?.length > 0">
-                                                <a (click)="onCategorySelect(category.key)" title="{{ category.payload.val().description }}">
-                                                    <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                                        <div class="flex-1">
-                                                            <span *ngIf="!category.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ category.payload.val().name }}</div>
-                                                            </span>
-                            
-                                                            <span *ngIf="category.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ category.customs[0]?.payload.val().name }}</div>
-                                                            </span>                                        
-                                                        </div>
-                                                        <div class="flex-none pt-1">
-                                                            <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </span>
-                                        </span>
-                                            
-                                        <!--Bottom Division Line-->
-                                        <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
-                                            <div class="flex-1"></div>
-                                        </div>
-
-                                    </mat-tab>
-
-                                    <!--Skills Tab-->
-                                    <mat-tab label="Skills">
-
-                                        <!--Repeat for Each Skill-->
-                                        <span *ngFor="let skill of skills" >
-                                            <span *ngIf="(skill.customs[0]?.payload.val().hidden !== true) && (skill.payload.val().name?.length > 0)">
-                                                <a (click)="selectSkill(skill)" title="{{ skill.payload.val().description }}">
-                                                    <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                                        <div class="flex-1">
-                                                            <span *ngIf="!skill.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ skill.payload.val().name }}</div>
-                                                            </span>
-                        
-                                                            <span *ngIf="skill.customs[0]?.payload.val().name">
-                                                                    <div class="flex-1 w-100"> {{ skill.customs[0]?.payload.val().name }}</div>
-                                                            </span>                                        
-                                                        </div>
-                                                        <div class="flex-none pt-1">
-                                                            <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </span>
-                                        </span>
-
-                                        <!--Bottom Division Line-->
-                                        <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
-                                            <div class="flex-1"></div>
-                                        </div>
-                                    </mat-tab>
-
-                                </mat-tab-group>
-                            </div>
-                        
-                        </div>
-
-                    </div>
-
-                    <!-- SEARCH -->
-                    <div *ngSwitchCase="5">
-                        <div>
-                            <button 
-                            (click)="onShowCatalog();"
-                            class="flex-none ml-4" 
-                            mat-stroked-button
-                            type="button" 
-                            [color]="'primary'">
-                            USE CATALOG
-                            </button>
-                        </div>
-
-                        <div class="w-full text-center mt-10" >
-
-                            <form #editItemForm="ngForm">
-
-                                <div class="form-group mb-5">
-                                    <mat-form-field class="fuse-mat-no-subscript w-2/4">
-                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
-                                        <input type="text" class="ml-4" 
-                                            placeholder="Search" 
-                                            #searchbox
-                                            matInput>
-                                    </mat-form-field>
+                            <!--Areas Tab-->
+                            <mat-tab label="Areas">
                                 
-                                <button  
-                                    (click)="onSearch(searchbox.value);"
-                                    class="ml-4"
-                                    mat-flat-button
-                                    type="button"
-                                    [color]="'primary'">
-                                Search
-                                </button>
-                            </div>
-                            </form>
+                                <!--Repeat for Each Area-->
+                                <span *ngFor="let area of (areas)" >
+                                    <span *ngIf="area.customs[0]?.payload.val().hidden !== true && area.payload.val().name?.length > 0">
+                                        <a (click)="onAreaSelect(area)" title="{{ area.payload.val().description }}">
+                                            <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                                <div class="flex-1">
+                                                    <span *ngIf="!area.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ area.payload.val().name }}</div>
+                                                    </span>
+                    
+                                                    <span *ngIf="area.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ area.customs[0]?.payload.val().name }}</div>
+                                                    </span>                                        
+                                                </div>
+                                                <div class="flex-none pt-1">
+                                                    <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </span>
+                                </span>
+                                
+                                <!--Bottom Division Line-->
+                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                                    <div class="flex-1"></div>
+                                </div>
+
+                            </mat-tab>
+
+                            <!--Categories Tab-->
+                            <mat-tab label="Catagories">
+
+                                <!--Repeat for Each Category-->
+                                <span *ngFor="let category of categories" >
+                                    <span *ngIf="category.customs[0]?.payload.val().hidden !== true && category.payload.val().name?.length > 0">
+                                        <a (click)="onCategorySelect(category)" title="{{ category.payload.val().description }}">
+                                            <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                                <div class="flex-1">
+                                                    <span *ngIf="!category.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ category.payload.val().name }}</div>
+                                                    </span>
+                    
+                                                    <span *ngIf="category.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ category.customs[0]?.payload.val().name }}</div>
+                                                    </span>                                        
+                                                </div>
+                                                <div class="flex-none pt-1">
+                                                    <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </span>
+                                </span>
+                                    
+                                <!--Bottom Division Line-->
+                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                                    <div class="flex-1"></div>
+                                </div>
+
+                            </mat-tab>
+
+                            <!--Skills Tab-->
+                            <mat-tab label="Skills">
+
+                                <!--Repeat for Each Skill-->
+                                <span *ngFor="let skill of skills" >
+                                    <span *ngIf="(skill.customs[0]?.payload.val().hidden !== true) && (skill.payload.val().name?.length > 0)">
+                                        <a (click)="selectSkill(skill)" title="{{ skill.payload.val().description }}">
+                                            <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
+                                                <div class="flex-1">
+                                                    <span *ngIf="!skill.customs[0]?.payload.val().name">
+                                                        <div class="flex-1 w-100"> {{ skill.payload.val().name }}</div>
+                                                    </span>
                 
-                            <div *ngFor="let searchresult of searchresults" class="text-left">
-                                <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult.key, searchresult.payload.val().name);">
-                                    <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
-                                </button>
-                                {{searchresult.payload.val().name}}
-                                <span *ngIf="searchresult.payload.val().email?.length > 5">Email Address: {{searchresult.payload.val().email}}</span>
-                        
-                            </div>
-                        </div>
+                                                    <span *ngIf="skill.customs[0]?.payload.val().name">
+                                                            <div class="flex-1 w-100"> {{ skill.customs[0]?.payload.val().name }}</div>
+                                                    </span>                                        
+                                                </div>
+                                                <div class="flex-none pt-1">
+                                                    <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </span>
+                                </span>
 
+                                <!--Bottom Division Line-->
+                                <div class="flex items-center py-4 px-5 border-t-2 border-slate-100">
+                                    <div class="flex-1"></div>
+                                </div>
+                            </mat-tab>
+
+                        </mat-tab-group>
+                    </div>
+                
+                </div>
+
+            </div>
+
+            <!-- SEARCH -->
+            <div *ngSwitchCase="5">
+                <div>
+                    <button 
+                    (click)="onShowCatalog();"
+                    class="flex-none ml-4 mt-3" 
+                    mat-stroked-button
+                    type="button" 
+                    [color]="'primary'">
+                    USE CATALOG
+                    </button>
+                </div>
+
+                <div class="w-full text-center mt-10" >
+
+                    <form #editItemForm="ngForm">
+
+                        <div class="form-group mb-5">
+                            <mat-form-field class="fuse-mat-no-subscript w-2/4">
+                                <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
+                                <input type="text" class="ml-4" 
+                                    placeholder="Search" 
+                                    #searchbox
+                                    matInput>
+                            </mat-form-field>
+                        
+                        <button  
+                            (click)="onSearch(searchbox.value);"
+                            class="ml-4"
+                            mat-flat-button
+                            type="button"
+                            [color]="'primary'">
+                        Search
+                        </button>
+                    </div>
+                    </form>
+        
+                    <div *ngFor="let searchresult of searchresults" class="text-left">
+                        <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult.key, searchresult.payload.val().name);">
+                            <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                        </button>
+                        {{searchresult.payload.val().name}}
+                        <span *ngIf="searchresult.payload.val().email?.length > 5">Email Address: {{searchresult.payload.val().email}}</span>
+                
                     </div>
 
                 </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

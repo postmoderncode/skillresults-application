@@ -91,14 +91,16 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
       case 1: {
         this.tabTitle = 'Area';
         this.selectedIndex = 0;
-        this.catmodel.currentCategory = '';
-        this.catmodel.currentSkill = '';
+        this.catmodel = new CatalogState();
         break;
       }
       case 2: {
         this.tabTitle = 'Category';
         this.selectedIndex = 1;
+        this.catmodel.currentCategory = '';
+        this.catmodel.currentCategoryName = '';
         this.catmodel.currentSkill = '';
+        this.catmodel.currentSkillName = '';
         break;
       }
     }
@@ -165,7 +167,9 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
   }
 
   //Function - Call when an area is selected
-  onAreaSelect(areaId): void {
+  onAreaSelect(area): void {
+
+    const areaId = area.key;
 
     //Populate Categories - Firebase List w/ Sort&Filter Query
     const masters = this.db.list('/skillcatalog/categories/', ref => ref
@@ -201,12 +205,16 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     //Set the tab to categories
     this.selectedIndex = 1;
 
+    //Set the catalog state
     this.catmodel.currentArea = areaId;
+    this.catmodel.currentAreaName = area.payload.val().name;
 
   }
 
   //Function - Call when a category is selected
-  onCategorySelect(categoryId): void {
+  onCategorySelect(category): void {
+
+    const categoryId = category.key;
 
     //Populate Skills - Firebase List w/ Sort&Filter Query
     const masters = this.db.list('/skillcatalog/skills/', ref => ref
@@ -236,13 +244,22 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
           this.skills = res.filter(skill => (skill.payload.val().name !== '' && skill.payload.val().name !== null) || (skill.payload.val().ratingsteps !== 5));
         });
 
+    //Set the tab title
     this.tabTitle = 'Skill';
+
+    //Set the tab to skills
     this.selectedIndex = 2;
+
+    //Set the catalog state
     this.catmodel.currentCategory = categoryId;
+    this.catmodel.currentCategoryName = ' > ' + category.payload.val().name;
   }
 
   //Function - Call when a skill is selected
   selectSkill(skill): void {
+
+    const skillId = skill.key;
+
     this.catmodel.currentSkill = skill.key;
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
@@ -253,12 +270,15 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
       this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
     }
 
-
     //Set the View State
     this.viewState = 3;
 
     //Set the Form Mode
     this.formMode = 'add';
+
+    //Set the catalog state
+    this.catmodel.currentSkill = skillId;
+    this.catmodel.currentSkillName = ' > ' + skill.payload.val().name;
 
   }
 
@@ -581,6 +601,9 @@ export class CatalogState {
     public currentArea?: string,
     public currentCategory?: string,
     public currentSkill?: string,
+    public currentAreaName?: string,
+    public currentCategoryName?: string,
+    public currentSkillName?: string,
 
   ) { }
 
