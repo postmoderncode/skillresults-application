@@ -419,6 +419,16 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     this.formMode = 'add';
   }
 
+  //Fuction - Show the Add Form
+  onShowCustomAddForm(): void {
+
+    //Set the View State
+    this.viewState = 6;
+
+    //Set the Form Mode
+    this.formMode = 'add';
+  }
+
   //Fuction - Show the Edit Form
   onShowEditForm(key): void {
 
@@ -628,13 +638,14 @@ export class FormDates {
   ) { }
 }
 
-// Empty Global State
+// Empty Global state
 export class Global {
 
   constructor(
     public rating?,
     public ratingsteps?,
     public usercustom?,
+    public usercustomall?,
     public whitelist?
 
   ) { }

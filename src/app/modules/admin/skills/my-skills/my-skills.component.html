@@ -15,6 +15,44 @@
 
         </div>
 
+        <!-- Right Side - Custom Action Buttons -->
+        <div *ngIf="(viewState === 4) && (this.globals.usercustom === true)" class="flex shrink-0 items-center mt-3">
+
+            <div *ngIf="this.globals.usercustomall === true">
+
+                <button  
+                    (click)="onShowCustomAddForm(tabTitle);"
+                    [disabled]="showadditem"
+                    class="ml-4"
+                    mat-flat-button
+                    type="button"
+                    [color]="'default'">
+                    Add Custom {{tabTitle}}
+                </button>
+
+            </div>
+
+            <div *ngIf="this.globals.usercustomall === false">
+            
+                <div *ngIf="(tabTitle =='Skill')">
+
+                    <button  
+                        (click)="onShowCustomAddForm(tabTitle);"
+                        [disabled]="showadditem"
+                        class="ml-4"
+                        mat-flat-button
+                        type="button"
+                        [color]="'default'">
+                        Add Custom {{tabTitle}}
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
         <!-- Right Side - Action Buttons -->
         <div class="flex shrink-0 items-center mt-3">
             <span *ngIf="viewState !== 3 && viewState !== 4 && viewState !== 5">
@@ -38,6 +76,12 @@
                 </button>
             </span>
         </div>
+
+
+
+
+
+
 
     </div>
 
@@ -444,6 +488,116 @@
                         </div>
 
                     </div>
+
+
+
+                    <!-- USER CUSTOM "ADD" VIEW STATE -->
+                    <div *ngSwitchCase="6">
+
+                        <!-- Form Container -->
+                        <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
+
+                            <!-- Form Title -->
+                            <div [ngSwitch]="formMode">
+
+                                <h2 *ngSwitchCase="'add'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Add Custom {{tabTitle}} to Catalog
+                                </h2>
+
+                                <h2 *ngSwitchCase="'edit'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Edit Custom {{tabTitle}} to Catalog
+                                </h2>
+
+                            </div>
+
+                            <!-- Form Start -->
+                            <form #customAddItemForm="ngForm">
+
+                                <!-- Form Field - Name -->
+                                <div class="form-group mb-5">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>{{tabTitle}} Name</mat-label>
+                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:file-text'" matPrefix>
+                                        </mat-icon>
+                                        <input type="text" id="name" class="form-control"
+                                            #name="ngModel" [(ngModel)]="model.name" 
+                                            name="name" required matInput>
+                                    </mat-form-field>
+
+                                    <!-- Form Field - Name Error -->
+                                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                                        <span style="color:red;">Name is required</span>
+                                    </div>
+                                </div>
+
+                                <!-- Form Field Description  -->
+                                <div class="form-group mb-5">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Description (optional)</mat-label>
+                                        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:annotation'"
+                                            matPrefix></mat-icon>
+                                        <textarea type="text" id="description" class="form-control" #name="ngModel"
+                                            placeholder="How would you describe this?"
+                                            [(ngModel)]="model.description" name="description" matInput>
+                                            </textarea>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="flex justify-center mt-6">
+
+                                    <button
+                                        (click)="onCancelForm(customAddItemForm)"
+                                        class="flex-none ml-4" 
+                                        mat-stroked-button 
+                                        type="button" 
+                                        [color]="'primary'">
+                                        Cancel
+                                    </button>
+                                
+                                    <!-- Switch to control Add vs. Edit mode -->
+                                    <div [ngSwitch]="formMode">
+
+                                        <div *ngSwitchCase="'add'" >
+                                            <button 
+                                                (click)="onAdd(customAddItemForm);"
+                                                [disabled]="!customAddItemForm.form.valid" 
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Add New {{tabTitle}}
+                                            </button>
+                                        </div>
+
+                                        <div *ngSwitchCase="'edit'">
+                                            <button
+                                                (click)="onEdit(model.key);"
+                                                [disabled]="!customAddItemForm.form.valid" 
+                                                class="flex-none ml-4" mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Edit {{tabTitle}}
+                                            </button>
+                        
+                                        </div>
+
+                                        <div *ngSwitchCase="'edit'">
+                                            <button mat-mini-fab color="warn" matTooltip="delete" class="mt-10" (click)="onShowDelete(model.key)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>              
 
                 </div>
 

@@ -55,6 +55,17 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
+  onToggleUserCustomAll($event): void {
+
+    this.db.object('/globals/usercustomall').query.ref.transaction((state) => {
+      if ($event.checked === true) {
+        return state = true;
+      } else {
+        return state = false;
+      }
+    });
+  }
+
   onToggleWhitelist($event): void {
 
     this.db.object('/globals/whitelist').query.ref.transaction((state) => {
@@ -106,15 +117,17 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
 // @ Models
 // -----------------------------------------------------------------------------------------------------
 
-// Empty Catalog Item class
+// Empty Global state
 export class Global {
 
   constructor(
     public rating?,
     public ratingsteps?,
     public usercustom?,
+    public usercustomall?,
     public whitelist?
 
   ) { }
 
 }
+
