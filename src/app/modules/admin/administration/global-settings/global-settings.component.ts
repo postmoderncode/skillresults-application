@@ -55,17 +55,6 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onToggleRestrictDomain($event): void {
-
-    this.db.object('/globals/restrictdomain').query.ref.transaction((state) => {
-      if ($event.checked === true) {
-        return state = true;
-      } else {
-        return state = false;
-      }
-    });
-  }
-
   onToggleWhitelist($event): void {
 
     this.db.object('/globals/whitelist').query.ref.transaction((state) => {
@@ -124,8 +113,6 @@ export class Global {
     public rating?,
     public ratingsteps?,
     public usercustom?,
-    public restrictdomain?,
-    public domain?,
     public whitelist?
 
   ) { }

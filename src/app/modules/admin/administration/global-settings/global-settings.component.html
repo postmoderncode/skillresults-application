@@ -13,7 +13,6 @@
         </div>
     </div>
 
-
     <!-- Main -->
     <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
 
@@ -109,26 +108,6 @@
 
                 <div class="form-group">
                     <mat-slide-toggle
-                    [(ngModel)]="model.restrictdomain"
-                    #name="ngModel"
-                    color="primary"
-                    (change)="onToggleRestrictDomain($event)"
-                    class="mb-10">
-                    Open User Registration to Outside Email Domains
-                    </mat-slide-toggle>
-                </div>
-
-                <div *ngIf="model.restrictdomain === true">
-                    
-                    <div class="h-40 m-0 sm:mr-5 mb-5 p-5 h-40 shadow-lg border-2 border-slate-200 bg-white">
-                        Restrict User Registration to the following domain: (ex: mycompany.com)
-
-                    </div>
-                
-                </div>
-
-                <div class="form-group">
-                    <mat-slide-toggle
                     [(ngModel)]="model.whitelist"
                     #name="ngModel"
                     color="primary"
@@ -149,8 +128,6 @@
             </div>
 
         </div>
-
-
 
     </div>
 
