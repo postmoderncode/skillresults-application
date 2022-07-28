@@ -247,7 +247,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
 
-    if (this.globals.rating === true) {
+    if (this.globals.rating == true) {
       this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
     } else {
       this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
@@ -532,7 +532,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         this.globals = results;
 
 
-        if (this.globals.rating === true) {
+        if (this.globals.rating == true) {
           this.model.ratingsteps = this.globals.ratingsteps;
         } else if (isNaN(Number(this.model.ratingsteps))) {
           this.model.ratingsteps = 5;
@@ -594,13 +594,14 @@ export class FormDates {
   ) { }
 }
 
-// Empty Global State
+// Empty Global state
 export class Global {
 
   constructor(
     public rating?,
     public ratingsteps?,
     public usercustom?,
+    public usercustomall?,
     public whitelist?
 
   ) { }

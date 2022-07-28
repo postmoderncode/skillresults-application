@@ -16,9 +16,9 @@
         </div>
 
         <!-- Right Side - Custom Action Buttons -->
-        <div *ngIf="(viewState === 4) && (this.globals.usercustom === true)" class="flex shrink-0 items-center mt-3">
+        <div *ngIf="(viewState == 4) && (this.globals.usercustom == true)" class="flex shrink-0 items-center mt-3">
 
-            <div *ngIf="this.globals.usercustomall === true">
+            <div *ngIf="this.globals.usercustomall == true">
 
                 <button  
                     (click)="onShowCustomAddForm(tabTitle);"
@@ -32,7 +32,7 @@
 
             </div>
 
-            <div *ngIf="this.globals.usercustomall === false">
+            <div *ngIf="this.globals.usercustomall == false">
             
                 <div *ngIf="(tabTitle =='Skill')">
 
@@ -521,9 +521,15 @@
                                         <mat-label>{{tabTitle}} Name</mat-label>
                                         <mat-icon class="icon-size-5" [svgIcon]="'feather:file-text'" matPrefix>
                                         </mat-icon>
-                                        <input type="text" id="name" class="form-control"
-                                            #name="ngModel" [(ngModel)]="model.name" 
-                                            name="name" required matInput>
+                                        <input 
+                                            type="text" 
+                                            id="name" 
+                                            class="form-control"
+                                            #name="ngModel" 
+                                            [(ngModel)]="catitem.name" 
+                                            name="name" 
+                                            required 
+                                            matInput>
                                     </mat-form-field>
 
                                     <!-- Form Field - Name Error -->
@@ -538,10 +544,16 @@
                                         <mat-label>Description (optional)</mat-label>
                                         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_outline:annotation'"
                                             matPrefix></mat-icon>
-                                        <textarea type="text" id="description" class="form-control" #name="ngModel"
+                                        <textarea 
+                                            type="text" 
+                                            id="description" 
+                                            class="form-control" 
+                                            #name="ngModel"
                                             placeholder="How would you describe this?"
-                                            [(ngModel)]="model.description" name="description" matInput>
-                                            </textarea>
+                                            [(ngModel)]="catitem.description" 
+                                            name="description" 
+                                            matInput>
+                                        </textarea>
                                     </mat-form-field>
                                 </div>
 
@@ -562,7 +574,7 @@
 
                                         <div *ngSwitchCase="'add'" >
                                             <button 
-                                                (click)="onAdd(customAddItemForm);"
+                                                (click)="onAddCustom(customAddItemForm);"
                                                 [disabled]="!customAddItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button

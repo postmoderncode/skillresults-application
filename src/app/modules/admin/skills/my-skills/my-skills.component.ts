@@ -33,6 +33,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
   //Container for Strongly typed Model.
   model = new UserSkill();
+  catitem = new CatItem();
   catmodel = new CatalogState();
   globals = new Global();
 
@@ -128,7 +129,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
   //Function - Search through skills for filtered querytext
   onSearch(queryText: string): void {
-
 
     //Only search if search term exists
     if (queryText.length > 1) {
@@ -270,7 +270,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
 
-    if (this.globals.rating === true) {
+    if (this.globals.rating == true) {
       this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
     } else {
       this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
@@ -288,6 +288,90 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     this.catmodel.currentSkillName = ' > ' + skill.payload.val().name;
 
   }
+
+
+  onAddCustom(form: NgForm): void {
+
+    let type: string;
+
+    //Switch catalog path based on item type
+    if (this.tabTitle.toLowerCase() === 'category') {
+      type = 'categories';
+    } else {
+      type = this.tabTitle.toLowerCase() + 's';
+    }
+
+    //Define and call Promise to add Item with hierachial attributes
+    if (this.tabTitle.toLowerCase() === 'area') {
+
+      //Cast model to variable for formReset
+      const mname: string = this.catitem.name;
+      const mdescription: string = this.catitem.description;
+      const mvalue: string = this.onConvertName(this.catitem.name);
+      const mdatenow = Math.floor(Date.now());
+
+      //Define Promise
+      const promiseAddItem = this.db.list('/customs/' + type).push({ name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
+
+      //Call Promise
+      promiseAddItem
+        .then(_ => {
+          this.viewState = 4,
+            this.catitem = new CatItem();
+        })
+        .catch(err => console.log(err, 'Error Submitting Item!'));
+
+    } else if (this.tabTitle.toLowerCase() === 'category') {
+
+      //Cast model to variable for formReset
+      const mname: string = this.catitem.name;
+      const mdescription: string = this.catitem.description;
+      const mvalue: string = this.onConvertName(this.catitem.name);
+      const marea: string = this.catmodel.currentArea;
+      const mdatenow = Math.floor(Date.now());
+
+      //Define Promise
+      const promiseAddItem = this.db.list('/customs/' + type).push({ area: marea, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
+
+      //Call Promise
+      promiseAddItem
+        .then(_ => {
+          this.viewState = 4,
+            this.catitem = new CatItem();
+        })
+        .catch(err => console.log(err, 'Error Submitting Item!'));
+
+    } else { //this is a skill
+
+      //Cast model to variable for formReset
+      const mname: string = this.catitem.name;
+      const mdescription: string = this.catitem.description;
+      const mvalue: string = this.onConvertName(this.catitem.name);
+      const mcategory: string = this.catmodel.currentCategory;
+      const mdatenow = Math.floor(Date.now());
+      let mratingsteps: number;
+
+      if (this.globals.rating == true) {
+        mratingsteps = this.globals.ratingsteps;
+      } else {
+        mratingsteps = 5;
+      }
+
+      //Define Promise
+      const promiseAddItem = this.db.list('/customs/' + type).push({ category: mcategory, name: mname, value: mvalue, description: mdescription, ratingsteps: mratingsteps, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
+
+      //Call Promise
+      promiseAddItem
+        .then(_ => {
+          this.viewState = 4,
+            this.catitem = new CatItem();
+        })
+        .catch(err => console.log(err, 'Error Submitting Item!'));
+
+    }
+
+  }
+
 
 
   //Function - Add New Item to DB
@@ -573,7 +657,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
         this.globals = results;
 
 
-        if (this.globals.rating === true) {
+        if (this.globals.rating == true) {
           this.model.ratingsteps = this.globals.ratingsteps;
         } else if (isNaN(Number(this.model.ratingsteps))) {
           this.model.ratingsteps = 5;
@@ -610,6 +694,23 @@ export class UserSkill {
     public modified: object = {},
     public uid: string = '',
     public ratingsteps: number = null
+
+  ) { }
+
+}
+
+
+// Empty Catalog Item class
+export class CatItem {
+
+  constructor(
+    public key: string = '',
+    public name: string = '',
+    public value: string = '',
+    public description: string = '',
+    public area?,
+    public category?,
+    public ratingsteps?
 
   ) { }
 
