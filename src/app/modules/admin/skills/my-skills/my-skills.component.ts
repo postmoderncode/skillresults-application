@@ -270,7 +270,12 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
 
-    this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
+    if (this.globals.rating === true) {
+      this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
+    } else {
+      this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
+    }
+
 
     //Set the View State
     this.viewState = 3;
@@ -557,9 +562,10 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
         this.globals = results;
 
+
         if (this.globals.rating === true) {
           this.model.ratingsteps = this.globals.ratingsteps;
-        } else {
+        } else if (isNaN(Number(this.model.ratingsteps))) {
           this.model.ratingsteps = 5;
         }
       }
@@ -593,7 +599,7 @@ export class UserSkill {
     public created: object = {},
     public modified: object = {},
     public uid: string = '',
-    public ratingsteps: number = 5
+    public ratingsteps: number = null
 
   ) { }
 
