@@ -486,6 +486,16 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.model = new UserSkill();
     this.formDates = new FormDates();
     this.viewState = 1;
+    this.ngAfterViewInit();
+
+  }
+
+  //Function - Cancel the Add Catalog/Search
+  onCancelAdd(): void {
+    this.model = new UserSkill();
+    this.formDates = new FormDates();
+    this.viewState = 1;
+    this.ngAfterViewInit();
 
   }
 
@@ -512,8 +522,6 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   //Fuction - Show the Edit Form
   onShowEditForm(key): void {
 
-    console.log(key);
-    console.log('editing' + key);
     //Set the current key
     this.currentkey = key;
 
@@ -526,11 +534,8 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
     //Define Observable
     this.item = this.db.object('/users/' + this.fbuser.id + '/skills/' + key).valueChanges();
 
-    console.log('/users/' + this.fbuser.id + '/skills/' + key);
-
     //Subscribe to Observable
     this.item.subscribe((item) => {
-      //console.log(item.name);
       this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user, item.ratingsteps);
     });
 
@@ -603,16 +608,12 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
 
 
-
-
   }
 
   /**
    * On After View init
    */
   ngAfterViewInit() {
-
-
 
     //Populate Areas - Firebase List Object
     const masters = this.db.list('/skillcatalog/areas/', ref => ref
@@ -653,11 +654,11 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
         const itemList = [];
 
         results.forEach(element => {
+
           let json = element.payload.toJSON();
-          console.log(element.key)
           json["$key"] = element.key;
           itemList.push(json as UserSkill);
-          console.log(json);
+
         });
 
         this.dataSource = new MatTableDataSource(itemList);
@@ -672,6 +673,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
         else {
           //It's not empty, so set the view state to "Show Data" mode.
           this.viewState = 1;
+
         };
 
       }
