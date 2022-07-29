@@ -118,7 +118,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
   //Functions
   //---------------------
 
-  //Fuction - Show the Add Form
+  //Function - Show the Add Form
   onShowAddForm(): void {
 
     //Set the View State
@@ -128,7 +128,7 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
     this.formMode = 'add';
   }
 
-  //Fuction - Show the Edit Form
+  //Function - Show the Edit Form
   onShowEditForm(key): void {
 
     //Set the current key

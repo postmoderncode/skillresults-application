@@ -427,7 +427,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
-  //Fuction - Show the Add Form
+  //Function - Show the Add Form
   onShowAddForm(type: string): void {
     //Set the View State
     this.viewState = 3;
@@ -437,7 +437,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
   }
 
-  //Fuction - Show the Edit Form
+  //Function - Show the Edit Form
   onShowEditForm(key: string, obj): void {
 
     //Set the View State

@@ -13,6 +13,9 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  //Initialize Variables
+  //---------------------
+
   @Input() dataSource;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -21,10 +24,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   //   this.dataSource.sort = sort;
   // }
 
-  //Initialize Variables
-  //---------------------
-
-  //Page View State (Default is "Loading..")
+  //Page View State (Default is "Datatable for Sorting")
   viewState = 1;
 
   //Form Mode State (Add vs. Edit Mode)
@@ -80,6 +80,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+
   //Constructor
   //---------------------
   constructor(
@@ -94,6 +95,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   // @ViewChild(MatSort) set MatSort(sort: MatSort) {
   //   this.dataSource.sort = this.sort;
   // }
+
 
   //Functions
   //---------------------
@@ -219,7 +221,6 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.catmodel.currentArea = areaId;
     this.catmodel.currentAreaName = area.payload.val().name;
 
-
   }
 
   //Function - Call when a category is selected
@@ -281,7 +282,6 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
     }
 
-
     //Set the View State
     this.viewState = 3;
 
@@ -295,6 +295,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
+  //Function - Add Custom item to Catalog
   onAddCustom(form: NgForm): void {
 
     let type: string;
@@ -367,7 +368,6 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-
 
 
   //Function - Add New Item to DB
@@ -499,7 +499,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  //Fuction - Show the Add Form
+  //Function - Show the Add Form
   onShowAddForm(): void {
 
     //Set the View State
@@ -509,7 +509,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formMode = 'add';
   }
 
-  //Fuction - Show the Add Form
+  //Function - Show the Custom Add Form
   onShowCustomAddForm(): void {
 
     //Set the View State
@@ -519,7 +519,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formMode = 'add';
   }
 
-  //Fuction - Show the Edit Form
+  //Function - Show the Edit Form
   onShowEditForm(key): void {
 
     //Set the current key

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -12,13 +12,17 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./wishlist-skills.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class WishlistSkillsComponent implements OnInit, OnDestroy {
+export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   //Initialize Variables
   //---------------------
 
-  //Page View State (Default is "Loading..")
-  viewState = 0;
+  @Input() dataSource;
+
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+
+  //Page View State (Default is "Datatable for Sorting")
+  viewState = 1;
 
   //Form Mode State (Add vs. Edit Mode)
   formMode = '';
@@ -34,6 +38,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   //Container for Strongly typed Model.
   model = new UserSkill();
+  catitem = new CatItem();
   catmodel = new CatalogState();
   globals = new Global();
 
@@ -68,7 +73,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   //Table Settings
   displayedColumns: string[] = ['name', 'rating', 'delete', 'edit'];
-  //dataSource;
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -81,6 +85,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
+
 
   //Functions
   //---------------------
@@ -280,6 +285,80 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
   }
 
+  //Function - Add Custom item to Catalog
+  onAddCustom(form: NgForm): void {
+
+    let type: string;
+
+    //Switch catalog path based on item type
+    if (this.tabTitle.toLowerCase() === 'category') {
+      type = 'categories';
+    } else {
+      type = this.tabTitle.toLowerCase() + 's';
+    }
+
+    //Define and call Promise to add Item with hierachial attributes
+    if (this.tabTitle.toLowerCase() === 'area') {
+
+      //Cast model to variable for formReset
+      const mname: string = this.catitem.name;
+      const mdescription: string = this.catitem.description;
+      const mvalue: string = this.onConvertName(this.catitem.name);
+      const mdatenow = Math.floor(Date.now());
+
+      //Define Promise
+      const promiseAddItem = this.db.list('/customs/' + type).push({ name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
+
+      //Call Promise
+      promiseAddItem
+        .then((res) => { this.viewState = 4, this.catitem = new CatItem(); })
+        .catch(err => console.log(err, 'Error Submitting Item!'));
+
+    } else if (this.tabTitle.toLowerCase() === 'category') {
+
+      //Cast model to variable for formReset
+      const mname: string = this.catitem.name;
+      const mdescription: string = this.catitem.description;
+      const mvalue: string = this.onConvertName(this.catitem.name);
+      const marea: string = this.catmodel.currentArea;
+      const mdatenow = Math.floor(Date.now());
+
+      //Define Promise
+      const promiseAddItem = this.db.list('/customs/' + type).push({ area: marea, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
+
+      //Call Promise
+      promiseAddItem
+        .then((res) => { this.viewState = 4, this.catitem = new CatItem(); })
+        .catch(err => console.log(err, 'Error Submitting Item!'));
+
+    } else { //this is a skill
+
+      //Cast model to variable for formReset
+      const mname: string = this.catitem.name;
+      const mdescription: string = this.catitem.description;
+      const mvalue: string = this.onConvertName(this.catitem.name);
+      const mcategory: string = this.catmodel.currentCategory;
+      const mdatenow = Math.floor(Date.now());
+      let mratingsteps: number;
+
+      if (this.globals.rating == true) {
+        mratingsteps = this.globals.ratingsteps;
+      } else {
+        mratingsteps = 5;
+      }
+
+      //Define Promise
+      const promiseAddItem = this.db.list('/customs/' + type).push({ category: mcategory, name: mname, value: mvalue, description: mdescription, ratingsteps: mratingsteps, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
+
+      //Call Promise
+      promiseAddItem
+        .then((res) => { this.viewState = 4, this.catitem = new CatItem(); })
+        .catch(err => console.log(err, 'Error Submitting Item!'));
+
+    }
+
+  }
+
 
   //Function - Add New Item to DB
   onAdd(): void {
@@ -396,10 +475,20 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     this.model = new UserSkill();
     this.formDates = new FormDates();
     this.viewState = 1;
+    this.ngAfterViewInit();
 
   }
 
-  //Fuction - Show the Add Form
+  //Function - Cancel the Add Catalog/Search
+  onCancelAdd(): void {
+    this.model = new UserSkill();
+    this.formDates = new FormDates();
+    this.viewState = 1;
+    this.ngAfterViewInit();
+
+  }
+
+  //Function - Show the Add Form
   onShowAddForm(): void {
 
     //Set the View State
@@ -409,7 +498,17 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     this.formMode = 'add';
   }
 
-  //Fuction - Show the Edit Form
+  //Function - Show the Custom Add Form
+  onShowCustomAddForm(): void {
+
+    //Set the View State
+    this.viewState = 6;
+
+    //Set the Form Mode
+    this.formMode = 'add';
+  }
+
+  //Function - Show the Edit Form
   onShowEditForm(key): void {
 
     //Set the current key
@@ -497,6 +596,14 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
+
+  }
+
+  /**
+   * On After View init
+   */
+  ngAfterViewInit() {
+
     //Populate Areas - Firebase List Object
     const masters = this.db.list('/skillcatalog/areas/', ref => ref
       .orderByChild('name'))
@@ -525,10 +632,27 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
 
     //Populate User Skills - Firebase List Object
     this.items = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').snapshotChanges().subscribe(
-      (results: object) => {
+      (results) => {
 
         //Put the results of the DB call into an object.
         this.items = results;
+
+        //  this.dataSource = new MatTableDataSource(results);
+        //  this.dataSource.sort = this.sort;
+
+        const itemList = [];
+
+        results.forEach(element => {
+
+          let json = element.payload.toJSON();
+          json["$key"] = element.key;
+          itemList.push(json as UserSkill);
+
+        });
+
+        this.dataSource = new MatTableDataSource(itemList);
+        this.dataSource.sort = this.sort;
+        //this.dataSource.paginator = this.paginator;
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
@@ -538,6 +662,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         else {
           //It's not empty, so set the view state to "Show Data" mode.
           this.viewState = 1;
+
         };
 
       }
@@ -557,6 +682,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         }
       }
     );
+
 
   }
 
@@ -587,6 +713,22 @@ export class UserSkill {
     public modified: object = {},
     public uid: string = '',
     public ratingsteps: number = null
+
+  ) { }
+
+}
+
+// Empty Catalog Item class
+export class CatItem {
+
+  constructor(
+    public key: string = '',
+    public name: string = '',
+    public value: string = '',
+    public description: string = '',
+    public area?,
+    public category?,
+    public ratingsteps?
 
   ) { }
 
