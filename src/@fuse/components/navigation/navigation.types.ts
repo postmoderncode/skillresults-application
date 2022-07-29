@@ -1,17 +1,17 @@
 import { IsActiveMatchOptions } from '@angular/router';
 
-export interface FuseNavigationItem
-{
+export interface FuseNavigationItem {
     id?: string;
     title?: string;
     subtitle?: string;
+    admin?: boolean;
     type:
-        | 'aside'
-        | 'basic'
-        | 'collapsable'
-        | 'divider'
-        | 'group'
-        | 'spacer';
+    | 'aside'
+    | 'basic'
+    | 'collapsable'
+    | 'divider'
+    | 'group'
+    | 'spacer';
     hidden?: (item: FuseNavigationItem) => boolean;
     active?: boolean;
     disabled?: boolean;
@@ -19,11 +19,11 @@ export interface FuseNavigationItem
     link?: string;
     externalLink?: boolean;
     target?:
-        | '_blank'
-        | '_self'
-        | '_parent'
-        | '_top'
-        | string;
+    | '_blank'
+    | '_self'
+    | '_parent'
+    | '_top'
+    | string;
     exactMatch?: boolean;
     isActiveMatchOptions?: IsActiveMatchOptions;
     function?: (item: FuseNavigationItem) => void;

@@ -45,13 +45,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'feather:send',
                 link: 'skills/my-skills'
             },
-            // {
-            //     id: 'skill-wishlist',
-            //     title: 'Skill Wishlist',
-            //     type: 'basic',
-            //     icon: 'heroicons_outline:sparkles',
-            //     link: 'skills/skill-wishlist'
-            // },
             {
                 id: 'talents-hobbies',
                 title: 'Talents & Hobbies',
@@ -125,6 +118,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id: 'administration',
         title: 'Administration',
         subtitle: 'SkillResults Administration Area',
+        admin: true,
         type: 'group',
         children: [
             {
@@ -329,14 +323,14 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 id: 'dashboard',
                 title: 'Dashboard',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:grid',
                 link: 'home/dashboard'
             },
             {
                 id: 'public-profile',
                 title: 'Public Profile',
                 type: 'basic',
-                icon: 'heroicons_outline:user-circle',
+                icon: 'feather:user',
                 link: 'home/public-profile/self'
             },
             {
@@ -357,14 +351,14 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 id: 'my-skills',
                 title: 'My Skills',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:send',
                 link: 'skills/my-skills'
             },
             {
                 id: 'talents-hobbies',
                 title: 'Talents & Hobbies',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:heart',
                 link: 'skills/talents-hobbies'
             }
         ]
@@ -378,28 +372,28 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 id: 'degrees',
                 title: 'Academic Degrees',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:academic-cap',
                 link: 'education/academic-degrees'
             },
             {
                 id: 'certifications-licenses',
                 title: 'Certifications & Licenses',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:document-text',
                 link: 'education/certifications-licenses'
             },
             {
                 id: 'professional-training',
                 title: 'Professional Training',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:book-open',
                 link: 'education/professional-training'
             },
             {
                 id: 'awards-accolades',
                 title: 'Awards & Accolades',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'feather:award',
                 link: 'education/awards-accolades'
             }
         ]
@@ -420,7 +414,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 id: 'report-catalog',
                 title: 'Report Catalog',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-square-bar',
+                icon: 'feather:bar-chart-2',
                 link: 'reports/report-catalog'
             },
 
@@ -430,13 +424,14 @@ export const futuristicNavigation: FuseNavigationItem[] = [
     {
         id: 'administration',
         title: 'Administration',
+        admin: true,
         type: 'group',
         children: [
             {
                 id: 'skill-catalog',
                 title: 'Skill Catalog',
                 type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
+                icon: 'heroicons_outline:pencil',
                 link: 'administration/skill-catalog'
             },
             {
