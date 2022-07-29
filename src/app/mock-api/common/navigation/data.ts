@@ -314,6 +314,45 @@ export const compactNavigation: FuseNavigationItem[] = [
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
+
+    {
+        id: 'administration',
+        title: 'Administration',
+        admin: true,
+        type: 'aside',
+        children: [
+            {
+                id: 'skill-catalog',
+                title: 'Skill Catalog',
+                type: 'basic',
+                icon: 'heroicons_outline:pencil',
+                link: 'administration/skill-catalog'
+            },
+            {
+                id: 'administration-reports',
+                title: 'Administration Reports',
+                type: 'basic',
+                icon: 'heroicons_outline:chart-pie',
+                link: 'administration/admin-reports'
+            },
+            {
+                id: 'positions',
+                title: 'Positions',
+                type: 'basic',
+                icon: 'heroicons_solid:user-group',
+                link: 'administration/positions'
+            },
+            {
+                id: 'global-settings',
+                title: 'Global Settings',
+                type: 'basic',
+                icon: 'feather:settings',
+                link: 'administration/global-settings'
+            },
+
+
+        ]
+    },
     {
         id: 'home',
         title: 'Home',
@@ -416,44 +455,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'feather:bar-chart-2',
                 link: 'reports/report-catalog'
-            },
-
-
-        ]
-    },
-    {
-        id: 'administration',
-        title: 'Administration',
-        admin: true,
-        type: 'group',
-        children: [
-            {
-                id: 'skill-catalog',
-                title: 'Skill Catalog',
-                type: 'basic',
-                icon: 'heroicons_outline:pencil',
-                link: 'administration/skill-catalog'
-            },
-            {
-                id: 'administration-reports',
-                title: 'Administration Reports',
-                type: 'basic',
-                icon: 'heroicons_outline:chart-pie',
-                link: 'administration/admin-reports'
-            },
-            {
-                id: 'positions',
-                title: 'Positions',
-                type: 'basic',
-                icon: 'heroicons_solid:user-group',
-                link: 'administration/positions'
-            },
-            {
-                id: 'global-settings',
-                title: 'Global Settings',
-                type: 'basic',
-                icon: 'feather:settings',
-                link: 'administration/global-settings'
             },
 
 
