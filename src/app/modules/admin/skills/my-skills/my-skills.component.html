@@ -302,7 +302,7 @@
                         <div>
                             <button 
                             (click)="onShowSearch();"
-                            class="flex-none ml-4" 
+                            class="flex-none ml-4 mt-3 mb-3" 
                             mat-stroked-button
                             type="button" 
                             [color]="'primary'">
@@ -310,9 +310,12 @@
                             </button>
                         </div>
 
-                        <div class="text-center items-center w-full">
-                            {{this.catmodel.currentAreaName}}{{this.catmodel.currentCategoryName}}{{this.catmodel.currentSkillName}}
+                        <div class="text-center items-center w-full text-sky-500">
+                            {{this.catmodel.currentAreaName}}
+                            {{this.catmodel.currentCategoryName}}
+                            <!-- {{this.catmodel.currentSkillName}} -->
                         </div>
+                        
                         <!-- SELECTOR WRAPPER -->
                         <div class="container mx-auto sm:max-w-[500px] md:max-w-[600px] lg:max-w-[700px] xl:max-w-[800px]">
 
@@ -445,7 +448,7 @@
                         <div>
                             <button 
                             (click)="onShowCatalog();"
-                            class="flex-none ml-4" 
+                            class="flex-none ml-4 mt-3"  
                             mat-stroked-button
                             type="button" 
                             [color]="'primary'">
