@@ -522,11 +522,11 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     //If Hidden Exists, Delete. Otherwise set Hidden
     this.db.object('/customs/' + type + '/' + key + '/hidden')
       .query.ref.transaction((hidden) => {
-        if (hidden == true) {
+        if (hidden === true) {
           this.db.object('/customs/' + type + '/' + key + '/hidden').remove();
-        } else if (type == 'areas') {
+        } else if (type === 'areas') {
           this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true });
-        } else if (type == 'categories') {
+        } else if (type === 'categories') {
           this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, 'area': this.catmodel.currentArea });
         } else {
           this.db.object('/customs/' + type + '/' + key).update({ 'hidden': true, 'category': this.catmodel.currentCategory });
@@ -577,7 +577,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
         this.globals = results;
 
-        if (this.globals.rating == true) {
+        if (this.globals.rating === true) {
           this.model.ratingsteps = this.globals.ratingsteps;
         } else {
           this.model.ratingsteps = 5;

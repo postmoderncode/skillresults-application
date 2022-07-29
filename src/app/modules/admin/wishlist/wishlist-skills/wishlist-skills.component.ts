@@ -151,9 +151,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         this.qresults2.subscribe((searchuser) => {
           this.qresults3.subscribe((searchemail) => {
 
-            let results;
-
-            results = searchskill.concat(searchuser);
+            const results = searchskill.concat(searchuser);
             this.searchresults = results.concat(searchemail);
 
           });
@@ -264,7 +262,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
 
-    if (this.globals.rating == true) {
+    if (this.globals.rating === true) {
       this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
     } else {
       this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
@@ -552,7 +550,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy {
         this.globals = results;
 
 
-        if (this.globals.rating == true) {
+        if (this.globals.rating === true) {
           this.model.ratingsteps = this.globals.ratingsteps;
         } else if (isNaN(Number(this.model.ratingsteps))) {
           this.model.ratingsteps = 5;
