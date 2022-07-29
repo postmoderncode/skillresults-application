@@ -52,7 +52,7 @@ export class NavigationMockApi {
                 this._futuristicNavigation.forEach((futuristicNavItem) => {
                     console.log(futuristicNavItem);
 
-                    if (futuristicNavItem.admin == true && this.fbuser.isadmin != true) {
+                    if (futuristicNavItem.admin == true && this.fbuser?.isadmin != true) {
                         futuristicNavItem.hidden = (item: FuseNavigationItem) => true
                     }
 
