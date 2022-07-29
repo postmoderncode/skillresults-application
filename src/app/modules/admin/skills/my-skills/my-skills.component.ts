@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, AfterViewInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -11,13 +11,21 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './my-skills.component.html',
   styleUrls: ['./my-skills.component.scss']
 })
-export class MySkillsComponent implements OnInit, OnDestroy {
+export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  @Input() dataSource;
+
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+
+  // @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+  //   this.dataSource.sort = sort;
+  // }
 
   //Initialize Variables
   //---------------------
 
   //Page View State (Default is "Loading..")
-  viewState = 0;
+  viewState = 1;
 
   //Form Mode State (Add vs. Edit Mode)
   formMode = '';
@@ -68,7 +76,6 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
   //Table Settings
   displayedColumns: string[] = ['name', 'rating', 'delete', 'edit'];
-  //dataSource;
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -156,7 +163,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
         this.qresults2.subscribe((searchuser) => {
           this.qresults3.subscribe((searchemail) => {
 
-             const results = searchskill.concat(searchuser);
+            const results = searchskill.concat(searchuser);
             this.searchresults = results.concat(searchemail);
 
           });
@@ -313,7 +320,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
       //Call Promise
       promiseAddItem
-        .then((res) => { this.viewState = 4, this.catitem = new CatItem();})
+        .then((res) => { this.viewState = 4, this.catitem = new CatItem(); })
         .catch(err => console.log(err, 'Error Submitting Item!'));
 
     } else if (this.tabTitle.toLowerCase() === 'category') {
@@ -330,7 +337,7 @@ export class MySkillsComponent implements OnInit, OnDestroy {
 
       //Call Promise
       promiseAddItem
-        .then((res) => { this.viewState = 4, this.catitem = new CatItem();})
+        .then((res) => { this.viewState = 4, this.catitem = new CatItem(); })
         .catch(err => console.log(err, 'Error Submitting Item!'));
 
     } else { //this is a skill
@@ -505,6 +512,8 @@ export class MySkillsComponent implements OnInit, OnDestroy {
   //Fuction - Show the Edit Form
   onShowEditForm(key): void {
 
+    console.log(key);
+    console.log('editing' + key);
     //Set the current key
     this.currentkey = key;
 
@@ -517,8 +526,11 @@ export class MySkillsComponent implements OnInit, OnDestroy {
     //Define Observable
     this.item = this.db.object('/users/' + this.fbuser.id + '/skills/' + key).valueChanges();
 
+    console.log('/users/' + this.fbuser.id + '/skills/' + key);
+
     //Subscribe to Observable
     this.item.subscribe((item) => {
+      //console.log(item.name);
       this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user, item.ratingsteps);
     });
 
@@ -590,6 +602,18 @@ export class MySkillsComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
+
+
+
+  }
+
+  /**
+   * On After View init
+   */
+  ngAfterViewInit() {
+
+
+
     //Populate Areas - Firebase List Object
     const masters = this.db.list('/skillcatalog/areas/', ref => ref
       .orderByChild('name'))
@@ -623,8 +647,22 @@ export class MySkillsComponent implements OnInit, OnDestroy {
         //Put the results of the DB call into an object.
         this.items = results;
 
+        //  this.dataSource = new MatTableDataSource(results);
+        //  this.dataSource.sort = this.sort;
 
-        //  this.dataSource = new MatTableDataSource(Array(results));
+        const itemList = [];
+
+        results.forEach(element => {
+          let json = element.payload.toJSON();
+          console.log(element.key)
+          json["$key"] = element.key;
+          itemList.push(json as UserSkill);
+          console.log(json);
+        });
+
+        this.dataSource = new MatTableDataSource(itemList);
+        this.dataSource.sort = this.sort;
+        //this.dataSource.paginator = this.paginator;
 
         //Check if the results object is empty
         if (Object.keys(this.items).length === 0) {
