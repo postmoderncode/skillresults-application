@@ -48,7 +48,7 @@
 
 
                     <div *ngIf="user?.skills">
-                        <strong>Skills:</strong>
+                        <strong class="text-2xl">Skills</strong>
                         <div *ngFor="let skill of (user?.skills | keyvalue)" class="mb-5">
                             <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
 
@@ -59,7 +59,7 @@
                     </div>
 
                     <div *ngIf="user?.degrees">
-                        <strong>Degrees</strong>
+                        <strong class="text-2xl">Degrees</strong>
                         <div *ngFor="let degree of (user?.degrees | keyvalue)" class="mb-5">
                             <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
                                 {{user?.degrees[degree.key]?.degreetype}} <br />
@@ -75,7 +75,7 @@
                     </div>
                         
                     <div *ngIf="user?.certifications">
-                        <strong>Certifications</strong>
+                        <strong class="text-2xl">Certifications</strong>
                         <div *ngFor="let certification of (user?.certifications | keyvalue)" class="mb-5">
                             <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
                                 {{user?.certifications[certification.key]?.name}} <br />
@@ -91,7 +91,7 @@
                     </div>
                         
                     <div *ngIf="user?.training">
-                        <strong>Training:</strong>
+                        <strong class="text-2xl">Training</strong>
                         <div *ngFor="let training of (user?.training| keyvalue)" class="mb-5">
                             <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
                                 {{user?.training[training.key]?.name}} <br />
@@ -107,7 +107,7 @@
                     </div>
 
                     <div *ngIf="user?.awards">                     
-                        <strong>Awards:</strong>
+                        <strong class="text-2xl">Awards</strong>
                         <div *ngFor="let award of (user?.awards | keyvalue)" class="mb-5">
                             <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
                                 {{user?.awards[award.key]?.name}} <br />
@@ -122,7 +122,7 @@
                     </div>
                         
                     <div *ngIf="user?.talents">
-                        <strong>Talents:</strong>
+                        <strong class="text-2xl">Talents</strong>
                         <div *ngFor="let talent of (user?.talents | keyvalue)" class="mb-5">
                             <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
                                 {{user?.talents[talent.key]?.name}} <br />
