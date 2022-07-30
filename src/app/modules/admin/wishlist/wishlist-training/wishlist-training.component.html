@@ -52,9 +52,9 @@
                                                 </div>
 
                                                 <!-- Awarded On -->
-                                                <div class="flex-auto basis-1/2 text-center pt-2 text-slate-500">
+                                                <div class="flex-auto basis-1/2 text-right mr-5 pt-2 text-slate-500">
                                                     <span  *ngIf="item.payload.val().awardedon?.toString().length > 0">
-                                                        Awarded On: {{item.payload.val().awardedon.toString() | date: 'MM/dd/yy'}} 
+                                                        Completed {{item.payload.val().awardedon.toString() | date: 'MM/dd/yy'}} 
                                                     </span>
                                                 </div>
 
