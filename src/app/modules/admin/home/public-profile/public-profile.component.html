@@ -44,24 +44,34 @@
                     </p>
                 </div>
                 
-                <div class="flex-auto pl-5 mt-10">
+                <div class="flex-auto pl-5 mt-3">
 
 
                     <div *ngIf="user?.skills">
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'feather:send'"
+                            matPrefix>
+                        </mat-icon>
+
                         <strong class="text-2xl">Skills</strong>
-                        <div *ngFor="let skill of (user?.skills | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
 
-                            {{user?.skills[skill.key]?.name}} : {{user?.skills[skill.key]?.rating}} 
-
+                        <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-blue-50">
+                            <div *ngFor="let skill of (user?.skills | keyvalue)" class="mb-3">
+                                {{user?.skills[skill.key]?.name}} : {{user?.skills[skill.key]?.rating}} 
+                            </div>
                         </div>
 
-                    </div>
-
                     <div *ngIf="user?.degrees">
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'heroicons_outline:academic-cap'"
+                            matPrefix>
+                        </mat-icon>
+
                         <strong class="text-2xl">Degrees</strong>
                         <div *ngFor="let degree of (user?.degrees | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-purple-50">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-purple-50">
                                 <div class="font-semibold">{{user?.degrees[degree.key]?.degreetype}}</div> 
                                 {{user?.degrees[degree.key]?.major}}<br >
                                 <span *ngIf="user?.degrees[degree.key]?.minor">
@@ -75,9 +85,15 @@
                     </div>
                         
                     <div *ngIf="user?.certifications">
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'heroicons_outline:document-text'"
+                            matPrefix>
+                        </mat-icon>
+
                         <strong class="text-2xl">Certifications</strong>
                         <div *ngFor="let certification of (user?.certifications | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-lime-50">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-emerald-50">
                                 <div class="font-semibold">{{user?.certifications[certification.key]?.name}}</div>
                                 <span *ngIf="user?.certifications[certification.key]?.description">
                                     {{user?.certifications[certification.key]?.description}} <br />
@@ -91,9 +107,15 @@
                     </div>
                         
                     <div *ngIf="user?.training">
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'heroicons_outline:book-open'"
+                            matPrefix>
+                        </mat-icon>
+
                         <strong class="text-2xl">Training</strong>
                         <div *ngFor="let training of (user?.training| keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-amber-50">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-amber-50">
                                 <div class="font-semibold">{{user?.training[training.key]?.name}}</div>
                                 <span *ngIf="user?.training[training.key]?.description">
                                     {{user?.training[training.key]?.description}} <br />
@@ -106,10 +128,16 @@
 
                     </div>
 
-                    <div *ngIf="user?.awards">                     
+                    <div *ngIf="user?.awards">  
+                        
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'feather:award'"
+                            matPrefix>
+                        </mat-icon>
+
                         <strong class="text-2xl">Awards</strong>
                         <div *ngFor="let award of (user?.awards | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-emerald-50">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-lime-50">
                                 <div class="font-semibold">{{user?.awards[award.key]?.name}}</div>
                                 <span *ngIf="user?.awards[award.key]?.description">
                                     {{user?.awards[award.key]?.description}} <br />
@@ -122,9 +150,15 @@
                     </div>
                         
                     <div *ngIf="user?.talents">
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'feather:heart'"
+                            matPrefix>
+                        </mat-icon>
+
                         <strong class="text-2xl">Talents</strong>
                         <div *ngFor="let talent of (user?.talents | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-rose-50">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-rose-50">
                                 <div class="font-semibold">{{user?.talents[talent.key]?.name}}</div>
                                 <span *ngIf="user?.talents[talent.key]?.description">
                                     {{user?.talents[talent.key]?.description}} <br />
