@@ -61,8 +61,8 @@
                     <div *ngIf="user?.degrees">
                         <strong class="text-2xl">Degrees</strong>
                         <div *ngFor="let degree of (user?.degrees | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
-                                {{user?.degrees[degree.key]?.degreetype}} <br />
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-purple-50">
+                                <div class="font-semibold">{{user?.degrees[degree.key]?.degreetype}}</div> 
                                 {{user?.degrees[degree.key]?.major}}<br >
                                 <span *ngIf="user?.degrees[degree.key]?.minor">
                                 {{user?.degrees[degree.key]?.minor}}<br />
@@ -77,8 +77,8 @@
                     <div *ngIf="user?.certifications">
                         <strong class="text-2xl">Certifications</strong>
                         <div *ngFor="let certification of (user?.certifications | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
-                                {{user?.certifications[certification.key]?.name}} <br />
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-lime-50">
+                                <div class="font-semibold">{{user?.certifications[certification.key]?.name}}</div>
                                 <span *ngIf="user?.certifications[certification.key]?.description">
                                     {{user?.certifications[certification.key]?.description}} <br />
                                 </span> 
@@ -93,8 +93,8 @@
                     <div *ngIf="user?.training">
                         <strong class="text-2xl">Training</strong>
                         <div *ngFor="let training of (user?.training| keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
-                                {{user?.training[training.key]?.name}} <br />
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-amber-50">
+                                <div class="font-semibold">{{user?.training[training.key]?.name}}</div>
                                 <span *ngIf="user?.training[training.key]?.description">
                                     {{user?.training[training.key]?.description}} <br />
                                 </span>                           
@@ -109,8 +109,8 @@
                     <div *ngIf="user?.awards">                     
                         <strong class="text-2xl">Awards</strong>
                         <div *ngFor="let award of (user?.awards | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
-                                {{user?.awards[award.key]?.name}} <br />
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-emerald-50">
+                                <div class="font-semibold">{{user?.awards[award.key]?.name}}</div>
                                 <span *ngIf="user?.awards[award.key]?.description">
                                     {{user?.awards[award.key]?.description}} <br />
                                 </span> 
@@ -124,8 +124,8 @@
                     <div *ngIf="user?.talents">
                         <strong class="text-2xl">Talents</strong>
                         <div *ngFor="let talent of (user?.talents | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
-                                {{user?.talents[talent.key]?.name}} <br />
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-rose-50">
+                                <div class="font-semibold">{{user?.talents[talent.key]?.name}}</div>
                                 <span *ngIf="user?.talents[talent.key]?.description">
                                     {{user?.talents[talent.key]?.description}} <br />
                                 </span> 
