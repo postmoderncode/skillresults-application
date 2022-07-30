@@ -50,8 +50,10 @@
                     <div *ngIf="user?.skills">
                         <strong>Skills:</strong>
                         <div *ngFor="let skill of (user?.skills | keyvalue)" class="mb-5">
-                            {{user?.skills[skill.key]?.name}} <br />
-                            {{user?.skills[skill.key]?.rating}} <br />
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
+
+                            {{user?.skills[skill.key]?.name}} : {{user?.skills[skill.key]?.rating}} 
+
                         </div>
 
                     </div>
@@ -59,14 +61,15 @@
                     <div *ngIf="user?.degrees">
                         <strong>Degrees</strong>
                         <div *ngFor="let degree of (user?.degrees | keyvalue)" class="mb-5">
-                            {{user?.degrees[degree.key]?.degreetype}} <br />
-                            {{user?.degrees[degree.key]?.major}}<br >
-                            <span *ngIf="user?.degrees[degree.key]?.minor">
-                            {{user?.degrees[degree.key]?.minor}}<br />
-                            </span>
-                            {{user?.degrees[degree.key]?.institution}} <br />          
-                            {{user?.degrees[degree.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
-
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
+                                {{user?.degrees[degree.key]?.degreetype}} <br />
+                                {{user?.degrees[degree.key]?.major}}<br >
+                                <span *ngIf="user?.degrees[degree.key]?.minor">
+                                {{user?.degrees[degree.key]?.minor}}<br />
+                                </span>
+                                {{user?.degrees[degree.key]?.institution}} <br />          
+                                {{user?.degrees[degree.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                            </div>
                         </div>
 
                     </div>
@@ -74,14 +77,15 @@
                     <div *ngIf="user?.certifications">
                         <strong>Certifications</strong>
                         <div *ngFor="let certification of (user?.certifications | keyvalue)" class="mb-5">
-                            {{user?.certifications[certification.key]?.name}} <br />
-                            <span *ngIf="user?.certifications[certification.key]?.description">
-                                {{user?.certifications[certification.key]?.description}} <br />
-                             </span> 
-                            {{user?.certifications[certification.key]?.awardedby}} <br />
-                            {{user?.certifications[certification.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
-                            {{user?.certifications[certification.key]?.expireson | date: 'MM/dd/yyyy' }} <br />
-
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
+                                {{user?.certifications[certification.key]?.name}} <br />
+                                <span *ngIf="user?.certifications[certification.key]?.description">
+                                    {{user?.certifications[certification.key]?.description}} <br />
+                                </span> 
+                                {{user?.certifications[certification.key]?.awardedby}} <br />
+                                {{user?.certifications[certification.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                                {{user?.certifications[certification.key]?.expireson | date: 'MM/dd/yyyy' }} <br />
+                            </div>
                         </div>
 
                     </div>
@@ -89,12 +93,14 @@
                     <div *ngIf="user?.training">
                         <strong>Training:</strong>
                         <div *ngFor="let training of (user?.training| keyvalue)" class="mb-5">
-                            {{user?.training[training.key]?.name}} <br />
-                            <span *ngIf="user?.training[training.key]?.description">
-                                {{user?.training[training.key]?.description}} <br />
-                             </span>                           
-                            {{user?.training[training.key]?.awardedby}} <br />
-                            {{user?.training[training.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
+                                {{user?.training[training.key]?.name}} <br />
+                                <span *ngIf="user?.training[training.key]?.description">
+                                    {{user?.training[training.key]?.description}} <br />
+                                </span>                           
+                                {{user?.training[training.key]?.awardedby}} <br />
+                                {{user?.training[training.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                            </div>
 
                         </div>
 
@@ -103,13 +109,14 @@
                     <div *ngIf="user?.awards">                     
                         <strong>Awards:</strong>
                         <div *ngFor="let award of (user?.awards | keyvalue)" class="mb-5">
-                            {{user?.awards[award.key]?.name}} <br />
-                            <span *ngIf="user?.awards[award.key]?.description">
-                                {{user?.awards[award.key]?.description}} <br />
-                             </span> 
-                            {{user?.awards[award.key]?.awardedby}} <br />
-                            {{user?.awards[award.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
-
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
+                                {{user?.awards[award.key]?.name}} <br />
+                                <span *ngIf="user?.awards[award.key]?.description">
+                                    {{user?.awards[award.key]?.description}} <br />
+                                </span> 
+                                {{user?.awards[award.key]?.awardedby}} <br />
+                                {{user?.awards[award.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                            </div>
                         </div>
 
                     </div>
@@ -117,10 +124,12 @@
                     <div *ngIf="user?.talents">
                         <strong>Talents:</strong>
                         <div *ngFor="let talent of (user?.talents | keyvalue)" class="mb-5">
-                            {{user?.talents[talent.key]?.name}} <br />
-                            <span *ngIf="user?.talents[talent.key]?.description">
-                                {{user?.talents[talent.key]?.description}} <br />
-                             </span> 
+                            <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
+                                {{user?.talents[talent.key]?.name}} <br />
+                                <span *ngIf="user?.talents[talent.key]?.description">
+                                    {{user?.talents[talent.key]?.description}} <br />
+                                </span> 
+                            </div>
 
                         </div> 
 
