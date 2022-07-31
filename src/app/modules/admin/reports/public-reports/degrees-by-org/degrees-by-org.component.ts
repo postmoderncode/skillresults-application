@@ -32,7 +32,7 @@ export class DegreesByOrgComponent implements OnInit {
   itemsFiltered;
 
   //Table Settings
-  displayedColumns: string[] = ['name', 'rating', 'uid'];
+  displayedColumns: string[] = ['degreetype', 'major', 'minor', 'institution', 'awardedon', 'uid'];
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -70,7 +70,7 @@ export class DegreesByOrgComponent implements OnInit {
   ngAfterViewInit(): void {
 
     //Populate User Skills - Firebase List Object
-    this.items = this.db.list('/skills').snapshotChanges().subscribe(
+    this.items = this.db.list('/degrees').snapshotChanges().subscribe(
       (results) => {
 
         //Put the results of the DB call into an object.
