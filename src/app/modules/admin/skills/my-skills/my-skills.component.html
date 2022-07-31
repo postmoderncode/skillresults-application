@@ -348,7 +348,7 @@
                                         <span *ngFor="let area of (areas)">
 
                                             <span *ngIf="(area.customs[0]?.payload.val().hidden !== true) && (area.payload.val().name?.length > 0) && (area.payload.val().customtype !== 'rename')">
-                                                <a (click)="onAreaSelect(area)" title="{{ area.payload.val().description }}">
+                                                <a (click)="onAreaSelect(area)" title="{{ area.payload.val().description }}" style="cursor: pointer;">
                                                     <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
                                                         <div class="flex-1">
                                                             <span *ngIf="!area.customs[0]?.payload.val().name">
@@ -380,7 +380,7 @@
                                         <!--Repeat for Each Category-->
                                         <span *ngFor="let category of categories" >
                                             <span *ngIf="(category.customs[0]?.payload.val().hidden !== true) && (category.payload.val().name?.length > 0) && (category.payload.val().customtype !== 'rename')">
-                                                <a (click)="onCategorySelect(category)" title="{{ category.payload.val().description }}">
+                                                <a (click)="onCategorySelect(category)" title="{{ category.payload.val().description }}" style="cursor: pointer;">
                                                     <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
                                                         <div class="flex-1">
                                                             <span *ngIf="!category.customs[0]?.payload.val().name">
@@ -412,7 +412,7 @@
                                         <!--Repeat for Each Skill-->
                                         <span *ngFor="let skill of skills" >
                                             <span *ngIf="(skill.customs[0]?.payload.val().hidden !== true) && (skill.payload.val().name?.length > 0) && (skill.payload.val().customtype !== 'rename')">
-                                                <a (click)="selectSkill(skill)" title="{{ skill.payload.val().description }}">
+                                                <a (click)="selectSkill(skill)" title="{{ skill.payload.val().description }}" style="cursor: pointer;">
                                                     <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
                                                         <div class="flex-1">
                                                             <span *ngIf="!skill.customs[0]?.payload.val().name">

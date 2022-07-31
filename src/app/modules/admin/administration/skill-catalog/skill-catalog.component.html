@@ -107,7 +107,7 @@
                                                         </button>                                     
                                                     </span>
                                                 </div> 
-                                                <a (click)="onAreaSelect(area)" title="{{ area.payload.val().description }}">
+                                                <a (click)="onAreaSelect(area)" title="{{ area.payload.val().description }}" style="cursor: pointer;">
                                                     <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
                                                         
                                                         <span *ngIf="!area.customs[0]?.payload.val().name">
@@ -155,7 +155,7 @@
                                                         </button>                                     
                                                     </span>
                                                 </div> 
-                                                <a (click)="onCategorySelect(category)" title="{{ category.payload.val().description }}">
+                                                <a (click)="onCategorySelect(category)" title="{{ category.payload.val().description }}" style="cursor: pointer;">
                                                     <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
                                             
                                                         <span *ngIf="!category.customs[0]?.payload.val().name">
@@ -204,7 +204,7 @@
                                                         </button>                                     
                                                     </span>
                                                 </div> 
-                                                <a (click)="selectSkill(skill.key)" title="{{ skill.payload.val().description }}">
+                                                <a (click)="selectSkill(skill.key)" title="{{ skill.payload.val().description }}" style="cursor: pointer;">
                                                     <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
                                             
                                                         <span *ngIf="!skill.customs[0]?.payload.val().name">
