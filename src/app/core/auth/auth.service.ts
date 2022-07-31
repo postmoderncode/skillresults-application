@@ -315,8 +315,6 @@ export class AuthService {
             const authcheck = getAuth();
             onAuthStateChanged(authcheck, (user) => {
 
-                console.log(user);
-
                 //Set the authenticated flag to true
                 this._authenticated = true;
 
@@ -358,7 +356,7 @@ export class AuthService {
         }
 
         // Check the access token expire date
-        console.log(AuthUtils.isTokenExpired(this.accessToken));
+        //console.log(AuthUtils.isTokenExpired(this.accessToken));
 
         if (AuthUtils.isTokenExpired(this.accessToken)) {
             return of(false);
