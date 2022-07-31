@@ -26,6 +26,7 @@
             <div class="w-full text-center mt-10 mb-10" >
 
                 <div class="form-group mb-5">
+
                     <mat-form-field class="fuse-mat-no-subscript w-2/4">
                         <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
                         <input type="text" class="ml-4" 
@@ -44,13 +45,27 @@
                 
                 <!-- User Card -->
                 <a [routerLink]="['/home/public-profile/' + item.key]">
-                    <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50">
-                
-                        <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
-                    
-                        <div class="font-semibold">{{item.name}}</div>                      
-                       
-                        {{item.email}}
+                    <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50 w-full flex items-stretch"> 
+                        
+                        <div>
+
+                            <mat-icon class="icon-size-12 mr-10" 
+                            [svgIcon]="'heroicons_outline:user'">
+                            </mat-icon>
+
+                        </div>
+
+                        <div class="mr-10">
+
+                            <div class="font-semibold">
+                                {{item.name}}
+                            </div>                      
+                           
+                            <div>
+                                {{item.email}}
+                            </div>
+
+                        </div>
 
                         <span *ngIf="item.isadmin === true">
                             <mat-icon class="icon-size-5 ml-5" 
