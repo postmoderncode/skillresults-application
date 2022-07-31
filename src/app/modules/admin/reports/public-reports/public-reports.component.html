@@ -22,6 +22,20 @@
 
         <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
         <div class="flex-initial w-[1400px]">
+
+            <div class="form-group mb-5">
+
+                <mat-form-field class="fuse-mat-no-subscript w-100">
+                    <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
+                    <input type="text" class="ml-4" 
+                        placeholder="Search" 
+                        #searchbox
+                        (keyup)="applyFilter($event)"
+                        [(ngModel)]="searchText"
+                        matInput>
+                </mat-form-field>
+            
+            </div>
   
             <table mat-table [dataSource]="dataSource" matSort class="w-full lg:w-200 xl:w-240 mx-auto">
                             

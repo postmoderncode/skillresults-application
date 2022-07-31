@@ -44,6 +44,15 @@ export class PublicReportsComponent implements OnInit, AfterViewInit, OnDestroy 
   ) { }
 
 
+  //Functions
+  //---------------------
+
+  //Function - Filter Table Datasource
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
   // -----------------------------------------------------------------------------------------------------
@@ -77,6 +86,7 @@ export class PublicReportsComponent implements OnInit, AfterViewInit, OnDestroy 
 
         });
 
+        this.items = itemList;
         this.dataSource = new MatTableDataSource(itemList);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

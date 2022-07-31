@@ -1,7 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { FormBuilder } from '@angular/forms';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Subject } from 'rxjs';
 
 
@@ -33,15 +31,15 @@ export class PeopleBrowserComponent implements OnInit, OnDestroy {
   //Constructor
   //---------------------
   constructor(
-    private _formBuilder: FormBuilder,
-    private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
 
 
-  //Function - 
-  onSearch(): void {
+  //Functions
+  //---------------------
 
+  //Function - Filter Results
+  applyFilter(event: Event) {
     if (this.searchText !== "") {
       let searchValue = this.searchText.toLocaleLowerCase();
       this.itemsFiltered = this.items.filter(contact => {
@@ -52,7 +50,6 @@ export class PeopleBrowserComponent implements OnInit, OnDestroy {
     } else {
       this.ngOnInit();
     }
-
   }
 
   // -----------------------------------------------------------------------------------------------------

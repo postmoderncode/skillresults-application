@@ -32,7 +32,7 @@
                         <input type="text" class="ml-4" 
                             placeholder="Search" 
                             #searchbox
-                            (input)="onSearch()"
+                            (keyup)="applyFilter($event)"
                             [(ngModel)]="searchText"
                             matInput>
                     </mat-form-field>
