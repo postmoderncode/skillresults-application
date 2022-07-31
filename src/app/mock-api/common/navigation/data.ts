@@ -97,11 +97,11 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'group',
         children: [
             {
-                id: 'my-reports',
+                id: 'people-browser',
                 title: 'People Browser',
                 type: 'basic',
                 icon: 'heroicons_outline:users',
-                link: 'reports/my-reports'
+                link: 'reports/people-browser'
             },
             {
                 id: 'report-catalog',
@@ -257,11 +257,11 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'group',
         children: [
             {
-                id: 'my-reports',
+                id: 'people-browser',
                 title: 'People Browser',
                 type: 'basic',
                 icon: 'heroicons_outline:users',
-                link: 'reports/my-reports'
+                link: 'reports/people-browser'
             },
             {
                 id: 'report-catalog',
@@ -446,11 +446,11 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type: 'group',
         children: [
             {
-                id: 'my-reports',
+                id: 'people-browser',
                 title: 'People Browser',
                 type: 'basic',
                 icon: 'heroicons_outline:users',
-                link: 'reports/my-reports'
+                link: 'reports/people-browser'
             },
             {
                 id: 'report-catalog',
@@ -566,11 +566,11 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type: 'group',
         children: [
             {
-                id: 'my-reports',
+                id: 'people-browser',
                 title: 'People Browser',
                 type: 'basic',
                 icon: 'heroicons_outline:users',
-                link: 'reports/my-reports'
+                link: 'reports/people-browser'
             },
             {
                 id: 'report-catalog',

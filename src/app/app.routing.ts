@@ -113,7 +113,7 @@ export const appRoutes: Route[] = [
             // Reports Areas
             {
                 path: 'reports', children: [
-                    { path: 'my-reports', loadChildren: () => import('app/modules/admin/reports/my-reports/my-reports.module').then(m => m.MyReportsModule) },
+                    { path: 'people-browser', loadChildren: () => import('app/modules/admin/reports/people-browser/people-browser.module').then(m => m.PeopleBrowserModule) },
                     { path: 'report-catalog', loadChildren: () => import('app/modules/admin/reports/report-catalog/report-catalog.module').then(m => m.ReportCatalogModule) },
                 ]
             },
