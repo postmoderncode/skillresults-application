@@ -27,10 +27,6 @@ export class PublicReportsComponent implements OnInit, AfterViewInit, OnDestroy 
   //Container to hold a list of items
   items;
 
-  //Search Variables
-  searchText;
-  itemsFiltered;
-
   //Table Settings
   displayedColumns: string[] = ['name', 'rating', 'uid'];
 
