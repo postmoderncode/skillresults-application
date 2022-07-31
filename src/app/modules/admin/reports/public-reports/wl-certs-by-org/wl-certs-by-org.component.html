@@ -26,7 +26,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
                     Name
                     </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
                 </ng-container>
 
                 <!-- Awarded By Column -->
@@ -34,7 +34,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by awardedby">
                     Awarded By
                     </th>
-                    <td mat-cell *matCellDef="let element"> {{element.awardedby}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element?.awardedby}} </td>
                 </ng-container>
 
                 <!-- Awarded By Column -->
@@ -42,7 +42,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by awardedon">
                     Awarded
                     </th>
-                    <td mat-cell *matCellDef="let element"> {{element.awardedon.toString() | date: 'MM/dd/yy'}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element?.awardedon?.toString() | date: 'MM/dd/yy'}} </td>
                 </ng-container>
 
                 <!-- Awarded By Column -->
@@ -50,7 +50,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by expireson">
                     Expires
                     </th>
-                    <td mat-cell *matCellDef="let element"> {{element.expireson.toString() | date: 'MM/dd/yy'}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element?.expireson?.toString() | date: 'MM/dd/yy'}} </td>
                 </ng-container>
 
                 <!-- Uid Column -->
@@ -58,7 +58,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by uid">
                     User Id
                     </th>
-                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/home/public-profile/' + element.uid]">{{element.uid}}</a> </td>
+                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/home/public-profile/' + element?.uid]">{{element?.uid}}</a> </td>
                 </ng-container>
 
 

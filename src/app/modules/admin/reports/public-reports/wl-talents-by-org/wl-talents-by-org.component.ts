@@ -6,11 +6,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-talents-by-org',
-  templateUrl: './talents-by-org.component.html',
-  styleUrls: ['./talents-by-org.component.scss']
+  selector: 'app-wl-talents-by-org',
+  templateUrl: './wl-talents-by-org.component.html',
+  styleUrls: ['./wl-talents-by-org.component.scss']
 })
-export class TalentsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WlTalentsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //Initialize Varables
   //-------------------
@@ -70,7 +70,7 @@ export class TalentsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
 
     //Populate User Skills - Firebase List Object
-    this.items = this.db.list('/talents').snapshotChanges().subscribe(
+    this.items = this.db.list('/wishlists/talents').snapshotChanges().subscribe(
       (results) => {
 
         //Put the results of the DB call into an object.
