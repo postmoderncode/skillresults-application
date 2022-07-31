@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './degrees-by-org.component.html',
   styleUrls: ['./degrees-by-org.component.scss']
 })
-export class DegreesByOrgComponent implements OnInit {
+export class DegreesByOrgComponent implements OnInit, OnDestroy, AfterViewInit {
 
   //Initialize Varables
   //-------------------

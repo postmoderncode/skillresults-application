@@ -6,11 +6,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-talents-by-org',
-  templateUrl: './talents-by-org.component.html',
-  styleUrls: ['./talents-by-org.component.scss']
+  selector: 'app-wl-degrees-by-org',
+  templateUrl: './wl-degrees-by-org.component.html',
+  styleUrls: ['./wl-degrees-by-org.component.scss']
 })
-export class TalentsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WlDegreesByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //Initialize Varables
   //-------------------
@@ -32,7 +32,7 @@ export class TalentsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
   itemsFiltered;
 
   //Table Settings
-  displayedColumns: string[] = ['name', 'description', 'uid'];
+  displayedColumns: string[] = ['degreetype', 'major', 'minor', 'institution', 'awardedon', 'uid'];
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -70,7 +70,7 @@ export class TalentsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
 
     //Populate User Skills - Firebase List Object
-    this.items = this.db.list('/talents').snapshotChanges().subscribe(
+    this.items = this.db.list('/wishlists/degrees').snapshotChanges().subscribe(
       (results) => {
 
         //Put the results of the DB call into an object.

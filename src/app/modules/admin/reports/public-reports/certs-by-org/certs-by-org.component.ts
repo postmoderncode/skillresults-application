@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './certs-by-org.component.html',
   styleUrls: ['./certs-by-org.component.scss']
 })
-export class CertsByOrgComponent implements OnInit {
+export class CertsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //Initialize Varables
   //-------------------

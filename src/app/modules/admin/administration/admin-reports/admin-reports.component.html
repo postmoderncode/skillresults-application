@@ -1,377 +1,377 @@
 <div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
-        <!-- Header -->
+    <!-- Header -->
     <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
-        <div class="flex-1 min-w-0">
-
-            <!-- Title -->
-            <div class="mt-2">
-                <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Administration Reports
-                </h2>
-            </div>
+      <div class="flex-1 min-w-0">
+  
+        <!-- Title -->
+        <div class="mt-2">
+            <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                Administration Reports
+            </h2>
         </div>
-        </div>
-
-
-        <!-- Main -->
-        <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
-
-        <!-- CONTENT GOES HERE -->
-        <div class="flex justify-center h-full">
-
-            <!-- OUTER FLEX CONTAINER -->
-            <div class="flex-initial w-[1400px]">
-
-                <!-- ROW 1 -->
-                <div class="flex flex-col lg:flex-row">
-                    
-                    <!-- ROW 1 - LEFT SIDE -->
-                    <div class="flex-auto basis-2/5">
-                        
-                        <div class="flex flex-row lg:flex-col">
-
-                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
-
-                                <!-- SKILLS BY ORG CARD -->
-                                <a [routerLink]="['/reports/report-catalog']">
-                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                                        <div class="flex-auto basis-1/4">
-                                            <img
-                                                class="w-24 h-24 mx-auto "
-                                                src="assets/images/logo/logo.svg"
-                                                alt="Skills by Organization">
-                                        </div>
-                                    
-                                        <div class="flex-auto basis-3/4 p-4">
-                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Skills by Organization</div>
-                                            <div class="mt-1 hidden sm:block ">
-                                                <p class="text-sky-500" style="
-                                                display: -webkit-box;
-                                                overflow: hidden;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;">
-                                                Who knows what and where
-                                            </p>
-                                            </div>
-                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
-                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
-
-                                <!-- CERTS BY ORG CARD -->
-                                <a [routerLink]="['/reports/report-catalog']">
-                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                                        <div class="flex-auto basis-1/4">
-                                            <img
-                                                class="w-24 h-24 mx-auto "
-                                                src="assets/images/ui/myreports.svg"
-                                                alt="Certifications by Organization">
-                                        </div>
-                                    
-                                        <div class="flex-auto basis-3/4 p-4">
-                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Certifications by Organization</div>
-                                            <div class="mt-1 hidden sm:block ">
-                                                <p class="text-sky-500" style="
-                                                display: -webkit-box;
-                                                overflow: hidden;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;" >
-                                                Who is certified and/or licensed
-                                                </p>
-                                            </div>
-                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
-                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ROW 1 - RIGHT SIDE -->
-                    <div class="flex-auto basis-3/5 h-80 pb-4">
-
-                        <div class="flex flex-row lg:flex-col">
-
-                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
-
-                                <!-- DEGRES BY ORG CARD -->
-                                <a [routerLink]="['/reports/report-catalog']">
-                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                                        <div class="flex-auto basis-1/4">
-                                            <img
-                                                class="w-24 h-24 mx-auto "
-                                                src="assets/images/ui/degrees.svg"
-                                                alt="Degrees by Organization">
-                                        </div>
-                                    
-                                        <div class="flex-auto basis-3/4 p-4">
-                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Degrees by Organization</div>
-                                            <div class="mt-1 hidden sm:block ">
-                                                <p class="text-sky-500" style="
-                                                display: -webkit-box;
-                                                overflow: hidden;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;">
-                                                Who holds academic degrees
-                                            </p>
-                                            </div>
-                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
-                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
-
-                                <!-- TALENT BY ORG CARD -->
-                                <a [routerLink]="['/reports/report-catalog']">
-                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                                        <div class="flex-auto basis-1/4">
-                                            <img
-                                                class="w-24 h-24 mx-auto "
-                                                src="assets/images/ui/reportcatalog.svg"
-                                                alt="Talents by Organization">
-                                        </div>
-                                    
-                                        <div class="flex-auto basis-3/4 p-4">
-                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Talents by Organization</div>
-                                            <div class="mt-1 hidden sm:block ">
-                                                <p class="text-sky-500" style="
-                                                display: -webkit-box;
-                                                overflow: hidden;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;" >
-                                                Discover hidden talents
-                                                </p>
-                                            </div>
-                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
-                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                        </div>
-            
-
-                    </div>
-                
-                </div>
-
-
-                <!-- ROW 2 -->
-                <div class="flex flex-col lg:flex-row">
-                    
-                    <!-- ROW 1 - LEFT SIDE -->
-                    <div class="flex-auto basis-2/5">
-                        
-                        <div class="flex flex-row lg:flex-col">
-
-                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
-
-                                <!-- WISHLIST SKILLS BY ORG CARD -->
-                                <a [routerLink]="['/reports/report-catalog']">
-                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                                        <div class="flex-auto basis-1/4">
-                                            <img
-                                                class="w-24 h-24 mx-auto "
-                                                src="assets/images/ui/wishlist.svg"
-                                                alt="Skills by Organization">
-                                        </div>
-                                    
-                                        <div class="flex-auto basis-3/4 p-4">
-                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Skill Wishlist by Organization</div>
-                                            <div class="mt-1 hidden sm:block ">
-                                                <p class="text-sky-500" style="
-                                                display: -webkit-box;
-                                                overflow: hidden;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;">
-                                                Discover desired proficiencies
-                                            </p>
-                                            </div>
-                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
-                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
-
-                                <!-- WISHLIST CERTS BY ORG CARD -->
-                                <a [routerLink]="['/reports/report-catalog']">
-                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                                        <div class="flex-auto basis-1/4">
-                                            <img
-                                                class="w-24 h-24 mx-auto "
-                                                src="assets/images/ui/wishlist.svg"
-                                                alt="Certifications by Organization">
-                                        </div>
-                                    
-                                        <div class="flex-auto basis-3/4 p-4">
-                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Certification Wishlist by Organization</div>
-                                            <div class="mt-1 hidden sm:block ">
-                                                <p class="text-sky-500" style="
-                                                display: -webkit-box;
-                                                overflow: hidden;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;" >
-                                                Who wants to get certified and/or licensed
-                                                </p>
-                                            </div>
-                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
-                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ROW 2 - RIGHT SIDE -->
-                    <div class="flex-auto basis-3/5 h-80 pb-4">
-
-                        <div class="flex flex-row lg:flex-col">
-
-                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
-
-                                <!-- WISHLIST DEGREES BY ORG CARD -->
-                                <a [routerLink]="['/reports/report-catalog']">
-                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                                        <div class="flex-auto basis-1/4">
-                                            <img
-                                                class="w-24 h-24 mx-auto "
-                                                src="assets/images/ui/wishlist.svg"
-                                                alt="Degrees by Organization">
-                                        </div>
-                                    
-                                        <div class="flex-auto basis-3/4 p-4">
-                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Degree Wishlist by Organization</div>
-                                            <div class="mt-1 hidden sm:block ">
-                                                <p class="text-sky-500" style="
-                                                display: -webkit-box;
-                                                overflow: hidden;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;">
-                                                Who aspires to attain an academic degree
-                                            </p>
-                                            </div>
-                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
-                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                            <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
-
-                                <!-- WISHLIST TALENT BY ORG CARD -->
-                                <a [routerLink]="['/reports/report-catalog']">
-                                    <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
-
-                                        <div class="flex-auto basis-1/4">
-                                            <img
-                                                class="w-24 h-24 mx-auto "
-                                                src="assets/images/ui/wishlist.svg"
-                                                alt="Talents by Organization">
-                                        </div>
-                                    
-                                        <div class="flex-auto basis-3/4 p-4">
-                                            <div class="text-2xl font-extrabold leading-tight text-sky-900">Talent Wishlist by Organization</div>
-                                            <div class="mt-1 hidden sm:block ">
-                                                <p class="text-sky-500" style="
-                                                display: -webkit-box;
-                                                overflow: hidden;
-                                                -webkit-line-clamp: 2;
-                                                -webkit-box-orient: vertical;" >
-                                                Who wants a new talent
-                                                </p>
-                                            </div>
-                                            <div class="flex absolute bottom-0 right-0 items-center justify-end">
-                                                <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
-                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </a>
-
-                            </div>
-
-                        </div> 
-
-                    </div>
-                
-                </div>
-
-            </div>
-
-            
-        </div>
-
+      </div>
     </div>
-
-</div>
+  
+  
+    <!-- Main -->
+    <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
+  
+    <!-- CONTENT GOES HERE -->
+    <div class="flex justify-center h-full">
+  
+      <!-- OUTER FLEX CONTAINER -->
+      <div class="flex-initial w-[1400px]">
+  
+          <!-- ROW 1 -->
+          <div class="flex flex-col lg:flex-row">
+              
+              <!-- ROW 1 - LEFT SIDE -->
+              <div class="flex-auto basis-2/5">
+                  
+                  <div class="flex flex-row lg:flex-col">
+  
+                      <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
+  
+                          <!-- SKILLS BY ORG CARD -->
+                          <a [routerLink]="['/reports/public-reports/skills']">
+                              <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+  
+                                  <div class="flex-auto basis-1/4">
+                                      <img
+                                          class="w-24 h-24 mx-auto "
+                                          src="assets/images/logo/logo.svg"
+                                          alt="Skills by Organization">
+                                  </div>
+                              
+                                  <div class="flex-auto basis-3/4 p-4">
+                                      <div class="text-2xl font-extrabold leading-tight text-sky-900">Skills by Organization</div>
+                                      <div class="mt-1 hidden sm:block ">
+                                          <p class="text-sky-500" style="
+                                          display: -webkit-box;
+                                          overflow: hidden;
+                                          -webkit-line-clamp: 2;
+                                          -webkit-box-orient: vertical;">
+                                          Who knows what and where
+                                      </p>
+                                      </div>
+                                      <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                          <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
+                                          <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                      </div>
+  
+                                  </div>
+  
+                              </div>
+  
+                          </a>
+  
+                      </div>
+  
+                      <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
+  
+                          <!-- CERTS BY ORG CARD -->
+                          <a [routerLink]="['/reports/public-reports/certs']">
+                              <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+  
+                                  <div class="flex-auto basis-1/4">
+                                      <img
+                                          class="w-24 h-24 mx-auto "
+                                          src="assets/images/ui/myreports.svg"
+                                          alt="Certifications by Organization">
+                                  </div>
+                              
+                                  <div class="flex-auto basis-3/4 p-4">
+                                      <div class="text-2xl font-extrabold leading-tight text-sky-900">Certifications by Organization</div>
+                                      <div class="mt-1 hidden sm:block ">
+                                          <p class="text-sky-500" style="
+                                          display: -webkit-box;
+                                          overflow: hidden;
+                                          -webkit-line-clamp: 2;
+                                          -webkit-box-orient: vertical;" >
+                                          Who is certified and/or licensed
+                                          </p>
+                                      </div>
+                                      <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                          <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
+                                          <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                      </div>
+  
+                                  </div>
+  
+                              </div>
+  
+                          </a>
+  
+                      </div>
+  
+                  </div>
+  
+              </div>
+  
+              <!-- ROW 1 - RIGHT SIDE -->
+              <div class="flex-auto basis-3/5 h-80 pb-4">
+  
+                  <div class="flex flex-row lg:flex-col">
+  
+                      <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
+  
+                          <!-- DEGRES BY ORG CARD -->
+                          <a [routerLink]="['/reports/public-reports/degrees']">
+                              <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+  
+                                  <div class="flex-auto basis-1/4">
+                                      <img
+                                          class="w-24 h-24 mx-auto "
+                                          src="assets/images/ui/degrees.svg"
+                                          alt="Degrees by Organization">
+                                  </div>
+                              
+                                  <div class="flex-auto basis-3/4 p-4">
+                                      <div class="text-2xl font-extrabold leading-tight text-sky-900">Degrees by Organization</div>
+                                      <div class="mt-1 hidden sm:block ">
+                                          <p class="text-sky-500" style="
+                                          display: -webkit-box;
+                                          overflow: hidden;
+                                          -webkit-line-clamp: 2;
+                                          -webkit-box-orient: vertical;">
+                                          Who holds academic degrees
+                                      </p>
+                                      </div>
+                                      <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                          <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
+                                          <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                      </div>
+  
+                                  </div>
+  
+                              </div>
+  
+                          </a>
+  
+                      </div>
+  
+                      <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
+  
+                          <!-- TALENT BY ORG CARD -->
+                          <a [routerLink]="['/reports/public-reports/talents']">
+                              <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+  
+                                  <div class="flex-auto basis-1/4">
+                                      <img
+                                          class="w-24 h-24 mx-auto "
+                                          src="assets/images/ui/reportcatalog.svg"
+                                          alt="Talents by Organization">
+                                  </div>
+                              
+                                  <div class="flex-auto basis-3/4 p-4">
+                                      <div class="text-2xl font-extrabold leading-tight text-sky-900">Talents by Organization</div>
+                                      <div class="mt-1 hidden sm:block ">
+                                          <p class="text-sky-500" style="
+                                          display: -webkit-box;
+                                          overflow: hidden;
+                                          -webkit-line-clamp: 2;
+                                          -webkit-box-orient: vertical;" >
+                                          Discover hidden talents
+                                          </p>
+                                      </div>
+                                      <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                          <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
+                                          <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                      </div>
+  
+                                  </div>
+  
+                              </div>
+  
+                          </a>
+  
+                      </div>
+  
+                  </div>
+        
+  
+              </div>
+            
+          </div>
+  
+  
+  
+  
+          <!-- ROW 2 -->
+          <div class="flex flex-col lg:flex-row">
+              
+              <!-- ROW 1 - LEFT SIDE -->
+              <div class="flex-auto basis-2/5">
+                  
+                  <div class="flex flex-row lg:flex-col">
+  
+                      <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
+  
+                          <!-- WISHLIST SKILLS BY ORG CARD -->
+                          <a [routerLink]="['/reports/public-reports/wlskills']">
+                              <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+  
+                                  <div class="flex-auto basis-1/4">
+                                      <img
+                                          class="w-24 h-24 mx-auto "
+                                          src="assets/images/ui/wishlist.svg"
+                                          alt="Skills by Organization">
+                                  </div>
+                              
+                                  <div class="flex-auto basis-3/4 p-4">
+                                      <div class="text-2xl font-extrabold leading-tight text-sky-900">Skill Wishlist by Organization</div>
+                                      <div class="mt-1 hidden sm:block ">
+                                          <p class="text-sky-500" style="
+                                          display: -webkit-box;
+                                          overflow: hidden;
+                                          -webkit-line-clamp: 2;
+                                          -webkit-box-orient: vertical;">
+                                          Discover desired proficiencies
+                                      </p>
+                                      </div>
+                                      <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                          <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
+                                          <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                      </div>
+  
+                                  </div>
+  
+                              </div>
+  
+                          </a>
+  
+                      </div>
+  
+                      <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
+  
+                          <!-- WISHLIST CERTS BY ORG CARD -->
+                          <a [routerLink]="['/reports/public-reports/wlcerts']">
+                              <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+  
+                                  <div class="flex-auto basis-1/4">
+                                      <img
+                                          class="w-24 h-24 mx-auto "
+                                          src="assets/images/ui/wishlist.svg"
+                                          alt="Certifications by Organization">
+                                  </div>
+                              
+                                  <div class="flex-auto basis-3/4 p-4">
+                                      <div class="text-2xl font-extrabold leading-tight text-sky-900">Certification Wishlist by Organization</div>
+                                      <div class="mt-1 hidden sm:block ">
+                                          <p class="text-sky-500" style="
+                                          display: -webkit-box;
+                                          overflow: hidden;
+                                          -webkit-line-clamp: 2;
+                                          -webkit-box-orient: vertical;" >
+                                          Who wants to get certified and/or licensed
+                                          </p>
+                                      </div>
+                                      <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                          <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
+                                          <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                      </div>
+  
+                                  </div>
+  
+                              </div>
+  
+                          </a>
+  
+                      </div>
+  
+                  </div>
+  
+              </div>
+  
+              <!-- ROW 2 - RIGHT SIDE -->
+              <div class="flex-auto basis-3/5 h-80 pb-4">
+  
+                  <div class="flex flex-row lg:flex-col">
+  
+                      <div class="flex-auto basis-1/2 h-40 pb-4 pr-4">
+  
+                          <!-- WISHLIST DEGREES BY ORG CARD -->
+                          <a [routerLink]="['/reports/public-reports/wldegrees']">
+                              <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+  
+                                  <div class="flex-auto basis-1/4">
+                                      <img
+                                          class="w-24 h-24 mx-auto "
+                                          src="assets/images/ui/wishlist.svg"
+                                          alt="Degrees by Organization">
+                                  </div>
+                              
+                                  <div class="flex-auto basis-3/4 p-4">
+                                      <div class="text-2xl font-extrabold leading-tight text-sky-900">Degree Wishlist by Organization</div>
+                                      <div class="mt-1 hidden sm:block ">
+                                          <p class="text-sky-500" style="
+                                          display: -webkit-box;
+                                          overflow: hidden;
+                                          -webkit-line-clamp: 2;
+                                          -webkit-box-orient: vertical;">
+                                          Who aspires to attain an academic degree
+                                      </p>
+                                      </div>
+                                      <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                          <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
+                                          <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                      </div>
+  
+                                  </div>
+  
+                              </div>
+  
+                          </a>
+  
+                      </div>
+  
+                      <div class="flex-auto basis-1/2 h-40 pb-4 pr-0 lg:pr-4">
+  
+                          <!-- WISHLIST TALENT BY ORG CARD -->
+                          <a [routerLink]="['/reports/public-reports/wltalents']">
+                              <div class="flex relative items-center h-36 rounded-xl p-3 shadow-md bg-white" >
+  
+                                  <div class="flex-auto basis-1/4">
+                                      <img
+                                          class="w-24 h-24 mx-auto "
+                                          src="assets/images/ui/wishlist.svg"
+                                          alt="Talents by Organization">
+                                  </div>
+                              
+                                  <div class="flex-auto basis-3/4 p-4">
+                                      <div class="text-2xl font-extrabold leading-tight text-sky-900">Talent Wishlist by Organization</div>
+                                      <div class="mt-1 hidden sm:block ">
+                                          <p class="text-sky-500" style="
+                                          display: -webkit-box;
+                                          overflow: hidden;
+                                          -webkit-line-clamp: 2;
+                                          -webkit-box-orient: vertical;" >
+                                          Who wants a new talent
+                                          </p>
+                                      </div>
+                                      <div class="flex absolute bottom-0 right-0 items-center justify-end">
+                                          <span class="text-1xl font-bold tracking-tight leading-7 text-slate-400">RUN</span>
+                                          <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                      </div>
+  
+                                  </div>
+  
+                              </div>
+  
+                          </a>
+  
+                      </div>
+  
+                  </div>
+        
+              </div>
+            
+          </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>
+  

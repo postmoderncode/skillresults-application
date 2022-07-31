@@ -1,0 +1,61 @@
+
+        <div class="mb-5">
+            <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                Wishlist Skills by Organization
+            </h2>
+        </div>
+            
+            <div class="form-group mb-5">
+
+                <mat-form-field class="fuse-mat-no-subscript w-100">
+                    <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
+                    <input type="text" class="ml-4" 
+                        placeholder="Search" 
+                        #searchbox
+                        (keyup)="applyFilter($event)"
+                        [(ngModel)]="searchText"
+                        matInput>
+                </mat-form-field>
+            
+            </div>
+  
+            <table mat-table [dataSource]="dataSource" matSort class="w-full lg:w-200 xl:w-240 mx-auto">
+                            
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+                    Name
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <!-- Rating Column -->
+                <ng-container matColumnDef="rating">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by rating">
+                    Rating
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
+                </ng-container>
+
+                <!-- Uid Column -->
+                <ng-container matColumnDef="uid">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by uid">
+                    User Id
+                    </th>
+                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/home/public-profile/' + element.uid]">{{element.uid}}</a> </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+
+            <mat-paginator 
+            [length]="100"
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page">
+            </mat-paginator>
+

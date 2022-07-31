@@ -25,6 +25,10 @@ import { SkillsByOrgComponent } from './skills-by-org/skills-by-org.component';
 import { CertsByOrgComponent } from './certs-by-org/certs-by-org.component';
 import { DegreesByOrgComponent } from './degrees-by-org/degrees-by-org.component';
 import { TalentsByOrgComponent } from './talents-by-org/talents-by-org.component';
+import { WlSkillsByOrgComponent } from './wl-skills-by-org/wl-skills-by-org.component';
+import { WlCertsByOrgComponent } from './wl-certs-by-org/wl-certs-by-org.component';
+import { WlDegreesByOrgComponent } from './wl-degrees-by-org/wl-degrees-by-org.component';
+import { WlTalentsByOrgComponent } from './wl-talents-by-org/wl-talents-by-org.component';
 
 
 
@@ -42,7 +46,11 @@ const publicreportsRoutes: Route[] = [
     SkillsByOrgComponent,
     CertsByOrgComponent,
     DegreesByOrgComponent,
-    TalentsByOrgComponent
+    TalentsByOrgComponent,
+    WlSkillsByOrgComponent,
+    WlCertsByOrgComponent,
+    WlDegreesByOrgComponent,
+    WlTalentsByOrgComponent
   ],
   imports: [
     MatButtonModule,

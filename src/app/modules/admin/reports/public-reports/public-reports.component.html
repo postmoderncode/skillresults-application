@@ -5,11 +5,7 @@
     <div class="flex-1 min-w-0">
 
       <!-- Title -->
-      <div class="mt-2">
-          <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-              Skills by Organization
-          </h2>
-      </div>
+
     </div>
   </div>
 
@@ -25,6 +21,35 @@
         <div *ngIf="id === 'skills'">
         <app-skills-by-org></app-skills-by-org>
         </div>
+
+        <div *ngIf="id === 'degrees'">
+          <app-degrees-by-org></app-degrees-by-org>
+        </div>
+
+        <div *ngIf="id === 'certs'">
+          <app-certs-by-org></app-certs-by-org>
+        </div>
+
+        <div *ngIf="id === 'talents'">
+          <app-talents-by-org></app-talents-by-org>
+        </div>
+
+        <div *ngIf="id === 'wlskills'">
+          <app-wl-skills-by-org></app-wl-skills-by-org>
+          </div>
+
+          <div *ngIf="id === 'wldegrees'">
+            <app-wl-degrees-by-org></app-wl-degrees-by-org>
+          </div>
+
+          <div *ngIf="id === 'wlcerts'">
+            <app-wl-certs-by-org></app-wl-certs-by-org>
+          </div>
+
+          <div *ngIf="id === 'wltalents'">
+            <app-wl-talents-by-org></app-wl-talents-by-org>
+          </div>
+        
 
       </div>
 
