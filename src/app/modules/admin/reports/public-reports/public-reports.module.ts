@@ -5,6 +5,8 @@ import { Route, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 
 const publicreportsRoutes: Route[] = [
@@ -24,6 +26,7 @@ const publicreportsRoutes: Route[] = [
     MatIconModule,
     MatSortModule,
     MatTableModule,
+    MatPaginatorModule,
     RouterModule.forChild(publicreportsRoutes)
   ]
 })
