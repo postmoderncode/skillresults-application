@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Subject } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
@@ -15,16 +16,21 @@ export class PublicReportsComponent implements OnInit, AfterViewInit, OnDestroy 
   //Initialize Varables
   //-------------------
 
+  //Incoming reportid from route
+  id;
+
   //Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+
   //Constructor
   //---------------------
   constructor(
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    private _Activatedroute: ActivatedRoute
   ) { }
 
 
@@ -40,8 +46,7 @@ export class PublicReportsComponent implements OnInit, AfterViewInit, OnDestroy 
    * On init
    */
   ngOnInit(): void {
-
-
+    this.id = this._Activatedroute.snapshot.paramMap.get('id');
   }
   /**
    * On After View init

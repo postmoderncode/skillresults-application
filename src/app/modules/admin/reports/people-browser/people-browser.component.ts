@@ -41,7 +41,7 @@ export class PeopleBrowserComponent implements OnInit, OnDestroy {
   //Function - Filter Results
   applyFilter(event: Event) {
     if (this.searchText !== "") {
-      let searchValue = this.searchText.toLocaleLowerCase();
+      const searchValue = this.searchText.toLocaleLowerCase();
       this.itemsFiltered = this.items.filter(contact => {
         return contact.name.toLocaleLowerCase().match(searchValue) ||
           contact.email.toLocaleLowerCase().match(searchValue);
