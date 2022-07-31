@@ -115,6 +115,7 @@ export const appRoutes: Route[] = [
                 path: 'reports', children: [
                     { path: 'people-browser', loadChildren: () => import('app/modules/admin/reports/people-browser/people-browser.module').then(m => m.PeopleBrowserModule) },
                     { path: 'report-catalog', loadChildren: () => import('app/modules/admin/reports/report-catalog/report-catalog.module').then(m => m.ReportCatalogModule) },
+                    { path: 'public-reports', loadChildren: () => import('app/modules/admin/reports/public-reports/public-reports.module').then(m => m.PublicReportsModule) },
                 ]
             },
 

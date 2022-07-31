@@ -1,0 +1,65 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-3 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+  
+        <!-- Title -->
+        <div class="mt-2">
+            <h2 class="text-3xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                Skills by Organization
+            </h2>
+        </div>
+      </div>
+    </div>
+  
+  
+    <!-- Main -->
+    <div class="flex-auto -mt-16 p-6 sm:p-10 shadow bg-card">
+  
+    <!-- CONTENT GOES HERE -->
+    <div class="flex justify-center h-full">
+
+        <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
+        <div class="flex-initial w-[1400px]">
+  
+            <table mat-table [dataSource]="dataSource" matSort class="w-full lg:w-200 xl:w-240 mx-auto">
+                            
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+                    Name
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <!-- Rating Column -->
+                <ng-container matColumnDef="rating">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by rating">
+                    Rating
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
+                </ng-container>
+
+                <!-- Uid Column -->
+                <ng-container matColumnDef="uid">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by uid">
+                    User Id
+                    </th>
+                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/home/public-profile/' + element.uid]">{{element.uid}}</a> </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+
+        </div>
+  
+    </div>
+  
+  </div>
+  
+</div>
