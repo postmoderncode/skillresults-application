@@ -21,6 +21,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseCardModule } from '@fuse/components/card';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
+import { SkillsByOrgComponent } from './skills-by-org/skills-by-org.component';
+import { CertsByOrgComponent } from './certs-by-org/certs-by-org.component';
+import { DegreesByOrgComponent } from './degrees-by-org/degrees-by-org.component';
+import { TalentsByOrgComponent } from './talents-by-org/talents-by-org.component';
 
 
 
@@ -34,7 +38,11 @@ const publicreportsRoutes: Route[] = [
 
 @NgModule({
   declarations: [
-    PublicReportsComponent
+    PublicReportsComponent,
+    SkillsByOrgComponent,
+    CertsByOrgComponent,
+    DegreesByOrgComponent,
+    TalentsByOrgComponent
   ],
   imports: [
     MatButtonModule,

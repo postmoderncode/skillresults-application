@@ -15,20 +15,8 @@ export class PublicReportsComponent implements OnInit, AfterViewInit, OnDestroy 
   //Initialize Varables
   //-------------------
 
-  @Input() dataSource;
-
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-
   //Current User
   fbuser = JSON.parse(localStorage.getItem('fbuser'));
-
-  //Container to hold a list of items
-  items;
-
-  //Table Settings
-  displayedColumns: string[] = ['name', 'rating', 'uid'];
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -43,11 +31,6 @@ export class PublicReportsComponent implements OnInit, AfterViewInit, OnDestroy 
   //Functions
   //---------------------
 
-  //Function - Filter Table Datasource
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
@@ -63,32 +46,9 @@ export class PublicReportsComponent implements OnInit, AfterViewInit, OnDestroy 
   /**
    * On After View init
    */
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
 
-    //Populate User Skills - Firebase List Object
-    this.items = this.db.list('/skills').snapshotChanges().subscribe(
-      (results) => {
 
-        //Put the results of the DB call into an object.
-        //this.items = results;
-
-        const itemList = [];
-
-        results.forEach(element => {
-
-          let json = element.payload.toJSON();
-          json["$key"] = element.key;
-          itemList.push(json);
-
-        });
-
-        this.items = itemList;
-        this.dataSource = new MatTableDataSource(itemList);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-
-      }
-    );
   }
 
   /**
