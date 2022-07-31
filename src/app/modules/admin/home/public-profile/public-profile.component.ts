@@ -58,7 +58,6 @@ export class PublicProfileComponent implements OnInit, OnDestroy {
     this.db.object('/users/' + this.id)
       .valueChanges().subscribe(
         (results: any[]) => {
-          console.log(results);
           this.user = results;
         }
 
