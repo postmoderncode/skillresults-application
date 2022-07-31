@@ -48,9 +48,16 @@
                 
                         <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
                     
-                        <span class="font-semibold">{{item.name}}</span>
-                        <br />
+                        <div class="font-semibold">{{item.name}}</div>                      
+                       
                         {{item.email}}
+
+                        <span *ngIf="item.isadmin === true">
+                            <mat-icon class="icon-size-5 ml-5" 
+                            [svgIcon]="'heroicons_outline:identification'">
+                            </mat-icon>
+                            Admin
+                        </span>
 
                     </div>
                 </a>
