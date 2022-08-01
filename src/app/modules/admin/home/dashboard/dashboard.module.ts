@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from 'app/shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { Route, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ const dashboardRoutes: Route[] = [
     DashboardComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     MatIconModule,
     MatCardModule,
     FuseCardModule,
