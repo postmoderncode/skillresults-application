@@ -12,6 +12,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
+import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -63,6 +64,7 @@ const publicreportsRoutes: Route[] = [
     MatSlideToggleModule,
     MatTabsModule,
     MatTableModule,
+    MatTableExporterModule,
     MatTooltipModule,
     MatDatepickerModule,
     MatNativeDateModule,

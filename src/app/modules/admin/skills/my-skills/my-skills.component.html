@@ -98,11 +98,10 @@
 
                     <!-- SHOW LIST VIEW STATE -->
                     <div *ngSwitchCase="1">
-                        <!-- <div> -->
-
+                    
                         <div class="min-h-screen shadow-md rounded-2xl bg-white">
                     
-                            <table mat-table [dataSource]="dataSource" matSort class="w-full lg:w-200 xl:w-240 mx-auto">
+                            <table mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter" [hiddenColumns]="[2, 3]" class="w-full lg:w-200 xl:w-240 mx-auto">
                             
                                 <!-- Name Column -->
                                 <ng-container matColumnDef="name">
@@ -152,6 +151,11 @@
 
                             </table>
 
+                            <div class="w-full text-right mt-3">
+                                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('csv')" matTooltip="export to csv">csv</button>
+                                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('txt')" matTooltip="export to text">txt</button>
+                                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('json')" matTooltip="export to json">json</button>
+                            </div>
 
                         </div>
 
