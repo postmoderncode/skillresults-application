@@ -37,6 +37,7 @@
                 <div *ngIf="(tabTitle ==='Skill')">
 
                     <button  
+                        matTooltip="Add a Custom {{tabTitle}} to the Catalog"
                         (click)="onShowCustomAddForm(tabTitle);"
                         [disabled]="showadditem"
                         class="ml-4"
@@ -304,22 +305,24 @@
 
                     <!-- CATALOG -->
                     <div *ngSwitchCase="4">
-                        <div>
-                            <button 
+                        <div class="w-full text-right">
+
+                            <button mat-icon-button color="default" 
+                            matTooltip="Search" 
                             (click)="onShowSearch();"
-                            class="flex-none ml-4 mt-3 mb-3" 
-                            mat-stroked-button
-                            type="button" 
-                            [color]="'primary'">
-                            USE SEARCH
-                            </button>
+                            class="mr-3 mt-3">
+                                <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
+                            </button>  
+
                         </div>
 
                         <div class="text-center items-center w-full text-sky-500">
+                            
                             {{this.catmodel.currentAreaName}}
                             {{this.catmodel.currentCategoryName}}
                             <!-- {{this.catmodel.currentSkillName}} -->
                             <span class="text-white">.</span>
+
                         </div>
                         
                         <!-- SELECTOR WRAPPER -->
@@ -329,9 +332,16 @@
                             <div class="flex items-center h-15">
 
                                 <a (click)="goback()">
-                                <div *ngIf="selectedIndex!==0" class="pt-1">
-                                    <mat-icon style="font-size:25px; height:25px; width:25px;" svgIcon="mat_solid:arrow_back"></mat-icon>
-                                </div>
+
+                                    <div *ngIf="selectedIndex!==0" class="pt-1">
+                                        <mat-icon 
+                                        class="icon-size-8 ml-5" 
+                                        matTooltip="back"
+                                        svgIcon="mat_solid:arrow_back">
+                                    </mat-icon>
+
+                                    </div>
+
                                 </a>
 
                                 <div class="flex-1 text-1xl p-2 mr-20 sm:text-2xl md:text-2xl lg:text-3xl font-bold text-center tracking-tight">
@@ -451,16 +461,18 @@
 
                     <!-- SEARCH -->
                     <div *ngSwitchCase="5">
-                        <div>
-                            <button 
+
+                        <div class="w-full text-right">
+
+                            <button mat-icon-button color="default" 
+                            matTooltip="Use Catalog" 
                             (click)="onShowCatalog();"
-                            class="flex-none ml-4 mt-3"  
-                            mat-stroked-button
-                            type="button" 
-                            [color]="'primary'">
-                            USE CATALOG
-                            </button>
+                            class="mr-3 mt-3">
+                                <mat-icon [svgIcon]="'menu_book'"></mat-icon>
+                            </button>  
+
                         </div>
+
 
                         <div class="w-full text-center mt-10" >
 
@@ -470,7 +482,7 @@
                                     <mat-form-field class="fuse-mat-no-subscript w-2/4">
                                         <mat-icon class="icon-size-5" [svgIcon]="'feather:search'" matPrefix></mat-icon>
                                         <input type="text" class="ml-4" 
-                                            placeholder="Search" 
+                                            placeholder="Search Skill by Name" 
                                             #searchbox
                                             matInput>
                                     </mat-form-field>
@@ -487,7 +499,7 @@
                             </form>
                 
                             <div *ngFor="let searchresult of searchresults" class="text-left">
-                                <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult);">
+                                <button mat-icon-button color="default" matTooltip="add skill" class="mr-5" (click)="selectSkill(searchresult);">
                                     <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
                                 </button>
                                 {{searchresult.payload.val().name}}
