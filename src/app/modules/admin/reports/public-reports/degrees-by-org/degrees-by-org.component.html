@@ -85,7 +85,7 @@
 
             <div class="w-full text-right">
                 <button mat-raised-button class="mr-2" (click)="printThisPage()" matTooltip="print this page">print</button>
-                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('csv')" matTooltip="export to csv">csv</button>
-                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('txt')" matTooltip="export to text">txt</button>
-                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('json')" matTooltip="export to json">json</button>
+                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('csv', {fileName:'SkillResults_Export'})" matTooltip="export to csv">csv</button>
+                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('txt', {fileName:'SkillResults_Export'})" matTooltip="export to text">txt</button>
+                <button mat-raised-button class="mr-2" (click)="exporter.exportTable('json', {fileName:'SkillResults_Export'})" matTooltip="export to json">json</button>
             </div>
