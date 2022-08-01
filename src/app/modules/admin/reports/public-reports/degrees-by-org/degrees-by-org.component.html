@@ -84,6 +84,7 @@
             </mat-paginator>
 
             <div class="w-full text-right">
+                <button mat-raised-button class="mr-2" (click)="printThisPage()" matTooltip="print this page">print</button>
                 <button mat-raised-button class="mr-2" (click)="exporter.exportTable('csv')" matTooltip="export to csv">csv</button>
                 <button mat-raised-button class="mr-2" (click)="exporter.exportTable('txt')" matTooltip="export to text">txt</button>
                 <button mat-raised-button class="mr-2" (click)="exporter.exportTable('json')" matTooltip="export to json">json</button>

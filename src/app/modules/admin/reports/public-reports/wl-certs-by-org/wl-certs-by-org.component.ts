@@ -54,6 +54,14 @@ export class WlCertsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+
+  //Function - Prints Current Page
+  printThisPage() {
+    window.print();
+  }
+
+
+
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
   // -----------------------------------------------------------------------------------------------------
