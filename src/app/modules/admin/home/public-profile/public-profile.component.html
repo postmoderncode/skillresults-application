@@ -45,7 +45,9 @@
                 </div>
                 
                 <div class="flex-auto pl-5 mt-3">
-
+                    <div class="w-full text-right">
+                        <button mat-raised-button class="mr-2" (click)="onDownloadUser()" matTooltip="export to json">json</button>
+                    </div>
 
                     <div *ngIf="user?.skills">
 
