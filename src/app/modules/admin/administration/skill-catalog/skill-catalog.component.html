@@ -21,7 +21,7 @@
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
             <button  
-                (click)="onShowAddForm(tabTitle);"
+                (click)="onShowAddForm(tabTitle)"
                 [disabled]="showadditem"
                 class="ml-4"
                 mat-flat-button
@@ -99,17 +99,17 @@
 
                                             <div class="flex items-stretch" *ngIf="area.payload.val().name?.length > 0 && area.payload.val().customtype !== 'rename'">
                                                    
-                                                    <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(area);">
+                                                    <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(area)">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>
 
                                                     <span *ngIf="area.customs[0]?.payload.val().hidden === true">
-                                                        <button mat-icon-button color="warn" matTooltip="unhide" class="mr-5" (click)="onHideItem(area.key);">
+                                                        <button mat-icon-button color="warn" matTooltip="unhide" class="mr-5" (click)="onHideItem(area.key)">
                                                             <mat-icon [svgIcon]="'heroicons_outline:eye-off'"></mat-icon>
                                                         </button>            
                                                     </span>
                                                     <span *ngIf="area.customs[0]?.payload.val().hidden !== true">
-                                                        <button mat-icon-button color="default" matTooltip="hide" class="mr-5" (click)="onHideItem(area.key);">
+                                                        <button mat-icon-button color="default" matTooltip="hide" class="mr-5" (click)="onHideItem(area.key)">
                                                             <mat-icon [svgIcon]="'heroicons_outline:eye'"></mat-icon>
                                                         </button>                                     
                                                     </span>
@@ -148,16 +148,16 @@
                                         <span *ngFor="let category of categories" >
                                             <div class="flex" *ngIf="(category.payload.val().name?.length > 0 && category.payload.val().customtype !== 'rename')">
                                     
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(category);">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(category)">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>
                                                 <span *ngIf="category.customs[0]?.payload.val().hidden === true">
-                                                    <button mat-icon-button color="warn" matTooltip="unhide" class="mr-5" (click)="onHideItem(category.key);">
+                                                    <button mat-icon-button color="warn" matTooltip="unhide" class="mr-5" (click)="onHideItem(category.key)">
                                                         <mat-icon [svgIcon]="'heroicons_outline:eye-off'"></mat-icon>
                                                     </button>            
                                                 </span>
                                                 <span *ngIf="category.customs[0]?.payload.val().hidden !== true">
-                                                    <button mat-icon-button color="default" matTooltip="hide" class="mr-5" (click)="onHideItem(category.key);">
+                                                    <button mat-icon-button color="default" matTooltip="hide" class="mr-5" (click)="onHideItem(category.key)">
                                                         <mat-icon [svgIcon]="'heroicons_outline:eye'"></mat-icon>
                                                     </button>                                     
                                                 </span>
@@ -197,16 +197,16 @@
 
                                             <div class="flex" *ngIf="skill.payload.val().name?.length > 0 && skill.payload.val().customtype !== 'rename'">
 
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(skill);">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(skill)">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>
                                                 <span *ngIf="skill.customs[0]?.payload.val().hidden === true">
-                                                    <button mat-icon-button color="warn" matTooltip="edit" class="mr-5" (click)="onHideItem(skill.key);">
+                                                    <button mat-icon-button color="warn" matTooltip="edit" class="mr-5" (click)="onHideItem(skill.key)">
                                                         <mat-icon [svgIcon]="'heroicons_outline:eye-off'"></mat-icon>
                                                     </button>            
                                                 </span>
                                                 <span *ngIf="skill.customs[0]?.payload.val().hidden !== true">
-                                                    <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onHideItem(skill.key);">
+                                                    <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onHideItem(skill.key)">
                                                         <mat-icon [svgIcon]="'heroicons_outline:eye'"></mat-icon>
                                                     </button>                                     
                                                 </span>
@@ -350,7 +350,7 @@
 
                                         <div *ngSwitchCase="'add'" >
                                             <button 
-                                                (click)="onAdd(addItemForm);"
+                                                (click)="onAdd(addItemForm)"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button
@@ -362,7 +362,7 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(model.key)"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" mat-flat-button
                                                 type="button" 

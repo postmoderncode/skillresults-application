@@ -18,7 +18,7 @@
         <!-- Right Side - Action Buttons -->
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
-            <button (click)="onShowAddForm();" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
+            <button (click)="onShowAddForm()" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
                 [color]="'primary'">
                 Add Position
             </button>
@@ -116,7 +116,7 @@
                                                 <!-- Delete Button -->
                                                 <div class="flex-auto basis-1/2 pt-2 text-center">
                                                     <button 
-                                                        (click)="onShowDelete(item.key);" 
+                                                        (click)="onShowDelete(item.key)" 
                                                         mat-stroked-button 
                                                         type="button">
                                                         Delete
@@ -130,7 +130,7 @@
 
                                                 <!-- Edit Button -->
                                                 <div class="flex-auto basis-1/2 pt-2 text-center">
-                                                    <button (click)="onShowEditForm(item.key);" 
+                                                    <button (click)="onShowEditForm(item.key)" 
                                                             mat-flat-button 
                                                             type="button" 
                                                             [color]="'primary'">
@@ -393,7 +393,7 @@
 
                                         <div *ngSwitchCase="'add'" >
                                             <button 
-                                                (click)="onAdd(addItemForm);"
+                                                (click)="onAdd(addItemForm)"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button
@@ -405,7 +405,7 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(model.key)"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" mat-flat-button
                                                 type="button" 

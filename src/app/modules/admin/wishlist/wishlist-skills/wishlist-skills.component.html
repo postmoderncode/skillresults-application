@@ -10,7 +10,7 @@
                 <div *ngIf="this.globals.usercustomall === true">
 
                     <button  
-                        (click)="onShowCustomAddForm(tabTitle);"
+                        (click)="onShowCustomAddForm(tabTitle)"
                         [disabled]="showadditem"
                         class="ml-4"
                         mat-flat-button
@@ -26,7 +26,7 @@
                     <div *ngIf="(tabTitle ==='Skill')">
 
                         <button  
-                            (click)="onShowCustomAddForm(tabTitle);"
+                            (click)="onShowCustomAddForm(tabTitle)"
                             [disabled]="showadditem"
                             class="ml-4"
                             mat-flat-button
@@ -45,7 +45,7 @@
             <!-- Action Buttons -->
             <div class="w-full text-right mb-3">
                 <span *ngIf="viewState !== 3 && viewState !== 4 && viewState !== 5">
-                    <button (click)="onShowCatalog();" class="ml-4" mat-flat-button type="button"
+                    <button (click)="onShowCatalog()" class="ml-4" mat-flat-button type="button"
                         [color]="'primary'">
                         Add Skill to Wishlist
                     </button>
@@ -98,7 +98,7 @@
                                     <th mat-header-cell  *matHeaderCellDef > </th>
                                     <td mat-cell *matCellDef="let element" class="w-30">
                                         <button 
-                                        (click)="onShowDelete(element.$key);" 
+                                        (click)="onShowDelete(element.$key)" 
                                             mat-stroked-button 
                                             type="button">
                                             Delete
@@ -110,7 +110,7 @@
                                 <ng-container matColumnDef="edit">
                                     <th mat-header-cell  *matHeaderCellDef > </th>
                                     <td mat-cell *matCellDef="let element" class="w-20">
-                                        <button (click)="onShowEditForm(element.$key);" 
+                                        <button (click)="onShowEditForm(element.$key)" 
                                         mat-flat-button 
                                         type="button" 
                                         [color]="'primary'">
@@ -238,7 +238,7 @@
 
                                         <div *ngSwitchCase="'add'" >
                                             <button 
-                                                (click)="onAdd(addItemForm);"
+                                                (click)="onAdd(addItemForm)"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button
@@ -250,7 +250,7 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(currentkey);"
+                                                (click)="onEdit(currentkey)"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button
@@ -275,7 +275,7 @@
                     <div *ngSwitchCase="4">
                         <div>
                             <button 
-                            (click)="onShowSearch();"
+                            (click)="onShowSearch()"
                             class="flex-none ml-4 mt-3 mb-3" 
                             mat-stroked-button
                             type="button" 
@@ -422,7 +422,7 @@
                     <div *ngSwitchCase="5">
                         <div>
                             <button 
-                            (click)="onShowCatalog();"
+                            (click)="onShowCatalog()"
                             class="flex-none ml-4 mt-3"  
                             mat-stroked-button
                             type="button" 
@@ -445,7 +445,7 @@
                                     </mat-form-field>
                                 
                                 <button  
-                                    (click)="onSearch(searchbox.value);"
+                                    (click)="onSearch(searchbox.value)"
                                     class="ml-4"
                                     mat-flat-button
                                     type="button"
@@ -456,7 +456,7 @@
                             </form>
                 
                             <div *ngFor="let searchresult of searchresults" class="text-left">
-                                <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult);">
+                                <button mat-icon-button color="default" matTooltip="add" class="mr-5" (click)="selectSkill(searchresult)">
                                     <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
                                 </button>
                                 {{searchresult.payload.val().name}}
@@ -552,7 +552,7 @@
 
                                         <div *ngSwitchCase="'add'" >
                                             <button 
-                                                (click)="onAddCustom(customAddItemForm);"
+                                                (click)="onAddCustom(customAddItemForm)"
                                                 [disabled]="!customAddItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button
@@ -564,7 +564,7 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEdit(model.key)"
                                                 [disabled]="!customAddItemForm.form.valid" 
                                                 class="flex-none ml-4" mat-flat-button
                                                 type="button" 

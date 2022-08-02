@@ -21,7 +21,7 @@
             <div *ngIf="globals.usercustomall === true">
 
                 <button  
-                    (click)="onShowCustomAddForm(tabTitle);"
+                    (click)="onShowCustomAddForm(tabTitle)"
                     [disabled]="showadditem"
                     class="ml-4"
                     mat-flat-button
@@ -38,7 +38,7 @@
 
                     <button  
                         matTooltip="Add a Custom {{tabTitle}} to the Catalog"
-                        (click)="onShowCustomAddForm(tabTitle);"
+                        (click)="onShowCustomAddForm(tabTitle)"
                         [disabled]="showadditem"
                         class="ml-4"
                         mat-flat-button
@@ -57,13 +57,25 @@
         <!-- Right Side - Action Buttons -->
         <div class="flex shrink-0 items-center mt-3">
             <span *ngIf="viewState !== 3 && viewState !== 4 && viewState !== 5">
+
                 <button 
-                    (click)="onShowCatalog();" 
+                    mat-icon-button 
+                    color="primary" 
                     class="ml-4" 
-                    mat-flat-button type="button"
-                    [color]="'primary'">
-                    Add Skill 
-                </button>
+                    (click)="onShowCatalog()"
+                    matTooltip="Add Skill">
+
+                    <mat-icon 
+                        class="icon-size-4" 
+                        [svgIcon]="'heroicons_outline:plus-sm'">
+                    </mat-icon>
+                    <mat-icon 
+                        class="icon-size-8" 
+                        [svgIcon]="'feather:send'">
+                    </mat-icon>
+
+                </button> 
+
             </span>
 
             <span *ngIf="viewState === 4 || viewState === 5">
@@ -125,7 +137,7 @@
                                     <th mat-header-cell  *matHeaderCellDef > </th>
                                     <td mat-cell *matCellDef="let element" class="w-30">
                                         <button 
-                                        (click)="onShowDelete(element.$key);" 
+                                        (click)="onShowDelete(element.$key)" 
                                             mat-stroked-button 
                                             type="button">
                                             Delete
@@ -137,7 +149,7 @@
                                 <ng-container matColumnDef="edit">
                                     <th mat-header-cell  *matHeaderCellDef > </th>
                                     <td mat-cell *matCellDef="let element" class="w-20">
-                                        <button (click)="onShowEditForm(element.$key);" 
+                                        <button (click)="onShowEditForm(element.$key)" 
                                         mat-flat-button 
                                         type="button" 
                                         [color]="'primary'">
@@ -270,7 +282,7 @@
 
                                         <div *ngSwitchCase="'add'" >
                                             <button 
-                                                (click)="onAdd(addItemForm);"
+                                                (click)="onAdd(addItemForm)"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button
@@ -282,7 +294,7 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(currentkey);"
+                                                (click)="onEdit(currentkey)"
                                                 [disabled]="!addItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button
@@ -317,7 +329,7 @@
 
                             <button mat-icon-button color="default" 
                             matTooltip="Search" 
-                            (click)="onShowSearch();"
+                            (click)="onShowSearch()"
                             class="mr-3 mt-3">
                                 <mat-icon [svgIcon]="'heroicons_outline:search'"></mat-icon>
                             </button>  
@@ -372,7 +384,7 @@
 
                                             <div class="flex items-stretch" *ngIf="(area.customs[0]?.payload.val().hidden !== true) && (area.payload.val().name?.length > 0) && (area.payload.val().customtype !== 'rename')">
 
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(area);" *ngIf="(globals.usercustomall) && (area.payload.val().uid === fbuser.id)">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(area)" *ngIf="(globals.usercustomall) && (area.payload.val().uid === fbuser.id)">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>                                                
                                                 
@@ -411,7 +423,7 @@
 
                                             <div class="flex items-stretch" *ngIf="(category.customs[0]?.payload.val().hidden !== true) && (category.payload.val().name?.length > 0) && (category.payload.val().customtype !== 'rename')">
 
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(category);" *ngIf="(globals.usercustomall) && (category.payload.val().uid === fbuser.id)">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(category)" *ngIf="(globals.usercustomall) && (category.payload.val().uid === fbuser.id)">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>                                                
                                                 
@@ -450,7 +462,7 @@
 
                                             <div class="flex items-stretch" *ngIf="(skill.customs[0]?.payload.val().hidden !== true) && (skill.payload.val().name?.length > 0) && (skill.payload.val().customtype !== 'rename')">
 
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(skill);" *ngIf="(globals.usercustom) && (skill.payload.val().uid === fbuser.id)">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(skill)" *ngIf="(globals.usercustom) && (skill.payload.val().uid === fbuser.id)">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>                                                
                                                 
@@ -494,7 +506,7 @@
 
                             <button mat-icon-button color="default" 
                             matTooltip="Use Catalog" 
-                            (click)="onShowCatalog();"
+                            (click)="onShowCatalog()"
                             class="mr-3 mt-3">
                                 <mat-icon [svgIcon]="'menu_book'"></mat-icon>
                             </button>  
@@ -516,7 +528,7 @@
                                     </mat-form-field>
                                 
                                 <button  
-                                    (click)="onSearch(searchbox.value);"
+                                    (click)="onSearch(searchbox.value)"
                                     class="ml-4"
                                     mat-flat-button
                                     type="button"
@@ -527,7 +539,7 @@
                             </form>
                 
                             <div *ngFor="let searchresult of searchresults" class="text-left">
-                                <button mat-icon-button color="default" matTooltip="add skill" class="mr-5" (click)="selectSkill(searchresult);">
+                                <button mat-icon-button color="default" matTooltip="add skill" class="mr-5" (click)="selectSkill(searchresult)">
                                     <mat-icon [svgIcon]="'heroicons_solid:plus'"></mat-icon>
                                 </button>
                                 {{searchresult.payload.val().name}}
@@ -623,7 +635,7 @@
 
                                         <div *ngSwitchCase="'add'" >
                                             <button 
-                                                (click)="onAddCustom(customAddItemForm);"
+                                                (click)="onAddCustom(customAddItemForm)"
                                                 [disabled]="!customAddItemForm.form.valid" 
                                                 class="flex-none ml-4" 
                                                 mat-flat-button
@@ -635,7 +647,7 @@
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEditCustom(catitem.key);"
+                                                (click)="onEditCustom(catitem.key)"
                                                 [disabled]="!customAddItemForm.form.valid" 
                                                 class="flex-none ml-4" mat-flat-button
                                                 type="button" 
