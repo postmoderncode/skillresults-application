@@ -1,43 +1,29 @@
 {
   "rules": {
-    
-    "users": {
-      ".indexOn": ["name","email"],
-      ".read": "auth !== null",
-        "$id": {
-            ".read": "auth !== null",
-            ".write": "$id == auth.uid" 
-              }  
-        },
-    "userlist": {
-      ".indexOn": ["name","email"],
-      ".read": "auth !== null",
-			".write": "auth !== null", 
-        },
-        
-      "awards": {
-      ".read": "auth !== null",
-        "$id": {
-            ".read": "auth !== null",
-            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null",
-              }  
-        },
-
-      "certifications": {
-      ".read": "auth !== null",
-        "$id": {
-            ".read": "auth !== null",
-            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null", 
-              }  
-        },
-
-      "certnames": {
+         
+    "awards": {
+    ".read": "auth !== null",
+      "$id": {
           ".read": "auth !== null",
-          "$uid": {
-              ".write": "$uid !== null"
-          }
-
+          ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null"
+            }  
       },
+
+    "certifications": {
+    ".read": "auth !== null",
+      "$id": {
+          ".read": "auth !== null",
+          ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null" 
+            }  
+      },
+
+    "certnames": {
+        ".read": "auth !== null",
+        "$uid": {
+            ".write": "$uid !== null"
+        }
+
+    },
         
     "counts": {
       ".read": "auth !== null",
@@ -52,21 +38,25 @@
       ".write": "auth !== null"
         },
           
-      "degrees": {
-          ".read": "auth !== null",
-          "$uid": {
-              ".write": "$uid !== null"
-          }
+    "degrees": {
+        ".read": "auth !== null",
+        "$uid": {
+            ".write": "$uid !== null"
+        }
 
-      },
+    },
           
     "degreelevels": {
       ".read": "auth !== null",
       ".write": "auth !== null"
         },
-          
-          
+                  
     "degreetypes": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+
+    "duties": {
       ".read": "auth !== null",
       ".write": "auth !== null"
         },
@@ -86,44 +76,68 @@
       ".read": "auth !== null",
       ".write": "auth !== null"
         },
-          
-          
-      "skillcatalog": {
-          ".read": "auth !== null",
-          "$uid": {
-              ".write": "$uid !== null",
-       
-            "catagories": {
-            ".indexOn": "area"
-            },
-            
-            "skills": {
-            ".indexOn": ["category", "value"] 
-            }      
-            
-          }
-
-      },
-
-      "skills": {
+             
+    "skillcatalog": {
         ".read": "auth !== null",
-        ".write": "auth !== null"
+        "$uid": {
+            ".write": "$uid !== null",
+      
+          "catagories": {
+          ".indexOn": "area"
           },
+          
+          "skills": {
+          ".indexOn": ["category", "value"] 
+          }      
+          
+        }
+
+    },
+
+    "skills": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+      
+    "talents": {
+        ".read": "auth !== null",
+        "$uid": {
+            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null"
+        }
+
+    },
         
-      "talents": {
+    "teams": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+          
+    "teammembers": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+        },
+
+    "training": {
+    ".read": "auth !== null",
+      "$id": {
           ".read": "auth !== null",
-          "$uid": {
-              ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null",
-          }
-
+          ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null", 
+            }  
       },
-
-      "training": {
+          
+    "users": {
+      ".indexOn": ["name","email"],
       ".read": "auth !== null",
         "$id": {
             ".read": "auth !== null",
-            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null", 
+            ".write": "$id == auth.uid" 
               }  
+        },
+      
+    "userlist": {
+      ".indexOn": ["name","email"],
+      ".read": "auth !== null",
+			".write": "auth !== null" 
         },
           
     "whitelist": {
