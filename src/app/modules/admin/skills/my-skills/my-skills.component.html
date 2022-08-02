@@ -16,9 +16,9 @@
         </div>
 
         <!-- Right Side - Custom Action Buttons -->
-        <div *ngIf="(viewState === 4) && (this.globals.usercustom === true)" class="flex shrink-0 items-center mt-3">
+        <div *ngIf="(viewState === 4) && (globals.usercustom === true)" class="flex shrink-0 items-center mt-3">
 
-            <div *ngIf="this.globals.usercustomall === true">
+            <div *ngIf="globals.usercustomall === true">
 
                 <button  
                     (click)="onShowCustomAddForm(tabTitle);"
@@ -32,7 +32,7 @@
 
             </div>
 
-            <div *ngIf="this.globals.usercustomall === false">
+            <div *ngIf="globals.usercustomall === false">
             
                 <div *ngIf="(tabTitle ==='Skill')">
 
@@ -292,6 +292,14 @@
                                             </button>
                                         </div>
 
+                                        <div *ngSwitchCase="'edit'">
+                                            <div *ngIf="model.uid === fbuser.id">
+                                                <button mat-mini-fab color="warn" matTooltip="delete" class="mt-10" (click)="onShowDeleteCustom(model.key)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+
                                     </div>
 
 
@@ -318,9 +326,9 @@
 
                         <div class="text-center items-center w-full text-sky-500">
                             
-                            {{this.catmodel.currentAreaName}}
-                            {{this.catmodel.currentCategoryName}}
-                            <!-- {{this.catmodel.currentSkillName}} -->
+                            {{catmodel.currentAreaName}}
+                            {{catmodel.currentCategoryName}}
+                            <!-- {{catmodel.currentSkillName}} -->
                             <span class="text-white">.</span>
 
                         </div>
@@ -362,24 +370,30 @@
                                         <!--Repeat for Each Area-->
                                         <span *ngFor="let area of (areas)">
 
-                                            <span *ngIf="(area.customs[0]?.payload.val().hidden !== true) && (area.payload.val().name?.length > 0) && (area.payload.val().customtype !== 'rename')">
+                                            <div class="flex items-stretch" *ngIf="(area.customs[0]?.payload.val().hidden !== true) && (area.payload.val().name?.length > 0) && (area.payload.val().customtype !== 'rename')">
+
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(area.key);" *ngIf="(globals.usercustomall) && (area.payload.val().uid !== fbuser.id)">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>                                                
+                                                
                                                 <a (click)="onAreaSelect(area)" title="{{ area.payload.val().description }}" style="cursor: pointer;">
-                                                    <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                                        <div class="flex-1">
+                                                    <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
+                                                      
                                                             <span *ngIf="!area.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ area.payload.val().name }}</div>
+                                                                <div class="flex-1 sm:max-w-75 sm:w-50 md:max-w-150 md:w-100 lg:max-w-175 lg:w-100"> {{ area.payload.val().name }}</div>
                                                             </span>
                             
                                                             <span *ngIf="area.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ area.customs[0]?.payload.val().name }}</div>
+                                                                <div class="flex-1 sm:max-w-75 sm:w-50 md:max-w-150 md:w-100 lg:max-w-175 lg:w-100"> {{ area.customs[0]?.payload.val().name }}</div>
                                                             </span>                                        
-                                                        </div>
-                                                        <div class="flex-none pt-1">
-                                                            <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                                        </div>
+                                                   
+                                                            <div class="flex-none pt-1">
+                                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                                            </div>  
                                                     </div>
                                                 </a>
-                                            </span>
+                                            </div>
+
                                         </span>
                                         
                                         <!--Bottom Division Line-->
@@ -394,24 +408,31 @@
 
                                         <!--Repeat for Each Category-->
                                         <span *ngFor="let category of categories" >
-                                            <span *ngIf="(category.customs[0]?.payload.val().hidden !== true) && (category.payload.val().name?.length > 0) && (category.payload.val().customtype !== 'rename')">
+
+                                            <div class="flex items-stretch" *ngIf="(category.customs[0]?.payload.val().hidden !== true) && (category.payload.val().name?.length > 0) && (category.payload.val().customtype !== 'rename')">
+
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(category.key);" *ngIf="(globals.usercustomall) && (category.payload.val().uid !== fbuser.id)">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>                                                
+                                                
                                                 <a (click)="onCategorySelect(category)" title="{{ category.payload.val().description }}" style="cursor: pointer;">
-                                                    <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                                        <div class="flex-1">
+                                                    <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
+                                                      
                                                             <span *ngIf="!category.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ category.payload.val().name }}</div>
+                                                                <div class="flex-1 sm:max-w-75 sm:w-50 md:max-w-150 md:w-100 lg:max-w-175 lg:w-100"> {{ category.payload.val().name }}</div>
                                                             </span>
                             
                                                             <span *ngIf="category.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ category.customs[0]?.payload.val().name }}</div>
+                                                                <div class="flex-1 sm:max-w-75 sm:w-50 md:max-w-150 md:w-100 lg:max-w-175 lg:w-100"> {{ category.customs[0]?.payload.val().name }}</div>
                                                             </span>                                        
-                                                        </div>
-                                                        <div class="flex-none pt-1">
-                                                            <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
-                                                        </div>
+                                                   
+                                                            <div class="flex-none pt-1">
+                                                                <mat-icon svgIcon="mat_solid:chevron_right"></mat-icon>
+                                                            </div>  
                                                     </div>
                                                 </a>
-                                            </span>
+                                            </div>
+                                            
                                         </span>
                                             
                                         <!--Bottom Division Line-->
@@ -426,24 +447,31 @@
 
                                         <!--Repeat for Each Skill-->
                                         <span *ngFor="let skill of skills" >
-                                            <span *ngIf="(skill.customs[0]?.payload.val().hidden !== true) && (skill.payload.val().name?.length > 0) && (skill.payload.val().customtype !== 'rename')">
+
+                                            <div class="flex items-stretch" *ngIf="(skill.customs[0]?.payload.val().hidden !== true) && (skill.payload.val().name?.length > 0) && (skill.payload.val().customtype !== 'rename')">
+
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(skill.key);" *ngIf="(globals.usercustom) && (skill.payload.val().uid !== fbuser.id)">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>                                                
+                                                
                                                 <a (click)="selectSkill(skill)" title="{{ skill.payload.val().description }}" style="cursor: pointer;">
-                                                    <div class="flex items-center py-4 px-5 border-t-2 border-slate-100 hover:bg-slate-100">
-                                                        <div class="flex-1">
+                                                    <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
+                                                      
                                                             <span *ngIf="!skill.customs[0]?.payload.val().name">
-                                                                <div class="flex-1 w-100"> {{ skill.payload.val().name }}</div>
+                                                                <div class="flex-1 sm:max-w-75 sm:w-50 md:max-w-150 md:w-100 lg:max-w-175 lg:w-100"> {{ skill.payload.val().name }}</div>
                                                             </span>
-                        
+                            
                                                             <span *ngIf="skill.customs[0]?.payload.val().name">
-                                                                    <div class="flex-1 w-100"> {{ skill.customs[0]?.payload.val().name }}</div>
+                                                                <div class="flex-1 sm:max-w-75 sm:w-50 md:max-w-150 md:w-100 lg:max-w-175 lg:w-100"> {{ skill.customs[0]?.payload.val().name }}</div>
                                                             </span>                                        
-                                                        </div>
-                                                        <div class="flex-none pt-1">
-                                                            <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
-                                                        </div>
+                                                   
+                                                            <div class="flex-none pt-1">
+                                                                <mat-icon svgIcon="heroicons_solid:plus"></mat-icon>
+                                                            </div>  
                                                     </div>
                                                 </a>
-                                            </span>
+                                            </div>
+
                                         </span>
 
                                         <!--Bottom Division Line-->

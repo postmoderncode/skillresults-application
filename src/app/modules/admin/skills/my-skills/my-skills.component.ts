@@ -20,10 +20,6 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  // @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
-  //   this.dataSource.sort = sort;
-  // }
-
   //Page View State (Default is "Datatable for Sorting")
   viewState = 1;
 
@@ -481,6 +477,27 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  //Function - Delete Custom Catalog Item in DB
+  onDeleteCustom(key): void {
+
+    let type: string;
+
+    //Switch catalog path based on item type
+    if (this.tabTitle.toLowerCase() === 'category') {
+      type = 'categories';
+    } else {
+      type = this.tabTitle.toLowerCase() + 's';
+    }
+
+    this.db.object('/customs/' + type + '/' + key).query.ref.transaction((ref) => {
+      if (ref !== null) {
+        this.db.object('/customs/' + type + '/' + key).remove();
+      }
+      //this.onHideForm();
+    });
+
+  }
+
   //Function - Cancel the Add or Edit Form
   onCancelForm(form: NgForm): void {
     this.model = new UserSkill();
@@ -542,6 +559,28 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  //Function - Show the Custom Edit Form
+  onShowCustomEditForm(key): void {
+
+    //Set the current key
+    this.currentkey = key;
+
+    //Set the View State
+    this.viewState = 3;
+
+    //Set the Form Mode
+    this.formMode = 'edit';
+
+    //Define Observable
+    this.item = this.db.object('/users/' + this.fbuser.id + '/skills/' + key).valueChanges();
+
+    //Subscribe to Observable
+    this.item.subscribe((item) => {
+      this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user, item.ratingsteps);
+    });
+
+
+  }
   //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
@@ -576,6 +615,44 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
       if (result === 'confirmed') {
         //Call Actual Delete
         this.onDelete(key);
+      }
+    });
+  }
+
+  //Function - Show the Delete Conf. for Custom Catalog Items
+  onShowDeleteCustom(key): void {
+
+    //Formbuilder for Dialog Popup
+    const dialogconfigForm = this._formBuilder.group({
+      title: 'Remove Item',
+      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
+      icon: this._formBuilder.group({
+        show: true,
+        name: 'heroicons_outline:exclamation',
+        color: 'warn'
+      }),
+      actions: this._formBuilder.group({
+        confirm: this._formBuilder.group({
+          show: true,
+          label: 'Remove',
+          color: 'warn'
+        }),
+        cancel: this._formBuilder.group({
+          show: true,
+          label: 'Cancel'
+        })
+      }),
+      dismissible: false
+    });
+
+    //Open the dialog and save the reference of it
+    const dialogRef = this._fuseConfirmationService.open(dialogconfigForm.value);
+
+    //Subscribe to afterClosed from the dialog reference
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirmed') {
+        //Call Actual Delete
+        this.onDeleteCustom(key);
       }
     });
   }
