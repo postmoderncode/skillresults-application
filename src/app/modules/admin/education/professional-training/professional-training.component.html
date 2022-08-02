@@ -16,11 +16,26 @@
         <!-- Right Side - Action Buttons -->
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
-            <button (click)="onShowAddForm(this.addItemForm);" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
-            [color]="'primary'">
-                Add Training
-            </button>
+            <button 
+                mat-icon-button 
+                color="primary" 
+                class="ml-4" 
+                (click)="onShowAddForm(this.addItemForm);"
+                matTooltip="Add Training">
+
+                <mat-icon 
+                    class="icon-size-4" 
+                    [svgIcon]="'heroicons_outline:plus-sm'">
+                </mat-icon>
+                <mat-icon 
+                    class="icon-size-8" 
+                    [svgIcon]="'heroicons_outline:book-open'">
+                </mat-icon>
+
+            </button> 
+
         </div>
+
     </div>
 
     <!-- Main -->

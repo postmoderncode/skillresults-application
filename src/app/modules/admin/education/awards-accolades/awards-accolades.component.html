@@ -18,13 +18,23 @@
         <!-- Right Side - Action Buttons -->
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
-            <button (click)="onShowAddForm(this.addItemForm);" 
-            [disabled]="showadditem" 
-            class="ml-4" 
-            mat-flat-button type="button"
-            [color]="'primary'">
-                Add Award
-            </button>
+            <button 
+                mat-icon-button 
+                color="primary" 
+                class="ml-4" 
+                (click)="onShowAddForm(this.addItemForm);"
+                matTooltip="Add Award">
+
+                <mat-icon 
+                    class="icon-size-4" 
+                    [svgIcon]="'heroicons_outline:plus-sm'">
+                </mat-icon>
+                <mat-icon 
+                    class="icon-size-8" 
+                    [svgIcon]="'feather:award'">
+                </mat-icon>
+
+            </button> 
             
         </div>
     </div>
@@ -162,7 +172,7 @@
                     <div *ngSwitchCase="2">
 
                         <!-- Empty Item Card -->
-                        <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 max-w-160 shadow-lg border-2 border-slate-200 bg-white mt-10">
+                        <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 max-w-160 shadow-lg border-2 border-slate-200 bg-white mt-5">
 
                             <mat-icon class="icon-size-8 mr-3" 
                             [svgIcon]="'feather:award'"
