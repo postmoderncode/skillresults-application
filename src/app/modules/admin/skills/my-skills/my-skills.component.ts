@@ -544,60 +544,70 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   //Function - Delete Item in DB
   onDelete(key): void {
 
-    //Container for Strongly //Delete Item from the Item Node.
-    this.db.object('/skills/' + key).remove().then((responseObject) => {
+    //Make sure empty key isn't passed to wipe database
+    if (key.length > 5) {
+
+      console.log('deleting')
+      //Container for Strongly //Delete Item from the Item Node.
+      this.db.object('/skills/' + key).remove().then((responseObject) => {
 
 
-      //Delete Item from the User Node.
-      this.db.object('/users/' + this.fbuser.id + '/skills/' + key).remove().then((responseObject) => {
+        //Delete Item from the User Node.
+        this.db.object('/users/' + this.fbuser.id + '/skills/' + key).remove().then((responseObject) => {
 
 
-        //Decrement Count
-        this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((counts) => {
-          if (counts === null || counts <= 0) {
+          //Decrement Count
+          this.db.object('/counts/' + this.fbuser.id + '/skills').query.ref.transaction((counts) => {
+            if (counts === null || counts <= 0) {
 
-            return counts = 0;
-          } else {
-            return counts - 1;
-          }
-        });
+              return counts = 0;
+            } else {
+              return counts - 1;
+            }
+          });
+
+        }
+        )
+
+          //Error Handling
+          .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
 
       }
       )
 
         //Error Handling
-        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
 
     }
-    )
-
-      //Error Handling
-      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
-
 
   }
 
   //Function - Delete Custom Catalog Item in DB
   onDeleteCustom(key): void {
 
-    let type: string;
+    //Make sure empty key isn't passed to wipe database
+    if (key.length > 5) {
 
-    //Switch catalog path based on item type
-    if (this.tabTitle.toLowerCase() === 'category') {
-      type = 'categories';
-    } else {
-      type = this.tabTitle.toLowerCase() + 's';
-    }
+      let type: string;
 
-    this.db.object('/customs/' + type + '/' + key).query.ref.transaction((ref) => {
-      if (ref !== null) {
-        this.db.object('/customs/' + type + '/' + key).remove();
+      //Switch catalog path based on item type
+      if (this.tabTitle.toLowerCase() === 'category') {
+        type = 'categories';
+      } else {
+        type = this.tabTitle.toLowerCase() + 's';
       }
-      //Reset the Models back to Zero (Which also Resets the Form)
-      this.catitem = new CatItem();
-      //Set the View State
-      this.viewState = 4;
-    });
+
+      this.db.object('/customs/' + type + '/' + key).query.ref.transaction((ref) => {
+        if (ref !== null) {
+          this.db.object('/customs/' + type + '/' + key).remove();
+        }
+        //Reset the Models back to Zero (Which also Resets the Form)
+        this.catitem = new CatItem();
+        //Set the View State
+        this.viewState = 4;
+      });
+
+    }
 
   }
 

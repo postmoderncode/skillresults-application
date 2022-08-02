@@ -151,7 +151,12 @@ export class PositionsComponent implements OnInit, OnDestroy {
   //Function - Delete Item in DB
   onDelete(key): void {
 
-    this.db.object('/positions/' + key).remove();
+    //Make sure empty key isn't passed to wipe database
+    if (key.length > 5) {
+
+      this.db.object('/positions/' + key).remove();
+
+    }
 
   }
 

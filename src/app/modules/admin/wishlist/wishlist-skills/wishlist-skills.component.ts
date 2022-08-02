@@ -438,37 +438,43 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
   //Function - Delete Item in DB
   onDelete(key): void {
 
-    //Container for Strongly //Delete Item from the Item Node.
-    this.db.object('/wishlists/skills/' + key).remove().then((responseObject) => {
+    //Make sure empty key isn't passed to wipe database
+    if (key.length > 5) {
+
+      //Container for Strongly //Delete Item from the Item Node.
+      this.db.object('/wishlists/skills/' + key).remove().then((responseObject) => {
 
 
-      //Delete Item from the User Node.
-      this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).remove().then((responseObject) => {
+        //Delete Item from the User Node.
+        this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + key).remove().then((responseObject) => {
 
 
-        //Decrement Count
-        this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((counts) => {
-          if (counts === null || counts <= 0) {
-            return counts = 0;
-          } else {
-            return counts - 1;
-          }
-        });
+          //Decrement Count
+          this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((counts) => {
+            if (counts === null || counts <= 0) {
+              return counts = 0;
+            } else {
+              return counts - 1;
+            }
+          });
+
+        }
+        )
+
+          //Error Handling
+          .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
 
       }
       )
 
         //Error Handling
-        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
 
     }
-    )
-
-      //Error Handling
-      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
 
 
   }
+
 
   //Function - Cancel the Add or Edit Form
   onCancelForm(form: NgForm): void {

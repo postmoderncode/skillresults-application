@@ -178,6 +178,8 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const addUserItem = this.db.list('/users/' + this.fbuser.id + '/certifications').push(this.model).then((responseObject) => {
 
+
+
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const addItem = this.db.list('/certifications/').set(responseObject.key, this.model).then((responseObject) => {
 
@@ -260,34 +262,39 @@ export class CertificationsLicensesComponent implements OnInit, OnDestroy {
   //Function - Delete Item in DB
   onDelete(key): void {
 
-    //Delete Item from the Item Node.
-    this.db.object('/certifications/' + key).remove().then((responseObject) => {
+    //Make sure empty key isn't passed to wipe database
+    if (key.length > 5) {
+
+      //Delete Item from the Item Node.
+      this.db.object('/certifications/' + key).remove().then((responseObject) => {
 
 
-      //Delete Item from the User Node.
-      this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).remove().then((responseObject) => {
+        //Delete Item from the User Node.
+        this.db.object('/users/' + this.fbuser.id + '/certifications/' + key).remove().then((responseObject) => {
 
 
-        //Decrement Count
-        this.db.object('/counts/' + this.fbuser.id + '/certifications').query.ref.transaction((counts) => {
-          if (counts === null || counts <= 0) {
-            return counts = 0;
-          } else {
-            return counts - 1;
-          }
-        });
+          //Decrement Count
+          this.db.object('/counts/' + this.fbuser.id + '/certifications').query.ref.transaction((counts) => {
+            if (counts === null || counts <= 0) {
+              return counts = 0;
+            } else {
+              return counts - 1;
+            }
+          });
+
+        }
+        )
+
+          //Error Handling
+          .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
 
       }
       )
 
         //Error Handling
-        .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
 
     }
-    )
-
-      //Error Handling
-      .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
 
     //Scroll to top
     this.cdkScrollable.scrollTo({ top: 0 });
