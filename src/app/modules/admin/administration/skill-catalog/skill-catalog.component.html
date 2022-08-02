@@ -99,7 +99,7 @@
 
                                             <div class="flex items-stretch" *ngIf="area.payload.val().name?.length > 0 && area.payload.val().customtype !== 'rename'">
                                                    
-                                                    <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(area.key, area);">
+                                                    <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(area);">
                                                         <mat-icon>edit</mat-icon>
                                                     </button>
 
@@ -148,7 +148,7 @@
                                         <span *ngFor="let category of categories" >
                                             <div class="flex" *ngIf="(category.payload.val().name?.length > 0 && category.payload.val().customtype !== 'rename')">
                                     
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(category.key, category);">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(category);">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>
                                                 <span *ngIf="category.customs[0]?.payload.val().hidden === true">
@@ -197,7 +197,7 @@
 
                                             <div class="flex" *ngIf="skill.payload.val().name?.length > 0 && skill.payload.val().customtype !== 'rename'">
 
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(skill.key, skill);">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowEditForm(skill);">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>
                                                 <span *ngIf="skill.customs[0]?.payload.val().hidden === true">

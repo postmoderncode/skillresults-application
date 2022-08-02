@@ -438,7 +438,10 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
   }
 
   //Function - Show the Edit Form
-  onShowEditForm(key: string, obj): void {
+  onShowEditForm(obj): void {
+
+    //Set Key from Object
+    const key: string = obj.key;
 
     //Set the View State
     this.viewState = 3;

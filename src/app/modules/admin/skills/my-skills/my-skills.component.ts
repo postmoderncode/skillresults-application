@@ -560,27 +560,77 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   //Function - Show the Custom Edit Form
-  onShowCustomEditForm(key): void {
+  onShowCustomEditForm(obj): void {
 
-    //Set the current key
-    this.currentkey = key;
+    //Set Key from Object
+    const key: string = obj.key;
 
     //Set the View State
-    this.viewState = 3;
+    this.viewState = 6;
 
     //Set the Form Mode
     this.formMode = 'edit';
 
-    //Define Observable
-    this.item = this.db.object('/users/' + this.fbuser.id + '/skills/' + key).valueChanges();
+    //Define and call Promise to add Item
+    if (this.tabTitle.toLowerCase() === 'area') {
 
-    //Subscribe to Observable
-    this.item.subscribe((item) => {
-      this.model = new UserSkill(key, item.name, item.rating, item.created, item.modified, item.user, item.ratingsteps);
-    });
+      //Is this a new custom or a renamed master
+      if (obj.customs[0]?.payload.val().customtype === 'new' || obj.customs[0]?.payload.val().customtype === 'rename') {
+        //Define Observable
+        this.item = this.db.object('/customs/areas/' + key).valueChanges();
+      }
+      else {
+        //Define Observable
+        this.item = this.db.object('/skillcatalog/areas/' + key).valueChanges();
+      }
 
+      //Subscribe to Observable
+      this.item.subscribe((item) => {
+        this.catitem = new CatItem(key, item.name, item.value, item.description);
+      });
+
+    }
+    else if (this.tabTitle.toLowerCase() === 'category') {
+
+      //Is this a new custom or a renamed master
+      if (obj.customs[0]?.payload.val().customtype === 'new' || obj.customs[0]?.payload.val().customtype === 'rename') {
+        //Define Observable
+        this.item = this.db.object('/customs/categories/' + key).valueChanges();
+      }
+      else {
+        //Define Observable
+        this.item = this.db.object('/skillcatalog/categories/' + key).valueChanges();
+      }
+
+      //Subscribe to Observable
+      this.item.subscribe((item) => {
+        this.catitem = new CatItem(key, item.name, item.value, item.description, item.area);
+      });
+
+    }
+    else { //this is a skill
+
+      //Is this a new custom or a renamed master
+      if (obj.customs[0]?.payload.val().customtype === 'new' || obj.customs[0]?.payload.val().customtype === 'rename') {
+        //Define Observable
+        this.item = this.db.object('/customs/skills/' + key).valueChanges();
+      }
+      else {
+        //Define Observable
+        this.item = this.db.object('/skillcatalog/skills/' + key).valueChanges();
+      }
+
+      //Subscribe to Observable
+      this.item.subscribe((item) => {
+        this.catitem = new CatItem(key, item.name, item.value, item.description, null, item.category, item.ratingsteps);
+
+      });
+
+    }
 
   }
+
+
   //Function - Show the Delete Conf.
   onShowDelete(key): void {
 
