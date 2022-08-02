@@ -556,7 +556,7 @@
 
                                 <h2 *ngSwitchCase="'edit'"
                                     class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
-                                    Edit Custom {{tabTitle}} to Catalog
+                                    Edit Custom {{tabTitle}} in Catalog
                                 </h2>
 
                             </div>
@@ -629,24 +629,24 @@
                                                 mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
-                                                Add New {{tabTitle}}
+                                                Add New {{tabTitle}} to Catalog
                                             </button>
                                         </div>
 
                                         <div *ngSwitchCase="'edit'">
                                             <button
-                                                (click)="onEdit(model.key);"
+                                                (click)="onEditCustom(catitem.key);"
                                                 [disabled]="!customAddItemForm.form.valid" 
                                                 class="flex-none ml-4" mat-flat-button
                                                 type="button" 
                                                 [color]="'primary'">
-                                                Edit {{tabTitle}}
+                                                Edit {{tabTitle}} in Catalog
                                             </button>
                         
                                         </div>
 
                                         <div *ngSwitchCase="'edit'">
-                                            <button mat-mini-fab color="warn" matTooltip="delete" class="mt-10" (click)="onShowDelete(model.key)">
+                                            <button mat-mini-fab color="warn" matTooltip="delete" class="mt-10" (click)="onShowDeleteCustom(catitem.key)">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
                                         </div>

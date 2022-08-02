@@ -441,6 +441,106 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+
+  onEditCustom(key: string): void {
+
+    console.log(key);
+
+    //Cast model to variable for formReset
+    const mname: string = this.catitem.name;
+    const mdescription: string = this.catitem.description;
+    const mvalue: string = this.onConvertName(this.catitem.name);
+    const mdatenow = Math.floor(Date.now());
+
+    //Define and call Promise to add Item
+    if (this.tabTitle.toLowerCase() === 'area') {
+
+      this.db.object('/skillcatalog/areas/' + key).query.ref.transaction((ref) => {
+        if (ref === null) {
+
+          this.db.object('/customs/areas/' + key)
+            .update({ name: mname, description: mdescription, value: mvalue, modified: mdatenow, uid: this.fbuser.id });
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.catitem = new CatItem();
+          //Set the View State
+          this.viewState = 4;
+
+        } else {
+
+          this.db.object('/customs/areas/' + key)
+            .update({ name: mname, description: mdescription, value: mvalue, customtype: 'rename', modified: mdatenow, uid: this.fbuser.id });
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.catitem = new CatItem();
+          //Set the View State
+          this.viewState = 4;
+
+        }
+      });
+
+    }
+    else if (this.tabTitle.toLowerCase() === 'category') {
+
+      const marea: string = this.catitem.area;
+
+      this.db.object('/skillcatalog/categories/' + key).query.ref.transaction((ref) => {
+        if (ref === null) {
+
+          this.db.object('/customs/categories/' + key)
+            .update({ name: mname, description: mdescription, value: mvalue, area: marea, modified: mdatenow, uid: this.fbuser.id });
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.catitem = new CatItem();
+          //Set the View State
+          this.viewState = 4;
+
+        } else {
+
+          this.db.object('/customs/categories/' + key)
+            .update({ name: mname, description: mdescription, value: mvalue, area: marea, customtype: 'rename', modified: mdatenow, uid: this.fbuser.id });
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.catitem = new CatItem();
+          //Set the View State
+          this.viewState = 4;
+        }
+      });
+
+    }
+    else { //this is a skill
+
+      const mratingsteps: number = this.catitem.ratingsteps;
+      const mcategory: string = this.catitem.category;
+
+      this.db.object('/skillcatalog/skills/' + key).query.ref.transaction((ref) => {
+        if (ref === null || mratingsteps !== this.globals.ratingsteps) {
+
+          this.db.object('/customs/skills/' + key)
+            .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, modified: mdatenow, uid: this.fbuser.id });
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.catitem = new CatItem();
+          //Set the View State
+          this.viewState = 4;
+
+        } else {
+
+          this.db.object('/customs/skills/' + key)
+            .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, customtype: 'rename', modified: mdatenow, uid: this.fbuser.id });
+
+          //Reset the Models back to Zero (Which also Resets the Form)
+          this.catitem = new CatItem();
+          //Set the View State
+          this.viewState = 4;
+        }
+      });
+
+    }
+
+  }
+
+
   //Function - Delete Item in DB
   onDelete(key): void {
 
@@ -493,7 +593,10 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
       if (ref !== null) {
         this.db.object('/customs/' + type + '/' + key).remove();
       }
-      //this.onHideForm();
+      //Reset the Models back to Zero (Which also Resets the Form)
+      this.catitem = new CatItem();
+      //Set the View State
+      this.viewState = 4;
     });
 
   }
@@ -564,6 +667,9 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     //Set Key from Object
     const key: string = obj.key;
+
+    //Set the current key
+    this.currentkey = key;
 
     //Set the View State
     this.viewState = 6;
@@ -703,6 +809,9 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
       if (result === 'confirmed') {
         //Call Actual Delete
         this.onDeleteCustom(key);
+
+        //Set the View State
+        this.viewState = 4;
       }
     });
   }
