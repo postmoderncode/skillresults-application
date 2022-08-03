@@ -367,6 +367,10 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
     //Add the User ID to the Model
     this.model.uid = this.fbuser.id;
 
+    //Add Server Side Timestamp to the Model
+    this.model.created = serverTimestamp();
+    this.model.modified = serverTimestamp();
+
     //Begin Database Calls to add the New Item
     //----------------------------------------
 
@@ -409,6 +413,9 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
 
   //Function - Update Item in DB
   onEdit(key): void {
+
+    //Add Server Side Timestamp to the Model
+    this.model.modified = serverTimestamp();
 
     //Begin Database Calls to Update the Existing Item
     //----------------------------------------
