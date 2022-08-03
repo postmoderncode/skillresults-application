@@ -34,8 +34,18 @@
         },
           
     "customs": {
-      ".read": "auth !== null",
-      ".write": "auth !== null"
+        ".read": "auth !== null",
+        "$uid": {
+            ".write": "$uid !== null",
+      
+          "catagories": {
+          ".indexOn": "area"
+          },
+          
+          "skills": {
+          ".indexOn": ["category", "value"] 
+          }             
+        }
         },
           
     "degrees": {
@@ -91,7 +101,6 @@
           }      
           
         }
-
     },
 
     "skills": {
