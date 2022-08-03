@@ -336,6 +336,27 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         children: [
 
             {
+                id: 'dashboard',
+                title: 'Dashboard',
+                type: 'basic',
+                icon: 'feather:grid',
+                link: 'home/dashboard'
+            },
+            {
+                id: 'public-profile',
+                title: 'Public Profile',
+                type: 'basic',
+                icon: 'feather:user',
+                link: 'home/public-profile/self'
+            },
+            {
+                id: 'wishlist',
+                title: 'Wishlist',
+                type: 'basic',
+                icon: 'heroicons_outline:sparkles',
+                link: 'wishlist'
+            },
+            {
                 id: 'administration',
                 title: 'Administration',
                 admin: true,
@@ -373,27 +394,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
 
 
                 ]
-            },
-            {
-                id: 'dashboard',
-                title: 'Dashboard',
-                type: 'basic',
-                icon: 'feather:grid',
-                link: 'home/dashboard'
-            },
-            {
-                id: 'public-profile',
-                title: 'Public Profile',
-                type: 'basic',
-                icon: 'feather:user',
-                link: 'home/public-profile/self'
-            },
-            {
-                id: 'wishlist',
-                title: 'Wishlist',
-                type: 'basic',
-                icon: 'heroicons_outline:sparkles',
-                link: 'wishlist'
             },
         ]
     },
