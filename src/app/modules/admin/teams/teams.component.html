@@ -14,6 +14,33 @@
         </div>
 
         <!-- Right Side - Action Buttons -->
+
+        <div *ngIf="viewState === 5" class="flex shrink-0 items-center mt-3 mr-3">
+
+            <button  
+                (click)="ngOnInit()"
+                class="ml-2"
+                mat-flat-button
+                type="button"
+                [color]="'primary'">
+                My Teams
+            </button>
+
+        </div>
+
+        <div *ngIf="viewState !== 5 && viewState !== 3" class="flex shrink-0 items-center mt-3 mr-3">
+
+            <button  
+                (click)="onShowTeams()"
+                class="ml-2"
+                mat-flat-button
+                type="button"
+                [color]="'primary'">
+                Browse Teams
+            </button>
+            
+        </div>
+
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
             <button 
@@ -179,20 +206,6 @@
                                 You do not have any listed teams.<br/>Click on the "Add Team" button in the upper right corner to get started.
                             </span>
 
-                            <div class="text-xl mt-5 mb-5">
-                                You can browse existing teams here
-
-                                <button  
-                                    (click)="onShowTeams()"
-                                    class="ml-2"
-                                    mat-flat-button
-                                    type="button"
-                                    [color]="'primary'">
-                                    Browse Teams
-                                </button>
-
-                            </div>
-
                         </div>
                     
                     </div>
@@ -310,9 +323,10 @@
                     <!-- CONFIRM DELETE VIEW STATE -->
                     <div *ngSwitchCase="5">
 
-                        <div class="text-xl font-semibold">
+                        <div class="text-xl font-semibold mb-5">
                             Team List
                         </div>
+
                         
                     </div>
 
