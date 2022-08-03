@@ -859,7 +859,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * On After View init
    */
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
 
     //Populate Areas - Firebase List Object
     const masters = this.db.list('/skillcatalog/areas/', ref => ref
