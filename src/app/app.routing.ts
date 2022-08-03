@@ -87,7 +87,6 @@ export const appRoutes: Route[] = [
                 path: 'home', children: [
                     { path: 'dashboard', loadChildren: () => import('app/modules/admin/home/dashboard/dashboard.module').then(m => m.DashboardModule) },
                     { path: 'public-profile/:id', loadChildren: () => import('app/modules/admin/home/public-profile/public-profile.module').then(m => m.PublicProfileModule) },
-                    //{ path: 'public-profile', loadChildren: () => import('app/modules/admin/home/public-profile/public-profile.module').then(m => m.PublicProfileModule) },
                     { path: 'my-settings', loadChildren: () => import('app/modules/admin/home/my-settings/my-settings.module').then(m => m.MySettingsModule) },
                 ]
             },
@@ -96,7 +95,7 @@ export const appRoutes: Route[] = [
             {
                 path: 'skills', children: [
                     { path: 'my-skills', loadChildren: () => import('app/modules/admin/skills/my-skills/my-skills.module').then(m => m.MySkillsModule) },
-                    { path: 'skill-browser', loadChildren: () => import('app/modules/admin/skills/skill-browser/skill-browser.module').then(m => m.SkillBrowserModule) },
+                    { path: 'skill-browser/:id', loadChildren: () => import('app/modules/admin/skills/skill-browser/skill-browser.module').then(m => m.SkillBrowserModule) },
                     { path: 'talents-hobbies', loadChildren: () => import('app/modules/admin/skills/talents-hobbies/talents-hobbies.module').then(m => m.TalentsHobbiesModule) },
                 ]
             },

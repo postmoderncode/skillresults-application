@@ -211,7 +211,8 @@
                                                     </button>                                     
                                                 </span>
 
-                                                <a (click)="selectSkill(skill.key)" title="{{ skill.payload.val().description }}" style="cursor: pointer;">
+                                                <!-- <a (click)="selectSkill(skill.key)" title="{{ skill.payload.val().description }}" style="cursor: pointer;"> -->
+                                                <a [routerLink]="['/skills/skill-browser/' + skill.key]">
                                                     <div class="flex items-center py-3 px-5 border-t-2 border-slate-100 hover:bg-slate-100 w-full">
                                             
                                                         <span *ngIf="!skill.customs[0]?.payload.val().name">

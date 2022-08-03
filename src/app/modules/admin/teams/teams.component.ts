@@ -22,6 +22,24 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+  //Form Mode State (Add vs. Edit Mode)
+  formMode = '';
+
+  //Container to hold a list of items
+  items: object;
+
+  //Container to hold a single item
+  item: Observable<any>;
+
+  //Container to hold Current User
+  fbuser = JSON.parse(localStorage.getItem('fbuser'));
+
+  //Container for Strongly typed Model.
+  model = new Team();
+
+  //Container to hold Current Active Item Key
+  currentkey = '';
+
 
   //Constructor
   //---------------------
@@ -69,3 +87,25 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
 // -----------------------------------------------------------------------------------------------------
 // @ Models
 // -----------------------------------------------------------------------------------------------------
+
+// Empty Team class
+export class Team {
+
+  constructor(
+    public name: string = '',
+    public description: string = '',
+    public created: object = {},
+    public modified: object = {},
+    public uid: string = '',
+
+  ) { }
+
+}
+
+// Empty Form Date class - Handles the conversion from UTC to Epoch dates.
+export class FormDates {
+  constructor(
+    public awardedonForm: Date = null,
+    public expiresonForm: Date = null,
+  ) { }
+}
