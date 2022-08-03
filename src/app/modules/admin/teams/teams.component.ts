@@ -81,7 +81,7 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formMode = 'edit';
 
     //Define Observable
-    this.item = this.db.object('/teams/' + this.fbuser.id + '/teams/' + key).valueChanges();
+    this.item = this.db.object('/users/' + this.fbuser.id + '/teams/' + key).valueChanges();
 
     //Subscribe to Observable
     this.item.subscribe((response) => {
@@ -145,12 +145,16 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const addUserItem = this.db.list('/teams/' + this.fbuser.id + '/teams').push(this.model).then((responseObject) => {
+    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/teams').push(this.model).then((responseObject) => {
 
 
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const addItem = this.db.list('/teams/').set(responseObject.key, this.model).then((responseObject) => {
+
+        //Reset the Models back to Zero (Which also Resets the Form)
+        this.model = new Team();
+        this.formDates = new FormDates();
 
 
       })
@@ -178,7 +182,7 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const editUserItem = this.db.object('/teams/' + this.fbuser.id + '/training/' + key + '/').update(this.model).then((responseObject) => {
+    const editUserItem = this.db.object('/users/' + this.fbuser.id + '/teams/' + key + '/').update(this.model).then((responseObject) => {
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const editItem = this.db.object('/teams/' + key + '/').update(this.model).then((responseObject) => {
@@ -213,7 +217,7 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
         //Delete Item from the User Node.
-        this.db.object('/teams/' + this.fbuser.id + '/teams/' + key).remove().then((responseObject) => {
+        this.db.object('/users/' + this.fbuser.id + '/teams/' + key).remove().then((responseObject) => {
 
 
         }
@@ -234,6 +238,17 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdkScrollable.scrollTo({ top: 0 });
 
   }
+
+  //Function - Show the team list
+  onShowTeams(): void {
+
+    this.viewState = 5;
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
+  }
+
 
   //Function - Cancel the Add or Edit Form
   onCancelForm(form: NgForm): void {
@@ -256,7 +271,7 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
 
     //Call the Firebase Database and get the initial data.
-    this.db.list('/teams/' + this.fbuser.id + '/teams').snapshotChanges().subscribe(
+    this.db.list('/users/' + this.fbuser.id + '/teams').snapshotChanges().subscribe(
       (results: object) => {
 
         //Put the results of the DB call into an object.
