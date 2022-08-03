@@ -5,6 +5,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject, combineLatest, map } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { serverTimestamp } from '@angular/fire/database';
 
 @Component({
   selector: 'app-wishlist-skills',
@@ -304,7 +305,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
       const mname: string = this.catitem.name;
       const mdescription: string = this.catitem.description;
       const mvalue: string = this.onConvertName(this.catitem.name);
-      const mdatenow = Math.floor(Date.now());
+      const mdatenow = serverTimestamp();
 
       //Define Promise
       const promiseAddItem = this.db.list('/customs/' + type).push({ name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
@@ -321,7 +322,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
       const mdescription: string = this.catitem.description;
       const mvalue: string = this.onConvertName(this.catitem.name);
       const marea: string = this.catmodel.currentArea;
-      const mdatenow = Math.floor(Date.now());
+      const mdatenow = serverTimestamp();
 
       //Define Promise
       const promiseAddItem = this.db.list('/customs/' + type).push({ area: marea, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
@@ -338,7 +339,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
       const mdescription: string = this.catitem.description;
       const mvalue: string = this.onConvertName(this.catitem.name);
       const mcategory: string = this.catmodel.currentCategory;
-      const mdatenow = Math.floor(Date.now());
+      const mdatenow = serverTimestamp();
       let mratingsteps: number;
 
       if (this.globals.rating == true) {

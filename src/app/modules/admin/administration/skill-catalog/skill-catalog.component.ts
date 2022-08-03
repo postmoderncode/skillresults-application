@@ -224,7 +224,8 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mname: string = this.model.name;
       const mdescription: string = this.model.description;
       const mvalue: string = this.onConvertName(this.model.name);
-      const mdatenow = Math.floor(Date.now());
+      const mdatenow = serverTimestamp();
+
 
       //Define Promise
       const promiseAddItem = this.db.list('/customs/' + type).push({ name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
@@ -241,7 +242,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mdescription: string = this.model.description;
       const mvalue: string = this.onConvertName(this.model.name);
       const marea: string = this.catmodel.currentArea;
-      const mdatenow = Math.floor(Date.now());
+      const mdatenow = serverTimestamp();
 
       //Define Promise
       const promiseAddItem = this.db.list('/customs/' + type).push({ area: marea, name: mname, value: mvalue, description: mdescription, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
@@ -259,7 +260,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
       const mvalue: string = this.onConvertName(this.model.name);
       const mcategory: string = this.catmodel.currentCategory;
       const mratingsteps: number = this.model.ratingsteps;
-      const mdatenow = Math.floor(Date.now());
+      const mdatenow = serverTimestamp();
 
       //Define Promise
       const promiseAddItem = this.db.list('/customs/' + type).push({ category: mcategory, name: mname, value: mvalue, description: mdescription, ratingsteps: mratingsteps, customtype: 'new', created: mdatenow, modified: mdatenow, uid: this.fbuser.id });
@@ -279,7 +280,7 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
     const mname: string = this.model.name;
     const mdescription: string = this.model.description;
     const mvalue: string = this.onConvertName(this.model.name);
-    const mdatenow = Math.floor(Date.now());
+    const mdatenow = serverTimestamp();
 
     //Define and call Promise to add Item
     if (this.tabTitle.toLowerCase() === 'area') {
@@ -500,7 +501,15 @@ export class SkillCatalogComponent implements OnInit, OnDestroy {
 
       //Subscribe to Observable
       this.item.subscribe((item) => {
+
         this.model = new CatItem(key, item.name, item.value, item.description, null, item.category, item.ratingsteps);
+
+        if (item.ratingsteps === undefined && this.globals.rating === true) {
+          this.model.ratingsteps = this.globals.ratingsteps;
+        }
+        else if (item.ratingsteps === undefined) {
+          this.model.ratingsteps = 5;
+        }
 
       });
 

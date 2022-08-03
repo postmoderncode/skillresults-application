@@ -5,6 +5,7 @@ import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms'
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Observable, Subject } from 'rxjs';
+import { serverTimestamp } from '@angular/fire/database';
 
 @Component({
   selector: 'app-positions',
@@ -116,7 +117,7 @@ export class PositionsComponent implements OnInit, OnDestroy {
     const mcompensation: boolean = this.model.compensation;
     const mcomplower: string = this.model.complower;
     const mcompupper: string = this.model.compupper;
-    const mdatenow = Math.floor(Date.now());
+    const mdatenow = serverTimestamp();
 
     //Define Promise
     const promiseAddItem = this.db.list('/positions')
@@ -137,7 +138,7 @@ export class PositionsComponent implements OnInit, OnDestroy {
     //Cast model to variable for formReset
     const mname: string = this.model.name;
     const mdescription: string = this.model.description;
-    const mdatenow = Math.floor(Date.now());
+    const mdatenow = serverTimestamp();
 
     this.db.object('/users/' + this.fbuser.id + '/talents/' + key)
       .update({ name: mname, description: mdescription, modified: mdatenow });
