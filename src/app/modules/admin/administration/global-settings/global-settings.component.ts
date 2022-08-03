@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { FormBuilder, NgForm } from '@angular/forms';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -24,8 +22,6 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
   //Constructor
   //---------------------
   constructor(
-    private _formBuilder: FormBuilder,
-    private _fuseConfirmationService: FuseConfirmationService,
     public db: AngularFireDatabase
   ) { }
 
@@ -81,7 +77,6 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
 
     this.db.object('/globals/ratingsteps').set(steps)
 
-    console.log('steps saved');
   }
 
   // -----------------------------------------------------------------------------------------------------

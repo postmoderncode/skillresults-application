@@ -390,9 +390,7 @@ export class AcademicDegreesComponent implements OnInit, OnDestroy {
       .orderByChild('state')
       .equalTo(selectedState))
       .valueChanges().subscribe(
-        (
-
-          results: object) => {
+        (results: object) => {
           this.schooloptions = results;
           this.schoolfilteredData = this.schooloptions.filter(institutions => institutions.state === selectedState);
 

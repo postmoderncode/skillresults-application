@@ -22,10 +22,19 @@
         <div class="h-400 min-h-400 max-h-400 shadow-md rounded-2xl bg-white">
 
             <!-- Outer Flex Container - Ensures the content area does not flex too wide. -->
-            <div class="flex-initial w-[1400px]">
+            <div class="flex-initial">
 
-                <div class="text-2xl text-slate-700 font-bold tracking-tight">
+                <div class="text-2xl text-slate-700 font-bold tracking-tight mt-10 mb-10">
                     {{item?.name}}
+                </div>
+
+                Users with this skill:
+                <div *ngFor="let item of items" class>
+                    <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50"> 
+                        <a [routerLink]="['/home/public-profile/' + item.uid]">{{item.uid}}</a> 
+                    
+                        <div class="mt-5 mb-3">Proficiency Rating: {{item.rating}}</div>
+                    </div>
                 </div>
                
 
