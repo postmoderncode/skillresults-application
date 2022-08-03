@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
-import { CdkScrollable } from '@angular/cdk/scrolling';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { AbstractControl, FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Observable, Subject } from 'rxjs';
+import { serverTimestamp } from '@angular/fire/database';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-teams',
@@ -19,8 +19,8 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
   //Scroll element
   @ViewChild(CdkScrollable) cdkScrollable: CdkScrollable;
 
-  //Unscubscribe All
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
+  //Page View State (Default is "Loading..")
+  viewState = 0;
 
   //Form Mode State (Add vs. Edit Mode)
   formMode = '';
@@ -37,9 +37,14 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
   //Container for Strongly typed Model.
   model = new Team();
 
+  //Container for Strongly typed From Date Info.
+  formDates = new FormDates();
+
   //Container to hold Current Active Item Key
   currentkey = '';
 
+  //Unscubscribe All
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   //Constructor
   //---------------------
@@ -53,6 +58,192 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
   //Functions
   //---------------------
 
+  //Function - Show the Add Form
+  onShowAddForm(): void {
+
+    //Set the View State
+    this.viewState = 3;
+
+    //Set the Form Mode
+    this.formMode = 'add';
+  }
+
+  //Function - Show the Edit Form
+  onShowEditForm(key): void {
+
+    //Set the current key
+    this.currentkey = key;
+
+    //Set the View State
+    this.viewState = 3;
+
+    //Set the Form Mode
+    this.formMode = 'edit';
+
+    //Define Observable
+    this.item = this.db.object('/teams/' + this.fbuser.id + '/teams/' + key).valueChanges();
+
+    //Subscribe to Observable
+    this.item.subscribe((response) => {
+
+      //Populate the Item Model with the response date from the DB.
+      this.model = response;
+
+    });
+
+  }
+
+  //Function - Show the Delete Conf.
+  onShowDelete(key): void {
+
+    //Formbuilder for Dialog Popup
+    const dialogconfigForm = this._formBuilder.group({
+      title: 'Remove Item',
+      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
+      icon: this._formBuilder.group({
+        show: true,
+        name: 'heroicons_outline:exclamation',
+        color: 'warn'
+      }),
+      actions: this._formBuilder.group({
+        confirm: this._formBuilder.group({
+          show: true,
+          label: 'Remove',
+          color: 'warn'
+        }),
+        cancel: this._formBuilder.group({
+          show: true,
+          label: 'Cancel'
+        })
+      }),
+      dismissible: false
+    });
+
+    //Open the dialog and save the reference of it
+    const dialogRef = this._fuseConfirmationService.open(dialogconfigForm.value);
+
+    //Subscribe to afterClosed from the dialog reference
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirmed') {
+        //Call Actual Delete
+        this.onDelete(key);
+      }
+    });
+  }
+
+  //Function - Add New Item to DB
+  onAdd(): void {
+
+    //Add the User ID to the Model
+    this.model.uid = this.fbuser.id;
+
+    //Add Server Side Timestamp to the Model
+    this.model.created = serverTimestamp();
+    this.model.modified = serverTimestamp();
+
+    //Begin Database Calls to add the New Item
+    //----------------------------------------
+
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const addUserItem = this.db.list('/teams/' + this.fbuser.id + '/teams').push(this.model).then((responseObject) => {
+
+
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const addItem = this.db.list('/teams/').set(responseObject.key, this.model).then((responseObject) => {
+
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+    //Scroll to Top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
+  }
+
+  //Function - Update Item in DB
+  onEdit(key): void {
+
+    //Add Server Side Timestamp to the Model
+
+    this.model.modified = serverTimestamp();
+
+    //Begin Database Calls to Update the Existing Item
+    //----------------------------------------
+
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    const editUserItem = this.db.object('/teams/' + this.fbuser.id + '/training/' + key + '/').update(this.model).then((responseObject) => {
+
+      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+      const editItem = this.db.object('/teams/' + key + '/').update(this.model).then((responseObject) => {
+
+        //Reset the Models back to Zero (Which also Resets the Form)
+        this.model = new Team();
+        this.formDates = new FormDates();
+        this.currentkey = '';
+
+      })
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+    })
+
+      //Error Handling
+      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
+  }
+
+  //Function - Delete Item in DB
+  onDelete(key): void {
+
+    //Make sure empty key isn't passed to wipe database
+    if (key.length > 5) {
+
+      //Container for Strongly //Delete Item from the Item Node.
+      this.db.object('/teams/' + key).remove().then((responseObject) => {
+
+
+        //Delete Item from the User Node.
+        this.db.object('/teams/' + this.fbuser.id + '/teams/' + key).remove().then((responseObject) => {
+
+
+        }
+        )
+
+          //Error Handling
+          .catch(errorObject => console.log(errorObject, 'Remove Item from the User Node Failed!'));
+
+      }
+      )
+
+        //Error Handling
+        .catch(errorObject => console.log(errorObject, 'Remove Item from the Item Node Failed!'));
+
+    }
+
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+
+  }
+
+  //Function - Cancel the Add or Edit Form
+  onCancelForm(form: NgForm): void {
+    this.model = new Team();
+    this.formDates = new FormDates();
+    this.viewState = 1;
+    //Scroll to top
+    this.cdkScrollable.scrollTo({ top: 0 });
+  }
+
 
 
   // -----------------------------------------------------------------------------------------------------
@@ -63,6 +254,27 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
    * On init
    */
   ngOnInit(): void {
+
+    //Call the Firebase Database and get the initial data.
+    this.db.list('/teams/' + this.fbuser.id + '/teams').snapshotChanges().subscribe(
+      (results: object) => {
+
+        //Put the results of the DB call into an object.
+        this.items = results;
+
+        //Check if the results object is empty
+        if (Object.keys(this.items).length === 0) {
+          //It's empty, so set the view state to "No Data" mode.
+          this.viewState = 2;
+        }
+        else {
+          //It's not empty, so set the view state to "Show Data" mode.
+          this.viewState = 1;
+        };
+
+      }
+    );
+
   }
 
 
