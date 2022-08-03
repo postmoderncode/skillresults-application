@@ -65,6 +65,27 @@
                         
                     </div>
 
+                    <div *ngIf="user?.certifications">
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'heroicons_outline:document-text'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <strong class="text-2xl">Certifications</strong>
+                        <div *ngFor="let certification of (user?.certifications | keyvalue)" class="mb-5">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-emerald-50">
+                                <div class="font-semibold">{{user?.certifications[certification.key]?.name}}</div>
+                                <span *ngIf="user?.certifications[certification.key]?.description">
+                                    {{user?.certifications[certification.key]?.description}} <br />
+                                </span> 
+                                {{user?.certifications[certification.key]?.awardedby}} <br />
+                                {{user?.certifications[certification.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                                {{user?.certifications[certification.key]?.expireson | date: 'MM/dd/yyyy' }} <br />
+                            </div>
+                        </div>
+
+                    </div>
 
                     <div *ngIf="user?.degrees">
 
@@ -88,28 +109,6 @@
 
                     </div>
                         
-                    <div *ngIf="user?.certifications">
-
-                        <mat-icon class="icon-size-8 mr-3" 
-                        [svgIcon]="'heroicons_outline:document-text'"
-                            matPrefix>
-                        </mat-icon>
-
-                        <strong class="text-2xl">Certifications</strong>
-                        <div *ngFor="let certification of (user?.certifications | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-emerald-50">
-                                <div class="font-semibold">{{user?.certifications[certification.key]?.name}}</div>
-                                <span *ngIf="user?.certifications[certification.key]?.description">
-                                    {{user?.certifications[certification.key]?.description}} <br />
-                                </span> 
-                                {{user?.certifications[certification.key]?.awardedby}} <br />
-                                {{user?.certifications[certification.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
-                                {{user?.certifications[certification.key]?.expireson | date: 'MM/dd/yyyy' }} <br />
-                            </div>
-                        </div>
-
-                    </div>
-                        
                     <div *ngIf="user?.training">
 
                         <mat-icon class="icon-size-8 mr-3" 
@@ -119,7 +118,7 @@
 
                         <strong class="text-2xl">Training</strong>
                         <div *ngFor="let training of (user?.training| keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-amber-50">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-lime-50">
                                 <div class="font-semibold">{{user?.training[training.key]?.name}}</div>
                                 <span *ngIf="user?.training[training.key]?.description">
                                     {{user?.training[training.key]?.description}} <br />
@@ -141,7 +140,7 @@
 
                         <strong class="text-2xl">Awards</strong>
                         <div *ngFor="let award of (user?.awards | keyvalue)" class="mb-5">
-                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-lime-50">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-indigo-50">
                                 <div class="font-semibold">{{user?.awards[award.key]?.name}}</div>
                                 <span *ngIf="user?.awards[award.key]?.description">
                                     {{user?.awards[award.key]?.description}} <br />
@@ -173,7 +172,115 @@
 
                     </div>
 
+
+                    <div class="mt-20"></div>
+
+                    <div *ngIf="user?.wishlists?.skills">
+
+                        <mat-icon class="icon-size-8 mr-1" 
+                        [svgIcon]="'heroicons_outline:sparkles'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'feather:send'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <strong class="text-2xl">Wishlist Skills</strong>
+
+                        <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-amber-50">
+                            <div *ngFor="let skill of (user?.wishlists?.skills | keyvalue)" class="mb-3">
+                                {{user?.wishlists?.skills[skill.key]?.name}} : {{user?.wishlists?.skills[skill.key]?.rating}} 
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div *ngIf="user?.wishlists?.certifications">
+
+                        <mat-icon class="icon-size-8 mr-1" 
+                        [svgIcon]="'heroicons_outline:sparkles'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'heroicons_outline:document-text'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <strong class="text-2xl">Wishlist Certifications</strong>
+                        <div *ngFor="let certification of (user?.wishlists?.certifications | keyvalue)" class="mb-5">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-amber-50">
+                                <div class="font-semibold">{{user?.wishlists?.certifications[certification.key]?.name}}</div>
+                                <span *ngIf="user?.wishlists?.certifications[certification.key]?.description">
+                                    {{user?.wishlists?.certifications[certification.key]?.description}} <br />
+                                </span> 
+                                {{user?.wishlists?.certifications[certification.key]?.awardedby}} <br />
+                                {{user?.wishlists?.certifications[certification.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                                {{user?.wishlists?.certifications[certification.key]?.expireson | date: 'MM/dd/yyyy' }} <br />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="user?.wishlists?.degrees">
+
+                        <mat-icon class="icon-size-8 mr-1" 
+                        [svgIcon]="'heroicons_outline:sparkles'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'heroicons_outline:academic-cap'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <strong class="text-2xl">Wishlist Degrees</strong>
+                        <div *ngFor="let degree of (user?.wishlists?.degrees | keyvalue)" class="mb-5">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-amber-50">
+                                <div class="font-semibold">{{user?.wishlists?.degrees[degree.key]?.degreetype}}</div> 
+                                {{user?.wishlists?.degrees[degree.key]?.major}}<br >
+                                <span *ngIf="user?.wishlists?.degrees[degree.key]?.minor">
+                                {{user?.wishlists?.degrees[degree.key]?.minor}}<br />
+                                </span>
+                                {{user?.wishlists?.degrees[degree.key]?.institution}} <br />          
+                                {{user?.wishlists?.degrees[degree.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                            </div>
+                        </div>
+
+                    </div>
+                        
+                    <div *ngIf="user?.wishlists?.training">
+
+                        <mat-icon class="icon-size-8 mr-1" 
+                        [svgIcon]="'heroicons_outline:sparkles'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <mat-icon class="icon-size-8 mr-3" 
+                        [svgIcon]="'heroicons_outline:book-open'"
+                            matPrefix>
+                        </mat-icon>
+
+                        <strong class="text-2xl">Wishlist Training</strong>
+                        <div *ngFor="let training of (user?.wishlists?.training| keyvalue)" class="mb-5">
+                            <div class="h-25 m-0 sm:mr-5 mb-3 p-5 h-25 shadow-lg border-2 border-slate-200 bg-amber-50">
+                                <div class="font-semibold">{{user?.wishlists?.training[training.key]?.name}}</div>
+                                <span *ngIf="user?.wishlists?.training[training.key]?.description">
+                                    {{user?.wishlists?.training[training.key]?.description}} <br />
+                                </span>                           
+                                {{user?.wishlists?.training[training.key]?.awardedby}} <br />
+                                {{user?.wishlists?.training[training.key]?.awardedon | date: 'MM/dd/yyyy' }} <br />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
                     <div class="w-full text-right mt-5 mb-3">
+                        <button mat-raised-button class="mt-8 mr-3 mb-5" (click)="printThisPage()" matTooltip="print this page">print</button>
                         <button mat-raised-button class="mt-8 mr-3 mb-5" (click)="onDownloadUser()" matTooltip="export to json">json</button>
                     </div>
 
