@@ -85,103 +85,69 @@
                     <!-- SHOW LIST VIEW STATE -->
                     <div *ngSwitchCase="1">
 
-                        <!-- Cert List Area (default) -->
-                        <!-- ------------------------ -->
+                        <div class="text-xl font-semibold mb-5">
+                            My Teams
+                        </div>
 
-                        <!-- Certification List -->
+                        <!-- Team List -->
                         <div class="flex justify-center flex-wrap mt-5">
 
-                            <!-- Certification Container -->
+                            <!-- Team Container -->
                             <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
 
-                                <!-- Certifciation Card -->
-                                <div class="h-80 m-0 sm:mr-5 mb-5 p-5 shadow-lg border-2 border-slate-200 bg-white">
-
-                                    <!-- Cert Card - inner border -->
-                                    <div class="flex flex-col h-full relative border-8 border-orange-100">
-
-                                        <!-- Top Flex Row -->
-                                        <div class="flex-none">
-
-                                             <!--Flex Container for the Top Row -->
-                                            <div class="flex items-center">
+                                <!-- Team Card -->
+                                <div class="h-50 m-0 sm:mr-5 mb-5 p-5 shadow-lg border-2 border-slate-200 bg-white">
 
 
-                                                <!-- Ribbon Icon -->
-                                                <div class="flex-none w-20 pl-4 items-center font-serif mt-4 leading-5 text-center text-xl text-slate-500 tracking-widest">
-                                                    TEAM
-                                                </div>
+                                    <div class="font-semibold">
+                                        {{item.payload.val().name}}
+                                    </div>
+                                    {{item.payload.val().description}}
+                                    
+                                    <!-- Bottom Flex Row -->
+                                    <div class="flex-none">
+                                        
+                                        <!-- Botton Flex Container -->
+                                        <div class="flex mt-10">
 
-                                                <!-- Awarded On -->
-                                                <div class="flex-auto basis-1/2 text-right mr-5 pt-2 text-slate-500">
-                                                    <span  *ngIf="item.payload.val().awardedon?.toString().length > 0">
-                                                        Completed {{item.payload.val().awardedon.toString() | date: 'MM/dd/yy'}} 
-                                                    </span>
-                                                </div>
-
+                                            <!-- Edit Button -->
+                                            <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                <button (click)="onShowEditForm(item.key)" 
+                                                        mat-flat-button 
+                                                        type="button" 
+                                                        [color]="'primary'">
+                                                            Edit Details
+                                                </button>
+                                                
                                             </div>
 
-                                        </div>
+                                            <!-- Delete Button -->
+                                            <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                <button 
+                                                    (click)="onShowDelete(item.key)" 
+                                                    mat-stroked-button 
+                                                    type="button"
+                                                    class="bg-white">
+                                                    Delete
+                                                </button>
+                                            </div>                                            
 
-                                        <!-- Middle Flex Row -->
-                                        <div class="flex-auto">
-                                            <div class="flex flex-col justify-evenly h-full">
-
-                                                <div class="flex-none text-center leading-4 text-xl text-slate-600 font-extrabold tracking-tight leading-7">{{item.payload.val().name}}</div>
-
-                                                <div class="flex-none text-center leading-4 text-lg text-green-400 font-bold italic tracking-tight leading-7">{{item.payload.val().awardedby}}</div>
-
-                                                <div class="flex-none px-2 text-center text-md text-slate-400 tracking-tight leading-4"
-                                                        style="
-                                                            display: -webkit-box;
-                                                            overflow: hidden;
-                                                            -webkit-line-clamp: 3;
-                                                            -webkit-box-orient: vertical;">
-                                                     {{item.payload.val().description}}
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-
-                                        <!-- Bottom Flex Row -->
-                                        <div class="flex-none">
-                                            
-                                            <!-- Botton Flex Container -->
-                                            <div class="flex">
-
-                                                <!-- Delete Button -->
-                                                <div class="flex-auto basis-1/2 pt-2 text-center">
-                                                    <button 
-                                                        (click)="onShowDelete(item.key)" 
-                                                        mat-stroked-button 
-                                                        type="button"
-                                                        class="bg-white">
-                                                        Delete
-                                                    </button>
-                                                </div>
-
-                                                <!-- Cert Icon -->
-                                                <div class="flex-none">
-                                                    <!-- <img class="h-14 relative -bottom-4" src="assets/images/ui/training-icon.svg"> -->
-                                                </div>
-
-                                                <!-- Edit Button -->
-                                                <div class="flex-auto basis-1/2 pt-2 text-center">
-                                                    <button (click)="onShowEditForm(item.key)" 
-                                                            mat-flat-button 
-                                                            type="button" 
-                                                            [color]="'primary'">
-                                                                Edit
-                                                    </button>
-                                                   
-                                                </div>
-
+                                            <!-- Edit Members Button -->
+                                            <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                <button (click)="onShowEditMembeForm(item.key)" 
+                                                        mat-flat-button 
+                                                        type="button" 
+                                                        [color]="'primary'">
+                                                            Edit Team Members
+                                                </button>
+                                                
                                             </div>
 
                                         </div>
 
                                     </div>
+
+                              
 
                                 </div>
 
@@ -320,14 +286,176 @@
                         DELETE CONF
                     </div>
 
-                    <!-- CONFIRM DELETE VIEW STATE -->
+                    <!-- ALL TEAMS VIEW STATE -->
                     <div *ngSwitchCase="5">
 
                         <div class="text-xl font-semibold mb-5">
-                            Team List
+                            All Teams List
+                        </div>
+
+                        <!-- Team List -->
+                        <div class="flex justify-center flex-wrap mt-5">
+
+                            <!-- Team Container -->
+                            <div *ngFor="let item of allteams" class="flex-initial basis-full xl:basis-1/2 max-w-160">
+
+                                <!-- Team Card -->
+                                <div class="h-50 m-0 sm:mr-5 mb-5 p-5 shadow-lg border-2 border-slate-200 bg-white">
+
+
+                                    <div class="font-semibold">
+                                        {{item.payload.val().name}}
+                                    </div>
+                                    {{item.payload.val().description}}
+
+                                    <div class="text-blue-400">
+                                        <a [routerLink]="['/home/public-profile/' + item?.payload.val().uid]">{{item?.payload.val().uid}}</a>
+                                    </div>
+                                    
+                                    <!-- Bottom Flex Row -->
+                                    <div class="flex-none">
+                                        
+                                        <!-- Botton Flex Container -->
+                                        <div class="flex mt-10">
+
+                                            <!-- Edit Button -->
+                                            <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                <button (click)="onShowEditForm(item.key)" 
+                                                        mat-flat-button 
+                                                        type="button" 
+                                                        [color]="'primary'">
+                                                            Edit Details
+                                                </button>
+                                                
+                                            </div>
+
+                                            <!-- Delete Button -->
+                                            <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                <button 
+                                                    (click)="onShowDelete(item.key)" 
+                                                    mat-stroked-button 
+                                                    type="button"
+                                                    class="bg-white">
+                                                    Delete
+                                                </button>
+                                            </div>                                            
+
+                                            <!-- Edit Members Button -->
+                                            <div class="flex-auto basis-1/2 pt-2 text-center">
+                                                <button (click)="onShowEditForm(item.key)" 
+                                                        mat-flat-button 
+                                                        type="button" 
+                                                        [color]="'primary'">
+                                                            Edit Team Members
+                                                </button>
+                                                
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                              
+
+                                </div>
+
+                            </div>
+
                         </div>
 
                         
+                    </div>
+
+
+                    <!-- TEAM MEMBERS VIEW STATE -->
+                    <div *ngSwitchCase="6">
+
+                        <!-- Form Container -->
+                        <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
+
+                            <!-- Form Title -->
+                            <div [ngSwitch]="formMode">
+
+                                <h2 *ngSwitchCase="'add'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Add Team Members
+                                </h2>
+
+                                <h2 *ngSwitchCase="'edit'"
+                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                                    Edit Team Members
+                                </h2>
+
+                            </div>
+
+
+                            <!-- Form Start -->
+                            <form #addMembersForm="ngForm">
+
+                                <!-- Form Field - Name -->
+                                <div class="form-group mb-5">
+                                    <mat-form-field class="fuse-mat-no-subscript w-full">
+                                        <mat-label>Team Name</mat-label>
+                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:file-text'" matPrefix>
+                                        </mat-icon>
+                                        <input type="text" id="name" class="form-control"
+                                            #name="ngModel" [(ngModel)]="model.name" 
+                                            name="name" required matInput>
+                                    </mat-form-field>
+
+                                    <!-- Form Field - Name Error -->
+                                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                                        <span style="color:red;">Name is required</span>
+                                    </div>
+                                </div>
+
+
+                                <!-- Actions -->
+                                <div class="flex justify-center mt-6">
+
+                                    <button
+                                        (click)="onCancelForm(addMembersForm)"
+                                        class="flex-none ml-4" 
+                                        mat-stroked-button type="button" 
+                                        [color]="'primary'">
+                                        Cancel
+                                    </button>
+                                
+                                    <!-- Switch to control Add vs. Edit mode -->
+                                    <div [ngSwitch]="formMode">
+
+                                        <div *ngSwitchCase="'add'" >
+                                            <button 
+                                                (click)="onAdd(addMembersForm)"
+                                                [disabled]="!addMembersForm.form.valid" 
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Add New Team Member
+                                            </button>
+                                        </div>
+
+                                        <div *ngSwitchCase="'edit'">
+                                            <button
+                                                (click)="onEdit(currentkey)"
+                                                [disabled]="!addMembersForm.form.valid" 
+                                                class="flex-none ml-4" 
+                                                mat-flat-button
+                                                type="button" 
+                                                [color]="'primary'">
+                                                Edit Team Member
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
                     </div>
 
                 </div>

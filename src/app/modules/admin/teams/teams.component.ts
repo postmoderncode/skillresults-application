@@ -27,6 +27,7 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   //Container to hold a list of items
   items: object;
+  allteams: object;
 
   //Container to hold a single item
   item: Observable<any>;
@@ -92,6 +93,34 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
   }
+
+  //Function - Show the Edit Form
+  onShowEditMembeForm(key): void {
+
+    //Set the current key
+    this.currentkey = key;
+
+    //Set the View State
+    this.viewState = 6;
+
+    //Set the Form Mode
+    this.formMode = 'edit';
+
+    //Define Observable
+    this.item = this.db.object('/users/' + this.fbuser.id + '/teams/' + key).valueChanges();
+
+    //Subscribe to Observable
+    this.item.subscribe((response) => {
+
+      //Populate the Item Model with the response date from the DB.
+      this.model = response;
+
+    });
+
+  }
+
+
+
 
   //Function - Show the Delete Conf.
   onShowDelete(key): void {
@@ -286,6 +315,17 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
           //It's not empty, so set the view state to "Show Data" mode.
           this.viewState = 1;
         };
+
+      }
+    );
+
+
+    //Call the Firebase Database and get the initial data.
+    this.db.list('/teams').snapshotChanges().subscribe(
+      (results: object) => {
+
+        //Put the results of the DB call into an object.
+        this.allteams = results;
 
       }
     );
