@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Input, ViewChild
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Observable, Subject, combineLatest, map } from 'rxjs';
+import { Observable, Subject, combineLatest, map, first } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { serverTimestamp } from '@angular/fire/database';
@@ -374,39 +374,72 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
     //Begin Database Calls to add the New Item
     //----------------------------------------
 
-    //Call the 1st Firebase PromiseObject (To add Item to User Node)
-    const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push(this.model).then((responseObject) => {
+    // Check If User Skill Exusts
+    const checkexists = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills', ref => ref
+      .orderByChild('name')
+      .equalTo(this.model.name))
+      .snapshotChanges().pipe(
+        first(),
+      ).subscribe({
+        next: (v: object) => {
 
+          if (v[0]?.key !== undefined) {
+            //User Skill Exists So Call the 1st Firebase PromiseObject (To add Item to User Node)
+            const updateUserRating = this.db.object('/users/' + this.fbuser.id + '/wishlists/skills/' + v[0].key + '/').update({ rating: this.model.rating, modified: this.model.modified })
+              .then((responseObject) => {
 
+                //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+                const updateRating = this.db.object('/wishlists/skills/' + v[0].key + '/').update({ rating: this.model.rating, modified: this.model.modified })
+                  .then((responseObject) => {
 
-      //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
-      const addItem = this.db.list('/wishlists/skills/').set(responseObject.key, this.model).then((responseObject) => {
+                  })
+                  //Error Handling
+                  .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
 
+              })
 
-        //Increment Count
-        this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((counts) => {
+              //Error Handling
+              .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
 
-          //Reset the Models back to Zero (Which also Resets the Form)
-          this.model = new UserSkill();
-          this.formDates = new FormDates();
-
-          //Set the Counts
-          if (counts === null) {
-            return counts = 1;
           } else {
-            return counts + 1;
+
+            //User Skill Does Not Exist So Call the 1st Firebase PromiseObject (To add Item to User Node)
+            const addUserItem = this.db.list('/users/' + this.fbuser.id + '/wishlists/skills').push(this.model).then((responseObject) => {
+
+              //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
+              const addItem = this.db.list('/wishlists/skills/').set(responseObject.key, this.model).then((responseObject) => {
+
+
+                //Increment Count
+                this.db.object('/counts/' + this.fbuser.id + '/wishlists/skills').query.ref.transaction((counts) => {
+
+                  //Reset the Models back to Zero (Which also Resets the Form)
+                  this.model = new UserSkill();
+                  this.formDates = new FormDates();
+
+                  //Set the Counts
+                  if (counts === null) {
+                    return counts = 1;
+                  } else {
+                    return counts + 1;
+                  }
+
+                });
+
+              })
+                //Error Handling
+                .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
+
+            })
+
+              //Error Handling
+              .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
           }
 
-        });
-
+        },
+        error: (e) => { console.log(e) }
       })
-        //Error Handling
-        .catch(errorObject => console.log(errorObject, 'Add Item to Item Node Failed!'));
-
-    })
-
-      //Error Handling
-      .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
 
   }
 

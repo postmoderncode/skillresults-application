@@ -48,7 +48,8 @@
                 <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50 w-full flex items-stretch">
                     <div 
                         style="cursor: pointer;"
-                        [routerLink]="['/home/public-profile/' + item.key]" 
+                        [routerLink]="['/home/public-profile/' + item.key]"
+                        matTooltip="View  {{item.name}}'s Profile"
                         class="w-full flex items-stretch"> 
                         
                         <div>
@@ -87,14 +88,13 @@
                             color="primary" 
                             class="ml-4" 
                             (click)="onGrantAdmin(item.key)"
-                            matTooltip="Grant Admin">
+                            matTooltip="Grant Admin Privileges">
                             <mat-icon 
                                 class="icon-size-8" 
                                 [svgIcon]="'heroicons_outline:user-add'">
                             </mat-icon>
 
                         </button> 
-
                        
                     </div>
 
@@ -105,7 +105,7 @@
                             color="warn" 
                             class="ml-4" 
                             (click)="onShowDelete(item.key)"
-                            matTooltip="Revoke Admin">
+                            matTooltip="Revoke Admin Privileges">
                             <mat-icon 
                                 class="icon-size-8" 
                                 [svgIcon]="'heroicons_outline:user-remove'">
@@ -115,8 +115,7 @@
 
                     </div>
 
-                </div>
-              
+                </div>             
 
             </div>
 
