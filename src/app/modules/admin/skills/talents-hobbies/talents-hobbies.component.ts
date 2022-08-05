@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { FormBuilder, NgForm } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { Observable, Subject } from 'rxjs';
+import { serverTimestamp } from '@angular/fire/database';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
@@ -135,14 +136,19 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
 
     //Add the User ID to the Model
     this.model.uid = this.fbuser.id;
+    this.model.email = this.fbuser.email;
+    this.model.username = this.fbuser.name;
+
+    //Add Server Side Timestamp to the Model
+    this.model.created = serverTimestamp();
+    this.model.modified = serverTimestamp();
+
 
     //Begin Database Calls to add the New Item
     //----------------------------------------
 
     //Call the 1st Firebase PromiseObject (To add Item to User Node)
     const addUserItem = this.db.list('/users/' + this.fbuser.id + '/talents').push(this.model).then((responseObject) => {
-
-
 
       //Call the 2nd Firebase PromiseObject (To add Item to the Item Node)
       const addItem = this.db.list('/talents/').set(responseObject.key, this.model).then((responseObject) => {
@@ -180,6 +186,10 @@ export class TalentsHobbiesComponent implements OnInit, OnDestroy {
 
   //Function - Update Item in DB
   onEdit(key): void {
+
+
+    //Add Server Side Timestamp to the Model
+    this.model.modified = serverTimestamp();
 
     //Begin Database Calls to Update the Existing Item
     //----------------------------------------
@@ -315,6 +325,8 @@ export class Talent {
     public created: object = {},
     public modified: object = {},
     public uid: string = '',
+    public email: string = '',
+    public username: string = ''
 
   ) { }
 
