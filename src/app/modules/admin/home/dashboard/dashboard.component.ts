@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .valueChanges().subscribe(
         (results: any[]) => {
           this.counts = results;
-          this.wishlistscount = (this.counts.wishlists?.awards ?? 0) +
+          this.wishlistscount = (this.counts?.wishlists?.awards ?? 0) +
             (this.counts?.wishlists?.certifications ?? 0) +
             (this.counts?.wishlists?.degrees ?? 0) +
             (this.counts?.wishlists?.skills ?? 0) +
