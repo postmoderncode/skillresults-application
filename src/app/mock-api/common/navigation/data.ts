@@ -360,13 +360,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 title: 'Administration',
                 admin: true,
                 type: 'collapsable',
-                icon: 'heroicons_outline:identification',
+                icon: 'mat_outline:card_membership',
                 children: [
                     {
                         id: 'skill-catalog',
                         title: 'Skill Catalog',
                         type: 'basic',
-                        icon: 'heroicons_outline:pencil',
+                        icon: 'heroicons_outline:book-open',
                         link: 'administration/skill-catalog'
                     },
                     {
@@ -409,12 +409,20 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 link: 'skills/my-skills'
             },
             {
+                id: 'awards-accolades',
+                title: 'Awards & Accolades',
+                type: 'basic',
+                icon: 'feather:award',
+                link: 'education/awards-accolades'
+            },
+            {
                 id: 'talents-hobbies',
                 title: 'Talents & Hobbies',
                 type: 'basic',
                 icon: 'feather:heart',
                 link: 'skills/talents-hobbies'
             }
+
         ]
     },
     {
@@ -433,23 +441,17 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 id: 'certifications-licenses',
                 title: 'Certifications & Licenses',
                 type: 'basic',
-                icon: 'heroicons_outline:document-text',
+                icon: 'mat_outline:badge',
                 link: 'education/certifications-licenses'
             },
             {
                 id: 'professional-training',
                 title: 'Professional Training',
                 type: 'basic',
-                icon: 'heroicons_outline:book-open',
+                icon: 'feather:briefcase',
                 link: 'education/professional-training'
-            },
-            {
-                id: 'awards-accolades',
-                title: 'Awards & Accolades',
-                type: 'basic',
-                icon: 'feather:award',
-                link: 'education/awards-accolades'
             }
+
         ]
     },
     {
