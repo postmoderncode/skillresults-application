@@ -18,10 +18,25 @@
         <!-- Right Side - Action Buttons -->
         <div *ngIf="viewState !== 3" class="flex shrink-0 items-center mt-3">
 
-            <button (click)="onShowAddForm()" [disabled]="showadditem" class="ml-4" mat-flat-button type="button"
-                [color]="'primary'">
-                Add Position
-            </button>
+            <button 
+                mat-icon-button 
+                color="primary" 
+                class="ml-4" 
+                (click)="onShowAddForm()"
+                [disabled]="showadditem"
+                matTooltip="Add Position">
+
+                <mat-icon 
+                    class="icon-size-4" 
+                    [svgIcon]="'heroicons_outline:plus-sm'">
+                </mat-icon>
+                <mat-icon 
+                    class="icon-size-8" 
+                    [svgIcon]="'cases'">
+                </mat-icon>
+
+            </button> 
+
         </div>
     </div>
 
@@ -160,7 +175,7 @@
                         <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 max-w-160 shadow-lg border-2 border-slate-200 bg-white mt-5">
 
                             <mat-icon class="icon-size-10 mr-3" 
-                            [svgIcon]="'heroicons_outline:user-group'"
+                            [svgIcon]="'cases'"
                                 matPrefix>
                             </mat-icon>
 

@@ -146,7 +146,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'positions',
                 title: 'Positions',
                 type: 'basic',
-                icon: 'heroicons_solid:user-group',
+                icon: 'cases',
                 link: 'administration/positions'
             },
             {
@@ -311,7 +311,7 @@ export const compactNavigation: FuseNavigationItem[] = [
                 id: 'positions',
                 title: 'Positions',
                 type: 'basic',
-                icon: 'heroicons_solid:user-group',
+                icon: 'cases',
                 link: 'administration/positions'
             },
             {
@@ -381,7 +381,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                         id: 'positions',
                         title: 'Positions',
                         type: 'basic',
-                        icon: 'heroicons_solid:user-group',
+                        icon: 'cases',
                         link: 'administration/positions'
                     },
                     {
@@ -631,7 +631,7 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 id: 'positions',
                 title: 'Positions',
                 type: 'basic',
-                icon: 'heroicons_solid:user-group',
+                icon: 'cases',
                 link: 'administration/positions'
             },
             {
