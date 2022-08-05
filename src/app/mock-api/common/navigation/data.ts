@@ -30,6 +30,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:sparkles',
                 link: 'wishlist'
             },
+            {
+                id: 'teams',
+                title: 'Teams',
+                type: 'basic',
+                icon: 'heroicons_solid:user-group',
+                link: 'teams'
+            },
         ]
     },
     {
@@ -110,14 +117,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'feather:bar-chart-2',
                 link: 'reports/report-catalog'
             },
-            {
-                id: 'teams',
-                title: 'Teams',
-                type: 'basic',
-                icon: 'heroicons_solid:user-group',
-                link: 'teams'
-            },
-
 
         ]
     },
@@ -277,13 +276,6 @@ export const compactNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:chart-pie',
                 link: 'reports/report-catalog'
             },
-            {
-                id: 'teams',
-                title: 'Teams',
-                type: 'basic',
-                icon: 'heroicons_solid:user-group',
-                link: 'teams'
-            },
 
         ]
     },
@@ -355,6 +347,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:sparkles',
                 link: 'wishlist'
+            },
+            {
+                id: 'teams',
+                title: 'Teams',
+                type: 'basic',
+                icon: 'heroicons_solid:user-group',
+                link: 'teams'
             },
             {
                 id: 'administration',
@@ -471,13 +470,6 @@ export const futuristicNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'feather:bar-chart-2',
                 link: 'reports/report-catalog'
-            },
-            {
-                id: 'teams',
-                title: 'Teams',
-                type: 'basic',
-                icon: 'heroicons_solid:user-group',
-                link: 'teams'
             },
 
         ]

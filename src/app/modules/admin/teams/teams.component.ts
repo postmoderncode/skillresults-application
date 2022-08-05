@@ -120,8 +120,6 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-
-
   //Function - Show the Delete Conf.
   onShowDelete(key): void {
 

@@ -43,13 +43,17 @@
 
             <div *ngFor="let item of itemsFiltered" class="flex-initial basis-full xl:basis-1/2 max-w-160">
                 
+                
                 <!-- User Card -->
-                <a [routerLink]="['/home/public-profile/' + item.key]">
-                    <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50 w-full flex items-stretch"> 
+                <div class="h-25 m-0 sm:mr-5 mb-5 p-5 h-25 shadow-lg border-2 border-slate-200 bg-sky-50 w-full flex items-stretch">
+                    <div 
+                        style="cursor: pointer;"
+                        [routerLink]="['/home/public-profile/' + item.key]" 
+                        class="w-full flex items-stretch"> 
                         
                         <div>
 
-                            <mat-icon class="icon-size-12 mr-10" 
+                            <mat-icon class="sm:icon-size-8 md:icon-size-12 lg:icon-size-12 mr-5" 
                             [svgIcon]="'heroicons_outline:user'">
                             </mat-icon>
 
@@ -60,7 +64,7 @@
                             <div class="font-semibold">
                                 {{item.name}}
                             </div>                      
-                           
+                            
                             <div>
                                 {{item.email}}
                             </div>
@@ -75,7 +79,44 @@
                         </span>
 
                     </div>
-                </a>
+
+                    <div *ngIf="fbuser.isadmin === true && item.isadmin !== true && fbuser.id !== item.id" class="ml-10" >
+
+                        <button 
+                            mat-icon-button 
+                            color="primary" 
+                            class="ml-4" 
+                            (click)="onGrantAdmin(item.key)"
+                            matTooltip="Grant Admin">
+                            <mat-icon 
+                                class="icon-size-8" 
+                                [svgIcon]="'heroicons_outline:user-add'">
+                            </mat-icon>
+
+                        </button> 
+
+                       
+                    </div>
+
+                    <div *ngIf="fbuser.isadmin === true && item.isadmin === true && fbuser.id !== item.id" class="ml-10" >
+
+                        <button 
+                            mat-icon-button 
+                            color="warn" 
+                            class="ml-4" 
+                            (click)="onShowDelete(item.key)"
+                            matTooltip="Revoke Admin">
+                            <mat-icon 
+                                class="icon-size-8" 
+                                [svgIcon]="'heroicons_outline:user-remove'">
+                            </mat-icon>
+
+                        </button> 
+
+                    </div>
+
+                </div>
+              
 
             </div>
 
