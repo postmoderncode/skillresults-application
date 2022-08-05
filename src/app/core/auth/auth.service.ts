@@ -214,10 +214,16 @@ export class AuthService {
                             fbuser.isadmin = true;
 
                         } else if (snapshot.exists() && snapshot.val().isadmin == false) {
-                            fbuser.isadmin = false;
+
+                            // DEMO MODE: ALL ADMIN ON CREATE
+                            // fbuser.isadmin = false;
+                            fbuser.isadmin = true;
 
                         } else {
-                            fbuser.isadmin = false;
+
+                            // DEMO MODE: ALL ADMIN ON CREATE
+                            // fbuser.isadmin = false;
+                            fbuser.isadmin = true;
                         }
 
                     }).then(_ => {

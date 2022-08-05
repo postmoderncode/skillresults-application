@@ -1,164 +1,146 @@
-{
-  "rules": {
-         
-    "awards": {
-    ".read": "auth !== null",
-      "$id": {
-          ".read": "auth !== null",
-          ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null || root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-            }  
-      },
-
-    "certifications": {
-    ".read": "auth !== null",
-      "$id": {
-          ".read": "auth !== null",
-          ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null || root.child('userlist').child(auth.uid).child('isadmin').val() == true" 
-            }  
-      },
-
-    "certnames": {
-        ".read": "auth !== null",
-        "$uid": {
-            ".write": "$uid !== null"
-        }
-
-    },
-        
-    "counts": {
-      ".read": "auth !== null",
-        "$id": {
-            ".read": "auth !== null",
-            ".write": "$id == auth.uid" 
-              }  
-        },
-          
-    "customs": {
-        ".read": "auth !== null",
-        "$uid": {
-            ".write": "$uid !== null",
-      
-          "catagories": {
-          ".indexOn": "area"
-          },
-          
-          "skills": {
-          ".indexOn": ["category", "value"] 
-          }             
-        }
-        },
-          
-    "degrees": {
-        ".read": "auth !== null",
-        "$uid": {
-            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null || root.child('userlist').child(auth.uid).child('isadmin').val() == true",
-        }
-
-    },
-          
-    "degreelevels": {
-      ".read": "auth !== null",
-      ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-        },
-                  
-    "degreetypes": {
-      ".read": "auth !== null",
-      ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-        },
-
-    "duties": {
-      ".read": "auth !== null",
-      ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-        },
-          
-    "globals": {
-      ".read": "auth !== null",
-      ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-        },
-          
-    "institutions": {
-      ".indexOn": "state",
-      ".read": "auth !== null",
-      ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-        },
-          
-    "positions": {
-      ".read": "auth !== null",
-      ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-        },
-             
-    "skillcatalog": {
-        ".read": "auth !== null",
-        "$uid": {
-            ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true",
-      
-          "catagories": {
-          ".indexOn": "area"
-          },
-          
-          "skills": {
-          ".indexOn": ["category", "value"] 
-          }      
-          
-        }
-    },
-
-    "skills": {
-      ".read": "auth !== null",
-      ".write": "auth !== null"
-        },
-      
-    "talents": {
-        ".read": "auth !== null",
-        "$uid": {
-            ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null || root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-        }
-
-    },
-        
-    "teams": {
-      ".read": "auth !== null",
-      ".write": "auth !== null"
-        },
-          
-    "teammembers": {
-      ".read": "auth !== null",
-      ".write": "auth !== null"
-        },
-
-    "training": {
-    ".read": "auth !== null",
-      "$id": {
-          ".read": "auth !== null",
-          ".write": "data.child('uid').val() == auth.uid && auth !== null || !data.exists() && auth !== null || root.child('userlist').child(auth.uid).child('isadmin').val() == true", 
-            }  
-      },
-          
-    "users": {
-      ".indexOn": ["name","email"],
-      ".read": "auth !== null",
-      "$id": {
-          ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true", 
-            }  
-        },
-      
-    "userlist": {
-      ".indexOn": ["name","email"],
-      ".read": "auth !== null",
-      "$id": {
-          ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true", 
-            }  
-        },
-          
-    "whitelist": {
-      ".read": "auth !== null",
-      ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
-        },
-    
-    "wishlists": {
-      ".read": "auth !== null",
-      ".write": "auth !== null"
-        }
-
+"certnames": {
+  ".read": "auth !== null",
+  "$uid": {
+      ".write": "$uid !== null"
   }
+
+},
+  
+"counts": {
+".read": "auth !== null",
+  "$id": {
+      ".read": "auth !== null",
+      ".write": "$id == auth.uid" 
+        }  
+  },
+    
+"customs": {
+  ".read": "auth !== null",
+  "$uid": {
+      ".write": "$uid !== null",
+
+    "catagories": {
+    ".indexOn": "area"
+    },
+    
+    "skills": {
+    ".indexOn": ["category", "value"] 
+    }             
+  }
+  },
+    
+"degrees": {
+  ".read": "auth !== null",
+  "$uid": {
+    ".write": "(data.child('uid').val() == auth.uid && auth !== null) || (!data.exists() && auth !== null) || (root.child('userlist').child(auth.uid).child('isadmin').val() == true)"
+  }
+
+},
+    
+"degreelevels": {
+".read": "auth !== null",
+".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
+  },
+            
+"degreetypes": {
+".read": "auth !== null",
+".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
+  },
+
+"duties": {
+".read": "auth !== null",
+".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
+  },
+    
+"globals": {
+".read": "auth !== null",
+".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
+  },
+    
+"institutions": {
+".indexOn": "state",
+".read": "auth !== null",
+".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
+  },
+    
+"positions": {
+".read": "auth !== null",
+".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
+  },
+       
+"skillcatalog": {
+  ".read": "auth !== null",
+  "$uid": {
+      ".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true",
+
+    "catagories": {
+    ".indexOn": "area"
+    },
+    
+    "skills": {
+    ".indexOn": ["category", "value"] 
+    }      
+    
+  }
+},
+
+"skills": {
+".read": "auth !== null",
+".write": "auth !== null"
+  },
+
+"talents": {
+  ".read": "auth !== null",
+  "$uid": {
+    ".write": "(data.child('uid').val() == auth.uid && auth !== null) || (!data.exists() && auth !== null) || (root.child('userlist').child(auth.uid).child('isadmin').val() == true)"
+  }
+
+},
+  
+"teams": {
+".read": "auth !== null",
+".write": "(data.child('uid').val() == auth.uid && auth !== null) || (!data.exists() && auth !== null) || (root.child('userlist').child(auth.uid).child('isadmin').val() == true)"
+
+  },
+    
+"teammembers": {
+".read": "auth !== null",
+".write": "(data.child('uid').val() == auth.uid && auth !== null) || (!data.exists() && auth !== null) || (root.child('userlist').child(auth.uid).child('isadmin').val() == true)"
+  },
+
+"training": {
+".read": "auth !== null",
+"$id": {
+    ".read": "auth !== null",
+    ".write": "(data.child('uid').val() == auth.uid && auth !== null) || (!data.exists() && auth !== null) || (root.child('userlist').child(auth.uid).child('isadmin').val() == true)"
+  }  
+},
+    
+"users": {
+".indexOn": ["name","email"],
+".read": "auth !== null",
+"$id": {
+    ".write": "(root.child('userlist').child(auth.uid).child('isadmin').val() == true) || (!data.exists() && auth !== null)", 
+      }  
+  },
+
+"userlist": {
+".indexOn": ["name","email"],
+".read": "auth !== null",
+"$id": {
+    ".write": "(root.child('userlist').child(auth.uid).child('isadmin').val() == true) || (!data.exists() && auth !== null)", 
+      }  
+  },
+    
+"whitelist": {
+".read": "auth !== null",
+".write": "root.child('userlist').child(auth.uid).child('isadmin').val() == true"
+  },
+
+"wishlists": {
+".read": "auth !== null",
+".write": "auth !== null"
+  }
+
+}
 }
