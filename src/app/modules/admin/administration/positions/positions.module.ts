@@ -22,6 +22,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseCardModule } from '@fuse/components/card';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
+import { PositionsDegreesComponent } from './positions-degrees/positions-degrees.component';
+import { PositionsCertificationsComponent } from './positions-certifications/positions-certifications.component';
+import { PositionsSkillsComponent } from './positions-skills/positions-skills.component';
+import { PositionsDutiesComponent } from './positions-duties/positions-duties.component';
+
 
 
 const positionsRoutes: Route[] = [
@@ -33,7 +38,11 @@ const positionsRoutes: Route[] = [
 
 @NgModule({
   declarations: [
-    PositionsComponent
+    PositionsComponent,
+    PositionsDegreesComponent,
+    PositionsCertificationsComponent,
+    PositionsSkillsComponent,
+    PositionsDutiesComponent
   ],
   imports: [
     MatButtonModule,

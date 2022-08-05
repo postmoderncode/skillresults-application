@@ -47,6 +47,10 @@ export class PositionsComponent implements OnInit, OnDestroy {
   //Form Visibility Modifiers
   positionfilled = false;
   showcompensation = false;
+  showcertifications = false;
+  showdegrees = false;
+  showskills = false;
+  showduties = false;
 
 
   //Constructor
@@ -178,6 +182,36 @@ export class PositionsComponent implements OnInit, OnDestroy {
     if ($event.checked === true) { this.showcompensation = true; }
     else { this.showcompensation = false; }
   }
+
+
+  //Degrees Checkbox
+  onDegreesChecked($event): void {
+    if ($event.checked === true) { this.showdegrees = true; }
+    else { this.showdegrees = false; }
+  }
+
+  //Certifications Checkbox
+  onCertificationsChecked($event): void {
+    if ($event.checked === true) { this.showcertifications = true; }
+    else { this.showcertifications = false; }
+  }
+
+  //Skills Checkbox
+  onSkillsChecked($event): void {
+    if ($event.checked === true) { this.showskills = true; }
+    else { this.showskills = false; }
+  }
+
+  //Degrees Checkbox
+  onDutiesChecked($event): void {
+    if ($event.checked === true) { this.showduties = true; }
+    else { this.showduties = false; }
+  }
+
+
+
+
+
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks

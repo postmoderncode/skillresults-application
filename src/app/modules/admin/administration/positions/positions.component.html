@@ -1,4 +1,4 @@
-\<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto" cdkScrollable>
 
     <!-- Header -->
     <div
@@ -300,7 +300,6 @@
                                     </mat-form-field>
                                 </div>
 
-
                                 <div class="form-group mb-5"> 
                                     <mat-checkbox      
                                     [checked]= "model.filled"
@@ -338,45 +337,80 @@
                             <!-- Spacer -->
                             <div class="mt-10"></div>  
 
-                            <h3 class="text-lg md:text-lg font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-2">
-                                Degrees
+                            <h3 class="text-lg md:text-lg font-semibold tracking-tight leading-7 sm:leading-10 truncate mb-2">
+
+                                <mat-checkbox      
+                                    name="posshowdegrees"
+                                    id="posshowdegrees"
+                                    class="form-control"
+                                    (change)="onDegreesChecked($event)">
+                                    Degrees
+                                </mat-checkbox>
+                              
                             </h3>
-                            Degree Level, Degree Type, Field Checkbox: or similar field <br />
-                            Checkboxes: Required/Preferred/Equivilent Experience
+
+                            <div *ngIf="showdegrees === true">
+                                <app-positions-degrees></app-positions-degrees>
+                            </div>
 
                             <!-- Spacer -->
                             <div class="mt-5"></div>         
 
-                            <h3 class="text-lg md:text-lg font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-2">
-                                Certifications/Licenses
+                            <h3 class="text-lg md:text-lg font-semibold tracking-tight leading-7 sm:leading-10 truncate mb-2">
+
+                                <mat-checkbox      
+                                    name="posshowcerts"
+                                    id="posshowcerts"
+                                    class="form-control"
+                                    (change)="onCertificationsChecked($event)">
+                                    Certifications/Licenses
+                                </mat-checkbox>
+
                             </h3>
-                            Checkboxes: Required/Preferred/Willing to get
+
+                            <div *ngIf="showcertifications === true">
+                                <app-positions-certifications></app-positions-certifications>
+                            </div>
 
                             <!-- Spacer -->
                             <div class="mt-5"></div>
 
-                            <h3 class="text-lg md:text-lg font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-2">
-                                Training
-                            </h3>
+                            <h3 class="text-lg md:text-lg font-semibold tracking-tight leading-7 sm:leading-10 truncate mb-2">
 
-                            Checkboxes: Required/Preferred/Willing to take
+                                <mat-checkbox      
+                                    name="posshowskills"
+                                    id="posshowskills"
+                                    class="form-control"
+                                    (change)="onSkillsChecked($event)">
+                                    Skills
+                                </mat-checkbox>
+                                
+                            </h3>
+                        
+                            <div *ngIf="showskills === true">
+                                <app-positions-skills></app-positions-skills>
+                            </div>
 
                             <!-- Spacer -->
                             <div class="mt-5"></div>
 
-                            <h3 class="text-lg md:text-lg font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-2">
-                                Skills
-                            </h3>
-                            Custom Proficiency Labels<br />
-                            Checboxes: Required/Preferred
+                            <h3 class="text-lg md:text-lg font-semibold tracking-tight leading-7 sm:leading-10 truncate mb-2">
 
-                            <!-- Spacer -->
-                            <div class="mt-5"></div>
+                                <mat-checkbox      
+                                    name="posshowduties"
+                                    id="posshowduties"
+                                    class="form-control"
+                                    (change)="onDutiesChecked($event)">
+                                    Duties
+                                </mat-checkbox>
 
-                            <h3 class="text-lg md:text-lg font-extrabold tracking-tight leading-7 sm:leading-10 truncate mb-2">
-                                Duties
                             </h3>
-                            Enter new or select autocomplete from previous 
+
+
+                            <div *ngIf="showduties === true">
+                                <app-positions-duties></app-positions-duties>
+                            </div>
+                            
 
 
                                 <!-- Actions -->
