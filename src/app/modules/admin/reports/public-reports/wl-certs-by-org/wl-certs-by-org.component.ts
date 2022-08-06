@@ -33,7 +33,7 @@ export class WlCertsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
   itemsFiltered;
 
   //Table Settings
-  displayedColumns: string[] = ['name', 'awardedby', 'awardedon', 'expireson', 'uid'];
+  displayedColumns: string[] = ['name', 'awardedby', 'awardedon', 'expireson', 'email'];
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -59,7 +59,6 @@ export class WlCertsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
   printThisPage() {
     window.print();
   }
-
 
 
   // -----------------------------------------------------------------------------------------------------

@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './degrees-by-org.component.html',
   styleUrls: ['./degrees-by-org.component.scss']
 })
-export class DegreesByOrgComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DegreesByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //Initialize Varables
   //-------------------
@@ -32,7 +32,7 @@ export class DegreesByOrgComponent implements OnInit, OnDestroy, AfterViewInit {
   itemsFiltered;
 
   //Table Settings
-  displayedColumns: string[] = ['degreetype', 'major', 'minor', 'institution', 'awardedon', 'uid'];
+  displayedColumns: string[] = ['degreetype', 'major', 'minor', 'institution', 'awardedon', 'email'];
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -53,13 +53,10 @@ export class DegreesByOrgComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-
   //Function - Prints Current Page
   printThisPage() {
     window.print();
   }
-
-
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks

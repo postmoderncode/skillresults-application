@@ -32,7 +32,7 @@ export class TalentsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
   itemsFiltered;
 
   //Table Settings
-  displayedColumns: string[] = ['name', 'description', 'uid'];
+  displayedColumns: string[] = ['name', 'description', 'email'];
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -53,12 +53,10 @@ export class TalentsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-
   //Function - Prints Current Page
   printThisPage() {
     window.print();
   }
-
 
 
   // -----------------------------------------------------------------------------------------------------

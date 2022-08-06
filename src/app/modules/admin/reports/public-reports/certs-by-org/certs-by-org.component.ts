@@ -32,7 +32,7 @@ export class CertsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
   itemsFiltered;
 
   //Table Settings
-  displayedColumns: string[] = ['name', 'awardedby', 'awardedon', 'expireson', 'uid'];
+  displayedColumns: string[] = ['name', 'awardedby', 'awardedon', 'expireson', 'email'];
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -53,13 +53,10 @@ export class CertsByOrgComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-
   //Function - Prints Current Page
   printThisPage() {
     window.print();
   }
-
-
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks

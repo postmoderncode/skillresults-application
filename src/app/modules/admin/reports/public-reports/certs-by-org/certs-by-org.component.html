@@ -54,11 +54,11 @@
                 </ng-container>
 
                 <!-- Uid Column -->
-                <ng-container matColumnDef="uid">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by uid">
-                    User Id
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
+                    Email
                     </th>
-                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/home/public-profile/' + element?.uid]">{{element?.uid}}</a> </td>
+                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/home/public-profile/' + element?.uid]">{{element?.email}}</a> </td>
                 </ng-container>
 
 
