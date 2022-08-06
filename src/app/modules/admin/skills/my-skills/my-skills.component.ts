@@ -65,7 +65,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
   searchresults: object;
   qresults1;
   qresults2;
-  qresults3;
+  // qresults3;
 
   //Rating Customizations
   ratingtype = 0;
@@ -145,20 +145,22 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
         .endAt(queryText + '\uf8ff')).snapshotChanges();
 
       //Search User by Email
-      this.qresults3 = this.db.list('/users/', ref => ref
-        .orderByChild('email')
-        .startAt(queryText)
-        .endAt(queryText + '\uf8ff')).snapshotChanges();
+      // this.qresults3 = this.db.list('/users/', ref => ref
+      //   .orderByChild('email')
+      //   .startAt(queryText)
+      //   .endAt(queryText + '\uf8ff')).snapshotChanges();
 
       //Combine search results
       this.qresults1.subscribe((searchskill) => {
         this.qresults2.subscribe((searchuser) => {
-          this.qresults3.subscribe((searchemail) => {
+          //  this.qresults3.subscribe((searchemail) => {
 
-            const results = searchskill.concat(searchuser);
-            this.searchresults = results.concat(searchemail);
+          // const results = searchskill.concat(searchuser);
+          // this.searchresults = results.concat(searchemail);
 
-          });
+          this.searchresults = searchskill.concat(searchuser);
+
+          //   });
 
         });
 
@@ -266,8 +268,8 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
 
-    if (this.globals.rating === true) {
-      this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
+    if (this.globals?.rating === true) {
+      this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals?.ratingsteps;
     } else {
       this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
     }
@@ -341,8 +343,8 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
       const mdatenow = serverTimestamp();
       let mratingsteps: number;
 
-      if (this.globals.rating == true) {
-        mratingsteps = this.globals.ratingsteps;
+      if (this.globals?.rating == true) {
+        mratingsteps = this.globals?.ratingsteps;
       } else {
         mratingsteps = 5;
       }
@@ -550,7 +552,7 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
       const mcategory: string = this.catitem.category;
 
       this.db.object('/skillcatalog/skills/' + key).query.ref.transaction((ref) => {
-        if (ref === null || mratingsteps !== this.globals.ratingsteps) {
+        if (ref === null || mratingsteps !== this.globals?.ratingsteps) {
 
           this.db.object('/customs/skills/' + key)
             .update({ name: mname, description: mdescription, value: mvalue, category: mcategory, ratingsteps: mratingsteps, modified: mdatenow, uid: this.fbuser.id });

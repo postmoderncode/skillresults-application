@@ -66,7 +66,7 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
   searchresults: object;
   qresults1;
   qresults2;
-  qresults3;
+  //qresults3;
 
   //Rating Customizations
   ratingtype = 0;
@@ -130,7 +130,6 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
   //Function - Search through skills for filtered querytext
   onSearch(queryText: string): void {
 
-
     //Only search if search term exists
     if (queryText.length > 1) {
 
@@ -147,20 +146,22 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
         .endAt(queryText + '\uf8ff')).snapshotChanges();
 
       //Search User by Email
-      this.qresults3 = this.db.list('/users/', ref => ref
-        .orderByChild('email')
-        .startAt(queryText)
-        .endAt(queryText + '\uf8ff')).snapshotChanges();
+      // this.qresults3 = this.db.list('/users/', ref => ref
+      //   .orderByChild('email')
+      //   .startAt(queryText)
+      //   .endAt(queryText + '\uf8ff')).snapshotChanges();
 
       //Combine search results
       this.qresults1.subscribe((searchskill) => {
         this.qresults2.subscribe((searchuser) => {
-          this.qresults3.subscribe((searchemail) => {
+          //  this.qresults3.subscribe((searchemail) => {
 
-            const results = searchskill.concat(searchuser);
-            this.searchresults = results.concat(searchemail);
+          // const results = searchskill.concat(searchuser);
+          // this.searchresults = results.concat(searchemail);
 
-          });
+          this.searchresults = searchskill.concat(searchuser);
+
+          //   });
 
         });
 
