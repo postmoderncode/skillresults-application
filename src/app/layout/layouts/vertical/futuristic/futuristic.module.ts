@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { FuseFullscreenModule } from '@fuse/components/fullscreen';
 import { FuseLoadingBarModule } from '@fuse/components/loading-bar';
@@ -22,12 +23,13 @@ import { FuturisticLayoutComponent } from 'app/layout/layouts/vertical/futuristi
     declarations: [
         FuturisticLayoutComponent
     ],
-    imports     : [
+    imports: [
         HttpClientModule,
         RouterModule,
         MatButtonModule,
         MatDividerModule,
         MatIconModule,
+        MatTooltipModule,
         MatMenuModule,
         FuseFullscreenModule,
         FuseLoadingBarModule,
@@ -41,10 +43,9 @@ import { FuturisticLayoutComponent } from 'app/layout/layouts/vertical/futuristi
         UserModule,
         SharedModule
     ],
-    exports     : [
+    exports: [
         FuturisticLayoutComponent
     ]
 })
-export class FuturisticLayoutModule
-{
+export class FuturisticLayoutModule {
 }
