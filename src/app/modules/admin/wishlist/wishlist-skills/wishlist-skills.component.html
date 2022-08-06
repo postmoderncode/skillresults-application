@@ -5,9 +5,9 @@
             <div class="flex-initial w-[1400px]">
 
             <!-- Right Side - Custom Action Buttons -->
-            <div *ngIf="(viewState === 4) && (this.globals.usercustom === true)" class="flex shrink-0 items-center mt-3">
+            <div *ngIf="(viewState === 4) && (this.globals?.usercustom === true)" class="flex shrink-0 items-center mt-3">
 
-                <div *ngIf="this.globals.usercustomall === true">
+                <div *ngIf="this.globals?.usercustomall === true">
 
                     <button  
                         (click)="onShowCustomAddForm(tabTitle)"
@@ -21,7 +21,7 @@
 
                 </div>
 
-                <div *ngIf="this.globals.usercustomall === false">
+                <div *ngIf="this.globals?.usercustomall === false">
                 
                     <div *ngIf="(tabTitle ==='Skill')">
 

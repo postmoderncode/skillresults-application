@@ -269,8 +269,8 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
     this.model.key = skill.key;
     this.model.name = skill.payload.val().name;
 
-    if (this.globals.rating === true) {
-      this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals.ratingsteps;
+    if (this.globals?.rating === true) {
+      this.ratingsteps = skill.payload.val().ratingsteps ?? this.globals?.ratingsteps;
     } else {
       this.ratingsteps = skill.payload.val().ratingsteps ?? 5;
     }
@@ -343,8 +343,8 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
       const mdatenow = serverTimestamp();
       let mratingsteps: number;
 
-      if (this.globals.rating == true) {
-        mratingsteps = this.globals.ratingsteps;
+      if (this.globals?.rating == true) {
+        mratingsteps = this.globals?.ratingsteps;
       } else {
         mratingsteps = 5;
       }
@@ -725,8 +725,8 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
         this.globals = results;
 
 
-        if (this.globals.rating === true) {
-          this.model.ratingsteps = this.globals.ratingsteps;
+        if (this.globals?.rating === true) {
+          this.model.ratingsteps = this.globals?.ratingsteps;
         } else if (isNaN(Number(this.model.ratingsteps))) {
           this.model.ratingsteps = 5;
         }
