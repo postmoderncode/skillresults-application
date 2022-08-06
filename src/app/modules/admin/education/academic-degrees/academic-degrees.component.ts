@@ -476,7 +476,7 @@ export class Degree {
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,
-    public expiresonForm: Date = null,
+    public expiresonForm: Date = null
   ) { }
 }
 

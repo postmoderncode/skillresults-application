@@ -350,7 +350,7 @@ export class Training {
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,
-    public expiresonForm: Date = null,
+    public expiresonForm: Date = null
   ) { }
 }
 

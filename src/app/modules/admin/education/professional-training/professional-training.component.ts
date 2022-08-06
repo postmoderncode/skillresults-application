@@ -205,7 +205,6 @@ export class ProfessionalTrainingComponent implements OnInit, OnDestroy {
     }
 
     //Add Server Side Timestamp to the Model
-
     this.model.modified = serverTimestamp();
 
     //Begin Database Calls to Update the Existing Item
@@ -355,6 +354,6 @@ export class Training {
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,
-    public expiresonForm: Date = null,
+    public expiresonForm: Date = null
   ) { }
 }

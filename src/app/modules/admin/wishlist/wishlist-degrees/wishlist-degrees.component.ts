@@ -201,6 +201,8 @@ export class WishlistDegreesComponent implements OnInit, OnDestroy {
 
     //Add the User ID to the Model
     this.model.uid = this.fbuser.id;
+    this.model.email = this.fbuser.email;
+    this.model.username = this.fbuser.name;
 
     //If the Date "Awarded On" on the Form is not Null, then add it to the item model (in Unix Epoch Time).
     if (this.formDates.awardedonForm != null) {
@@ -465,6 +467,8 @@ export class Degree {
     public created: object = {},
     public modified: object = {},
     public uid: string = '',
+    public email: string = '',
+    public username: string = ''
 
   ) { }
 
@@ -474,8 +478,6 @@ export class Degree {
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,
-    public expiresonForm: Date = null,
+    public expiresonForm: Date = null
   ) { }
 }
-
-

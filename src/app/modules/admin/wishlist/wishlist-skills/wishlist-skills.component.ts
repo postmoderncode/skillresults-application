@@ -366,6 +366,8 @@ export class WishlistSkillsComponent implements OnInit, OnDestroy, AfterViewInit
 
     //Add the User ID to the Model
     this.model.uid = this.fbuser.id;
+    this.model.email = this.fbuser.email;
+    this.model.username = this.fbuser.name;
 
     //Add Server Side Timestamp to the Model
     this.model.created = serverTimestamp();
@@ -759,6 +761,8 @@ export class UserSkill {
     public created: object = {},
     public modified: object = {},
     public uid: string = '',
+    public email: string = '',
+    public username: string = '',
     public ratingsteps: number = null
 
   ) { }
@@ -800,7 +804,7 @@ export class CatalogState {
 export class FormDates {
   constructor(
     public awardedonForm: Date = null,
-    public expiresonForm: Date = null,
+    public expiresonForm: Date = null
   ) { }
 }
 
