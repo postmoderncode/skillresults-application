@@ -273,7 +273,7 @@
 
                     <!-- CATALOG -->
                     <div *ngSwitchCase="4">
-                        <div>
+                        <div *ngIf="globals.hidesearch !== true">
                             <button 
                             (click)="onShowSearch()"
                             class="flex-none ml-4 mt-3 mb-3" 

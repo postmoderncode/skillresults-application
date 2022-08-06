@@ -73,6 +73,17 @@ export class GlobalSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
+  onToggleHideSearch($event): void {
+
+    this.db.object('/globals/hidesearch').query.ref.transaction((state) => {
+      if ($event.checked === true) {
+        return state = true;
+      } else {
+        return state = false;
+      }
+    });
+  }
+
   onSaveRatingSteps(steps): void {
 
     this.db.object('/globals/ratingsteps').set(steps)
@@ -120,7 +131,8 @@ export class Global {
     public ratingsteps?,
     public usercustom?,
     public usercustomall?,
-    public whitelist?
+    public whitelist?,
+    public hidesearch?
 
   ) { }
 

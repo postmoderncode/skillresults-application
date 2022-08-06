@@ -1062,7 +1062,8 @@ export class Global {
     public ratingsteps?,
     public usercustom?,
     public usercustomall?,
-    public whitelist?
+    public whitelist?,
+    public hidesearch?
 
   ) { }
 

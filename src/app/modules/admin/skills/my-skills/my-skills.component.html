@@ -325,7 +325,7 @@
 
                     <!-- CATALOG -->
                     <div *ngSwitchCase="4">
-                        <div class="w-full text-right">
+                        <div class="w-full text-right" *ngIf="globals.hidesearch !== true">
 
                             <button mat-icon-button color="default" 
                             matTooltip="Search" 
