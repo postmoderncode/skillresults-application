@@ -126,7 +126,7 @@ export class TeamsComponent implements OnInit, OnDestroy, AfterViewInit {
     //Formbuilder for Dialog Popup
     const dialogconfigForm = this._formBuilder.group({
       title: 'Remove Item',
-      message: 'Are you sure you want to remove this item permanently? <span class="font-medium">This action cannot be undone!</span>',
+      message: 'Are you sure you want to remove this Team permanently? <span class="font-medium">This action cannot be undone!</span>',
       icon: this._formBuilder.group({
         show: true,
         name: 'heroicons_outline:exclamation',

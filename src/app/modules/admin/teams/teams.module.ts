@@ -16,6 +16,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
 import { FuseAlertModule } from '@fuse/components/alert';
@@ -51,6 +53,8 @@ const teamsRoutes: Route[] = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
+    MatPaginatorModule,
+    MatSortModule,
     MatCheckboxModule,
     MatStepperModule,
     FuseAlertModule,

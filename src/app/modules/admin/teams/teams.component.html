@@ -96,11 +96,8 @@
                             <div *ngFor="let item of items" class="flex-initial basis-full xl:basis-1/2 max-w-160">
 
                                 <!-- Team Card -->
-                                <div class="h-50 m-0 sm:mr-5 mb-5 p-5 shadow-lg border-2 border-slate-200 bg-white">
+                                <div class="m-0 sm:mr-5 mb-5 p-5 shadow-lg border-2 border-slate-200 bg-white">
 
-                                    <app-team-members></app-team-members>
-                                    <br />
-                                    
                                     <div class="font-semibold">
                                         {{item.payload.val().name}}
                                     </div>
@@ -148,8 +145,6 @@
                                         </div>
 
                                     </div>
-
-                              
 
                                 </div>
 
@@ -373,86 +368,26 @@
                         <div class="mx-auto sm:w-full lg:w-3/4 p-5 filter-info drop-shadow-lg rounded-xl bg-white">
 
                             <!-- Form Title -->
-                            <div [ngSwitch]="formMode">
-
-                                <h2 *ngSwitchCase="'add'"
-                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
-                                    Add Team Members
-                                </h2>
-
-                                <h2 *ngSwitchCase="'edit'"
-                                    class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
-                                    Edit Team Members
-                                </h2>
-
-                            </div>
+                            <h2
+                            class="text-2xl font-bold tracking-tight leading-7 text-sky-400 sm:leading-10 truncate mb-5">
+                            Team Members
+                            </h2>
 
 
-                            <!-- Form Start -->
-                            <form #addMembersForm="ngForm">
-
-                                <!-- Form Field - Name -->
-                                <div class="form-group mb-5">
-                                    <mat-form-field class="fuse-mat-no-subscript w-full">
-                                        <mat-label>Team Name</mat-label>
-                                        <mat-icon class="icon-size-5" [svgIcon]="'feather:file-text'" matPrefix>
-                                        </mat-icon>
-                                        <input type="text" id="name" class="form-control"
-                                            #name="ngModel" [(ngModel)]="model.name" 
-                                            name="name" required matInput>
-                                    </mat-form-field>
-
-                                    <!-- Form Field - Name Error -->
-                                    <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-                                        <span style="color:red;">Name is required</span>
-                                    </div>
-                                </div>
-
-
+                                <app-team-members></app-team-members>
+            
                                 <!-- Actions -->
                                 <div class="flex justify-center mt-6">
 
                                     <button
-                                        (click)="onCancelForm(addMembersForm)"
+                                        (click)="onCancelForm(addItemForm)"
                                         class="flex-none ml-4" 
                                         mat-stroked-button type="button" 
                                         [color]="'primary'">
-                                        Cancel
-                                    </button>
-                                
-                                    <!-- Switch to control Add vs. Edit mode -->
-                                    <div [ngSwitch]="formMode">
-
-                                        <div *ngSwitchCase="'add'" >
-                                            <button 
-                                                (click)="onAdd(addMembersForm)"
-                                                [disabled]="!addMembersForm.form.valid" 
-                                                class="flex-none ml-4" 
-                                                mat-flat-button
-                                                type="button" 
-                                                [color]="'primary'">
-                                                Add New Team Member
-                                            </button>
-                                        </div>
-
-                                        <div *ngSwitchCase="'edit'">
-                                            <button
-                                                (click)="onEdit(currentkey)"
-                                                [disabled]="!addMembersForm.form.valid" 
-                                                class="flex-none ml-4" 
-                                                mat-flat-button
-                                                type="button" 
-                                                [color]="'primary'">
-                                                Edit Team Member
-                                            </button>
-                                        </div>
-
-                                    </div>
-
+                                        Done
+                                    </button>                       
 
                                 </div>
-
-                            </form>
 
                         </div>
 
