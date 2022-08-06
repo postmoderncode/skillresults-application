@@ -968,8 +968,8 @@ export class MySkillsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.globals = results;
 
 
-        if (this.globals.rating === true) {
-          this.model.ratingsteps = this.globals.ratingsteps;
+        if (this.globals?.rating === true) {
+          this.model.ratingsteps = this.globals?.ratingsteps;
         } else if (isNaN(Number(this.model.ratingsteps))) {
           this.model.ratingsteps = 5;
         }

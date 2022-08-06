@@ -16,9 +16,9 @@
         </div>
 
         <!-- Right Side - Custom Action Buttons -->
-        <div *ngIf="(viewState === 4) && (globals.usercustom === true)" class="flex shrink-0 items-center mt-3">
+        <div *ngIf="(viewState === 4) && (globals?.usercustom === true)" class="flex shrink-0 items-center mt-3">
 
-            <div *ngIf="globals.usercustomall === true">
+            <div *ngIf="globals?.usercustomall === true">
 
                 <button  
                     (click)="onShowCustomAddForm(tabTitle)"
@@ -32,7 +32,7 @@
 
             </div>
 
-            <div *ngIf="globals.usercustomall === false">
+            <div *ngIf="globals?.usercustomall === false">
             
                 <div *ngIf="(tabTitle ==='Skill')">
 
@@ -384,7 +384,7 @@
 
                                             <div class="flex items-stretch" *ngIf="(area.customs[0]?.payload.val().hidden !== true) && (area.payload.val().name?.length > 0) && (area.payload.val().customtype !== 'rename')">
 
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(area)" *ngIf="(globals.usercustomall) && (area.payload.val().uid === fbuser.id)">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(area)" *ngIf="(globals?.usercustomall) && (area.payload.val().uid === fbuser.id)">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>                                                
                                                 
@@ -423,7 +423,7 @@
 
                                             <div class="flex items-stretch" *ngIf="(category.customs[0]?.payload.val().hidden !== true) && (category.payload.val().name?.length > 0) && (category.payload.val().customtype !== 'rename')">
 
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(category)" *ngIf="(globals.usercustomall) && (category.payload.val().uid === fbuser.id)">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(category)" *ngIf="(globals?.usercustomall) && (category.payload.val().uid === fbuser.id)">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>                                                
                                                 
@@ -462,7 +462,7 @@
 
                                             <div class="flex items-stretch" *ngIf="(skill.customs[0]?.payload.val().hidden !== true) && (skill.payload.val().name?.length > 0) && (skill.payload.val().customtype !== 'rename')">
 
-                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(skill)" *ngIf="(globals.usercustom) && (skill.payload.val().uid === fbuser.id)">
+                                                <button mat-icon-button color="default" matTooltip="edit" class="mr-5" (click)="onShowCustomEditForm(skill)" *ngIf="(globals?.usercustom) && (skill.payload.val().uid === fbuser.id)">
                                                     <mat-icon>edit</mat-icon>
                                                 </button>                                                
                                                 
