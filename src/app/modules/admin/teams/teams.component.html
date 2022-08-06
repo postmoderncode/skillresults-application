@@ -98,7 +98,9 @@
                                 <!-- Team Card -->
                                 <div class="h-50 m-0 sm:mr-5 mb-5 p-5 shadow-lg border-2 border-slate-200 bg-white">
 
-
+                                    <app-team-members></app-team-members>
+                                    <br />
+                                    
                                     <div class="font-semibold">
                                         {{item.payload.val().name}}
                                     </div>
@@ -138,7 +140,7 @@
                                                         mat-flat-button 
                                                         type="button" 
                                                         [color]="'primary'">
-                                                            Edit Team Members
+                                                        Team Members
                                                 </button>
                                                 
                                             </div>
@@ -302,14 +304,13 @@
                                 <!-- Team Card -->
                                 <div class="h-50 m-0 sm:mr-5 mb-5 p-5 shadow-lg border-2 border-slate-200 bg-white">
 
-
                                     <div class="font-semibold">
                                         {{item.payload.val().name}}
                                     </div>
                                     {{item.payload.val().description}}
 
                                     <div class="text-blue-400">
-                                        <a [routerLink]="['/home/public-profile/' + item?.payload.val().uid]">{{item?.payload.val().uid}}</a>
+                                        <a [routerLink]="['/home/public-profile/' + item?.payload.val().uid]">{{item?.payload.val().username}}</a>
                                     </div>
                                     
                                     <!-- Bottom Flex Row -->
@@ -342,11 +343,11 @@
 
                                             <!-- Edit Members Button -->
                                             <div class="flex-auto basis-1/2 pt-2 text-center">
-                                                <button (click)="onShowEditForm(item.key)" 
+                                                <button (click)="onShowEditMembeForm(item.key)" 
                                                         mat-flat-button 
                                                         type="button" 
                                                         [color]="'primary'">
-                                                            Edit Team Members
+                                                            Team Members
                                                 </button>
                                                 
                                             </div>
@@ -354,9 +355,7 @@
                                         </div>
 
                                     </div>
-
                               
-
                                 </div>
 
                             </div>
@@ -450,11 +449,14 @@
 
                                     </div>
 
+
                                 </div>
 
                             </form>
 
                         </div>
+
+
 
                     </div>
 

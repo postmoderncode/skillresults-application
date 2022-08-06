@@ -21,6 +21,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseCardModule } from '@fuse/components/card';
 import { FuseConfirmationModule } from '@fuse/services/confirmation';
+import { TeamMembersComponent } from './team-members/team-members.component';
 
 const teamsRoutes: Route[] = [
   {
@@ -32,7 +33,8 @@ const teamsRoutes: Route[] = [
 
 @NgModule({
   declarations: [
-    TeamsComponent
+    TeamsComponent,
+    TeamMembersComponent
   ],
   imports: [
     MatButtonModule,
