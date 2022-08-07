@@ -1,2 +1,119 @@
-Degree Level, Degree Type, Field Checkbox: or similar field <br />
-Checkboxes: Required/Preferred/Equivilent Experience
+<div class="m-0 sm:mr-5 mb-5 p-5 max-w-160 shadow-lg border-2 border-slate-200 bg-white mt-5">
+    <!-- Form Start -->
+    <form #addItemForm="ngForm">
+
+        <div class="w-full items-right text-right">
+            <mat-checkbox  
+            [checked]= "model.equivexperience"
+            name="equivexperience"
+            id="equivexperience"
+            matTooltip="will accept equivilent experience in lieu of formal degree"
+            class="form-control mt-5">
+            Equivilent Experience
+            </mat-checkbox>
+
+        </div>
+
+
+
+        <div class="form-group">
+            <!-- Form Field - Degree Level -->
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Degree Level</mat-label>
+                <mat-select 
+                (selectionChange)="onDegreeLevelChanged($event)"  
+                #name="ngModel"
+                [(ngModel)]="model.degreelevel"
+                name="degreelevel"
+                required>
+                <mat-option *ngFor="let degreelevel of degreelevels" [value]="degreelevel.level">
+                    {{degreelevel.name}}
+                </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <div class="form-group">
+            <!-- Form Field - Degree Type -->
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label>Degree Type</mat-label>
+                <mat-select
+                #name="ngModel"
+                name="degreetype" 
+                [(ngModel)]="model.degreetype"                             
+                required>
+                <mat-option *ngFor="let degreetype of degreetypesfilteredData" [value]="degreetype.name">
+                    {{degreetype.name}}
+                </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <!-- Form Field - Major -->
+        <div class="form-group">
+
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-label>Major Field of Study</mat-label>
+                <mat-icon
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_outline:academic-cap'"
+                    matPrefix></mat-icon>
+                    <input type="text"
+                    id="major" 
+                    class="form-control"
+                    placeholder="Start Typing for Suggestions" 
+                    #name="ngModel"
+                    name="major"
+                    (ngModelChange)="applyFilterFields($event)"
+                    [(ngModel)]="model.major" 
+                    [matAutocomplete]="autocomaddmajor"
+                    required
+                    matInput>
+                    <!-- [formControl]="myControl" -->
+                    <mat-autocomplete #autocomaddmajor="matAutocomplete">
+                        <mat-option *ngFor="let option of fieldfilteredData" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+            </mat-form-field>
+
+        </div>
+
+        <mat-checkbox  
+            [checked]= "model.relatedfield"
+            name="relatedfield"
+            id="relatedfield"
+            matTooltip="will accept degree in field related to given"
+            class="form-control mt-5">
+            or related field
+        </mat-checkbox>
+
+        <!-- Actions -->
+        <div class="flex justify-center mt-6">
+
+            <button
+           
+                class="flex-none ml-4" 
+                mat-stroked-button type="button" 
+                [color]="'primary'">
+                Cancel
+            </button>
+        
+          
+            <button 
+               
+                [disabled]="!addItemForm.form.valid" 
+                class="flex-none ml-4" 
+                mat-flat-button
+                type="button" 
+                [color]="'primary'">
+                Add Degree Requirement
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

@@ -23,6 +23,58 @@ export class PositionsDegreesComponent implements OnInit, OnDestroy, AfterViewIn
   //Container to hold a single item
   item: Observable<any>;
 
+  //Container for Strongly typed Model.
+  model = new Degree();
+
+  //Autocomplete Data
+  fieldfilteredData;
+
+  fieldoptions: string[] = ['Accounting', 'Advertising', 'African-American Studies', 'Agriculture', 'Animal Science', 'Anthropology', 'Aerospace Engineering', 'Archaeology', 'Architecture', 'Art History', 'Arts Management', 'Asian-American Studies', 'Astronomy and Astrophysics', 'Bilingual/Crosscultural Education', 'Athletic Training', 'Biochemistry', 'Biology', 'Biomedical Engineering', 'Business', 'Chemical Engineering', 'Chemistry', 'Civil Engineering', 'Classical Studies', 'Communication Disorders Sciences and Services', 'Communications', 'Comparative Literature', 'Computer Engineering', 'Computer Information Systems', 'Computer Science', 'Construction Services', 'Cosmetology Services', 'Creative Writing', 'Criminology', 'Culinary Arts', 'Cybersecurity', 'Design', 'Economics', 'Education', 'Electrical Engineering', 'Elementary Education', 'Engineering', 'English Language and Literature', 'Entomology', 'Environmental Engineering', 'Film and Video Production', 'Film-Video Arts', 'Finance', 'Fine Arts', 'Fire Safety Science', 'Food Science', 'Foreign Languages', 'Forestry', 'Gender Studies', 'Genetics', 'Geology', 'Graphic Design', 'Health Sciences', 'History', 'Hospitality Management', 'Human Ecology', 'Industrial Technology', 'International Business', 'International Relations', 'Journalism', 'Kinesiology', 'Latin American Studies', 'Liberal Studies', 'Library Science', 'Linguistics', 'Logistics Management', 'Marketing', 'Mathematics', 'Mechanical Engineering', 'Medical Technology', 'Metallurgical Engineering', 'Meteorology', 'Microbiology', 'Military Technology', 'Mining and Mineral Engineering', 'Music', 'Mythology and Folklore', 'Naval Architecture and Marine Engineering', 'Neuroscience', 'Nuclear Engineering', 'Nursing', 'Oceanography', 'Occupational Health and Safety', 'Parks, Recreation, and Leisure Studies', 'Performing Arts', 'Petroleum Engineering', 'Pharmacology', 'Philosophy', 'Photography', 'Physics', 'Physiology', 'Plant Science', 'Political Science', 'Pre-Law', 'Psychology', 'Public Administration', 'Puppetry', 'Religious Studies', 'Rhetoric', 'Social Work', 'Sociology', 'Software Engineering', 'Special Education', 'Sports Medicine', 'Statistics', 'Student Counseling', 'Supply Chain Management', 'Theater Arts', 'Viticulture', 'Zoology']
+
+  //Dropdown List Data
+  degreetypesfilteredData;
+
+  degreelevels =
+    [
+      { level: '1', name: 'Associate' },
+      { level: '2', name: 'Bachelors' },
+      { level: '3', name: 'Masters' },
+      { level: '4', name: 'Doctoral' }
+    ];
+
+  degreetypes =
+    [
+      { name: 'Associate of Arts (AA)', degreeLevel: '1' },
+      { name: 'Associate of Science (AS)', degreeLevel: '1' },
+      { name: 'Associate of Applied Science (AAS)', degreeLevel: '1' },
+      { name: 'Associate of Applied Arts and Science (AAAS)', degreeLevel: '1' },
+      { name: 'Bachelor of Architecture (B.Arch.)', degreeLevel: '2' },
+      { name: 'Bachelor of Applied Arts and Science (BAAS)', degreeLevel: '2' },
+      { name: 'Bachelor of Applied Science (BAS)', degreeLevel: '2' },
+      { name: 'Bachelor of Arts (B.A.)', degreeLevel: '2' },
+      { name: 'Bachelor of Business Administration(BBA)', degreeLevel: '2' },
+      { name: 'Bachelor of Fine Arts (BFA)', degreeLevel: '2' },
+      { name: 'Bachelor of Science (B.S.)', degreeLevel: '2' },
+      { name: 'Master of Arts (M.A.)', degreeLevel: '3' },
+      { name: 'Master of Business Administration (MBA)', degreeLevel: '3' },
+      { name: 'Master of Education (M.Ed.)', degreeLevel: '3' },
+      { name: 'Master of Fine Arts (MFA)', degreeLevel: '3' },
+      { name: 'Master of Science (M.S.)', degreeLevel: '3' },
+      { name: 'Master of Laws (LL.M.)', degreeLevel: '3' },
+      { name: 'Master of Public Administration (MPA)', degreeLevel: '3' },
+      { name: 'Master of Public Health (MPH)', degreeLevel: '3' },
+      { name: 'Master of Publishing (M.Pub.)', degreeLevel: '3' },
+      { name: 'Master of Social Work (MSW)', degreeLevel: '3' },
+      { name: 'Doctor of Business Administration (DBA)', degreeLevel: '4' },
+      { name: 'Doctor of Dental Surgery (DDS)', degreeLevel: '4' },
+      { name: 'Doctor of Education (Ed.D.)', degreeLevel: '4' },
+      { name: 'Doctor of Medicine (M.D.)', degreeLevel: '4' },
+      { name: 'Doctor of Pharmacy (Pharm.D.)', degreeLevel: '4' },
+      { name: 'Doctor of Philosophy (Ph.D.)', degreeLevel: '4' },
+      { name: 'Doctor of Psychology (Psy.D.)', degreeLevel: '4' },
+      { name: 'Juris Doctor (J.D.)', degreeLevel: '4' }
+
+    ];
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -38,6 +90,22 @@ export class PositionsDegreesComponent implements OnInit, OnDestroy, AfterViewIn
 
   //Functions
   //---------------------
+
+  //Function - Filter for Field of Study Autocomplete
+  applyFilterFields(evt: string): void {
+    evt = evt + '';
+    if (!evt) { this.fieldfilteredData = this.fieldoptions; }
+    else {
+      this.fieldfilteredData = this.fieldoptions.filter(item => (item + '') === evt || item.toLocaleLowerCase().indexOf(evt.toLocaleLowerCase()) >= 0);
+    }
+  }
+
+  //Function - Change fileter of degree types based on degree level dropdown
+  onDegreeLevelChanged(ob): void {
+
+    this.degreetypesfilteredData = this.degreetypes.filter(degreetypes => degreetypes.degreeLevel === ob.value.toString());
+
+  }
 
   //Function - Show the Delete Conf.
   onShowDelete(key): void {
@@ -140,3 +208,17 @@ export class PositionsDegreesComponent implements OnInit, OnDestroy, AfterViewIn
 // @ Models
 // -----------------------------------------------------------------------------------------------------
 
+// Empty Degree class
+export class Degree {
+
+  constructor(
+
+    public degreelevel: string = '',
+    public degreetype: string = '',
+    public major: string = '',
+    public relatedfield: boolean = false,
+    public equivexperience: boolean = false,
+
+  ) { }
+
+}
