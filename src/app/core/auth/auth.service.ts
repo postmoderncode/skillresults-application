@@ -17,7 +17,7 @@ export class AuthService {
     private MStoken
     private MSuserimage
     private _authenticated: boolean = false;
-    randomUser = new FirebaseUser();
+
 
     /**
      * Constructor
@@ -210,18 +210,7 @@ export class AuthService {
     //Microsoft SSO Login with OAuth
     OAuthMicrosoft(): Observable<any> {
 
-        // this.getRandomuser().subscribe(
-        //     (response) => {
 
-        //         console.log(response.results[0]);
-        //         this.randomUser.name = response.results[0].name.last + ', ' + response.results[0].name.first;
-        //         this.randomUser.email = response.results[0].email;
-        //     },
-
-        //     (error) => {
-        //         console.log(error);
-
-        //     });
 
         const loginObservable = new Observable(observer => {
 
@@ -235,9 +224,19 @@ export class AuthService {
                     fbuser.id = result.user.uid;
                     fbuser.name = result.user.displayName;
                     fbuser.email = result.user.email;
-                    // fbuser.name = this.randomUser.name;
-                    // fbuser.email = this.randomUser.email;
                     fbuser.lastlogged = lastlogged;
+
+                    // this.getRandomuser().subscribe(
+                    //     (response) => {
+                    //         fbuser.name = response.results[0].name.last + ', ' + response.results[0].name.first;
+                    //         fbuser.email = response.results[0].email;
+                    //     },
+
+                    //     (error) => {
+                    //         console.log(error);
+
+                    //     });
+
 
                     //See if user exists and if they are flagged as Admin
                     firebase.database().ref('userlist/' + result.user.uid).once('value', function (snapshot) {
@@ -270,6 +269,7 @@ export class AuthService {
 
                                 //store user in local storage
                                 localStorage.setItem('fbuser', JSON.stringify(fbuser));
+
 
                             })
                             .catch(err =>
@@ -320,8 +320,20 @@ export class AuthService {
                         (error) => {
                             console.log(error);
 
-                            //Image Data not found so reload interface
-                            window.location.reload();
+                            //No Image Data 
+
+                            //Store the user on the user service
+                            const msuser: User = {
+                                id: result.user.uid,
+                                name: result.user.displayName,
+                                email: result.user.email,
+                            };
+
+                            //Send the User Object to the User Service (for the UI)
+                            this._userService.user = msuser;
+
+                            observer.next();
+
                         });
 
                     //Store the access token in the local storage (THIS MUST BE AFTER THE GRAPH CALL!!!)
