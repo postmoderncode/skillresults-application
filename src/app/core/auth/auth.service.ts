@@ -321,7 +321,7 @@ export class AuthService {
                             console.log(error);
 
                             //Image Data not found so reload interface
-                            //window.location.reload();
+                            window.location.reload();
                         });
 
                     //Store the access token in the local storage (THIS MUST BE AFTER THE GRAPH CALL!!!)
