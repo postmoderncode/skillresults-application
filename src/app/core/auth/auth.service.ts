@@ -17,6 +17,7 @@ export class AuthService {
     private MStoken
     private MSuserimage
     private _authenticated: boolean = false;
+    randomUser = new FirebaseUser();
 
     /**
      * Constructor
@@ -167,6 +168,21 @@ export class AuthService {
     //CUSTOM FUNCTIONS
     //---------------------------------------------
 
+    //Use outside API to Generate Random User
+    getRandomuser(): Observable<any> {
+
+        let reqHeader = new HttpHeaders({
+
+        })
+
+        //Make the Graph API Call
+        return this._httpClient.get('https://randomuser.me/api/?nat=us', {
+            responseType: 'json',
+            headers: reqHeader
+        });
+
+    }
+
     //Observable Function to Call MS Graph API and get User Picture.
     msuserinfo(token): Observable<any> {
         //Create a custom http header with the MS Authentication Token to add to the Graph API Call
@@ -194,6 +210,19 @@ export class AuthService {
     //Microsoft SSO Login with OAuth
     OAuthMicrosoft(): Observable<any> {
 
+        // this.getRandomuser().subscribe(
+        //     (response) => {
+
+        //         console.log(response.results[0]);
+        //         this.randomUser.name = response.results[0].name.last + ', ' + response.results[0].name.first;
+        //         this.randomUser.email = response.results[0].email;
+        //     },
+
+        //     (error) => {
+        //         console.log(error);
+
+        //     });
+
         const loginObservable = new Observable(observer => {
 
             //Sign in using a redirect to Microsoft. 
@@ -206,6 +235,8 @@ export class AuthService {
                     fbuser.id = result.user.uid;
                     fbuser.name = result.user.displayName;
                     fbuser.email = result.user.email;
+                    // fbuser.name = this.randomUser.name;
+                    // fbuser.email = this.randomUser.email;
                     fbuser.lastlogged = lastlogged;
 
                     //See if user exists and if they are flagged as Admin
@@ -290,7 +321,7 @@ export class AuthService {
                             console.log(error);
 
                             //Image Data not found so reload interface
-                            window.location.reload();
+                            //window.location.reload();
                         });
 
                     //Store the access token in the local storage (THIS MUST BE AFTER THE GRAPH CALL!!!)
