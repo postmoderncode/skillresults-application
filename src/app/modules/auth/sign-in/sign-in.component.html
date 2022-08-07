@@ -5,15 +5,13 @@
         <div class="w-full sm:w-auto py-8 px-4 sm:p-12 md:p-16">
             
             <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
-
-
-                <!-- Title -->
-                <div class="ml-8 mb-8 text-3xl font-extrabold tracking-tight leading-tight">Sign in to SkillResults</div>
-                
                 <!-- Logo -->
                 <div class="w-40 m-auto">
                     <img src="assets/images/logo/logo-square.svg">
                 </div>
+
+                <!-- Title -->
+                <div class="mt-8 ml-8 text-3xl font-extrabold tracking-tight leading-tight">Sign in to SkillResults</div>
 
                 <!-- Alert -->
                 <fuse-alert
@@ -29,7 +27,7 @@
                 <!-- Separator -->
                 <div class="flex items-center mt-8">
                     <div class="flex-auto mt-px border-t"></div>
-                    <div class="mx-2 text-secondary">Please Sign In with your Work Email</div>
+                    <div class="mx-2 text-secondary">Sign In with your Work Email</div>
                     <div class="flex-auto mt-px border-t"></div>
                 </div>
 
@@ -38,6 +36,9 @@
 
 
                     <!-- Microsoft SSO Button -->
+                    <!-- LIVE: signInSSOmicrosoft() -->
+                    <!-- DEMO: signInDemoSite() -->
+                    
                     <button class="flex-auto p-5" mat-stroked-button (click)="signInSSOmicrosoft()">
                         <mat-icon class="icon-size-5" [svgIcon]="'feather:grid'"></mat-icon>
                         <span style="margin-left: 10px;">Microsoft / Office365 Single Sign On</span>
@@ -49,6 +50,11 @@
 
             </div>
         </div>
+        
+        
+        
+        
+        
         
         <div class="relative hidden md:flex flex-auto items-center justify-center h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l">
             <!-- Background - @formatter:off -->
@@ -84,7 +90,7 @@
                 </div>
                 
                 <div class="mt-6 text-lg tracking-tight leading-6 text-blue-400">
-                    If your organizaation has not yet signed up for SkillResults, please go <a href="https:/skillresults.com">HERE</a> to get started. 
+                    If you organizaation has not yet signed up for SkillResults, please go <a href="https:/skillresults.com">HERE</a> to get started. 
                 </div>
             </div>
         </div>

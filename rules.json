@@ -134,7 +134,7 @@
       ".indexOn": ["name","email"],
       ".read": "auth !== null",
       "$id": {
-          ".write": "(root.child('userlist').child(auth.uid).child('isadmin').val() == true) || (!data.exists() && auth !== null)", 
+          ".write": "(root.child('userlist').child(auth.uid).child('isadmin').val() == true) || (!data.exists() && auth !== null) || (data.child('id').val() == auth.uid && auth !== null)" 
             }  
         },
       
@@ -142,7 +142,7 @@
       ".indexOn": ["name","email"],
       ".read": "auth !== null",
       "$id": {
-          ".write": "(root.child('userlist').child(auth.uid).child('isadmin').val() == true) || (!data.exists() && auth !== null)", 
+          ".write": "(root.child('userlist').child(auth.uid).child('isadmin').val() == true) || (!data.exists() && auth !== null) || (data.child('id').val() == auth.uid && auth !== null)" 
             }  
         },
           

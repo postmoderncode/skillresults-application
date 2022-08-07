@@ -1,2 +1,80 @@
-Duty Name<br />
-Duty Description
+<div class="m-0 sm:mr-5 mb-5 p-5 max-w-160 shadow-lg border-2 border-slate-200 bg-white mt-5">
+    <!-- Form Start -->
+    <form #addItemForm="ngForm">
+
+        <!-- Form Field - Name -->
+        <div class="form-group mb-5">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-label>Duty Name</mat-label>
+                <mat-icon 
+                    class="icon-size-5" 
+                    [svgIcon]="'feather:file-text'" 
+                    matPrefix>
+                </mat-icon>
+                <input 
+                    type="text" 
+                    id="name" 
+                    class="form-control"
+                    #name="ngModel" 
+                    [(ngModel)]="model.name" 
+                    name="name" 
+                    required 
+                matInput>
+            </mat-form-field>
+
+            <!-- Form Field - Name Error -->
+            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                <span style="color:red;">Name is required</span>
+            </div>
+        </div>
+
+
+        <!-- Form Field Description  -->
+        <div class="form-group mb-5">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-label>Description (optional)</mat-label>
+                <mat-icon 
+                    class="icon-size-5" 
+                    [svgIcon]="'heroicons_outline:annotation'"
+                    matPrefix>
+                </mat-icon>
+                <textarea 
+                    type="text" 
+                    id="description" 
+                    class="form-control" 
+                    #name="ngModel"
+                    placeholder="What does this job duty entail?"
+                    [(ngModel)]="model.description" 
+                    name="description" 
+                    matInput>
+                </textarea>
+            </mat-form-field>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-center mt-6">
+
+            <button
+           
+                class="flex-none ml-4" 
+                mat-stroked-button type="button" 
+                [color]="'primary'">
+                Cancel
+            </button>
+        
+          
+            <button 
+                (click)="onAdd()"
+                [disabled]="!addItemForm.form.valid" 
+                class="flex-none ml-4" 
+                mat-flat-button
+                type="button" 
+                [color]="'primary'">
+                Add Job Duty
+            </button>
+
+        </div>
+
+    </form>
+
+</div>

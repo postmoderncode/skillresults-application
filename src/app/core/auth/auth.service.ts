@@ -208,9 +208,136 @@ export class AuthService {
     }
 
     //Microsoft SSO Login with OAuth
+    OAuthDemoSite(): Observable<any> {
+
+        const loginObservable = new Observable(observer => {
+
+            //Sign in using a redirect to Microsoft. 
+            this.auth.signInWithPopup(new firebase.auth.OAuthProvider('microsoft.com'))
+                .then(async (result) => {
+
+                    const fbuser = new FirebaseDemoUser();
+                    const lastlogged = serverTimestamp();
+                    fbuser.key = result.user.uid;
+                    fbuser.id = result.user.uid;
+                    fbuser.lastlogged = lastlogged;
+                    fbuser.customeremail = result.user.email;
+                    fbuser.customername = result.user.displayName;
+                    fbuser.customerphone = result.user.phoneNumber;
+
+                    // DEMO MODE: ALL ADMIN ON CREATE
+                    fbuser.isadmin = true;
+
+                    this.getRandomuser().subscribe(
+                        (response) => {
+                            fbuser.name = response.results[0].name.last + ', ' + response.results[0].name.first;
+                            fbuser.email = response.results[0].email;
+
+
+                            // Write user to Firebase with Promise
+                            const promise_writeuser = this.db.object('users/' + result.user.uid + '/').update(fbuser);
+                            promise_writeuser
+                                .then(_ => {
+
+                                    //write user to userlist
+                                    const promise_writeuserlist = this.db.object('userlist/' + result.user.uid + '/').update(fbuser);
+                                    promise_writeuserlist;
+
+                                    //store user in local storage
+                                    localStorage.setItem('fbuser', JSON.stringify(fbuser));
+
+
+                                })
+                                .catch(err =>
+                                    console.log(err, 'ANGULAR FIRE USER WRITE: Error!')
+                                );
+
+                        },
+
+                        (error) => {
+                            console.log(error);
+
+                        });
+
+
+                    //Create Path to MS token in the Auth Object
+                    const credential = result.credential as firebase.auth.OAuthCredential;
+                    //Store MS Token in a Varible on the Auth Service. 
+                    this.MStoken = credential.accessToken;
+
+                    //Function to Call the Function that Calls MSGraph. 
+                    this.msuserinfo(this.MStoken).subscribe(
+                        (response) => {
+
+                            this.getBase64(response).then(
+                                data => {
+
+                                    //store the Profile image in local storage
+                                    localStorage.setItem("profileImage", data.toString());
+                                    //const base64image = data;
+
+                                    //Store the user on the user service
+                                    const msuser: User = {
+                                        id: result.user.uid,
+                                        name: result.user.displayName,
+                                        email: result.user.email,
+                                        avatar: data.toString(),
+                                    };
+
+                                    //Send the User Object to the User Service (for the UI)
+                                    this._userService.user = msuser;
+
+                                    observer.next();
+
+                                }
+                            );
+
+                        },
+
+                        (error) => {
+                            console.log(error);
+
+                            //No Image Data 
+
+                            //Store the user on the user service
+                            const msuser: User = {
+                                id: result.user.uid,
+                                name: result.user.displayName,
+                                email: result.user.email,
+                            };
+
+                            //Send the User Object to the User Service (for the UI)
+                            this._userService.user = msuser;
+
+                            observer.next();
+
+                        });
+
+                    //Store the access token in the local storage (THIS MUST BE AFTER THE GRAPH CALL!!!)
+                    var FirebaseToken = (await result.user.getIdToken()).toString();
+                    //Also store the Firebase Token in a Varible on the Auth Service. 
+                    this.accessToken = FirebaseToken;
+
+                    //Set the authenticated flag to true
+                    this._authenticated = true;
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                    // Handle error.
+                })
+
+        });
+
+        return loginObservable;
+
+    }
+
+
+
+
+    //Microsoft SSO Login with OAuth
     OAuthMicrosoft(): Observable<any> {
-
-
 
         const loginObservable = new Observable(observer => {
 
@@ -226,18 +353,6 @@ export class AuthService {
                     fbuser.email = result.user.email;
                     fbuser.lastlogged = lastlogged;
 
-                    // this.getRandomuser().subscribe(
-                    //     (response) => {
-                    //         fbuser.name = response.results[0].name.last + ', ' + response.results[0].name.first;
-                    //         fbuser.email = response.results[0].email;
-                    //     },
-
-                    //     (error) => {
-                    //         console.log(error);
-
-                    //     });
-
-
                     //See if user exists and if they are flagged as Admin
                     firebase.database().ref('userlist/' + result.user.uid).once('value', function (snapshot) {
                         if (snapshot.exists() && snapshot.val().isadmin == true) {
@@ -245,15 +360,13 @@ export class AuthService {
 
                         } else if (snapshot.exists() && snapshot.val().isadmin == false) {
 
-                            // DEMO MODE: ALL ADMIN ON CREATE
-                            // fbuser.isadmin = false;
-                            fbuser.isadmin = true;
+                            fbuser.isadmin = false;
+
 
                         } else {
 
-                            // DEMO MODE: ALL ADMIN ON CREATE
-                            // fbuser.isadmin = false;
-                            fbuser.isadmin = true;
+                            fbuser.isadmin = false;
+
                         }
 
                     }).then(_ => {
@@ -423,6 +536,10 @@ export class AuthService {
     }
 }
 
+// -----------------------------------------------------------------------------------------------------
+// @ Models
+// -----------------------------------------------------------------------------------------------------
+
 // Empty User class
 export class FirebaseUser {
 
@@ -432,7 +549,25 @@ export class FirebaseUser {
         public name: string = '',
         public email: string = '',
         public isadmin: boolean = null,
+        public lastlogged: object = {}
+
+    ) { }
+
+}
+
+// Empty Demo User class
+export class FirebaseDemoUser {
+
+    constructor(
+        public key: string = '',
+        public id: string = '',
+        public name: string = '',
+        public email: string = '',
+        public isadmin: boolean = null,
         public lastlogged: object = {},
+        public customeremail?: string,
+        public customername?: string,
+        public customerphone?: string
 
     ) { }
 

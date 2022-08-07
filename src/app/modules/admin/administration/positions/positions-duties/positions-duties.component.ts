@@ -23,6 +23,9 @@ export class PositionsDutiesComponent implements OnInit, OnDestroy, AfterViewIni
   //Container to hold a single item
   item: Observable<any>;
 
+  //Container for Strongly typed Model.
+  model = new Duty();
+
 
   //Unscubscribe All
   private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -38,6 +41,24 @@ export class PositionsDutiesComponent implements OnInit, OnDestroy, AfterViewIni
 
   //Functions
   //---------------------
+
+  //Function - Add New Item to DB
+  onAdd(): void {
+
+
+    //Begin Database Calls to add the New Item
+    //----------------------------------------
+
+    //Call the 1st Firebase PromiseObject (To add Item to User Node)
+    // const addUserItem = this.db.list('/positions/' + this.fbuser.id + '/training').push(this.model).then((responseObject) => {
+
+
+    // })
+
+    //   //Error Handling
+    //   .catch(errorObject => console.log(errorObject, 'Add Item to User Node Failed!'));
+
+  }
 
   //Function - Show the Delete Conf.
   onShowDelete(key): void {
@@ -140,3 +161,14 @@ export class PositionsDutiesComponent implements OnInit, OnDestroy, AfterViewIni
 // @ Models
 // -----------------------------------------------------------------------------------------------------
 
+// Empty Duty class
+export class Duty {
+
+  constructor(
+
+    public name: string = '',
+    public description: string = '',
+
+  ) { }
+
+}
