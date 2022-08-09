@@ -73,7 +73,7 @@
                                 <div class="h-80 m-0 sm:mr-5 mb-5 p-5 h-80 shadow-lg border-2 border-slate-200 bg-white">
 
                                     <!-- Cert Card - inner border -->
-                                    <div class="flex flex-col h-full relative border-8 border-blue-100">
+                                    <div class="flex flex-col h-full relative border-8 border-blue-200">
 
                                         <!-- Top Flex Row -->
                                         <div class="flex-none">
@@ -118,12 +118,12 @@
                                                             -webkit-line-clamp: 3;
                                                             -webkit-box-orient: vertical;">
 
-                                                    <span  *ngIf="item.payload.val().major?.length > 0">
-                                                        Major: {{item.payload.val().major }} 
+                                                    <span  *ngIf="item.payload.val().major?.length > 0" class="text-xl">
+                                                        {{item.payload.val().major }} Major
                                                     </span>
                                                     
                                                     <span  *ngIf="item.payload.val().minor?.length > 0">
-                                                        Minor: {{item.payload.val().minor }} 
+                                                        {{item.payload.val().minor }}  Minor
                                                     </span>  
                                                      
                                                 </div>
@@ -150,7 +150,7 @@
 
                                                 <!-- Cert Icon -->
                                                 <div class="flex-none">
-                                                    <img class="h-14 relative bottom-2" src="assets/images/ui/cert-icon.svg">
+                                                    <img class="h-22 relative -bottom-2" src="assets/images/ui/awards-icon.svg">
                                                 </div>
 
                                                 <!-- Edit Button -->
